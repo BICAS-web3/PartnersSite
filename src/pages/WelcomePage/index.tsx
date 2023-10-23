@@ -11,6 +11,11 @@ import * as RegistrModel from "@/widgets/header/model";
 
 interface WelcomePageProps {}
 
+// commtent
+// commtent
+// commtent
+// commtent
+
 const WelcomePage: FC<WelcomePageProps> = () => {
   const [isLogin, isSignup] = useUnit([
     RegistrModel.$isLogin,
