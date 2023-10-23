@@ -8,10 +8,16 @@ html {
   background: #0f0f0f;
   width: 100%;
   overflow-x: hidden !important;
+  height: 100%;
 }
 
 body {
   overflow-x: hidden;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
 }
 
 a:visited {
