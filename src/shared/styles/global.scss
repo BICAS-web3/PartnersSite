@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+#__next {
+  height: 100%;
+}
+
 html {
   background: #0f0f0f;
   width: 100%;
@@ -34,4 +38,19 @@ a:focus {
 
 a:active {
   text-decoration: none;
+}
+
+.default_input {
+  border-radius: 8px;
+  background: #202020;
+  padding: 11px 20px;
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  height: 40px;
+  outline: none;
 }

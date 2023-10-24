@@ -8,13 +8,11 @@ import arcsBg from "@/public/media/headerImages/arcs.png";
 import { Footer } from "@/widgets/footer/Footer";
 import { useUnit } from "effector-react/effector-react.mjs";
 import * as RegistrModel from "@/widgets/header/model";
+import { WelcomePageInitial } from "@/widgets/welcomePageInitial/WelcomePageInitial";
+import { WelcomePageLogin } from "@/widgets/welcomePageLogin/WelcomePageLogin";
+import { WelcomePageSignup } from "@/widgets/welcomePageSignup/WelcomePageSignup";
 
 interface WelcomePageProps {}
-
-// commtent
-// commtent
-// commtent
-// commtent
 
 const WelcomePage: FC<WelcomePageProps> = () => {
   const [isLogin, isSignup] = useUnit([
@@ -32,13 +30,17 @@ const WelcomePage: FC<WelcomePageProps> = () => {
         <div className={s.planet_img_block}>
           <Image src={planetBg} alt="planet-bg-image" />
         </div>
-        <div className={s.welcomePage_content_wrap}>
+        <div
+          className={`${s.welcomePage_content_wrap} ${
+            isSignup && s.isSignup_container
+          }`}
+        >
           {isLogin ? (
-            <div>login</div>
+            <WelcomePageLogin />
           ) : isSignup ? (
-            <div>signup</div>
+            <WelcomePageSignup />
           ) : (
-            <div>initial</div>
+            <WelcomePageInitial />
           )}
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import s from "./styles.module.scss";
 import Image from "next/image";
-import logo from "@/public/common/headerLogo.png";
+import logo from "@/public/media/common/headerLogo.png";
 import { RightMenu } from "./RightMenu";
 
 interface HeaderProps {}

@@ -44,6 +44,24 @@
   transition: all 0.3s;
 }
 
+.header_dd_ico_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.languages_list_active > .active_language_title {
+  color: #eaeaea;
+}
+
+.languages_list_active > .header_dd_ico_wrap {
+  transform: rotate(180deg);
+  svg > path {
+    fill: #eaeaea;
+  }
+}
+
 .avaible_languages_list {
   width: 100%;
   padding: 10px;
@@ -106,6 +124,7 @@
 }
 
 .signUp_btn {
+  cursor: pointer;
   height: 50px;
   color: #ffe09d;
   text-align: center;
@@ -124,6 +143,7 @@
 }
 
 .signIn_btn {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;

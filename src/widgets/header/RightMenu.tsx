@@ -76,7 +76,9 @@ export const RightMenu: FC<RightMenuProps> = () => {
           <span className={s.active_language_title}>
             {activeLanguage.title}
           </span>
-          <HeaderDropdownArrow />
+          <div className={s.header_dd_ico_wrap}>
+            <HeaderDropdownArrow />
+          </div>
         </div>
         <div
           className={`${s.avaible_languages_list} ${
