@@ -1,5 +1,5 @@
 import { Layout } from "@/widgets/layout/Layout";
 
 export default function Home() {
-  return <Layout>main</Layout>;
+  return <Layout></Layout>;
 }
