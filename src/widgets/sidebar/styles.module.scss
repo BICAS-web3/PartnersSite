@@ -3,6 +3,7 @@
   grid-column: 1;
   background: #181818;
   transition: all 0.4s;
+  z-index: 10;
 }
 
 .sidebar_block.main_sidebar_closed {

@@ -20,7 +20,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     <div className={`${s.page_container} ${isClosed && s.sidebar_closed}`}>
       <Header />
       <Sidebar />
-      <main className={s.main_section}>{children}asdasd</main>
+      <main className={s.main_section}>{children}</main>
       <Footer />
     </div>
   );

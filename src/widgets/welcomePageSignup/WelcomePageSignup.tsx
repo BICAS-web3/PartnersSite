@@ -222,7 +222,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               />
             </div>
             <div className={s.welcome_page_contactInfo_otherInfo_block}>
-              <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
+              <div className={s.welcome_page_input_block} style={{ zIndex: 3 }}>
                 <span className={s.welcome_page_input_title}>Мессенджер*</span>
                 <CustomDropdownInput list={messangersList} activeItemId="asd" />
               </div>
@@ -236,7 +236,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   placeholder="@asdasdasd"
                 />
               </div>
-              <div className={s.welcome_page_input_block}>
+              <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
                 <span className={s.welcome_page_input_title}>Страна*</span>
                 <CustomDropdownInput list={countriesList} activeItemId="UA" />
               </div>
@@ -259,7 +259,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               Платежные данные
             </span>
             <div className={s.welcome_page_paymentData_block_inputs}>
-              <div className={s.welcome_page_input_block}>
+              <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
                 <span className={s.welcome_page_input_title}>
                   Предпочитаемый метод выплат*
                 </span>

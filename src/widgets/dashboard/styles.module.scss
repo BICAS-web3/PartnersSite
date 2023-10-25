@@ -1,0 +1,38 @@
+.dashboard_container {
+  height: 100%;
+}
+
+.dashboard_body {
+  height: 100%;
+  padding: 15px 25px 25px 0;
+}
+
+.dashboard_title {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.dashboard_header {
+  height: 220px;
+  display: grid;
+  grid-template-columns: 31.5% 1fr;
+  gap: 20px;
+}
+
+.sidebar_closed {
+  grid-template-columns: 39% 1fr;
+}
+
+.currency_charts_wrap {
+  margin-top: 25px;
+}
+
+.fast_stats_wrap {
+  margin-top: 25px;
+}

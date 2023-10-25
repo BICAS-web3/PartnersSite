@@ -32,11 +32,11 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
         listVisibility && s.dropdown_active
       }`}
     >
-      <div className={s.active_dropdown_block}>
-        <div
-          className={s.active_dropdown_title_block}
-          onClick={() => setListVisibility(!listVisibility)}
-        >
+      <div
+        className={s.active_dropdown_block}
+        onClick={() => setListVisibility(!listVisibility)}
+      >
+        <div className={s.active_dropdown_title_block}>
           {activeItem ? activeItem.title : "Выберите..."}
         </div>
         <div className={s.dropdown_ico_block}>
