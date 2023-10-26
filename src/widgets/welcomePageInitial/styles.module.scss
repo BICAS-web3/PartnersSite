@@ -14,6 +14,7 @@
   line-height: 130%;
   letter-spacing: 2.4px;
   text-transform: uppercase;
+  text-wrap: nowrap;
 }
 
 .welcome_page_initial_subTitle {
@@ -90,4 +91,48 @@
   font-style: normal;
   font-weight: 700;
   height: 50px;
+}
+
+@media screen and (max-width: 1280px) {
+  .welcome_page_initial_steps_list {
+    grid-template-columns: repeat(3, 215px);
+  }
+  .welcome_page_initial_steps_list_item_title {
+    font-size: 16px;
+  }
+  .welcome_page_initial_steps_list_item {
+    height: 160px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .welcome_page_initial_title {
+    font-size: 40px;
+  }
+  .welcome_page_initial_subTitle {
+    font-size: 24px;
+  }
+  .welcome_page_initial_steps_list {
+    grid-template-columns: repeat(3, 170px);
+  }
+  .welcome_page_initial_steps_list_item_title {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .welcome_page_initial_steps_list {
+    grid-template-columns: 250px;
+  }
+  .welcome_page_initial_title {
+    font-size: 22px;
+  }
+  .welcome_page_initial_subTitle {
+    font-size: 16px;
+  }
+  .welcome_page_initial_registr_btn {
+    width: 180px;
+    height: 40px;
+    font-size: 16px;
+  }
 }

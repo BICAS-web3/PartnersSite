@@ -15,7 +15,9 @@ export const Dashboard: FC<DashboardProps> = () => {
   return (
     <section className={s.dashboard_container}>
       <div className={s.dashboard_body}>
-        <span className={s.dashboard_title}>Главная</span>
+        <a href="/" className={s.dashboard_title}>
+          Главная
+        </a>
         <div
           className={`${s.dashboard_header} ${
             isSideBarClosed && s.sidebar_closed

@@ -1,10 +1,25 @@
 .welcomePage_container {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .welcomePage_body {
-  height: 100%;
+  overflow: hidden;
+  flex: 1 0 auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomePage_content_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .planet_img_block {
@@ -39,16 +54,190 @@
   }
 }
 
-.welcomePage_content_wrap {
+.first_ellipse_wrap {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 1200px;
+  height: 1400px;
+  left: -600px;
+  top: -600px;
+}
+
+.second_ellipse_wrap {
+  position: absolute;
+  width: 1200px;
+  height: 1400px;
+  right: -500px;
+  bottom: -500px;
+  border-radius: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(243, 189, 107, 0.1) 0%,
+    rgba(243, 189, 107, 0.05) 40%,
+    transparent 100%
+  );
+  mix-blend-mode: hard-light;
+  filter: blur(30px);
+  background-size: contain;
+  box-shadow: 0 0 70px rgba(243, 189, 107, 0.05);
+  z-index: -1;
+}
+
+.second_ellipse_inner_blur {
+  border-radius: 649px;
+  background: rgba(255, 187, 95, 0.4);
+  filter: blur(220px);
+  width: 400px;
+  height: 400px;
+  top: 300px;
+  position: absolute;
+  left: 350px;
+}
+
+//language dropdown
+.language_switcher {
+  position: absolute;
+  display: none;
+  right: 10px;
+  z-index: 10;
+  min-width: 102px;
+  height: 50px;
+  top: 5px;
+}
+
+.active_language_body {
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 10px 0 10px;
+  gap: 8px;
+  user-select: none;
+  border-left: 2px solid rgba(0, 0, 0, 0%);
+  border-top: 2px solid rgba(0, 0, 0, 0%);
+  border-right: 2px solid rgba(0, 0, 0, 0%);
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+.languages_list_active {
+  background: #282828;
+  border-left: 2px solid #2e2e2e;
+  border-top: 2px solid #2e2e2e;
+  border-right: 2px solid #2e2e2e;
+  transition: all 0.3s;
+}
+
+.header_dd_ico_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.languages_list_active > .active_language_title {
+  color: #eaeaea;
+}
+
+.languages_list_active > .header_dd_ico_wrap {
+  transform: rotate(180deg);
+  svg > path {
+    fill: #eaeaea;
+  }
+}
+
+.avaible_languages_list {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 0 8px 8px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+  gap: 10px;
+  border-left: 2px solid #181818;
+  border-bottom: 2px solid #181818;
+  border-right: 2px solid #181818;
+  position: absolute;
+}
+
+.avaible_languages_list_visible {
+  z-index: 2;
+  visibility: visible;
+  background: #282828;
+  opacity: 1;
+  border-left: 2px solid #2e2e2e;
+  border-bottom: 2px solid #2e2e2e;
+  border-right: 2px solid #2e2e2e;
+}
+
+.avaible_language_title {
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 10px;
+  text-transform: uppercase;
+}
+
+.avaible_languages_list_item {
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.active_language_title {
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+/////
+@media screen and (min-width: 650px) {
+  .welcomePage_content_wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .first_ellipse_wrap {
+    left: -250px;
+    top: -250px;
+    width: 600px;
+    height: 600px;
+  }
+  .second_ellipse_wrap {
+    width: 500px;
+    height: 500px;
+    right: -200px;
+    bottom: 0px;
+  }
+  .language_switcher {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 1130px) {
   .welcomePage_content_wrap.isSignup_container {
     width: 100%;
     padding: 20px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .welcomePage_content_wrap {
+    box-sizing: border-box;
+    padding: 70px 0 40px 0;
   }
 }

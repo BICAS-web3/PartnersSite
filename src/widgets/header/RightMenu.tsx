@@ -10,7 +10,7 @@ import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { useUnit } from "effector-react";
 import * as RegistrationModel from "./model";
 
-const languagesList = [
+export const languagesList = [
   {
     img: russiaImg,
     title: "ru",
