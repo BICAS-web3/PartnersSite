@@ -222,21 +222,28 @@ const Websites: FC<WebsitesProps> = () => {
             <DropdownSwiperTable cols={activeOptions} rows={[]} />
           </div>
           <div className={s.table_navigation_block}>
-            <div className={s.table_pages_block}>
-              <div className={s.table_prev_page_btn}>
-                <Image src={prevArrow} alt="prev-arr" />
-              </div>
-              <div className={s.table_current_page_btn}>1</div>
-              <div className={s.table_next_page_btn}>
-                <Image src={nextArrow} alt="next-arr" />
-              </div>
+            <div className={s.table_records_block}>
+              <p className={s.table_records_text}>
+                Записи с 1 по 1 (всего 1 записей)
+              </p>
             </div>
-            <div className={s.choose_table_rows_block}>
-              <CustomDropdownInput
-                list={tableRowsList}
-                activeItemId="ten"
-                height={30}
-              />
+            <div className={s.table_pages_wrap}>
+              <div className={s.table_pages_block}>
+                <div className={s.table_prev_page_btn}>
+                  <Image src={prevArrow} alt="prev-arr" />
+                </div>
+                <div className={s.table_current_page_btn}>1</div>
+                <div className={s.table_next_page_btn}>
+                  <Image src={nextArrow} alt="next-arr" />
+                </div>
+              </div>
+              <div className={s.choose_table_rows_block}>
+                <CustomDropdownInput
+                  list={tableRowsList}
+                  activeItemId="ten"
+                  height={30}
+                />
+              </div>
             </div>
           </div>
         </div>

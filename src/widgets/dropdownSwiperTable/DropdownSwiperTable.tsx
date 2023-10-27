@@ -9,20 +9,56 @@ import "swiper/scss";
 interface DropdownSwiperTableProps {
   cols: any[];
   rows: any[];
+  isOn700Cols?: boolean;
 }
 
 export const DropdownSwiperTable: FC<DropdownSwiperTableProps> = ({
   cols,
   rows,
+  isOn700Cols,
 }) => {
   const swiperRef = useRef<SwiperRef>(null);
+  const [is650, setIs650] = useState(false);
+  const [is700, setIs700] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 700 && width > 650) {
+        setIs700(true);
+        setIs650(false);
+      } else if (width < 650) {
+        setIs700(false);
+        setIs650(true);
+      } else {
+        setIs700(false);
+        setIs650(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
       <div className="scroll-bar"></div>
       <Swiper
         ref={swiperRef}
-        slidesPerView={1.5}
+        slidesPerView={
+          isOn700Cols && is700
+            ? 2.5
+            : !isOn700Cols && is650
+            ? 1.5
+            : isOn700Cols && is650
+            ? 2.5
+            : cols.length
+        }
         direction="horizontal"
         modules={[Scrollbar]}
         scrollbar={{
@@ -32,22 +68,15 @@ export const DropdownSwiperTable: FC<DropdownSwiperTableProps> = ({
         spaceBetween={2}
         centeredSlides={false}
         className={s.swiper}
-        breakpoints={{
-          650: {
-            slidesPerView: 3,
-          },
-        }}
       >
         {cols.map((item, ind) => (
-          <SwiperSlide className={s.swiper_slide}>
-            <div>
-              <div className={s.swiper_slide_body}>
-                <div className={s.swiper_slide_header}>
-                  <span className={s.swiper_slide_title}>{item.title}</span>
-                  <Image src={upDownArrows} alt="sort-ico" />
-                </div>
-                <div className={s.swiper_slide_content}>-</div>
+          <SwiperSlide className={s.swiper_slide} data-id={item.id}>
+            <div className={s.swiper_slide_body}>
+              <div className={s.swiper_slide_header}>
+                <span className={s.swiper_slide_title}>{item.title}</span>
+                <Image src={upDownArrows} alt="sort-ico" />
               </div>
+              <div className={s.swiper_slide_content}>{item.text}</div>
             </div>
           </SwiperSlide>
         ))}

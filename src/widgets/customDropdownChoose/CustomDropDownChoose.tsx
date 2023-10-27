@@ -26,7 +26,9 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   useEffect(() => {
     setActiveOptions(activeItems);
-  }, [activeItems]);
+  });
+
+  // useEffect(() => {}, [activeItems]);
 
   return (
     <div

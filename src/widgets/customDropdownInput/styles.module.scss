@@ -13,6 +13,7 @@
 }
 
 .active_dropdown_block {
+  box-sizing: content-box;
   position: relative;
   user-select: none;
   cursor: pointer;
