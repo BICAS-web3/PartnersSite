@@ -65,7 +65,7 @@ export const data = {
   datasets: [
     {
       label: "Прямые ссылки",
-      data: [1, 5, 15, 10, 40, 5, 6, 10, 20, 5],
+      // data: [1, 5, 15, 10, 40, 5, 6, 10, 20, 5],
       borderColor: "#E96D52",
       backgroundColor: "#E96D52",
       pointRadius: 0,
@@ -75,7 +75,7 @@ export const data = {
     },
     {
       label: "Просмотры",
-      data: [10, 20, 5, 30, 25, 40, 35, 45, 10, 15],
+      // data: [10, 20, 5, 30, 25, 40, 35, 45, 10, 15],
       borderColor: "#F28D2F",
       backgroundColor: "#F28D2F",
       tension: 1.1,
@@ -85,7 +85,7 @@ export const data = {
     },
     {
       label: "Клики",
-      data: [50, 5, 5, 15, 2, 10, 2, 3, 4, 5, 1, 2],
+      // data: [50, 5, 5, 15, 2, 10, 2, 3, 4, 5, 1, 2],
       borderColor: "#F8CF66",
       backgroundColor: "#F8CF66",
       tension: 1.1,

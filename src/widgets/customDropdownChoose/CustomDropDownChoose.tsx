@@ -1,18 +1,32 @@
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import s from "./styles.module.scss";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 import { CustomDropDownItem } from "./CustomDropDownItem";
 
 interface CustomDropDownChooseProps {
   list: any[];
+  setActiveOptions?: any;
+  allPicked?: boolean;
 }
 
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   list,
+  setActiveOptions,
+  allPicked,
 }) => {
   const [listVisibility, setListVisibility] = useState(false);
   const [activeItems, setActiveItems] = useState([]);
+
+  useEffect(() => {
+    if (allPicked) {
+      setActiveItems(list);
+    }
+  }, []);
+
+  useEffect(() => {
+    setActiveOptions(activeItems);
+  }, [activeItems]);
 
   return (
     <div
@@ -39,6 +53,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               setActiveItems={setActiveItems}
               key={ind}
               item={item}
+              allPicked={allPicked}
             />
           ))}
         </div>

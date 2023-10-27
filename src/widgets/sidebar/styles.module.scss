@@ -3,7 +3,7 @@
   grid-column: 1;
   background: #181818;
   transition: all 0.4s;
-  z-index: 10;
+  z-index: 11;
 }
 
 .sidebar_block.main_sidebar_closed {
@@ -21,6 +21,14 @@
       transform: rotate(180deg);
     }
   }
+  .sidebar_body {
+    width: 50px;
+  }
+}
+
+.sidebar_body {
+  background: #181818;
+  width: 260px;
 }
 
 .sidebar_page_item {
@@ -108,5 +116,11 @@
   cursor: pointer;
   img {
     transition: all 0.4s;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .sidebar_block {
+    display: none;
   }
 }

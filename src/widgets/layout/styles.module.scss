@@ -10,3 +10,16 @@
 .sidebar_closed {
   grid-template-columns: 50px 1fr;
 }
+
+@media screen and (max-width: 996px) {
+  .page_container {
+    grid-template-columns: 50px 1fr;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .page_container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 56px 1fr;
+  }
+}

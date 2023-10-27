@@ -1,12 +1,11 @@
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import s from "./styles.module.scss";
 import { CustomDropDownChoose } from "../customDropdownChoose/CustomDropDownChoose";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 import Image from "next/image";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
-
-import "swiper/scss";
 import { Scrollbar } from "swiper/modules";
+import "swiper/scss";
 
 const optionsList = [
   {
@@ -115,6 +114,8 @@ interface FastStatsProps {}
 
 export const FastStats: FC<FastStatsProps> = () => {
   const [currentTimeStats, setCurrentTimeStats] = useState(timesList[0].id);
+  const [activeSwiperSlides, setActiveSwiperSlides] = useState();
+  const [activeOptions, setActiveOptions] = useState([]);
 
   const newsListSwiperRef = useRef<SwiperRef>(null);
 
@@ -123,7 +124,11 @@ export const FastStats: FC<FastStatsProps> = () => {
       <span className={s.fast_stats_title}>Быстрая статистика</span>
       <div className={s.fast_stats_header}>
         <div className={s.fast_stats_choose_options_wrap}>
-          <CustomDropDownChoose list={optionsList} />
+          <CustomDropDownChoose
+            list={optionsList}
+            setActiveOptions={setActiveOptions}
+            allPicked={true}
+          />
         </div>
         <div className={s.time_range_block}>
           {timesList.map((item, ind) => (
@@ -153,7 +158,7 @@ export const FastStats: FC<FastStatsProps> = () => {
           spaceBetween={2}
           className={s.swiper}
         >
-          {swiperSlides.map((item, ind) => (
+          {activeOptions.map((item, ind) => (
             <SwiperSlide className={s.swiper_slide}>
               <div className={s.swiper_slide_body}>
                 <div className={s.swiper_slide_header}>

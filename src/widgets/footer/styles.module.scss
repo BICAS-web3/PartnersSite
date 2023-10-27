@@ -1,7 +1,6 @@
 .footer {
   height: 222px;
   background: #151515;
-  grid-column: 2/3;
 }
 
 .footer_body {
@@ -102,6 +101,12 @@
   display: flex;
   gap: 16px;
   align-items: center;
+}
+
+@media screen and (min-width: 651px) {
+  .footer {
+    grid-column: 2/3;
+  }
 }
 
 @media screen and (max-width: 1280px) {

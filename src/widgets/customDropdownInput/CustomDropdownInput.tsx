@@ -5,11 +5,13 @@ import { FC, useEffect, useState } from "react";
 interface CustomDropdownInputProps {
   list: any[];
   activeItemId?: string;
+  height?: number;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   list,
   activeItemId,
+  height,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -34,12 +36,16 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
     >
       <div
         className={s.active_dropdown_block}
+        style={{ height: height }}
         onClick={() => setListVisibility(!listVisibility)}
       >
-        <div className={s.active_dropdown_title_block}>
+        <div
+          className={s.active_dropdown_title_block}
+          style={{ height: height }}
+        >
           {activeItem ? activeItem.title : "Выберите..."}
         </div>
-        <div className={s.dropdown_ico_block}>
+        <div className={s.dropdown_ico_block} style={{ height: height }}>
           <HeaderDropdownArrow />
         </div>
       </div>

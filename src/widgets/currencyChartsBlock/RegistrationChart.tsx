@@ -64,7 +64,7 @@ export const data = {
   datasets: [
     {
       label: "Регистрация",
-      data: [1, 5, 15, 10, 40, 5, 6, 10, 20, 5],
+      // data: [1, 5, 15, 10, 40, 5, 6, 10, 20, 5],
       borderColor: "#F2DE2F",
       backgroundColor: "#F2DE2F",
       pointRadius: 0,
@@ -74,7 +74,7 @@ export const data = {
     },
     {
       label: "Новые аккаунты с депозитами",
-      data: [10, 20, 5, 30, 25, 40, 35, 45, 10, 15],
+      // data: [10, 20, 5, 30, 25, 40, 35, 45, 10, 15],
       borderColor: "#2FF24E",
       backgroundColor: "#2FF24E",
       pointRadius: 0,
@@ -84,7 +84,7 @@ export const data = {
     },
     {
       label: "Сумма коммиссий",
-      data: [50, 5, 5, 15, 2, 10, 2, 3, 4, 5, 1, 2],
+      // data: [50, 5, 5, 15, 2, 10, 2, 3, 4, 5, 1, 2],
       borderColor: "#CD4C30",
       backgroundColor: "#CD4C30",
       pointRadius: 0,

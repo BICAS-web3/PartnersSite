@@ -6,12 +6,14 @@ interface CustomDropDownItemProps {
   item: any;
   setActiveItems: any;
   activeItems: any[];
+  allPicked?: boolean;
 }
 
 export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
   item,
   setActiveItems,
   activeItems,
+  allPicked,
 }) => {
   const [checked, setChecked] = useState(false);
 
@@ -24,6 +26,12 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
       setActiveItems(activeItems.filter((activeItem) => activeItem !== item));
     }
   }, [checked]);
+
+  useEffect(() => {
+    if (allPicked) {
+      setChecked(true);
+    }
+  }, []);
 
   return (
     <div className={s.dropdown_items_list_item}>
