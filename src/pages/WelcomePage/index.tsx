@@ -1,10 +1,10 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import s from "./styles.module.scss";
 import { Layout } from "@/widgets/layout/Layout";
 import { Header } from "@/widgets/header/Header";
 import Image from "next/image";
-import planetBg from "@/public/media/headerImages/rightPlanet.png";
-import arcsBg from "@/public/media/headerImages/arcs.png";
+import planetBg from "@/public/media/initPageImages/rightPlanet.png";
+import arcsBg from "@/public/media/initPageImages/arcs.png";
 import { Footer } from "@/widgets/footer/Footer";
 import { useUnit } from "effector-react/effector-react.mjs";
 import * as RegistrModel from "@/widgets/header/model";
@@ -19,6 +19,9 @@ import chinaImg from "@/public/media/headerImages/china.png";
 import indiaImg from "@/public/media/headerImages/india.png";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { languagesList } from "@/widgets/header/RightMenu";
+import planet1280Img from "@/public/media/initPageImages/1280Tablet.png";
+import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
+import planetMobImg from "@/public/media/initPageImages/mobPlanetImg.png";
 
 interface WelcomePageProps {}
 
@@ -27,6 +30,10 @@ const WelcomePage: FC<WelcomePageProps> = () => {
     RegistrModel.$isLogin,
     RegistrModel.$isSignup,
   ]);
+  const [is1280, setIs1280] = useState(false);
+  const [is700, setIs700] = useState(false);
+  const [isMob, setIsMob] = useState(false);
+  const [activePlanetImg, setActivePlanetImg] = useState(planetBg);
 
   const [activeLanguage, setActiveLanguage] = useState(
     languagesList.filter((item) => item.title === "ru")[0]
@@ -45,6 +52,49 @@ const WelcomePage: FC<WelcomePageProps> = () => {
   const handleListVisibility = () => {
     setLanugagesListVisibility(!languagesListVisibility);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 1280 && width > 700) {
+        setIs1280(true);
+        setIs700(false);
+        setIsMob(false);
+      } else if (width < 700 && width > 650) {
+        setIs1280(false);
+        setIs700(true);
+        setIsMob(false);
+      } else if (width < 650) {
+        setIs1280(false);
+        setIs700(false);
+        setIsMob(true);
+      } else {
+        setIs1280(false);
+        setIs700(false);
+        setIsMob(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (is1280) {
+      setActivePlanetImg(planet1280Img);
+    } else if (is700) {
+      setActivePlanetImg(planet700Img);
+    } else if (isMob) {
+      setActivePlanetImg(planet700Img);
+    } else {
+      setActivePlanetImg(planetBg);
+    }
+  }, [is1280, is700, isMob]);
 
   return (
     <div className={s.welcomePage_container}>
@@ -98,7 +148,7 @@ const WelcomePage: FC<WelcomePageProps> = () => {
           <Image src={arcsBg} alt="arcs-bg-image" />
         </div>
         <div className={s.planet_img_block}>
-          <Image src={planetBg} alt="planet-bg-image" />
+          <Image src={activePlanetImg} alt="planet-bg-image" />
         </div>
         <div
           className={`${s.welcomePage_content_wrap} ${
