@@ -14,13 +14,15 @@
 }
 
 .table_filter_block {
+  z-index: 10;
   width: 100%;
+  position: relative;
   display: grid;
   align-items: end;
   gap: 8px;
   grid-template-columns: minmax(100px, 230px) minmax(100px, 210px) minmax(
       100px,
-      200px
+      330px
     ) minmax(100px, 200px);
 }
 
@@ -155,4 +157,218 @@
   font-style: normal;
   font-weight: 600;
   line-height: 110%;
+}
+
+.choose_table_rows_block {
+  margin-left: 10px;
+}
+
+.table_pages_wrap {
+  display: flex;
+}
+
+.table_records_text {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 17px;
+}
+
+.table_nav_block {
+  margin: 10px 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table_pages_block {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.table_next_page_btn,
+.table_prev_page_btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: #202020;
+  cursor: pointer;
+}
+
+.table_current_page_btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: #2e2e2e;
+  color: #979797;
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 80%;
+}
+
+.info_block {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.info_block_item {
+  padding: 20px;
+  border-radius: 12px;
+  background: #181818;
+}
+
+.info_block_text {
+  color: #eaeaea;
+  font-family: var(--font-source-sans-3);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+//datepicker
+.period_datepicker_block {
+  display: flex;
+}
+
+.second_custom_datepicker {
+  border-radius: 0 8px 8px 0 !important;
+  border-right: none !important;
+}
+
+.custom_datepicker {
+  cursor: pointer;
+  outline: none;
+  background: #212121;
+  border: none;
+  border-right: 1px solid #2e2e2e;
+  text-align: center;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 165px;
+  padding: 11px 0;
+  transition: all 0.3s;
+  border-radius: 8px 0 0 8px;
+}
+
+.pick_year_block {
+  height: 30px;
+  width: 90px;
+  overflow: hidden;
+  background: url("../../public/media/common/nextArrow.png") no-repeat center;
+  select {
+    height: 100%;
+    background-color: inherit;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7e7e7e;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+  }
+}
+
+.pick_month_block {
+  height: 30px;
+  width: 70px;
+  overflow: hidden;
+  background: url("../../public/media/common/nextArrow.png") no-repeat right;
+  select {
+    height: 100%;
+    background-color: inherit;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7e7e7e;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+  }
+}
+
+.datepicker_month_btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  background: #202020;
+  align-items: center;
+  border: none;
+  &:first-child {
+    margin-right: 25px;
+  }
+  &:last-child {
+    margin-left: 25px;
+  }
+}
+
+.datepicker_header {
+  justify-content: space-between !important;
+  display: flex;
+  align-items: center;
+}
+
+//////// datepicker end
+@media screen and (max-width: 1300px) {
+  .table_filter_block {
+    grid-template-columns: minmax(100px, 210px) minmax(100px, 200px) minmax(
+        100px,
+        330px
+      );
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .table_filter_block {
+    grid-template-columns: minmax(100px, 150px) minmax(100px, 200px) minmax(
+        100px,
+        330px
+      );
+  }
+}
+
+@media screen and (max-width: 790px) {
+  .table_filter_block {
+    grid-template-columns: minmax(100px, 120px) minmax(100px, 150px) minmax(
+        100px,
+        330px
+      );
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .table_filter_block {
+    grid-template-columns: 1fr 1fr;
+  }
+  .period_datepicker_block {
+    grid-row: 1;
+    grid-column: 2;
+  }
+  .table_filter_currency_item,
+  .table_filter_period_item {
+    max-width: 100%;
+  }
 }
