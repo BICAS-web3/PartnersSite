@@ -10,6 +10,12 @@
   line-height: normal;
   display: flex;
   align-items: center;
+  span {
+    max-width: 90px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .active_dropdown_block {

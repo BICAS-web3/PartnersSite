@@ -43,7 +43,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           className={s.active_dropdown_title_block}
           style={{ height: height }}
         >
-          {activeItem ? activeItem.title : "Выберите..."}
+          <span>{activeItem ? activeItem.title : "Выберите..."}</span>
         </div>
         <div className={s.dropdown_ico_block} style={{ height: height }}>
           <HeaderDropdownArrow />
