@@ -1,0 +1,99 @@
+.current_balance_block {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  padding: 15px;
+  background: #181818;
+  border-radius: 12px;
+  border: 1px solid #2d2d2d;
+}
+
+.current_balance_header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.current_balance_title {
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.my_wallet_link {
+  color: #7e7e7e;
+  text-align: right;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+}
+
+.current_balance_list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.current_btc_balance,
+.current_usd_balance {
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.current_btc_balance_block,
+.current_usd_balance_block {
+  display: flex;
+}
+
+.current_usd_balance_title,
+.current_btc_balance_title {
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+  text-transform: uppercase;
+}
+
+.current_btc_balance_title {
+  color: #ffad4e;
+}
+
+.current_usd_balance_title {
+  color: #099b06;
+}
+
+.balance_withdrawal_btn {
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid #ffe09d;
+  background: #2e2315;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffe09d;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.64px;
+  padding: 9px 0;
+  width: 200px;
+  height: 40px;
+}

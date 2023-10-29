@@ -1,4 +1,25 @@
 .page_container {
   display: grid;
   grid-template-columns: 260px 1fr;
+  grid-template-rows: 80px 1fr;
+  height: 100%;
+  transition: all 0.4s;
+  column-gap: 25px;
+}
+
+.sidebar_closed {
+  grid-template-columns: 50px 1fr;
+}
+
+@media screen and (max-width: 996px) {
+  .page_container {
+    grid-template-columns: 50px 1fr;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .page_container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 56px 1fr;
+  }
 }

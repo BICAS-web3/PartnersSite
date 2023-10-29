@@ -1,0 +1,30 @@
+.breadcrumbs_list {
+  color: #7e7e7e;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 8px;
+}
+
+.breadcrumbs_list_item_title {
+  margin-right: 8px;
+  a {
+    color: #7e7e7e;
+    font-family: var(--font-source-sans-3);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px;
+  }
+}
+
+.breadcrumbs_list_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:last-child {
+    img {
+      display: none;
+    }
+  }
+}

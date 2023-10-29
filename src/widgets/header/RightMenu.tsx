@@ -10,7 +10,7 @@ import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { useUnit } from "effector-react";
 import * as RegistrationModel from "./model";
 
-const languagesList = [
+export const languagesList = [
   {
     img: russiaImg,
     title: "ru",
@@ -76,7 +76,9 @@ export const RightMenu: FC<RightMenuProps> = () => {
           <span className={s.active_language_title}>
             {activeLanguage.title}
           </span>
-          <HeaderDropdownArrow />
+          <div className={s.header_dd_ico_wrap}>
+            <HeaderDropdownArrow />
+          </div>
         </div>
         <div
           className={`${s.avaible_languages_list} ${

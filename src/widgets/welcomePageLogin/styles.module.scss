@@ -1,0 +1,79 @@
+.welcome_page_login_content {
+  padding: 36px 40px;
+  z-index: 10;
+  border-radius: 12px;
+  border: 1px solid #252525;
+  background: #121212;
+  max-width: 1000px;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+}
+
+.welcome_page_login_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome_page_login_form_input {
+  width: 290px;
+}
+
+.welcome_page_login_form_input:nth-child(1) {
+  margin-bottom: 16px;
+}
+
+.submit_btn {
+  border-radius: 8px;
+  border: 1px solid #ffe09d;
+  background: #2e2315;
+  padding: 13px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  cursor: pointer;
+  color: #ffe09d;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  height: 50px;
+  margin-top: 24px;
+}
+
+.lower_support_btns {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lower_support_btns_item {
+  color: #7e7e7e;
+  cursor: pointer;
+  text-align: right;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  text-decoration-line: underline;
+}
+
+@media screen and (max-width: 650px) {
+  .welcome_page_login_content {
+    width: 280px;
+    padding: 20px;
+  }
+  .welcome_page_login_form_input {
+    width: 100%;
+  }
+  .submit_btn {
+    height: 40px;
+    font-size: 16px;
+  }
+  .lower_support_btns_item {
+    font-size: 14px;
+  }
+}
