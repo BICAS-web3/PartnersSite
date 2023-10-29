@@ -20,10 +20,9 @@
   display: grid;
   align-items: end;
   gap: 8px;
-  grid-template-columns: minmax(100px, 230px) minmax(100px, 210px) minmax(
-      100px,
-      330px
-    ) minmax(100px, 200px);
+  grid-template-columns:
+    minmax(100px, 230px) minmax(100px, 210px) minmax(100px, 330px)
+    minmax(100px, 200px);
 }
 
 .table_filter_currency_item {
