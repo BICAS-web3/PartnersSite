@@ -27,7 +27,7 @@ const siteCategories = [
   },
 ];
 
-const languagesList = [
+export const languagesList = [
   {
     title: "Русский",
     id: "rus",
