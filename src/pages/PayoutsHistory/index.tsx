@@ -18,7 +18,7 @@ import range from "lodash/range";
 import { getMonth, getYear } from "date-fns";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 
-const currenciesList = [
+export const currenciesList = [
   {
     title: "USD",
     id: "usd",
@@ -29,7 +29,7 @@ const currenciesList = [
   },
 ];
 
-const periodsList = [
+export const periodsList = [
   {
     title: "Произвольный период",
     id: "arbitraryPeriod",

@@ -4,7 +4,7 @@ import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput"
 import { countries } from "countries-list";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
-const siteCategories = [
+export const siteCategories = [
   {
     title: "Казино",
     id: "casino",
