@@ -28,6 +28,7 @@ const months = [
 ];
 
 interface DataSettingsProps {
+  className?: string;
   firstDataPicker: Date;
   secondDataPicker: Date;
   setFirstDataPicker: (el: Date) => void;
@@ -38,6 +39,7 @@ export const DataSettings: FC<DataSettingsProps> = (
   props: DataSettingsProps
 ) => {
   const {
+    className,
     firstDataPicker,
     secondDataPicker,
     setFirstDataPicker,
@@ -47,7 +49,7 @@ export const DataSettings: FC<DataSettingsProps> = (
   const years = range(1990, 2025);
 
   return (
-    <div className={s.data_settings_container}>
+    <div className={clsx(s.data_settings_container, className)}>
       <div className={s.data_setting_item}>
         <span className={s.data_setting_title}>From:</span>
         <div className={s.data_settings_first}>

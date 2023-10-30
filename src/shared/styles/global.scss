@@ -80,6 +80,10 @@ a:active {
   border-radius: 4px;
   background: #202020;
   height: 8px;
+  @media (max-width: 1200px) {
+    width: 6px;
+    margin-bottom: 7px;
+  }
 }
 
 .swiper-scrollbar-drag {
@@ -131,6 +135,7 @@ a:active {
 
 .react-datepicker-wrapper {
   position: relative;
+  width: 100%;
   &:hover {
     &::before {
       visibility: visible;
