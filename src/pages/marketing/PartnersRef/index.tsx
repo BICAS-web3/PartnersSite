@@ -3,7 +3,7 @@ import s from "./styles.module.scss";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../PayoutsHistory";
+import { currenciesList } from "@/pages/PayoutsHistory";
 import Image from "next/image";
 import filterIco from "@/public/media/common/filterImg.png";
 import "swiper/scss";
@@ -11,8 +11,7 @@ import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
-import { is } from "effector";
-import { tableRowsList } from "../Websites";
+import { tableRowsList } from "@/pages/Websites";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
@@ -27,7 +26,7 @@ export const sitesList = [
   },
 ];
 
-const campgaignList = [
+export const campgaignList = [
   {
     title: "DirectLink RUB",
     id: "dlink",
@@ -113,7 +112,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
         <Breadcrumbs
           list={[
             { title: "Главная", link: "/" },
-            { title: "Партнерские ссылки", link: "/PartnersRef" },
+            { title: "Партнерские ссылки", link: "/marketing/PartnersRef" },
           ]}
         />
         <div className={s.mob_filter_block}>
