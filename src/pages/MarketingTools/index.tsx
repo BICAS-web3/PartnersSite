@@ -226,7 +226,12 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             <span className={s.marketing_table_title}>Сайт</span>
             <CustomDropdownInput list={wepPagesList} />
           </div>
-          <div className={s.marketing_table_item}>
+          <div
+            className={clsx(
+              s.marketing_table_item,
+              s.marketing_table_item_subid
+            )}
+          >
             <span className={s.marketing_table_title}>Sub ID</span>
             <input className={s.marketing_table_input} />
           </div>
