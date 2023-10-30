@@ -83,7 +83,7 @@ const Promocodes: FC<PromocodesProps> = () => {
       <section className={s.promocodes_page}>
         <Breadcrumbs
           list={[
-            { title: "Главная", link: "/" },
+            { title: "Маркетинг", link: "/" },
             { title: "Партнерские ссылки", link: "/marketing/Promocodes" },
           ]}
         />

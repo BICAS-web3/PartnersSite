@@ -111,7 +111,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
       <section className={s.partners_ref_page}>
         <Breadcrumbs
           list={[
-            { title: "Главная", link: "/" },
+            { title: "Маркетинг", link: "/" },
             { title: "Партнерские ссылки", link: "/marketing/PartnersRef" },
           ]}
         />

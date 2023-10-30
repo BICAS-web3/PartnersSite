@@ -10,7 +10,7 @@ import { FastStats } from "../fastStats/FastStats";
 interface DashboardProps {}
 
 export const Dashboard: FC<DashboardProps> = () => {
-  const [isSideBarClosed] = useUnit([SidebarM.$isSidebarClosed]);
+  const [isSidebarOpened] = useUnit([SidebarM.$isSidebarOpened]);
 
   return (
     <section className={s.dashboard_container}>
@@ -20,7 +20,7 @@ export const Dashboard: FC<DashboardProps> = () => {
         </a>
         <div
           className={`${s.dashboard_header} ${
-            isSideBarClosed && s.sidebar_closed
+            !isSidebarOpened && s.sidebar_closed
           }`}
         >
           <CurrentBalance />
