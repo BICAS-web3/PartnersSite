@@ -3,7 +3,6 @@ import s from "./styles.module.scss";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList, periodsList } from "../PayoutsHistory";
 import { siteCategories } from "@/widgets/welcomePageSignup/WelcomePageSignup";
 import range from "lodash/range";
 import Image from "next/image";
@@ -13,6 +12,7 @@ import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import { getMonth, getYear } from "date-fns";
 import filterIcon from "@/public/media/common/filterImg.png";
+import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
 
 const months = [
   "January",
@@ -131,7 +131,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
         <Breadcrumbs
           list={[
             { title: "Главная", link: "/" },
-            { title: "Краткий суммарный", link: "/ShortTotal" },
+            { title: "Краткий суммарный", link: "/reports/ShortTotal" },
           ]}
         />
         <div className={s.mob_filter_btn}>
