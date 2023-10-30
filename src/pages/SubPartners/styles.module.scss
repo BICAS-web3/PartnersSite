@@ -5,7 +5,9 @@
 .sub_partners_tablet {
   display: flex;
   align-items: end;
-  gap: 10px;
+  column-gap: 10px;
+  row-gap: 20px;
+  flex-wrap: wrap;
 }
 
 .sub_partners_tablet_item {
@@ -14,12 +16,24 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  @media (max-width: 1200px) {
+    max-width: 294px;
+  }
 }
 
 .sub_partners_tablet_item_grow {
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  input {
+    width: 100%;
+  }
+
+  @media (max-width: 1200px) {
+    width: 306px;
+  }
 }
 
 .table_filter_block_item_title {
@@ -55,14 +69,26 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+
+  @media (max-width: 1200px) {
+    margin-top: 29px;
+  }
 }
 
 .options_wrapper {
   width: 230px;
+
+  @media (max-width: 1200px) {
+    width: 200px;
+  }
 }
 
 .export_wrapper {
   width: 210px;
+
+  @media (max-width: 1200px) {
+    width: 200px;
+  }
 }
 
 .table_wrap {
@@ -118,10 +144,18 @@
 
 .swiper_slide {
   max-width: 206px;
+  &:first-child {
+    border-radius: 12px 0px 0px 12px;
+    overflow: hidden;
+  }
+  &:last-child {
+    border-radius: 0 12px 12px 0;
+    overflow: hidden;
+  }
 }
 
 .table_navigation_block {
-  margin: 10px 20px 0 0;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -89,6 +89,7 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
+  z-index: 11;
   &::-webkit-scrollbar {
     width: 6px;
     background: inherit;

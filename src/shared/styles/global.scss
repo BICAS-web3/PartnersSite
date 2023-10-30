@@ -80,6 +80,11 @@ a:active {
   border-radius: 4px;
   background: #202020;
   height: 8px;
+
+  @media (max-width: 1200px) {
+    height: 6px;
+    margin-bottom: 6px;
+  }
 }
 
 .swiper-scrollbar-drag {
