@@ -8,7 +8,6 @@ import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { GenerateButton } from "@/widgets/generateButton/GenerateButton";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
@@ -19,7 +18,6 @@ import { tableRowsList } from "../Websites";
 import "swiper/scss";
 import s from "./styles.module.scss";
 import clsx from "clsx";
-import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
 const periodsList = [
   {
@@ -216,24 +214,24 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
   const [activeBtn, setActiveBtn] = useState<TabsTypes>("Статус заявок");
   return (
     <Layout>
-      <section className={s.MarketingTools_section}>
+      <section className={s.marketing_section}>
         <Breadcrumbs
           list={[
             { title: "Отчёты", link: "" },
             { title: "Маркетинговые инструменты", link: "" },
           ]}
         />
-        <div className={s.games_table_container}>
-          <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Сайт</span>
+        <div className={s.marketing_table_container}>
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Сайт</span>
             <CustomDropdownInput list={wepPagesList} />
           </div>
-          <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Sub ID</span>
-            <input className={s.games_table_input} />
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Sub ID</span>
+            <input className={s.marketing_table_input} />
           </div>
-          <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Период</span>
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Период</span>
             <CustomDropdownInput list={periodsList} />
           </div>
           <DataSettings
@@ -243,30 +241,35 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             setFirstDataPicker={setFirstDataPicker}
             setSecondDataPicker={setSecondDataPicker}
           />
-          <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Тип инструмента</span>
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Тип инструмента</span>
             <CustomDropdownInput list={instrumentTypeList} />
           </div>
-          <div className={clsx(s.games_table_item, s.games_table_item_grow)}>
-            <span className={s.games_table_title}>
+          <div
+            className={clsx(
+              s.marketing_table_item,
+              s.marketing_table_item_grow
+            )}
+          >
+            <span className={s.marketing_table_title}>
               ID Маркетингового инструмента
             </span>
-            <input className={s.games_table_input} />
+            <input className={s.marketing_table_input} />
           </div>
-          <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Валюта</span>
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Валюта</span>
             <CustomDropdownInput list={currenciesList} />
           </div>
           <GenerateButton className={clsx(s.generate_button)} />
         </div>
 
-        <div className={s.options_container}>
-          <div className={s.options_wrapper}>
+        <div className={s.marketing_options_container}>
+          <div className={s.marketing_options_wrapper}>
             {TabsTypes.map((btn, i) => (
               <button
                 className={clsx(
-                  s.tab_btn,
-                  activeBtn === btn && s.tab_btn_active
+                  s.marketing_tab_btn,
+                  activeBtn === btn && s.marketing_tab_btn_active
                 )}
                 onClick={() => setActiveBtn(btn)}
                 key={i}
@@ -275,11 +278,11 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
               </button>
             ))}
           </div>
-          <div className={s.export_wrapper}>
+          <div className={s.marketing_export}>
             <CustomDropdownInput list={exportList} activeItemId="export" />
           </div>
         </div>
-        <div className={s.slider_wrap}>
+        <div className={s.marketing_slider_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
@@ -294,7 +297,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {activeOps.map(
+            {historyList.map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
@@ -313,23 +316,23 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             )}
           </Swiper>
         </div>
-        <div className={s.table_navigation_block}>
-          <div className={s.table_records_block}>
-            <p className={s.table_records_text}>
+        <div className={s.marketing_navigation_block}>
+          <div className={s.marketing_records_block}>
+            <p className={s.marketing_records_text}>
               Записи с 1 по 1 (всего 1 записей)
             </p>
           </div>
-          <div className={s.table_pages_wrap}>
-            <div className={s.table_pages_block}>
-              <div className={s.table_prev_page_btn}>
+          <div className={s.marketing_pages_wrap}>
+            <div className={s.marketing_pages_block}>
+              <div className={s.marketing_prev_page_btn}>
                 <Image src={prevArrow} alt="prev-arr" />
               </div>
-              <div className={s.table_current_page_btn}>1</div>
-              <div className={s.table_next_page_btn}>
+              <div className={s.marketing_current_page_btn}>1</div>
+              <div className={s.marketing_next_page_btn}>
                 <Image src={nextArrow} alt="next-arr" />
               </div>
             </div>
-            <div className={s.choose_table_rows_block}>
+            <div className={s.choose_marketing_rows_block}>
               <CustomDropdownInput
                 list={tableRowsList}
                 activeItemId="ten"
