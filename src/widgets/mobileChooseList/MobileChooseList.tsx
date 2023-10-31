@@ -23,6 +23,14 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
     setPickedList(activeItems);
   });
 
+  useEffect(() => {
+    if (allPicked) {
+      setActiveItems(list);
+    }
+  });
+
+  console.log(activeItems);
+
   return (
     <div className={s.mobile_choose_list_wrap}>
       <div className={s.mobile_choose_list}>

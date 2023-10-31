@@ -1,12 +1,12 @@
 import { FC, useState, useEffect } from "react";
 import Image from "next/image";
-import clsx from "clsx";
-
-import { MobileChooseList } from "@/widgets/mobileChooseList/MobileChooseList";
 import prevArrow from "@/public/media/common/prevArrow.png";
+import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
+import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import { MobileChooseList } from "@/widgets/mobileChooseList/MobileChooseList";
 
+import clsx from "clsx";
 import s from "./styles.module.scss";
-
 interface AdaptiveChooserProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;

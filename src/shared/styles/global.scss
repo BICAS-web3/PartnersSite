@@ -75,6 +75,12 @@ a:active {
   max-height: 100%;
 }
 
+.swiper-slide {
+  &[data-id="chooseEverything"] {
+    display: none !important;
+  }
+}
+
 .scroll-bar {
   margin-bottom: 5px;
   border-radius: 4px;
