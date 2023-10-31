@@ -115,6 +115,11 @@
   display: flex;
   margin-top: 20px;
   gap: 10px;
+  @media (max-width: 650px) {
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
+  }
 }
 
 .export_wrapper {
@@ -219,6 +224,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: 650px) {
+    margin: 14px 4px 0 0;
+  }
 }
 
 .table_pages_block {
@@ -440,7 +448,7 @@
     padding: 10px;
   }
   .table_navigation_block {
-    margin: 10px 10px;
+    margin: 14px 0 0 0;
   }
 }
 
@@ -470,9 +478,6 @@
   .websites_page {
     padding: 10px;
   }
-  .table_navigation_block {
-    margin: 10px 10px;
-  }
 }
 
 @media screen and (max-width: 650px) {
@@ -498,9 +503,6 @@
 
   .websites_page {
     padding: 10px;
-  }
-  .table_navigation_block {
-    margin: 10px 10px;
   }
 }
 

@@ -1,6 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import { Scrollbar } from "swiper/modules";
+import { FC, useEffect, useState } from "react";
+
 import Image from "next/image";
 
 import { Layout } from "@/widgets/layout/Layout";
@@ -10,11 +9,10 @@ import { GenerateButton } from "@/widgets/generateButton/GenerateButton";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 
-import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-import { languagesList, tableRowsList } from "../Websites";
+import { tableRowsList } from "../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
@@ -22,10 +20,6 @@ import clsx from "clsx";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 import { useUnit } from "effector-react";
 import { $isSidebarClosed } from "@/widgets/sidebar/model";
-import { WebsitesFilter } from "../Websites/WebsitesFilter";
-import { WebsiteCategoryFilter } from "../Websites/WebsiteCategoryFilter";
-import { WebsiteLanguageFilter } from "../Websites/WebsitesLanguageFilter";
-import { WebsiteTableFilter } from "../Websites/WebsiteTableFilter";
 
 const periodsList = [
   {
@@ -91,7 +85,7 @@ const countriesList = [
   },
   {
     title: "Австрия",
-    id: "australia",
+    id: "austria",
   },
   {
     title: "Азербайджан",
@@ -194,9 +188,16 @@ const historyList = [
   },
 ];
 
+interface IListProps {
+  id?: string;
+  title?: string;
+  text?: string;
+}
+
 import filterIco from "@/public/media/common/filterImg.png";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
-// import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { DropdownSwiperTable } from "@/widgets/dropdownSwiperTable/DropdownSwiperTable";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 interface GamersProps {}
 
 const Gamers: FC<GamersProps> = () => {
@@ -204,35 +205,11 @@ const Gamers: FC<GamersProps> = () => {
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
 
   const [activeOps, setActiveOpts] = useState([]);
-  const [is650, setIs650] = useState(false);
-
-  const swiperRef = useRef<SwiperRef>(null);
-
-  const [is700, setIs700] = useState(false);
-  const [is1280, setIs1280] = useState(false);
 
   const [medium, setMedium] = useState<boolean>(false);
   const [closed] = useUnit([$isSidebarClosed]);
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 1280 && width > 700) {
-        setIs700(false);
-        setIs650(false);
-        setIs1280(true);
-      } else if (width < 700 && width > 650) {
-        setIs700(true);
-        setIs650(false);
-        setIs1280(false);
-      } else if (width < 650) {
-        setIs700(false);
-        setIs650(true);
-        setIs1280(false);
-      } else {
-        setIs700(false);
-        setIs1280(false);
-        setIs650(false);
-      }
       setMedium(1600 > window.innerWidth && window.innerWidth > 1280);
     };
 
@@ -248,39 +225,19 @@ const Gamers: FC<GamersProps> = () => {
   const [checkedDeposit, setCheckedDeposit] = useState(true);
 
   //!------------------
-  const tableColumnsList = [
-    {
-      title: "ID",
-      id: "id",
-    },
-    {
-      title: "Сайт",
-      id: "site",
-    },
-    {
-      title: "Состояние",
-      id: "state",
-    },
-  ];
-  const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
-  const [activeOptions, setActiveOptions] = useState([]);
-  const [isTablet, setIsTablet] = useState(false);
+
+  const isMobile = window.innerWidth < 650;
+
   const [isFilter, setIsFilter] = useState(false);
+
   const [currentFilterPage, setCurrentFilterPage] = useState("");
-  const [currentSiteCategory, setCurrentSiteCategory] = useState<{
-    title?: string;
-  }>({});
-  const [currentLanguage, setCurrentLanguage] = useState<{ title?: string }>(
-    {}
-  );
-  const [currentCurrency, setCurrentCurrency] = useState<{ title?: string }>(
-    {}
-  );
-  const [currentWebpages, setCurrentWebpages] = useState<{ title?: string }>(
-    {}
-  );
-  const [currentPeriod, setCurrentPeriod] = useState<{ title?: string }>({});
-  const [mobTableOptions, setMobTableOpts] = useState(tableColumnsList);
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [currentCountry, setCurrentCountry] = useState<IListProps>({});
+  const [currentCompany, setCurrentCompany] = useState<IListProps>({});
+  const [mobTableOptions, setMobTableOpts] = useState(historyList);
+
   return (
     <Layout>
       <section className={s.gamers_section}>
@@ -313,27 +270,29 @@ const Gamers: FC<GamersProps> = () => {
             itemId="currentMonthPeriod"
             activeTitle="websitesPeriodFilter"
           />
-
-          {/* <WebsitesFilter
-            setCurrentFilterPage={setCurrentFilterPage}
+          <AdaptivePicker
             currentFilterPage={currentFilterPage}
+            list={countriesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCountry}
+            itemId="australia"
+            activeTitle="websitesCountryPeriodFilter"
           />
-          <WebsiteCategoryFilter
-            setCurrentFilterPage={setCurrentFilterPage}
+          <AdaptivePicker
             currentFilterPage={currentFilterPage}
-            setCurrentSiteCategory={setCurrentSiteCategory}
+            list={companyList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCompany}
+            itemId="directLink"
+            activeTitle="websitesCompanyPeriodFilter"
           />
-          
-          <WebsiteLanguageFilter
-            setCurrentFilterPage={setCurrentFilterPage}
+          <AdaptiveChooser
+            activeTitle="choose"
+            list={mobTableOptions}
             currentFilterPage={currentFilterPage}
-            setCurrentLanguage={setCurrentLanguage}
-          />
-          <WebsiteTableFilter
             setCurrentFilterPage={setCurrentFilterPage}
-            currentFilterPage={currentFilterPage}
             setMobTableOpts={setMobTableOpts}
-          /> */}
+          />
           <div
             className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
           >
@@ -376,32 +335,36 @@ const Gamers: FC<GamersProps> = () => {
             </div>
             <div
               className="mobile_filter_item"
-              onClick={() => setCurrentFilterPage("websitesPeriodFilter")}
+              onClick={() =>
+                setCurrentFilterPage("websitesCountryPeriodFilter")
+              }
             >
-              <span className="mobile_filter_item_title">
-                Дата регистрации суб-партнера
-              </span>
+              <span className="mobile_filter_item_title">Страна</span>
               <span className="mobile_filter_item_picked_value">
-                {currentPeriod?.title}
-              </span>
-            </div>
-
-            {/* <div
-              className="mobile_filter_item"
-              onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
-            >
-              <span className="mobile_filter_item_title">Язык</span>
-              <span className="mobile_filter_item_picked_value">
-                {currentLanguage?.title}
+                {currentCountry?.title}
               </span>
             </div>
             <div
               className="mobile_filter_item"
-              onClick={() => setCurrentFilterPage("websitesTableFilter")}
+              onClick={() =>
+                setCurrentFilterPage("websitesCompanyPeriodFilter")
+              }
+            >
+              <span className="mobile_filter_item_title">Кампания</span>
+              <span className="mobile_filter_item_picked_value">
+                {currentCompany?.title}
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("choose")}
             >
               <span className="mobile_filter_item_title">Показать</span>
-              <span className="mobile_filter_item_picked_value">temp</span>
-            </div> */}
+              <span className="mobile_filter_item_picked_value">
+                Выбрано {historyList?.length} п.
+              </span>
+            </div>
+
             <div className="subid_input_wrap">
               <input type="text" className="subid_input" placeholder="SubId" />
             </div>
@@ -415,7 +378,6 @@ const Gamers: FC<GamersProps> = () => {
             ]}
           />
         </div>
-
         <div
           className={s.websites_filter_wrap}
           onClick={() => setIsFilter(true)}
@@ -469,7 +431,6 @@ const Gamers: FC<GamersProps> = () => {
             <GenerateButton className={clsx(s.generate_button)} />
           )}
         </div>
-
         <div className={s.game_label_container}>
           <div className={s.games_label_item}>
             <div
@@ -495,51 +456,24 @@ const Gamers: FC<GamersProps> = () => {
           </div>
         </div>
         {!closed && medium && <GenerateButton className={s.open_btn} />}
-        <div className={s.options_container}>
-          <div className={s.options_wrapper}>
-            <CustomDropDownChoose
-              list={historyList}
-              allPicked={true}
-              setActiveOptions={setActiveOpts}
-            />
+
+        {!isMobile && (
+          <div className={s.options_container}>
+            <div className={s.options_wrapper}>
+              <CustomDropDownChoose
+                list={historyList}
+                allPicked={true}
+                setActiveOptions={setActiveOpts}
+              />
+            </div>
+            <div className={s.export_wrapper}>
+              <CustomDropdownInput list={exportList} activeItemId="export" />
+            </div>
           </div>
-          <div className={s.export_wrapper}>
-            <CustomDropdownInput list={exportList} activeItemId="export" />
-          </div>
-        </div>
+        )}
+
         <div className={s.slider_wrap}>
-          <div className="scroll-bar"></div>
-          <Swiper
-            ref={swiperRef}
-            slidesPerView={is700 ? 2.5 : "auto"}
-            direction="horizontal"
-            modules={[Scrollbar]}
-            scrollbar={{
-              el: ".scroll-bar",
-              draggable: true,
-            }}
-            spaceBetween={2}
-            centeredSlides={false}
-            className={s.swiper}
-          >
-            {activeOps.map(
-              (item: { title: string; id: string; text: string }, ind) => (
-                <SwiperSlide
-                  className={s.swiper_slide}
-                  key={ind}
-                  data-id={item.id}
-                >
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{item.title}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>{item.text}</div>
-                  </div>
-                </SwiperSlide>
-              )
-            )}
-          </Swiper>
+          <DropdownSwiperTable cols={mobTableOptions} rows={[]} />
         </div>
         <div className={s.table_navigation_block}>
           <div className={s.table_records_block}>
