@@ -25,6 +25,7 @@ export const MobilePickList: FC<MobilePickListProps> = ({
       <div className={s.mobile_pick_list}>
         {list.map((item, ind) => (
           <div
+            key={ind}
             className={`${s.mobile_pick_list_item} ${
               activeItem?.id === item?.id && s.active
             }`}

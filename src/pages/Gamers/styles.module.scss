@@ -377,6 +377,35 @@
 .open_btn {
   margin-top: 20px;
 }
+
+.export_back_btn {
+  border-radius: 5px;
+  border: 1px solid var(--outline-3-e, #3e3e3e);
+  background: var(--gray-3125, #252525);
+  padding: 11px 30px 10px 32px;
+  color: var(--white-1-ea, #eaeaea);
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.export_btn_container {
+  margin-top: auto;
+  display: flex;
+  padding: 14px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile_filter_block.export_active {
+  visibility: visible;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 //?----------- adaptive
 
 ///mobile adaptation
