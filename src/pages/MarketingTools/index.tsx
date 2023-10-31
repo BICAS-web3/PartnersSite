@@ -3,6 +3,7 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
 import Image from "next/image";
 
+import filterIco from "@/public/media/common/filterImg.png";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
@@ -358,6 +359,13 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             { title: "Маркетинговые инструменты", link: "" },
           ]}
         />
+        <div
+          className={s.websites_filter_wrap}
+          onClick={() => setIsFilter(true)}
+        >
+          <Image src={filterIco} alt="filter-img" />
+          <span className={s.websites_filter_btn}>Фильтры</span>
+        </div>
         <div className={s.marketing_table_container}>
           <div className={s.marketing_table_item}>
             <span className={s.marketing_table_title}>Сайт</span>
@@ -460,11 +468,13 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           </Swiper>
         </div>
         <div className={s.marketing_navigation_block}>
-          <div className={s.marketing_records_block}>
-            <p className={s.marketing_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
-            </p>
-          </div>
+          {!isMobile && (
+            <div className={s.marketing_records_block}>
+              <p className={s.marketing_records_text}>
+                Записи с 1 по 1 (всего 1 записей)
+              </p>
+            </div>
+          )}
           <div className={s.marketing_pages_wrap}>
             <div className={s.marketing_pages_block}>
               <div className={s.marketing_prev_page_btn}>

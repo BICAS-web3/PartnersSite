@@ -307,6 +307,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
+  @media (max-width: 650px) {
+    gap: 8px;
+    justify-content: end;
+  }
 }
 
 .marketing_pages_block {
@@ -356,6 +361,10 @@
 
 .marketing_pages_wrap {
   display: flex;
+  gap: 10px;
+  @media (max-width: 650px) {
+    gap: 8px;
+  }
 }
 
 .marketing_slider_wrap {
@@ -392,6 +401,7 @@
   margin-top: 56px;
   @media (max-width: 650px) {
     justify-content: center;
+    margin-top: 14px;
   }
 }
 
@@ -409,6 +419,11 @@
   line-height: normal;
   transition: all 0.5s;
   cursor: pointer;
+  @media (max-width: 650px) {
+    padding: 10.5px 19px;
+    font-size: 14px;
+    width: 146px;
+  }
 }
 
 .marketing_tab_btn_active {
