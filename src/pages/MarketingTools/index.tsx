@@ -18,6 +18,12 @@ import { tableRowsList } from "../Websites";
 import "swiper/scss";
 import s from "./styles.module.scss";
 import clsx from "clsx";
+import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
+import { BackHead } from "@/widgets/backHead/BackHead";
+import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 
 const periodsList = [
   {
@@ -145,7 +151,7 @@ const historyList = [
   },
 ];
 
-const instrumentTypeList = [
+const toolsTypeList = [
   {
     title: "Flash",
     id: "flash",
@@ -168,6 +174,11 @@ const TabsTypes = ["Статус заявок", "История выплат"] a
 type TabsTypes = "Статус заявок" | "История выплат";
 
 interface MarketingToolsProps {}
+interface IListProps {
+  id?: string;
+  title?: string;
+  text?: string;
+}
 
 const MarketingTools: FC<MarketingToolsProps> = () => {
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
@@ -180,8 +191,10 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
   const [is700, setIs700] = useState(false);
   const [is1280, setIs1280] = useState(false);
 
+  const [isMobile, setIsMobile] = useState<boolean>();
   useEffect(() => {
     const handleResize = () => {
+      setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
       if (width < 1280 && width > 700) {
         setIs700(false);
@@ -210,10 +223,135 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [currentCountry, setCurrentCountry] = useState<IListProps>({});
+  const [currentCompany, setCurrentCompany] = useState<IListProps>({});
+  const [currentTools, setCurrentTools] = useState<IListProps>({});
+  const [mobTableOptions, setMobTableOpts] = useState(historyList);
+
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState<boolean>(false);
   const [activeBtn, setActiveBtn] = useState<TabsTypes>("Статус заявок");
   return (
     <Layout>
       <section className={s.marketing_section}>
+        <AdaptiveExportButton setIsOpen={setIsExport} />
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isFilter && s.filter_active
+          )}
+        >
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={currenciesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCurrency}
+            itemId="usd"
+            activeTitle="websitesCurrencyFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={wepPagesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentWebpages}
+            itemId="greekkeepers"
+            activeTitle="webPagesCategoryFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={periodsList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentPeriod}
+            itemId="currentMonthPeriod"
+            activeTitle="websitesPeriodFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={toolsTypeList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentTools}
+            itemId="flash"
+            activeTitle="websitesToolsFilter"
+          />
+          <AdaptiveChooser
+            activeTitle="choose"
+            list={mobTableOptions}
+            currentFilterPage={currentFilterPage}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setMobTableOpts={setMobTableOpts}
+          />
+          <BackHead title="Фильтры" setIsOpen={setIsFilter} />
+
+          <div className="mobile_filter_body">
+            <AdaptiveFilterItem
+              objTitle={currentCurrency}
+              title="Валюта"
+              filterTitle="websitesCurrencyFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentWebpages}
+              title="Сайт"
+              filterTitle="webPagesCategoryFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentPeriod}
+              title="Период"
+              filterTitle="websitesPeriodFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentTools}
+              title="Тип инструмента"
+              filterTitle="websitesToolsFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+
+            <AdaptiveFilterItem
+              objTitle={`Выбрано ${historyList?.length} п.`}
+              title="Показать"
+              filterTitle="choose"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <div className="subid_input_wrap">
+              <input type="text" className="subid_input" placeholder="SubId" />
+            </div>
+          </div>
+        </div>{" "}
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isExport && s.export_active
+          )}
+        >
+          <BackHead setIsOpen={setIsExport} title="Экспорт" />
+          <div className={s.mobile_pick_list_wrap}>
+            <div className={s.mobile_pick_list}>
+              <MobilePickList
+                list={exportList.slice(1)}
+                activeItemId="exel"
+                setCurrent={() => {}}
+              />
+            </div>
+          </div>
+          <div className={s.export_btn_container}>
+            <button
+              onClick={() => setIsExport(false)}
+              className={s.export_back_btn}
+            >
+              Назад
+            </button>
+            <GenerateButton title="Экспортировать" />
+          </div>
+        </div>
         <Breadcrumbs
           list={[
             { title: "Отчёты", link: "" },
@@ -247,7 +385,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           />
           <div className={s.marketing_table_item}>
             <span className={s.marketing_table_title}>Тип инструмента</span>
-            <CustomDropdownInput list={instrumentTypeList} />
+            <CustomDropdownInput list={toolsTypeList} />
           </div>
           <div
             className={clsx(
@@ -266,7 +404,6 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           </div>
           <GenerateButton className={clsx(s.generate_button)} />
         </div>
-
         <div className={s.marketing_options_container}>
           <div className={s.marketing_options_wrapper}>
             {TabsTypes.map((btn, i) => (
@@ -282,9 +419,11 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
               </button>
             ))}
           </div>
-          <div className={s.marketing_export}>
-            <CustomDropdownInput list={exportList} activeItemId="export" />
-          </div>
+          {!isMobile && (
+            <div className={s.marketing_export}>
+              <CustomDropdownInput list={exportList} activeItemId="export" />
+            </div>
+          )}
         </div>
         <div className={s.marketing_slider_wrap}>
           <div className="scroll-bar"></div>
