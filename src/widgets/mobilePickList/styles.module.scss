@@ -1,0 +1,40 @@
+.mobile_pick_list {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile_pick_list_item {
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #202020;
+}
+
+.mobile_pick_list_item.active {
+  .mobile_pick_list_item_title {
+    color: #eaeaea;
+  }
+  .checkbox {
+    filter: drop-shadow(0px 0px 4px #d18b34);
+    background: #d18b34;
+    border: none;
+  }
+}
+
+.mobile_pick_list_item_title {
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+}
+
+.checkbox {
+  border-radius: 50%;
+  border: 1px solid #252525;
+  background: #181818;
+  width: 12px;
+  height: 12px;
+}
