@@ -71,7 +71,7 @@ export const tableColumnsList = [
   },
   {
     title: "Сайт",
-    id: "site",
+    id: "websitePageSite",
   },
   {
     title: "Состояние",
@@ -143,7 +143,7 @@ const Websites: FC<WebsitesProps> = () => {
     };
   }, []);
 
-  console.log(mobTableOptions);
+  // console.log(mobTableOptions);
 
   return (
     <Layout>

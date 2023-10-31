@@ -21,6 +21,8 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
     setPickedList(activeItems);
   });
 
+  console.log(activeItems);
+
   return (
     <div className={s.mobile_choose_list_wrap}>
       <div className={s.mobile_choose_list}>
