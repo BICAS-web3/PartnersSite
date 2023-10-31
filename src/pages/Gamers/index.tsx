@@ -14,7 +14,7 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-import { tableRowsList } from "../Websites";
+import { languagesList, tableRowsList } from "../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
@@ -22,6 +22,10 @@ import clsx from "clsx";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 import { useUnit } from "effector-react";
 import { $isSidebarClosed } from "@/widgets/sidebar/model";
+import { WebsitesFilter } from "../Websites/WebsitesFilter";
+import { WebsiteCategoryFilter } from "../Websites/WebsiteCategoryFilter";
+import { WebsiteLanguageFilter } from "../Websites/WebsitesLanguageFilter";
+import { WebsiteTableFilter } from "../Websites/WebsiteTableFilter";
 
 const periodsList = [
   {
@@ -190,6 +194,9 @@ const historyList = [
   },
 ];
 
+import filterIco from "@/public/media/common/filterImg.png";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+// import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 interface GamersProps {}
 
 const Gamers: FC<GamersProps> = () => {
@@ -239,15 +246,183 @@ const Gamers: FC<GamersProps> = () => {
   }, []);
   const [checkedPlayers, setCheckedPlayers] = useState(true);
   const [checkedDeposit, setCheckedDeposit] = useState(true);
+
+  //!------------------
+  const tableColumnsList = [
+    {
+      title: "ID",
+      id: "id",
+    },
+    {
+      title: "Сайт",
+      id: "site",
+    },
+    {
+      title: "Состояние",
+      id: "state",
+    },
+  ];
+  const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
+  const [activeOptions, setActiveOptions] = useState([]);
+  const [isTablet, setIsTablet] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentSiteCategory, setCurrentSiteCategory] = useState<{
+    title?: string;
+  }>({});
+  const [currentLanguage, setCurrentLanguage] = useState<{ title?: string }>(
+    {}
+  );
+  const [currentCurrency, setCurrentCurrency] = useState<{ title?: string }>(
+    {}
+  );
+  const [currentWebpages, setCurrentWebpages] = useState<{ title?: string }>(
+    {}
+  );
+  const [currentPeriod, setCurrentPeriod] = useState<{ title?: string }>({});
+  const [mobTableOptions, setMobTableOpts] = useState(tableColumnsList);
   return (
     <Layout>
       <section className={s.gamers_section}>
-        <Breadcrumbs
-          list={[
-            { title: "Отчёты", link: "" },
-            { title: "По игрокам", link: "" },
-          ]}
-        />
+        <div
+          className={`${s.mobile_filter_block} mobile_filter_block ${
+            isFilter && s.filter_active
+          }`}
+        >
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={currenciesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCurrency}
+            itemId="usd"
+            activeTitle="websitesCurrencyFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={wepPagesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentWebpages}
+            itemId="greekkeepers"
+            activeTitle="webPagesCategoryFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={periodsList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentPeriod}
+            itemId="currentMonthPeriod"
+            activeTitle="websitesPeriodFilter"
+          />
+
+          {/* <WebsitesFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+          />
+          <WebsiteCategoryFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+            setCurrentSiteCategory={setCurrentSiteCategory}
+          />
+          
+          <WebsiteLanguageFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+            setCurrentLanguage={setCurrentLanguage}
+          />
+          <WebsiteTableFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+            setMobTableOpts={setMobTableOpts}
+          /> */}
+          <div
+            className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+          >
+            <span
+              className={`${s.close_filter_block_btn} close_filter_block_btn`}
+              onClick={() => setIsFilter(false)}
+            >
+              <Image src={prevArrow} alt="close-filter-ico" />
+              Назад
+            </span>
+            <span className="mobile_filter_title">Фильтры</span>
+          </div>
+          <div className="mobile_filter_body">
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesCurrencyFilter")}
+            >
+              <span className="mobile_filter_item_title">Валюта</span>
+              <span className="mobile_filter_item_picked_value">
+                {currentCurrency?.title}
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("webPagesCategoryFilter")}
+            >
+              <span className="mobile_filter_item_title">Сайт</span>
+              <span className="mobile_filter_item_picked_value">
+                {currentWebpages?.title}
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesPeriodFilter")}
+            >
+              <span className="mobile_filter_item_title">Период</span>
+              <span className="mobile_filter_item_picked_value">
+                {currentPeriod?.title}
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesPeriodFilter")}
+            >
+              <span className="mobile_filter_item_title">
+                Дата регистрации суб-партнера
+              </span>
+              <span className="mobile_filter_item_picked_value">
+                {currentPeriod?.title}
+              </span>
+            </div>
+
+            {/* <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
+            >
+              <span className="mobile_filter_item_title">Язык</span>
+              <span className="mobile_filter_item_picked_value">
+                {currentLanguage?.title}
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesTableFilter")}
+            >
+              <span className="mobile_filter_item_title">Показать</span>
+              <span className="mobile_filter_item_picked_value">temp</span>
+            </div> */}
+            <div className="subid_input_wrap">
+              <input type="text" className="subid_input" placeholder="SubId" />
+            </div>
+          </div>
+        </div>
+        <div className={s.breadcrumbs_block}>
+          <Breadcrumbs
+            list={[
+              { title: "Отчёты", link: "" },
+              { title: "По игрокам", link: "" },
+            ]}
+          />
+        </div>
+
+        <div
+          className={s.websites_filter_wrap}
+          onClick={() => setIsFilter(true)}
+        >
+          <Image src={filterIco} alt="filter-img" />
+          <span className={s.websites_filter_btn}>Фильтры</span>
+        </div>
         <div className={s.games_table_container}>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Валюта</span>

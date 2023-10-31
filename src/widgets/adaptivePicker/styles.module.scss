@@ -1,0 +1,20 @@
+.close_filter_block_btn {
+  display: flex;
+  align-items: center;
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 17px;
+  img {
+    margin-right: 10px;
+  }
+}
+
+.mobile_filter_block_header {
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
