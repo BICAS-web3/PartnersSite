@@ -308,7 +308,6 @@ const Websites: FC<WebsitesProps> = () => {
             <div className={s.choose_table_cols}>
               <CustomDropDownChoose
                 list={tableColumnsList}
-                allPicked={true}
                 setActiveOptions={setActiveOptions}
               />
             </div>

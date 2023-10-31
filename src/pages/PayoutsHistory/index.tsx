@@ -21,6 +21,7 @@ import filterIco from "@/public/media/common/filterImg.png";
 import { PhCurrencyMobBlock } from "./PhCurrencyMobBlock";
 import { PhPeriodMobBlock } from "./PhPeriodMobBlock";
 import { PhTableFilterBlock } from "./PhTableFilterBlock";
+import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistoryTable";
 
 export const currenciesList = [
   {
@@ -158,7 +159,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
 
   useEffect(() => {
     setActiveOpts(mobTableOpts);
-  }, [mobSiteCategory]);
+  }, [is650]);
 
   return (
     <Layout>
@@ -432,43 +433,19 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
               История выплат
             </button>
           </div>
-          <div className={s.choose_options_block}>
-            <CustomDropDownChoose
-              list={optionsList}
-              allPicked={true}
-              setActiveOptions={setActiveOpts}
-            />
-          </div>
-          <div className={s.table_wrap}>
-            <div className="scroll-bar"></div>
-            <Swiper
-              ref={swiperRef}
-              slidesPerView={
-                is700 ? "auto" : setIs650 ? "auto" : activeOps.length + 0.0001
-              }
-              direction="horizontal"
-              modules={[Scrollbar]}
-              scrollbar={{
-                el: ".scroll-bar",
-                draggable: true,
-              }}
-              spaceBetween={2}
-              centeredSlides={false}
-              className={s.swiper}
-            >
-              {activeOps.map((item, ind) => (
-                <SwiperSlide className={s.swiper_slide} data-id={item.id}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{item.title}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>{item.text}</div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          {!is650 && (
+            <div className={s.choose_options_block}>
+              <CustomDropDownChoose
+                list={optionsList}
+                setActiveOptions={setActiveOpts}
+              />
+            </div>
+          )}
+          <PayoutsHistoryTable
+            is650={is650}
+            is700={is700}
+            cols={is650 ? mobTableOpts : activeOps}
+          />
           <div className={s.table_nav_block}>
             <div className={s.table_records_block}>
               <p className={s.table_records_text}>
