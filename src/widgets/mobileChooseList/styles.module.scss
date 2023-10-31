@@ -1,0 +1,45 @@
+.mobile_choose_list {
+  display: flex;
+  flex-direction: column;
+}
+
+.choose_list_item {
+  padding: 13px 14px;
+  border-bottom: 1px solid #202020;
+}
+
+.choose_item_text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #979797;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+}
+
+.checkbox {
+  border-radius: 3px;
+  width: 12px;
+  height: 12px;
+  background-color: #282828;
+  transition: all 0.4s;
+  svg {
+    position: relative;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.checked {
+  background: #d18b34;
+  filter: drop-shadow(0px 0px 4px #d18b34);
+  svg {
+    path {
+      fill: white;
+    }
+  }
+}
