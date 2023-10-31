@@ -14,8 +14,10 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import { Scrollbar } from "swiper/modules";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
+import filterIco from "@/public/media/common/filterImg.png";
+import { CSTableFilter } from "./CSMobTableFilter";
 
-const optsList = [
+export const optsList = [
   {
     title: "Валюта",
     id: "currency",
@@ -56,6 +58,9 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
   const [is700, setIs700] = useState(false);
   const [is1280, setIs1280] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [mobTableOpts, setMobTableOpts] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -88,6 +93,10 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setActiveOpts(mobTableOpts);
+  }, [mobTableOpts]);
+
   return (
     <Layout>
       <section className={s.commission_structure_wrap}>
@@ -100,16 +109,62 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
               ]}
             />
           </div>
-          <div className={s.fast_stats_block}>
-            <span className={s.fast_stats_title}>Быстрая статистика</span>
-            <div className={s.choose_opts_wrap}>
-              <CustomDropDownChoose
-                list={optsList}
-                allPicked={true}
-                setActiveOptions={setActiveOpts}
-              />
+          {is650 ? (
+            <>
+              <div
+                className={s.mob_filter_block}
+                onClick={() => setIsFilter(!isFilter)}
+              >
+                <Image src={filterIco} alt="filter-ico" />
+                Фильтры
+              </div>
+              <div
+                className={`${s.mobile_filter_block} mobile_filter_block ${
+                  isFilter && s.filter_active
+                }`}
+              >
+                <CSTableFilter
+                  setCurrentFilterPage={setCurrentFilterPage}
+                  currentFilterPage={currentFilterPage}
+                  setMobTableOpts={setMobTableOpts}
+                />
+                <div
+                  className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+                >
+                  <span
+                    className={`${s.close_filter_block_btn} close_filter_block_btn`}
+                    onClick={() => setIsFilter(false)}
+                  >
+                    <Image src={prevArrow} alt="close-filter-ico" />
+                    Назад
+                  </span>
+                  <span className="mobile_filter_title">Фильтры</span>
+                </div>
+                <div className="mobile_filter_body">
+                  <div
+                    className="mobile_filter_item"
+                    onClick={() => setCurrentFilterPage("CSMobTableFilter")}
+                  >
+                    <span className="mobile_filter_item_title">Показать</span>
+                    <span className="mobile_filter_item_picked_value">
+                      Выбрано {mobTableOpts.length} п.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className={s.fast_stats_block}>
+              <span className={s.fast_stats_title}>Быстрая статистика</span>
+              <div className={s.choose_opts_wrap}>
+                <CustomDropDownChoose
+                  list={optsList}
+                  allPicked={true}
+                  setActiveOptions={setActiveOpts}
+                />
+              </div>
             </div>
-          </div>
+          )}
           <div className={s.table_wrap}>
             <div className="scroll-bar"></div>
             <Swiper

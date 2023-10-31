@@ -17,8 +17,6 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   const [allPicked, setAllpicked] = useState(true);
   const [activeItems, setActiveItems] = useState([]);
 
-  console.log(activeItems);
-
   useEffect(() => {
     setPickedList(activeItems);
   });

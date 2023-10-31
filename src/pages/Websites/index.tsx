@@ -236,7 +236,9 @@ const Websites: FC<WebsitesProps> = () => {
                   onClick={() => setCurrentFilterPage("websitesTableFilter")}
                 >
                   <span className="mobile_filter_item_title">Показать</span>
-                  <span className="mobile_filter_item_picked_value">temp</span>
+                  <span className="mobile_filter_item_picked_value">
+                    Выбрано {mobTableOptions.length} п.
+                  </span>
                 </div>
                 <div className="subid_input_wrap">
                   <input
