@@ -20,6 +20,8 @@ import "swiper/scss";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
+import { useUnit } from "effector-react";
+import { $isSidebarClosed } from "@/widgets/sidebar/model";
 
 const periodsList = [
   {
@@ -202,6 +204,8 @@ const Gamers: FC<GamersProps> = () => {
   const [is700, setIs700] = useState(false);
   const [is1280, setIs1280] = useState(false);
 
+  const [medium, setMedium] = useState<boolean>(false);
+  const [closed] = useUnit([$isSidebarClosed]);
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -222,6 +226,7 @@ const Gamers: FC<GamersProps> = () => {
         setIs1280(false);
         setIs650(false);
       }
+      setMedium(1600 > window.innerWidth && window.innerWidth > 1280);
     };
 
     handleResize();
@@ -232,8 +237,8 @@ const Gamers: FC<GamersProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const [checkedPlayers, setCheckedPlayers] = useState(false);
-  const [checkedDeposit, setCheckedDeposit] = useState(false);
+  const [checkedPlayers, setCheckedPlayers] = useState(true);
+  const [checkedDeposit, setCheckedDeposit] = useState(true);
   return (
     <Layout>
       <section className={s.gamers_section}>
@@ -285,7 +290,9 @@ const Gamers: FC<GamersProps> = () => {
             <span className={s.games_table_title}>Кампания</span>
             <CustomDropdownInput list={companyList} />
           </div>
-          <GenerateButton className={clsx(s.generate_button)} />
+          {(closed || !medium) && (
+            <GenerateButton className={clsx(s.generate_button)} />
+          )}
         </div>
 
         <div className={s.game_label_container}>
@@ -312,6 +319,7 @@ const Gamers: FC<GamersProps> = () => {
             </label>
           </div>
         </div>
+        {!closed && medium && <GenerateButton className={s.open_btn} />}
         <div className={s.options_container}>
           <div className={s.options_wrapper}>
             <CustomDropDownChoose
