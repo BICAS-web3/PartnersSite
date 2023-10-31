@@ -85,12 +85,22 @@ a:active {
     height: 6px;
     margin-bottom: 6px;
   }
+  @media (max-width: 650px) {
+    height: 4px;
+    margin-bottom: 8px;
+  }
 }
 
 .swiper-scrollbar-drag {
   border-radius: 4px;
   background: #3e3e3e;
   height: 7px;
+  @media (max-width: 1200px) {
+    height: 6px;
+  }
+  @media (max-width: 650px) {
+    height: 4px;
+  }
 }
 
 //datepicker

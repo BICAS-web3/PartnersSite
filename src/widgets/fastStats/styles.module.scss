@@ -78,6 +78,9 @@
   img {
     cursor: pointer;
   }
+  @media (max-width: 650px) {
+    padding: 6px 14px;
+  }
 }
 
 .swiper_slide_title {
