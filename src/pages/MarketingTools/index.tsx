@@ -173,7 +173,6 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
 
-  const [activeOps, setActiveOpts] = useState([]);
   const [is650, setIs650] = useState(false);
 
   const swiperRef = useRef<SwiperRef>(null);

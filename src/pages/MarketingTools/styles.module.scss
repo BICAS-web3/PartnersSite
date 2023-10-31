@@ -24,7 +24,7 @@
     width: 100%;
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1280px) {
     flex: 1 1 40%;
   }
   &:nth-child(1) {
@@ -40,6 +40,7 @@
     }
     @media (max-width: 1280px) {
       order: 6;
+      max-width: 49.5%;
     }
   }
   &:nth-child(3) {
@@ -65,12 +66,20 @@
   }
   &:nth-child(6) {
     order: 7;
+    flex: 1 1 auto;
 
+    @media (min-width: 1920px) {
+      width: 368px;
+    }
+    @media (min-width: 1600px) {
+      width: 308px;
+    }
     @media (max-width: 1600px) {
       order: 3;
     }
     @media (max-width: 1280px) {
       order: 5;
+      flex: 1 1 40%;
     }
   }
   &:nth-child(7) {
@@ -87,10 +96,11 @@
 }
 
 .marketing_table_item_grow {
-  max-width: 368px;
   flex: 1 1 auto;
-  // max-width: 386px;
-  @media (max-width: 1200px) {
+  @media (min-width: 1280px) {
+    max-width: 368px;
+  }
+  @media (max-width: 1280px) {
     flex: 1 1 40%;
   }
 }
@@ -179,13 +189,13 @@
 
 .marketing_export {
   width: 210px;
-  @media (max-width: 1200px) {
+  @media (max-width: 1280px) {
     width: 200px;
   }
 }
 .options_wrapper {
   width: 230px;
-  @media (max-width: 1200px) {
+  @media (max-width: 1280px) {
     width: 200px;
   }
 }
@@ -246,31 +256,46 @@
     border-radius: 0 12px 12px 0;
     overflow: hidden;
   }
-  @media (max-width: 1200px) {
-    &[data-id="id_page"] {
-      max-width: 116px;
+  @media (max-width: 1600px) {
+    &[data-id="id_tool"] {
+      max-width: 165px;
+      @media (max-width: 1280px) {
+        max-width: 199px;
+      }
     }
-    &[data-id="country"] {
-      max-width: 140px;
+    &[data-id="sub_id"] {
+      max-width: 139px;
+      @media (max-width: 1280px) {
+        max-width: 199px;
+      }
     }
-    &[data-id="id_players"] {
-      max-width: 150px;
+    &[data-id="registration"] {
+      max-width: 166px;
+      @media (max-width: 1280px) {
+        max-width: 199px;
+      }
     }
-    &[data-id="deposti_summ"] {
-      max-width: 191px;
+    &[data-id="deposit_account"] {
+      max-width: 233px;
+      @media (max-width: 1280px) {
+        max-width: 199px;
+      }
     }
-    &[data-id="data_registration"] {
-      max-width: 153px;
+    &[data-id="deposit_summ"] {
+      max-width: 277px;
+      @media (max-width: 1280px) {
+        max-width: 199px;
+      }
     }
-    &[data-id="data_registration"] {
-      max-width: 153px;
+    &[data-id="company_income"] {
+      max-width: 309px;
+      @media (max-width: 1280px) {
+        max-width: 199px;
+      }
     }
-    &[data-id="page"] {
-      max-width: 185px;
-    }
-    &[data-id="subid"] {
-      max-width: 114px;
-    }
+  }
+  @media (max-width: 1280px) {
+    max-width: 199px;
   }
 }
 
@@ -342,6 +367,8 @@
   }
   @media (max-width: 1280px) {
     order: 4;
+    flex: 1 1 40%;
+    width: 40%;
   }
 }
 
