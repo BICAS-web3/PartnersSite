@@ -6,6 +6,7 @@
 .mobile_pick_list_item {
   padding: 11px 14px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #202020;
@@ -37,4 +38,11 @@
   background: #181818;
   width: 12px;
   height: 12px;
+}
+
+.mob_pick_list_header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }

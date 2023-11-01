@@ -236,7 +236,9 @@ const SubPartners: FC<SubPartnersProps> = () => {
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
-            list={periodsList}
+            list={periodsList.concat([
+              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+            ])}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
             itemId="currentMonthPeriod"
@@ -269,8 +271,14 @@ const SubPartners: FC<SubPartnersProps> = () => {
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
+            <div className={s.export_btn_container}>
+              <button
+                onClick={() => setIsExport(false)}
+                className={s.export_back_btn}
+              >
+                Назад
+              </button>
+              <GenerateButton title="Сгенерировать отчет" />
             </div>
           </div>
         </div>{" "}
