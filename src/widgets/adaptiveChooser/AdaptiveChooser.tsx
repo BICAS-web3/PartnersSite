@@ -13,6 +13,9 @@ interface AdaptiveChooserProps {
   setMobTableOpts: any;
   list: any[];
   activeTitle: string;
+  blockTitle: string;
+  isInput?: boolean;
+  inpPlaceholder?: string;
 }
 
 export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
@@ -21,6 +24,9 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
   setMobTableOpts,
   list,
   activeTitle,
+  blockTitle,
+  isInput,
+  inpPlaceholder,
 }) => {
   const [pickedList, setPickedList] = useState([]);
 
@@ -48,9 +54,18 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
           <Image src={prevArrow} alt="close-filter-ico" />
           Фильтры
         </span>
-        <span className="mobile_filter_title">Категория сайта</span>
+        <span className="mobile_filter_title">{blockTitle}</span>
       </div>
       <div className="mobile_filter_body">
+        {isInput && (
+          <div className={`${s.mob_choose_input_wrap} `}>
+            <input
+              type="text"
+              placeholder={inpPlaceholder}
+              className={`${s.mob_choose_input} default_input`}
+            />
+          </div>
+        )}
         <MobileChooseList
           list={list}
           setPickedList={setPickedList}

@@ -17,12 +17,11 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   const [allPicked, setAllpicked] = useState(true);
   const [activeItems, setActiveItems] = useState([]);
 
-
   useEffect(() => {
     setPickedList(activeItems);
   });
 
-useEffect(() => {
+  useEffect(() => {
     if (allPicked) {
       setActiveItems(list);
     }

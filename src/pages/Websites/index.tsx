@@ -389,12 +389,10 @@ const Websites: FC<WebsitesProps> = () => {
             </div>
           </div>
           <div className={s.websites_table_wrap}>
-
             <DropdownSwiperTable
               cols={is650 ? mobTableOptions : activeOptions}
               rows={[]}
             />
-
           </div>
           <div className={s.table_navigation_block}>
             <div className={s.table_records_block}>
