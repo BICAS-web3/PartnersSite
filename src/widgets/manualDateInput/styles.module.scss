@@ -1,0 +1,42 @@
+.manual_date_inputs_block {
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1px solid #2e2e2e;
+    display: flex;
+}
+
+.manual_date_input_title {
+    color: #979797;
+    font-family: var(--font-nunito-sans);
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    margin-right: 10px;
+}
+
+.manual_date_input {
+    width: 100%;
+    color: #7e7e7e;
+    text-align: start;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    background: inherit;
+    border: none;
+}
+
+.manual_date_input_from_block,
+.manual_date_input_to_block {
+    padding: 11px 20px 11px 8px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.manual_date_input_from_block {
+    border-right: 1px solid #2e2e2e;
+}
