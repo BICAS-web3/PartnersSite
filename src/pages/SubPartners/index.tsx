@@ -196,6 +196,97 @@ const SubPartners: FC<SubPartnersProps> = () => {
   return (
     <Layout>
       <section className={s.sub_partners_section}>
+        <AdaptiveExportButton setIsOpen={setIsExport} />
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isFilter && s.filter_active
+          )}
+        >
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={currenciesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCurrency}
+            itemId="usd"
+            activeTitle="websitesCurrencyFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={periodsList.concat([
+              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+            ])}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentPeriod}
+            itemId="currentMonthPeriod"
+            activeTitle="websitesPeriodFilter"
+          />
+          <AdaptiveChooser
+            activeTitle="choose"
+            list={mobTableOptions}
+            currentFilterPage={currentFilterPage}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setMobTableOpts={setMobTableOpts}
+          />
+          <BackHead title="Фильтры" setIsOpen={setIsFilter} />
+          <div className="mobile_filter_body">
+            <AdaptiveFilterItem
+              objTitle={currentCurrency}
+              title="Валюта"
+              filterTitle="websitesCurrencyFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentPeriod}
+              title="Период"
+              filterTitle="websitesPeriodFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={`Выбрано ${statisticList?.length} п.`}
+              title="Показать"
+              filterTitle="choose"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <div className={s.export_btn_container}>
+              <button
+                onClick={() => setIsExport(false)}
+                className={s.export_back_btn}
+              >
+                Назад
+              </button>
+              <GenerateButton title="Сгенерировать отчет" />
+            </div>
+          </div>
+        </div>{" "}
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isExport && s.export_active
+          )}
+        >
+          <BackHead setIsOpen={setIsExport} title="Экспорт" />
+          <div className={s.mobile_pick_list_wrap}>
+            <div className={s.mobile_pick_list}>
+              <MobilePickList
+                list={exportList.slice(1)}
+                activeItemId="exel"
+                setCurrent={() => {}}
+              />
+            </div>
+          </div>
+          <div className={s.export_btn_container}>
+            <button
+              onClick={() => setIsExport(false)}
+              className={s.export_back_btn}
+            >
+              Назад
+            </button>
+            <GenerateButton title="Экспортировать" />
+          </div>
+        </div>
         <Breadcrumbs
           list={[
             { title: "Отчёты", link: "" },
