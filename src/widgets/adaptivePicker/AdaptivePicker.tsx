@@ -1,35 +1,44 @@
-import s from "./styles.module.scss";
 import { FC } from "react";
 import Image from "next/image";
+import clsx from "clsx";
+
 import prevArrow from "@/public/media/common/prevArrow.png";
-import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../PayoutsHistory";
-
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { languagesList } from ".";
 
-interface WebsiteLanguageFilterProps {
+import s from "./styles.module.scss";
+
+interface AdaptivePickerProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
   setCurrentLanguage: any;
+  list: any[];
+  itemId: string;
+  activeTitle: string;
 }
 
-export const WebsiteLanguageFilter: FC<WebsiteLanguageFilterProps> = ({
+export const AdaptivePicker: FC<AdaptivePickerProps> = ({
+  list,
   currentFilterPage,
   setCurrentFilterPage,
   setCurrentLanguage,
+  itemId,
+  activeTitle,
 }) => {
   return (
     <div
-      className={`filter_item_page ${
-        currentFilterPage === "websitesLanguageFilter" && "active"
-      }`}
+      className={clsx(
+        "filter_item_page",
+        currentFilterPage === activeTitle && "active"
+      )}
     >
       <div
-        className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+        className={clsx(
+          s.mobile_filter_block_header,
+          "mobile_filter_block_header"
+        )}
       >
         <span
-          className={`${s.close_filter_block_btn} close_filter_block_btn`}
+          className={clsx(s.close_filter_block_btn, "close_filter_block_btn")}
           onClick={() => setCurrentFilterPage("")}
         >
           <Image src={prevArrow} alt="close-filter-ico" />
@@ -39,8 +48,8 @@ export const WebsiteLanguageFilter: FC<WebsiteLanguageFilterProps> = ({
       </div>
       <div className="mobile_filter_body">
         <MobilePickList
-          list={languagesList}
-          activeItemId="eng"
+          list={list}
+          activeItemId={itemId}
           setCurrent={setCurrentLanguage}
         />
       </div>

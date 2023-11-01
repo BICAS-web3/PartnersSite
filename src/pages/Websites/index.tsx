@@ -112,7 +112,9 @@ const Websites: FC<WebsitesProps> = () => {
   const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
   const [activeOptions, setActiveOptions] = useState([]);
   const [isTablet, setIsTablet] = useState(false);
+
   const [is650, setIs650] = useState(false);
+
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
   const [currentSiteCategory, setCurrentSiteCategory] = useState({});
@@ -143,11 +145,85 @@ const Websites: FC<WebsitesProps> = () => {
     };
   }, []);
 
-  // console.log(mobTableOptions);
-
   return (
     <Layout>
       <section className={s.websites_page}>
+        <div
+          className={`${s.mobile_filter_block} mobile_filter_block ${
+            isFilter && s.filter_active
+          }`}
+        >
+          <WebsitesFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+          />
+          <WebsiteCategoryFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+            setCurrentSiteCategory={setCurrentSiteCategory}
+          />
+          <WebsiteLanguageFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+            setCurrentLanguage={setCurrentLanguage}
+          />
+          <WebsiteTableFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+            setMobTableOpts={setMobTableOpts}
+          />
+          <div
+            className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+          >
+            <span
+              className={`${s.close_filter_block_btn} close_filter_block_btn`}
+              onClick={() => setIsFilter(false)}
+            >
+              <Image src={prevArrow} alt="close-filter-ico" />
+              Назад
+            </span>
+            <span className="mobile_filter_title">Фильтры</span>
+          </div>
+          <div className="mobile_filter_body">
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesFilterPage")}
+            >
+              <span className="mobile_filter_item_title">Веб-сайт</span>
+              <span className="mobile_filter_item_picked_value">
+                Example.com
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesCategoryFilter")}
+            >
+              <span className="mobile_filter_item_title">Категория сайта</span>
+              <span className="mobile_filter_item_picked_value">
+                {currentSiteCategory.title}
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
+            >
+              <span className="mobile_filter_item_title">Язык</span>
+              <span className="mobile_filter_item_picked_value">
+                {currentLanguage.title}
+              </span>
+            </div>
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesTableFilter")}
+            >
+              <span className="mobile_filter_item_title">Показать</span>
+              <span className="mobile_filter_item_picked_value">temp</span>
+            </div>
+            <div className="subid_input_wrap">
+              <input type="text" className="subid_input" placeholder="SubId" />
+            </div>
+          </div>
+        </div>
         <div className={s.websites_block}>
           <div className={s.breadcrumbs_block}>
             <Breadcrumbs
@@ -313,10 +389,12 @@ const Websites: FC<WebsitesProps> = () => {
             </div>
           </div>
           <div className={s.websites_table_wrap}>
+
             <DropdownSwiperTable
               cols={is650 ? mobTableOptions : activeOptions}
               rows={[]}
             />
+
           </div>
           <div className={s.table_navigation_block}>
             <div className={s.table_records_block}>
