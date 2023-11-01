@@ -378,6 +378,19 @@
   margin-top: 20px;
 }
 
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.inputWrapper_body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 14px;
+  margin-top: 12px;
+}
+
 .export_back_btn {
   border-radius: 5px;
   border: 1px solid var(--outline-3-e, #3e3e3e);

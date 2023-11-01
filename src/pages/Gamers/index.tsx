@@ -30,6 +30,7 @@ import { tableRowsList } from "../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
+import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 
 const periodsList = [
   {
@@ -315,6 +316,40 @@ const Gamers: FC<GamersProps> = () => {
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
           />
+          <div
+            className={clsx(
+              "filter_item_page",
+              currentFilterPage === "input" && "active"
+            )}
+          >
+            <div
+              className={clsx(
+                s.mobile_filter_block_header,
+                "mobile_filter_block_header"
+              )}
+            >
+              <span
+                className={clsx(
+                  s.close_filter_block_btn,
+                  "close_filter_block_btn"
+                )}
+                onClick={() => setCurrentFilterPage("")}
+              >
+                <Image src={prevArrow} alt="close-filter-ico" />
+                Назад
+              </span>
+              <span className="mobile_filter_title">Фильтры</span>
+            </div>
+            <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+            </div>
+            <div className="mobile_filter_item_page_footer">
+              <button className="mob_cancel_btn">Отменить</button>
+              <button className="mob_save_btn">Сохранить</button>
+            </div>
+          </div>
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
@@ -353,6 +388,18 @@ const Gamers: FC<GamersProps> = () => {
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
             />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+              className={clsx("mobile_filter_item", s.inputWrapper)}
+              onClick={() => setCurrentFilterPage("input")}
+            >
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+            </div>
+
             <div className="subid_input_wrap">
               <input type="text" className="subid_input" placeholder="SubId" />
             </div>
