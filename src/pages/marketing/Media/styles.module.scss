@@ -234,6 +234,17 @@
   line-height: 80%;
 }
 
+.mobile_filter_block {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.filter_active {
+  visibility: visible;
+  opacity: 1;
+}
+
 @media screen and (max-width: 1280px) {
   .table_filter_block {
     grid-template-columns: minmax(120px, 230px) minmax(140px, 230px) minmax(
@@ -277,7 +288,8 @@
 
 @media screen and (max-width: 650px) {
   .table_filter_block,
-  .choose_active_opts_wrap {
+  .choose_active_opts_wrap,
+  .table_records_text {
     display: none;
   }
   .media_page_section {
@@ -285,5 +297,8 @@
   }
   .mob_filter_block {
     display: flex;
+  }
+  .media_page_section {
+    padding: 10px;
   }
 }
