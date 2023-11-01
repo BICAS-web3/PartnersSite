@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, RefObject, useEffect } from "react";
 
 import clsx from "clsx";
 
@@ -9,6 +9,9 @@ interface InputBlockProps {
   value?: string;
   className?: string;
   setValue?: (el: string) => void;
+  inputRef?: RefObject<HTMLInputElement>;
+  onClick?: () => void;
+  focus?: boolean;
 }
 
 export const InputBlock: FC<InputBlockProps> = ({
@@ -16,13 +19,24 @@ export const InputBlock: FC<InputBlockProps> = ({
   value,
   className,
   setValue,
+  inputRef,
+  onClick,
+  focus,
 }) => {
+  useEffect(() => {
+    focus &&
+      setTimeout(() => {
+        inputRef?.current?.focus();
+      }, 0.1);
+  }, [focus]);
   return (
     <input
+      onClick={onClick}
+      ref={inputRef}
       placeholder={placeholder}
       value={value}
       onChange={(el) => setValue?.(el.target.value)}
-      className={s.input}
+      className={clsx(s.input, className)}
     />
   );
 };
