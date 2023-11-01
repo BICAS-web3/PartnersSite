@@ -446,9 +446,14 @@ const Gamers: FC<GamersProps> = () => {
                 placeholder="ID Маркетингового инструмента"
               />
             </div>
-
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
+            <div className={s.export_btn_container}>
+              <button
+                onClick={() => setIsExport(false)}
+                className={s.export_back_btn}
+              >
+                Назад
+              </button>
+              <GenerateButton title="Сгенерировать" />
             </div>
           </div>
         </div>

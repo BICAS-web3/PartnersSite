@@ -15,16 +15,16 @@ import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
 import { tableRowsList } from "../Websites";
-
+import clsx from "clsx";
+import filterIco from "@/public/media/common/filterImg.png";
 import "swiper/scss";
 import s from "./styles.module.scss";
-import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import clsx from "clsx";
 
 const periodsList = [
   {
@@ -162,7 +162,6 @@ interface IListProps {
   title?: string;
   text?: string;
 }
-
 const SubPartners: FC<SubPartnersProps> = () => {
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
@@ -171,20 +170,20 @@ const SubPartners: FC<SubPartnersProps> = () => {
   const [is650, setIs650] = useState(false);
 
   const swiperRef = useRef<SwiperRef>(null);
-
-  const [is700, setIs700] = useState(false);
-  const [is1280, setIs1280] = useState(false);
-
-  const [isFilter, setIsFilter] = useState(false);
-  const [isExport, setIsExport] = useState<boolean>(false);
-
   const [currentFilterPage, setCurrentFilterPage] = useState("");
   const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
   const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
   const [mobTableOptions, setMobTableOpts] = useState(statisticList);
 
+  const [is700, setIs700] = useState(false);
+  const [is1280, setIs1280] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>();
+
   useEffect(() => {
     const handleResize = () => {
+      setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
       if (width < 1280 && width > 700) {
         setIs700(false);
@@ -213,6 +212,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <Layout>
       <section className={s.sub_partners_section}>
@@ -244,7 +244,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
           />
           <AdaptiveChooser
             activeTitle="choose"
-            list={mobTableOptions}
+            list={statisticList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
@@ -312,7 +312,14 @@ const SubPartners: FC<SubPartnersProps> = () => {
             { title: "Отчёты", link: "" },
             { title: "По суб-партнёрам", link: "/SubPartners" },
           ]}
-        />
+        />{" "}
+        <div
+          className={s.websites_filter_wrap}
+          onClick={() => setIsFilter(true)}
+        >
+          <Image src={filterIco} alt="filter-img" />
+          <span className={s.websites_filter_btn}>Фильтры</span>
+        </div>
         <div className={s.sub_partners_tablet}>
           <div className={s.sub_partners_tablet_item}>
             <span className={s.table_filter_block_item_title}>Период</span>
@@ -339,19 +346,21 @@ const SubPartners: FC<SubPartnersProps> = () => {
           </div>
           <GenerateButton />
         </div>
-        <div className={s.options_container}>
-          {" "}
-          <div className={s.options_wrapper}>
-            <CustomDropDownChoose
-              list={statisticList}
-              allPicked={true}
-              setActiveOptions={setActiveOpts}
-            />
+        {!isMobile && (
+          <div className={s.options_container}>
+            {" "}
+            <div className={s.options_wrapper}>
+              <CustomDropDownChoose
+                list={statisticList}
+                allPicked={true}
+                setActiveOptions={setActiveOpts}
+              />
+            </div>
+            <div className={s.export_wrapper}>
+              <CustomDropdownInput list={exportList} activeItemId="export" />
+            </div>
           </div>
-          <div className={s.export_wrapper}>
-            <CustomDropdownInput list={exportList} activeItemId="export" />
-          </div>
-        </div>
+        )}
         <div className={s.table_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
@@ -367,7 +376,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {activeOps.map(
+            {(isMobile ? mobTableOptions : activeOps).map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
