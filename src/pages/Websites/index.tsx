@@ -9,8 +9,12 @@ import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import Image from "next/image";
 import filterIco from "@/public/media/common/filterImg.png";
+import { WebsitesFilter } from "./WebsitesFilter";
+import { WebsiteCategoryFilter } from "./WebsiteCategoryFilter";
+import { WebsiteLanguageFilter } from "./WebsitesLanguageFilter";
+import { WebsiteTableFilter } from "./WebsiteTableFilter";
 
-const siteCategories = [
+export const siteCategories = [
   {
     title: "Прогнозы на спорт",
     id: "sportsForecasts",
@@ -35,25 +39,9 @@ const siteCategories = [
     title: "Спорт",
     id: "sport",
   },
-  {
-    title: "Прочее",
-    id: "other",
-  },
-  {
-    title: "Facebook",
-    id: "fb",
-  },
-  {
-    title: "Instagram",
-    id: "ig",
-  },
-  {
-    title: "Telegram",
-    id: "tg",
-  },
 ];
 
-const languagesList = [
+export const languagesList = [
   {
     title: "Английский",
     id: "eng",
@@ -76,14 +64,14 @@ const languagesList = [
   },
 ];
 
-const tableColumnsList = [
+export const tableColumnsList = [
   {
     title: "ID",
     id: "id",
   },
   {
     title: "Сайт",
-    id: "site",
+    id: "websitePageSite",
   },
   {
     title: "Состояние",
@@ -124,11 +112,26 @@ const Websites: FC<WebsitesProps> = () => {
   const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
   const [activeOptions, setActiveOptions] = useState([]);
   const [isTablet, setIsTablet] = useState(false);
+  const [is650, setIs650] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentSiteCategory, setCurrentSiteCategory] = useState({});
+  const [currentLanguage, setCurrentLanguage] = useState({});
+  const [mobTableOptions, setMobTableOpts] = useState(tableColumnsList);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      width < 700 ? setIsTablet(true) : setIsTablet(false);
+      if (width < 700 && width > 650) {
+        setIs650(false);
+        setIsTablet(true);
+      } else if (width < 650) {
+        setIs650(true);
+        setIsTablet(false);
+      } else {
+        setIs650(false);
+        setIsTablet(false);
+      }
     };
 
     handleResize();
@@ -139,6 +142,8 @@ const Websites: FC<WebsitesProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  // console.log(mobTableOptions);
 
   return (
     <Layout>
@@ -152,45 +157,135 @@ const Websites: FC<WebsitesProps> = () => {
               ]}
             />
           </div>
-          <div className={s.websites_filter_wrap}>
+          <div
+            className={s.websites_filter_wrap}
+            onClick={() => setIsFilter(true)}
+          >
             <Image src={filterIco} alt="filter-img" />
             <span className={s.websites_filter_btn}>Фильтры</span>
           </div>
-          <div className={s.adding_website_block}>
+          {is650 ? (
             <div
-              className={`${s.adding_website_block_item} ${s.websites_item_block}`}
+              className={`${s.mobile_filter_block} mobile_filter_block ${
+                isFilter && s.filter_active
+              }`}
             >
-              <span className={s.adding_website_block_item_title}>
-                Веб-сайт
-              </span>
-              <input
-                type="text"
-                placeholder={`${
-                  isTablet
-                    ? "example.com"
-                    : "Введите свой сайт. Например: mysite.com"
-                }`}
-                className={`${s.adding_website_input} default_input`}
+              <WebsitesFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
               />
-            </div>
-            <div className={s.adding_website_block_item}>
-              <span className={s.adding_website_block_item_title}>
-                Категория сайта
-              </span>
-              <CustomDropdownInput
-                list={siteCategories}
-                activeItemId="sportsForecasts"
+              <WebsiteCategoryFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                setCurrentSiteCategory={setCurrentSiteCategory}
               />
-            </div>
-            <div className={s.adding_website_block_item}>
-              <span className={s.adding_website_block_item_title}>Язык</span>
-              <CustomDropdownInput
-                list={languagesList}
-                activeItemId="sportsForecasts"
+              <WebsiteLanguageFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                setCurrentLanguage={setCurrentLanguage}
               />
+              <WebsiteTableFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                setMobTableOpts={setMobTableOpts}
+              />
+              <div
+                className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+              >
+                <span
+                  className={`${s.close_filter_block_btn} close_filter_block_btn`}
+                  onClick={() => setIsFilter(false)}
+                >
+                  <Image src={prevArrow} alt="close-filter-ico" />
+                  Назад
+                </span>
+                <span className="mobile_filter_title">Фильтры</span>
+              </div>
+              <div className="mobile_filter_body">
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesFilterPage")}
+                >
+                  <span className="mobile_filter_item_title">Веб-сайт</span>
+                  <span className="mobile_filter_item_picked_value">
+                    Example.com
+                  </span>
+                </div>
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesCategoryFilter")}
+                >
+                  <span className="mobile_filter_item_title">
+                    Категория сайта
+                  </span>
+                  <span className="mobile_filter_item_picked_value">
+                    {currentSiteCategory.title}
+                  </span>
+                </div>
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
+                >
+                  <span className="mobile_filter_item_title">Язык</span>
+                  <span className="mobile_filter_item_picked_value">
+                    {currentLanguage.title}
+                  </span>
+                </div>
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesTableFilter")}
+                >
+                  <span className="mobile_filter_item_title">Показать</span>
+                  <span className="mobile_filter_item_picked_value">
+                    Выбрано {mobTableOptions.length} п.
+                  </span>
+                </div>
+                <div className="subid_input_wrap">
+                  <input
+                    type="text"
+                    className="subid_input"
+                    placeholder="SubId"
+                  />
+                </div>
+              </div>
             </div>
-            <button className={s.add_website_btn}>Добавить сайт</button>
-          </div>
+          ) : (
+            <div className={s.adding_website_block}>
+              <div
+                className={`${s.adding_website_block_item} ${s.websites_item_block}`}
+              >
+                <span className={s.adding_website_block_item_title}>
+                  Веб-сайт
+                </span>
+                <input
+                  type="text"
+                  placeholder={`${
+                    isTablet
+                      ? "example.com"
+                      : "Введите свой сайт. Например: mysite.com"
+                  }`}
+                  className={`${s.adding_website_input} default_input`}
+                />
+              </div>
+              <div className={s.adding_website_block_item}>
+                <span className={s.adding_website_block_item_title}>
+                  Категория сайта
+                </span>
+                <CustomDropdownInput
+                  list={siteCategories}
+                  activeItemId="sportsForecasts"
+                />
+              </div>
+              <div className={s.adding_website_block_item}>
+                <span className={s.adding_website_block_item_title}>Язык</span>
+                <CustomDropdownInput
+                  list={languagesList}
+                  activeItemId="sportsForecasts"
+                />
+              </div>
+              <button className={s.add_website_btn}>Добавить сайт</button>
+            </div>
+          )}
           <div className={s.websites_filter_block}>
             <div className={s.websites_hiddenAdded_block}>
               <button
@@ -213,13 +308,15 @@ const Websites: FC<WebsitesProps> = () => {
             <div className={s.choose_table_cols}>
               <CustomDropDownChoose
                 list={tableColumnsList}
-                allPicked={true}
                 setActiveOptions={setActiveOptions}
               />
             </div>
           </div>
           <div className={s.websites_table_wrap}>
-            <DropdownSwiperTable cols={activeOptions} rows={[]} />
+            <DropdownSwiperTable
+              cols={is650 ? mobTableOptions : activeOptions}
+              rows={[]}
+            />
           </div>
           <div className={s.table_navigation_block}>
             <div className={s.table_records_block}>

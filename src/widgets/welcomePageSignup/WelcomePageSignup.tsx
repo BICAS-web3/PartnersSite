@@ -1,10 +1,14 @@
 import s from "./styles.module.scss";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
 import { countries } from "countries-list";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
+import leftArr from "@/public/media/common/prevArrow.png";
+import Image from "next/image";
+import * as RegistrM from "@/widgets/header/model";
+import { useUnit } from "effector-react";
 
-const siteCategories = [
+export const siteCategories = [
   {
     title: "Казино",
     id: "casino",
@@ -27,7 +31,7 @@ const siteCategories = [
   },
 ];
 
-const languagesList = [
+export const languagesList = [
   {
     title: "Русский",
     id: "rus",
@@ -115,8 +119,26 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     }
   };
 
+  const [setLogin, setSignup] = useUnit([
+    RegistrM.setLogin,
+    RegistrM.setSignup,
+  ]);
+
   return (
     <div className={s.welcome_page_signup_content}>
+      <div className={s.desk_hidden_nav}>
+        <span
+          className={s.desk_hidden_nav_title}
+          onClick={() => {
+            setSignup(false);
+            setLogin(false);
+          }}
+        >
+          <Image alt="back-arrow" src={leftArr} />
+          Назад
+        </span>
+        <span className={s.desk_hidden_current_block_title}>Регистрация</span>
+      </div>
       <form className={s.welcome_page_signup_form}>
         <div className={s.welcome_page_signup_leftBlock}>
           <div className={s.welcome_page_paslog_block}>
@@ -163,7 +185,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   placeholder="example.com"
                 />
               </div>
-              <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
+              <div className={s.welcome_page_input_block} style={{ zIndex: 5 }}>
                 <span className={s.welcome_page_input_title}>
                   Категория сайта*
                 </span>
@@ -172,7 +194,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   activeItemId="casino"
                 />
               </div>
-              <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
+              <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
                 <span className={s.welcome_page_input_title}>
                   Предпочитаемый язык*
                 </span>

@@ -5,6 +5,7 @@ import { FC, useEffect, useState } from "react";
 interface CustomDropdownInputProps {
   list: any[];
   activeItemId?: string;
+  isExportSelect?: boolean;
   height?: number;
 }
 
@@ -12,6 +13,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   list,
   activeItemId,
   height,
+  isExportSelect,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -43,7 +45,13 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           className={s.active_dropdown_title_block}
           style={{ height: height }}
         >
-          <span>{activeItem ? activeItem.title : "Выберите..."}</span>
+          <span>
+            {activeItem
+              ? activeItem.title
+              : !activeItem && isExportSelect
+              ? "Экспорт"
+              : "Выберите..."}
+          </span>
         </div>
         <div className={s.dropdown_ico_block} style={{ height: height }}>
           <HeaderDropdownArrow />

@@ -1,10 +1,12 @@
 import { createEvent, createStore } from "effector";
 
 // variables
-export const $isSidebarClosed = createStore<boolean>(false);
+export const $isSidebarOpened = createStore<boolean>(true);
 
 // events
-export const setClosed = createEvent<boolean>();
+export const Open = createEvent<void>();
+export const Close = createEvent<void>();
 
 // handlers
-$isSidebarClosed.on(setClosed, (_, inp) => inp);
+$isSidebarOpened.on(Open, (_, __) => true);
+$isSidebarOpened.on(Close, (_, __) => false);

@@ -4,7 +4,13 @@
   grid-template-rows: 80px 1fr;
   height: 100%;
   transition: all 0.4s;
-  column-gap: 25px;
+}
+
+.main_section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sidebar_closed {
