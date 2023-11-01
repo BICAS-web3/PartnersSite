@@ -22,8 +22,10 @@ import { PhCurrencyMobBlock } from "./PhCurrencyMobBlock";
 import { PhPeriodMobBlock } from "./PhPeriodMobBlock";
 import { PhTableFilterBlock } from "./PhTableFilterBlock";
 import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistoryTable";
+import { PhExportBlock } from "./PhExportBlock";
+import exportIco from "@/public/media/common/exportIco.png";
 
-const currenciesList = [
+export const currenciesList = [
   {
     title: "USD",
     id: "usd",
@@ -34,7 +36,7 @@ const currenciesList = [
   },
 ];
 
-const periodsList = [
+export const periodsList = [
   {
     title: "Произвольный период",
     id: "arbitraryPeriod",
@@ -65,7 +67,38 @@ const periodsList = [
   },
 ];
 
-const optionsList = [
+export const mobilePeriodsList = [
+  {
+    title: "Сегодня",
+    id: "todaysPeriod",
+  },
+  {
+    title: "Вчера",
+    id: "yesterdaysPeriod",
+  },
+  {
+    title: "Текущий месяц",
+    id: "currentMonthPeriod",
+  },
+  {
+    title: "Прошлый месяц",
+    id: "lastMonthPeriod",
+  },
+  {
+    title: "Текущий год",
+    id: "currentYearPeriod",
+  },
+  {
+    title: "Прошлый год",
+    id: "lastYearPeriod",
+  },
+  {
+    title: "Выбрать вручную",
+    id: "mobilePeriodManually",
+  },
+];
+
+export const optionsList = [
   {
     title: "Валюта",
     id: "currency",
@@ -113,6 +146,17 @@ const months = [
   "December",
 ];
 
+export const phExportOptions = [
+  {
+    title: "Excel",
+    id: "excelExport",
+  },
+  {
+    title: "Csv",
+    id: "csvExport",
+  },
+];
+
 interface PayoutsHistoryProps {}
 
 const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
@@ -120,14 +164,30 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const [activeOps, setActiveOpts] = useState([]);
   const swiperRef = useRef<SwiperRef>(null);
   const [is700, setIs700] = useState(false);
+  const [is650, setIs650] = useState(false);
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
   const years = range(1990, 2025);
+  const [isFilter, setIsFilter] = useState(false);
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [mobTableOpts, setMobTableOpts] = useState([]);
+  const [mobSiteCategory, setMobSiteCategory] = useState({});
+  const [mobPeriod, setMobPeriod] = useState({});
+  const [mobExportPicked, setMobExportPicked] = useState({});
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      width < 700 ? setIs700(true) : setIs700(false);
+      if (width < 700 && width > 650) {
+        setIs700(true);
+        setIs650(false);
+      } else if (width < 650) {
+        setIs700(false);
+        setIs650(true);
+      } else {
+        setIs700(false);
+        setIs650(false);
+      }
     };
 
     handleResize();
@@ -151,173 +211,270 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             <Breadcrumbs
               list={[
                 { title: "Главная", link: "/" },
-                { title: "История выплат", link: "/PayoutsHistroy" },
+                { title: "История выплат", link: "/PayoutsHistory" },
               ]}
             />
           </div>
-          <div className={s.table_filter_block}>
-            <div className={s.table_filter_currency_item}>
-              <span className={s.table_filter_block_item_title}>Валюта</span>
-              <CustomDropdownInput list={currenciesList} activeItemId="usd" />
-            </div>
-            <div className={s.table_filter_period_item} style={{ zIndex: 100 }}>
-              <span className={s.table_filter_block_item_title}>Период</span>
-              <CustomDropdownInput
-                list={periodsList}
-                activeItemId="arbitraryPeriod"
-              />
-            </div>
-            <div className={s.period_datepicker_block}>
-              <div className={s.first_datepicker_block}>
-                <DatePicker
-                  className={`${s.custom_datepicker} lol`}
-                  renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }: any) => (
-                    <div
-                      className={s.datepicker_header}
-                      style={{
-                        margin: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <button
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                        className={s.datepicker_month_btn}
-                      >
-                        <Image src={prevArrow} alt="prev-arr" />
-                      </button>
-                      <div className={s.pick_year_block}>
-                        <select
-                          className="custom-select-style"
-                          value={getYear(date)}
-                          onChange={({ target: { value } }) =>
-                            changeYear(value)
-                          }
-                        >
-                          {years.map((option: any) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className={s.pick_month_block}>
-                        <select
-                          className="custom-select-style"
-                          value={months[getMonth(date)]}
-                          onChange={({ target: { value } }) =>
-                            changeMonth(months.indexOf(value))
-                          }
-                        >
-                          {months.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <button
-                        className={s.datepicker_month_btn}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                      >
-                        <Image src={nextArrow} alt="next-arr" />
-                      </button>
-                    </div>
-                  )}
-                  selected={firstDatePickerDate}
-                  onChange={(date: any) => setFirstDatePickerDate(date)}
+          {is650 ? (
+            <>
+              <div className={s.mob_filterExport_block}>
+                <div
+                  className={s.mob_filter_block}
+                  onClick={() => setIsFilter(!isFilter)}
+                >
+                  <Image src={filterIco} alt="filter-ico" />
+                  Фильтры
+                </div>
+                <div
+                  className={s.mob_export_block}
+                  onClick={() => {
+                    setCurrentFilterPage("phExportBlock");
+                    setIsFilter(true);
+                  }}
+                >
+                  <Image src={exportIco} alt="filter-ico" />
+                  Экспорт
+                </div>
+              </div>
+              <div
+                className={`${s.mobile_filter_block} mobile_filter_block ${
+                  isFilter && s.filter_active
+                }`}
+              >
+                <PhCurrencyMobBlock
+                  setCurrentFilterPage={setCurrentFilterPage}
+                  currentFilterPage={currentFilterPage}
+                  setCurrentSiteCategory={setMobSiteCategory}
+                />
+                <PhPeriodMobBlock
+                  setCurrentFilterPage={setCurrentFilterPage}
+                  currentFilterPage={currentFilterPage}
+                  setCurrentSiteCategory={setMobPeriod}
+                />
+                <PhTableFilterBlock
+                  setCurrentFilterPage={setCurrentFilterPage}
+                  currentFilterPage={currentFilterPage}
+                  setMobTableOpts={setMobTableOpts}
+                />
+                <PhExportBlock
+                  setCurrentFilterPage={setCurrentFilterPage}
+                  currentFilterPage={currentFilterPage}
+                  setCurrentSiteCategory={setMobExportPicked}
+                  setIsFilter={setIsFilter}
+                />
+                <div
+                  className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+                >
+                  <span
+                    className={`${s.close_filter_block_btn} close_filter_block_btn`}
+                    onClick={() => setIsFilter(false)}
+                  >
+                    <Image src={prevArrow} alt="close-filter-ico" />
+                    Назад
+                  </span>
+                  <span className="mobile_filter_title">Фильтры</span>
+                </div>
+                <div className="mobile_filter_body">
+                  <div
+                    className="mobile_filter_item"
+                    onClick={() => setCurrentFilterPage("phCurrencyMobBlock")}
+                  >
+                    <span className="mobile_filter_item_title">Валюта</span>
+                    <span className="mobile_filter_item_picked_value">
+                      {mobSiteCategory.title}
+                    </span>
+                  </div>
+                  <div
+                    className="mobile_filter_item"
+                    onClick={() => setCurrentFilterPage("phPeriodMobBlock")}
+                  >
+                    <span className="mobile_filter_item_title">Период</span>
+                    <span className="mobile_filter_item_picked_value">
+                      {mobPeriod.title}
+                    </span>
+                  </div>
+                  <div
+                    className="mobile_filter_item"
+                    onClick={() =>
+                      setCurrentFilterPage("phMobTableFilterBlock")
+                    }
+                  >
+                    <span className="mobile_filter_item_title">Показать</span>
+                    <span className="mobile_filter_item_picked_value">
+                      Выбрано {mobTableOpts.length} п.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className={s.table_filter_block}>
+              <div className={s.table_filter_currency_item}>
+                <span className={s.table_filter_block_item_title}>Валюта</span>
+                <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+              </div>
+              <div
+                className={s.table_filter_period_item}
+                style={{ zIndex: 100 }}
+              >
+                <span className={s.table_filter_block_item_title}>Период</span>
+                <CustomDropdownInput
+                  list={periodsList}
+                  activeItemId="arbitraryPeriod"
                 />
               </div>
-              <div className={s.second_datepicker_block}>
-                <DatePicker
-                  className={`${s.custom_datepicker} ${s.second_custom_datepicker}`}
-                  popperClassName="date-picker-second-popper"
-                  renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }: any) => (
-                    <div
-                      className={s.datepicker_header}
-                      style={{
-                        margin: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <button
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                        className={s.datepicker_month_btn}
+              <div className={s.period_datepicker_block}>
+                <div className={s.first_datepicker_block}>
+                  <DatePicker
+                    className={`${s.custom_datepicker} lol`}
+                    renderCustomHeader={({
+                      date,
+                      changeYear,
+                      changeMonth,
+                      decreaseMonth,
+                      increaseMonth,
+                      prevMonthButtonDisabled,
+                      nextMonthButtonDisabled,
+                    }: any) => (
+                      <div
+                        className={s.datepicker_header}
+                        style={{
+                          margin: 10,
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
                       >
-                        <Image src={prevArrow} alt="prev-arr" />
-                      </button>
-                      <div className={s.pick_year_block}>
-                        <select
-                          className="custom-select-style"
-                          value={getYear(date)}
-                          onChange={({ target: { value } }) =>
-                            changeYear(value)
-                          }
+                        <button
+                          onClick={decreaseMonth}
+                          disabled={prevMonthButtonDisabled}
+                          className={s.datepicker_month_btn}
                         >
-                          {years.map((option: any) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                          <Image src={prevArrow} alt="prev-arr" />
+                        </button>
+                        <div className={s.pick_year_block}>
+                          <select
+                            className="custom-select-style"
+                            value={getYear(date)}
+                            onChange={({ target: { value } }) =>
+                              changeYear(value)
+                            }
+                          >
+                            {years.map((option: any) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
 
-                      <div className={s.pick_month_block}>
-                        <select
-                          className="custom-select-style"
-                          value={months[getMonth(date)]}
-                          onChange={({ target: { value } }) =>
-                            changeMonth(months.indexOf(value))
-                          }
+                        <div className={s.pick_month_block}>
+                          <select
+                            className="custom-select-style"
+                            value={months[getMonth(date)]}
+                            onChange={({ target: { value } }) =>
+                              changeMonth(months.indexOf(value))
+                            }
+                          >
+                            {months.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <button
+                          className={s.datepicker_month_btn}
+                          onClick={increaseMonth}
+                          disabled={nextMonthButtonDisabled}
                         >
-                          {months.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
+                          <Image src={nextArrow} alt="next-arr" />
+                        </button>
                       </div>
-
-                      <button
-                        className={s.datepicker_month_btn}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
+                    )}
+                    selected={firstDatePickerDate}
+                    onChange={(date: any) => setFirstDatePickerDate(date)}
+                  />
+                </div>
+                <div className={s.second_datepicker_block}>
+                  <DatePicker
+                    className={`${s.custom_datepicker} ${s.second_custom_datepicker}`}
+                    popperClassName="date-picker-second-popper"
+                    renderCustomHeader={({
+                      date,
+                      changeYear,
+                      changeMonth,
+                      decreaseMonth,
+                      increaseMonth,
+                      prevMonthButtonDisabled,
+                      nextMonthButtonDisabled,
+                    }: any) => (
+                      <div
+                        className={s.datepicker_header}
+                        style={{
+                          margin: 10,
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
                       >
-                        <Image src={nextArrow} alt="next-arr" />
-                      </button>
-                    </div>
-                  )}
-                  selected={secondDatePickerDate}
-                  onChange={(date: any) => setSecondDatePickerDate(date)}
-                />
+                        <button
+                          onClick={decreaseMonth}
+                          disabled={prevMonthButtonDisabled}
+                          className={s.datepicker_month_btn}
+                        >
+                          <Image src={prevArrow} alt="prev-arr" />
+                        </button>
+                        <div className={s.pick_year_block}>
+                          <select
+                            className="custom-select-style"
+                            value={getYear(date)}
+                            onChange={({ target: { value } }) =>
+                              changeYear(value)
+                            }
+                          >
+                            {years.map((option: any) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className={s.pick_month_block}>
+                          <select
+                            className="custom-select-style"
+                            value={months[getMonth(date)]}
+                            onChange={({ target: { value } }) =>
+                              changeMonth(months.indexOf(value))
+                            }
+                          >
+                            {months.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <button
+                          className={s.datepicker_month_btn}
+                          onClick={increaseMonth}
+                          disabled={nextMonthButtonDisabled}
+                        >
+                          <Image src={nextArrow} alt="next-arr" />
+                        </button>
+                      </div>
+                    )}
+                    selected={secondDatePickerDate}
+                    onChange={(date: any) => setSecondDatePickerDate(date)}
+                  />
+                </div>
               </div>
+              <button className={s.generate_report_btn}>
+                Сгенерировать отчет
+              </button>
             </div>
-            <button className={s.generate_report_btn}>
-              Сгенерировать отчет
-            </button>
-          </div>
+          )}
           <div className={s.payouts_status_block}>
             <button
               className={`${s.payouts_status_block_btn} ${
@@ -337,11 +494,19 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             </button>
           </div>
           {!is650 && (
-            <div className={s.choose_options_block}>
-              <CustomDropDownChoose
-                list={optionsList}
-                setActiveOptions={setActiveOpts}
-              />
+            <div className={s.choose_table_block}>
+              <div className={s.choose_options_block}>
+                <CustomDropDownChoose
+                  list={optionsList}
+                  setActiveOptions={setActiveOpts}
+                />
+              </div>
+              <div className={s.export_choose_wrap}>
+                <CustomDropdownInput
+                  list={phExportOptions}
+                  isExportSelect={true}
+                />
+              </div>
             </div>
           )}
           <PayoutsHistoryTable

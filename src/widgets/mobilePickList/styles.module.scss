@@ -6,11 +6,9 @@
 .mobile_pick_list_item {
   padding: 11px 14px;
   display: flex;
+  align-items: start;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   border-bottom: 1px solid #202020;
-  flex-direction: column;
 }
 
 .mobile_pick_list_item.active {
@@ -22,6 +20,19 @@
     background: #d18b34;
     border: none;
   }
+}
+
+.mob_datepick_hidden {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mob_pick_list_header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .mobile_pick_list_item_title {
