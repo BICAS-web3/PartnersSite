@@ -61,6 +61,10 @@ const periodsList = [
     title: "Прошлый год",
     id: "lastYearPeriod",
   },
+  {
+    title: "Выбрать вручную",
+    id: "mobilePeriodManually",
+  },
 ];
 
 const currenciesList = [
@@ -592,7 +596,7 @@ const Gamers: FC<GamersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {mobTableOptions.map(
+            {historyList.map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
