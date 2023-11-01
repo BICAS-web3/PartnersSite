@@ -78,7 +78,6 @@
 }
 
 .choose_options_block {
-    margin-top: 20px;
     max-width: 230px;
 }
 
@@ -330,10 +329,11 @@
 }
 
 //////// datepicker end
-.mob_filter_block {
+.mob_filter_block,
+.mob_export_block {
     cursor: pointer;
-    display: none;
     align-items: center;
+    display: flex;
     color: #979797;
     text-align: right;
     font-family: var(--font-nunito-sans);
@@ -346,6 +346,12 @@
     }
 }
 
+.mob_filterExport_block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .mobile_filter_block {
     visibility: hidden;
     opacity: 0;
@@ -355,6 +361,22 @@
 .mobile_filter_block.filter_active {
     visibility: visible;
     opacity: 1;
+}
+
+.choose_table_block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.export_choose_wrap {
+    width: 100%;
+    max-width: 230px;
+    z-index: 10;
+}
+
+.choose_table_block {
+    margin-top: 20px;
 }
 
 @media screen and (max-width: 1300px) {
@@ -392,9 +414,6 @@
 @media screen and (max-width: 650px) {
     .payouts_history_section {
         padding: 10px;
-    }
-    .mob_filter_block {
-        display: flex;
     }
     .choose_options_block {
         display: none;

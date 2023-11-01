@@ -22,6 +22,8 @@ import { PhCurrencyMobBlock } from "./PhCurrencyMobBlock";
 import { PhPeriodMobBlock } from "./PhPeriodMobBlock";
 import { PhTableFilterBlock } from "./PhTableFilterBlock";
 import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistoryTable";
+import { PhExportBlock } from "./PhExportBlock";
+import exportIco from "@/public/media/common/exportIco.png";
 
 export const currenciesList = [
   {
@@ -38,6 +40,30 @@ export const periodsList = [
   {
     title: "Произвольный период",
     id: "arbitraryPeriod",
+  },
+  {
+    title: "Сегодня",
+    id: "todaysPeriod",
+  },
+  {
+    title: "Вчера",
+    id: "yesterdaysPeriod",
+  },
+  {
+    title: "Текущий месяц",
+    id: "currentMonthPeriod",
+  },
+  {
+    title: "Прошлый месяц",
+    id: "lastMonthPeriod",
+  },
+  {
+    title: "Текущий год",
+    id: "currentYearPeriod",
+  },
+  {
+    title: "Прошлый год",
+    id: "lastYearPeriod",
   },
 ];
 
@@ -65,6 +91,10 @@ export const mobilePeriodsList = [
   {
     title: "Прошлый год",
     id: "lastYearPeriod",
+  },
+  {
+    title: "Выбрать вручную",
+    id: "mobilePeriodManually",
   },
 ];
 
@@ -116,6 +146,17 @@ const months = [
   "December",
 ];
 
+export const phExportOptions = [
+  {
+    title: "Excel",
+    id: "excelExport",
+  },
+  {
+    title: "Csv",
+    id: "csvExport",
+  },
+];
+
 interface PayoutsHistoryProps {}
 
 const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
@@ -132,6 +173,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const [mobTableOpts, setMobTableOpts] = useState([]);
   const [mobSiteCategory, setMobSiteCategory] = useState({});
   const [mobPeriod, setMobPeriod] = useState({});
+  const [mobExportPicked, setMobExportPicked] = useState({});
 
   useEffect(() => {
     const handleResize = () => {
@@ -175,12 +217,24 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           </div>
           {is650 ? (
             <>
-              <div
-                className={s.mob_filter_block}
-                onClick={() => setIsFilter(!isFilter)}
-              >
-                <Image src={filterIco} alt="filter-ico" />
-                Фильтры
+              <div className={s.mob_filterExport_block}>
+                <div
+                  className={s.mob_filter_block}
+                  onClick={() => setIsFilter(!isFilter)}
+                >
+                  <Image src={filterIco} alt="filter-ico" />
+                  Фильтры
+                </div>
+                <div
+                  className={s.mob_export_block}
+                  onClick={() => {
+                    setCurrentFilterPage("phExportBlock");
+                    setIsFilter(true);
+                  }}
+                >
+                  <Image src={exportIco} alt="filter-ico" />
+                  Экспорт
+                </div>
               </div>
               <div
                 className={`${s.mobile_filter_block} mobile_filter_block ${
@@ -201,6 +255,12 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   setCurrentFilterPage={setCurrentFilterPage}
                   currentFilterPage={currentFilterPage}
                   setMobTableOpts={setMobTableOpts}
+                />
+                <PhExportBlock
+                  setCurrentFilterPage={setCurrentFilterPage}
+                  currentFilterPage={currentFilterPage}
+                  setCurrentSiteCategory={setMobExportPicked}
+                  setIsFilter={setIsFilter}
                 />
                 <div
                   className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
@@ -434,11 +494,19 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             </button>
           </div>
           {!is650 && (
-            <div className={s.choose_options_block}>
-              <CustomDropDownChoose
-                list={optionsList}
-                setActiveOptions={setActiveOpts}
-              />
+            <div className={s.choose_table_block}>
+              <div className={s.choose_options_block}>
+                <CustomDropDownChoose
+                  list={optionsList}
+                  setActiveOptions={setActiveOpts}
+                />
+              </div>
+              <div className={s.export_choose_wrap}>
+                <CustomDropdownInput
+                  list={phExportOptions}
+                  isExportSelect={true}
+                />
+              </div>
             </div>
           )}
           <PayoutsHistoryTable
