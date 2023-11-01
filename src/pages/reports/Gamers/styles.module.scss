@@ -1,5 +1,5 @@
 .gamers_section {
-  padding: 15px 25px 25px 0;
+  padding: 15px 25px 25px 25px;
   @media (max-width: 650px) {
     padding: 10px;
   }
@@ -68,6 +68,9 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  @media (max-width: 650px) {
+    display: none;
+  }
 }
 
 .games_label_item {
@@ -156,6 +159,10 @@
   flex: 1 1 auto;
   img {
     cursor: pointer;
+  }
+  @media (max-width: 650px) {
+    padding: 6px 8px;
+    height: 50px;
   }
 }
 
@@ -468,8 +475,8 @@
   .websites_filter_wrap {
     padding: 0;
   }
+  .first_table_filter_block,
   .games_table_container,
-  .choose_table_cols,
   .table_records_text {
     display: none;
   }
@@ -491,60 +498,6 @@
   }
   .table_navigation_block {
     margin: 14px 0 0 0;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .breadcrumbs_block,
-  .websites_filter_wrap {
-    padding: 0;
-  }
-  .games_table_container,
-  .choose_table_cols,
-  .table_records_text {
-    display: none;
-  }
-  .websites_filter_block {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .websites_hiddenAdded_block_item {
-    font-size: 14px;
-    width: fit-content;
-    padding: 10px 15px;
-  }
-  .websites_filter_wrap {
-    display: flex;
-  }
-  .websites_page {
-    padding: 10px;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .breadcrumbs_block,
-  .websites_filter_wrap {
-    padding: 0;
-  }
-  .games_table_container,
-  .choose_table_cols,
-  .table_records_text {
-    display: none;
-  }
-  .websites_filter_block {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .websites_hiddenAdded_block_item {
-    font-size: 14px;
-    width: fit-content;
-    padding: 10px 15px;
-  }
-
-  .websites_page {
-    padding: 10px;
   }
 }
 

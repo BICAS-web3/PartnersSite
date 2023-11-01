@@ -87,12 +87,19 @@ a:active {
   border-radius: 4px;
   background: #202020;
   height: 8px;
+  @media (max-width: 650px) {
+    height: 4px;
+    margin-bottom: 9px;
+  }
 }
 
 .swiper-scrollbar-drag {
   border-radius: 4px;
   background: #3e3e3e;
   height: 7px;
+  @media (max-width: 650px) {
+    height: 4px;
+  }
 }
 
 //datepicker
