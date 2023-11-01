@@ -18,6 +18,13 @@ import { tableRowsList } from "../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { BackHead } from "@/widgets/backHead/BackHead";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import clsx from "clsx";
 
 const periodsList = [
   {
@@ -150,6 +157,11 @@ const statisticList = [
 ];
 
 interface SubPartnersProps {}
+interface IListProps {
+  id?: string;
+  title?: string;
+  text?: string;
+}
 
 const SubPartners: FC<SubPartnersProps> = () => {
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
@@ -162,6 +174,14 @@ const SubPartners: FC<SubPartnersProps> = () => {
 
   const [is700, setIs700] = useState(false);
   const [is1280, setIs1280] = useState(false);
+
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState<boolean>(false);
+
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [mobTableOptions, setMobTableOpts] = useState(statisticList);
 
   useEffect(() => {
     const handleResize = () => {
