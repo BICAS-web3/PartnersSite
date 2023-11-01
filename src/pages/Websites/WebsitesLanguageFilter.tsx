@@ -3,6 +3,8 @@ import { FC } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
+import { currenciesList } from "../PayoutsHistory";
+
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
 import { languagesList } from ".";
 

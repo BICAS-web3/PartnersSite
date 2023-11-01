@@ -13,22 +13,20 @@ interface CustomDropDownChooseProps {
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   list,
   setActiveOptions,
-  allPicked,
 }) => {
   const [listVisibility, setListVisibility] = useState(false);
   const [activeItems, setActiveItems] = useState([]);
+  const [isAllPicked, setIsAllPicked] = useState(true);
 
   useEffect(() => {
-    if (allPicked) {
+    if (isAllPicked) {
       setActiveItems(list);
     }
-  }, []);
+  });
 
   useEffect(() => {
     setActiveOptions(activeItems);
   });
-
-  // useEffect(() => {}, [activeItems]);
 
   return (
     <div
@@ -48,14 +46,27 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
         </div>
       </div>
       <div className={s.dropdown_items_list}>
-        <div className={s.cont}>
+        <div className={s.dropdown_items_list_item}>
+          <div className={s.cont}>
+            <span
+              className={s.privacyPolicy_text}
+              onClick={() => setIsAllPicked(!isAllPicked)}
+            >
+              <div className={`${s.checkbox} ${isAllPicked && s.checked}`}>
+                <CheckBoxIco />
+              </div>
+              <span>Выбрать все</span>
+            </span>
+          </div>
           {list.map((item, ind) => (
             <CustomDropDownItem
               activeItems={activeItems}
               setActiveItems={setActiveItems}
               key={ind}
               item={item}
-              allPicked={allPicked}
+              initList={list}
+              setIsAllPicked={setIsAllPicked}
+              allPicked={isAllPicked}
             />
           ))}
         </div>

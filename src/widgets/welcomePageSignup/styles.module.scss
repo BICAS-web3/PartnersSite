@@ -13,6 +13,12 @@
   gap: 20px;
 }
 
+.welcome_page_signup_leftBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .welcome_page_input {
   padding: 8px 14px;
   width: 100%;
@@ -31,6 +37,7 @@
 .welcome_page_input_block {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .welcome_page_paslog_block,
@@ -98,7 +105,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: normal;
+  line-height: 22px;
 }
 
 .privacyPolicy_text {
@@ -151,8 +158,88 @@
   line-height: normal;
 }
 
+.desk_hidden_nav {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.desk_hidden_current_block_title {
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.desk_hidden_nav_title {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  img {
+    margin-right: 10px;
+  }
+}
+
 @media screen and (max-width: 1130px) {
   .welcome_page_signup_content {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .welcome_page_signup_form {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .desk_hidden_nav {
+    display: flex;
+  }
+  .welcome_page_input_title,
+  .privacyPolicy_text,
+  .form_info_text {
+    font-size: 14px;
+  }
+  .privacyPolicy_text {
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .checkbox {
+    position: static;
+    min-width: 12px;
+    min-height: 12px;
+    width: 12px;
+    height: 12px;
+  }
+  .welcome_page_additionalInfo_block_title,
+  .welcome_page_paslog_block_title,
+  .welcome_page_contactInfo_block_title,
+  .welcome_page_paymentData_block_title {
+    font-size: 16px;
+  }
+  .welcome_page_additionalInfo_inputs_block,
+  .welcome_page_contactInfo_otherInfo_block,
+  .welcome_page_contactInfo_persInfo_block {
+    grid-template-columns: 1fr;
+  }
+  .register_submit_btn {
+    font-size: 16px;
+    height: 40px;
+  }
+  .welcome_page_signup_content {
+    background: #0f0f0f;
+    border-radius: 0;
   }
 }
