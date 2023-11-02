@@ -7,7 +7,7 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
 import { Layout } from "@/widgets/layout/Layout";
 import { BackHead } from "@/widgets/backHead/BackHead";
-import { $isSidebarClosed } from "@/widgets/sidebar/model";
+import { $isSidebarOpened } from "@/widgets/sidebar/model";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
@@ -215,7 +215,7 @@ const Gamers: FC<GamersProps> = () => {
   const [activeOps, setActiveOpts] = useState([]);
 
   const [medium, setMedium] = useState<boolean>(false);
-  const [closed] = useUnit([$isSidebarClosed]);
+  const [closed] = useUnit([$isSidebarOpened]);
   const [isMobile, setIsMobile] = useState<boolean>();
   const [is700, setIs700] = useState(false);
 
@@ -489,7 +489,7 @@ const Gamers: FC<GamersProps> = () => {
             <span className={s.games_table_title}>Кампания</span>
             <CustomDropdownInput list={companyList} />
           </div>
-          {(closed || !medium) && (
+          {(!closed || !medium) && (
             <GenerateButton className={clsx(s.generate_button)} />
           )}
         </div>
@@ -517,7 +517,7 @@ const Gamers: FC<GamersProps> = () => {
             </label>
           </div>
         </div>
-        {!closed && medium && <GenerateButton className={s.open_btn} />}
+        {closed && medium && <GenerateButton className={s.open_btn} />}
 
         {!isMobile && (
           <div className={s.options_container}>
