@@ -4,6 +4,7 @@
   background: #181818;
   transition: all 0.4s;
   z-index: 11;
+  height: 101.4%;
 }
 
 .sidebar_block.main_sidebar_closed {
@@ -23,12 +24,18 @@
   }
   .sidebar_body {
     width: 50px;
+    transition: all 0.4s;
+  }
+  .sidebar_block {
+    transition: all 0.4s;
   }
 }
 
 .sidebar_body {
+  height: 100%;
   background: #181818;
   width: 260px;
+  transition: all 0.4s;
 }
 
 .sidebar_page_item {

@@ -41,9 +41,10 @@ a:active {
 }
 
 .default_input {
+  width: 100%;
   border-radius: 8px;
   background: #202020;
-  padding: 11px 20px;
+  padding: 11px 14px;
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
   font-size: 14px;
@@ -75,15 +76,26 @@ a:active {
   max-height: 100%;
 }
 
+.swiper-slide {
+  &[data-id="chooseEverything"] {
+    display: none !important;
+  }
+}
+
+.swiper-slide {
+  &[data-id="chooseEverything"] {
+    display: none !important;
+  }
+}
+
 .scroll-bar {
   margin-bottom: 5px;
   border-radius: 4px;
   background: #202020;
   height: 8px;
-
   @media (max-width: 1200px) {
     height: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 7px;
   }
   @media (max-width: 650px) {
     height: 4px;
@@ -146,6 +158,7 @@ a:active {
 
 .react-datepicker-wrapper {
   position: relative;
+  width: 100%;
   &:hover {
     &::before {
       visibility: visible;
@@ -179,4 +192,14 @@ a:active {
   .date-picker-second-popper {
     left: -165px !important;
   }
+}
+
+@media screen and (min-width: 2040px) {
+  .total-second-popper {
+    left: -165px !important;
+  }
+}
+
+.short-total-second-popper {
+  left: -165px !important;
 }

@@ -14,6 +14,7 @@ interface AdaptivePickerProps {
   list: any[];
   itemId: string;
   activeTitle: string;
+  blockTitle?: string;
 }
 
 export const AdaptivePicker: FC<AdaptivePickerProps> = ({
@@ -23,6 +24,7 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
   setCurrentLanguage,
   itemId,
   activeTitle,
+  blockTitle,
 }) => {
   return (
     <div
@@ -44,7 +46,7 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
           <Image src={prevArrow} alt="close-filter-ico" />
           Фильтры
         </span>
-        <span className="mobile_filter_title">Категория сайта</span>
+        <span className="mobile_filter_title">{blockTitle}</span>
       </div>
       <div className="mobile_filter_body">
         <MobilePickList

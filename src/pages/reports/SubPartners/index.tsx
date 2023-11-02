@@ -14,7 +14,6 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-import { tableRowsList } from "../Websites";
 import clsx from "clsx";
 import filterIco from "@/public/media/common/filterImg.png";
 import "swiper/scss";
@@ -25,6 +24,7 @@ import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import { tableRowsList } from "@/pages/Websites";
 
 const periodsList = [
   {
@@ -162,6 +162,11 @@ interface IListProps {
   title?: string;
   text?: string;
 }
+interface IListProps {
+  id?: string;
+  title?: string;
+  text?: string;
+}
 const SubPartners: FC<SubPartnersProps> = () => {
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
@@ -250,6 +255,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
+            blockTitle={""}
           />
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />
           <div className="mobile_filter_body">
@@ -322,6 +328,13 @@ const SubPartners: FC<SubPartnersProps> = () => {
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>
+        <div
+          className={s.websites_filter_wrap}
+          onClick={() => setIsFilter(true)}
+        >
+          <Image src={filterIco} alt="filter-img" />
+          <span className={s.websites_filter_btn}>Фильтры</span>
+        </div>
         <div className={s.sub_partners_tablet}>
           <div className={s.sub_partners_tablet_item}>
             <span className={s.table_filter_block_item_title}>Период</span>
@@ -378,7 +391,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {mobTableOptions.map(
+            {(isMobile ? mobTableOptions : activeOps).map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}

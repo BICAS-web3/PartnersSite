@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .close_filter_block_btn {
   display: flex;
   align-items: center;
@@ -16,4 +17,8 @@
   img {
     margin-right: 10px;
   }
+}
+
+.mob_choose_input_wrap {
+  margin: 20px;
 }

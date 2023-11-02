@@ -1,0 +1,460 @@
+.short_total_section {
+  margin: 15px 25px 25px 25px;
+}
+
+.table_filter_block {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.second_table_filter_block,
+.first_table_filter_block {
+  display: flex;
+  gap: 10px;
+}
+
+.currency_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 230px;
+}
+
+.website_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 230px;
+}
+
+.markt_tool_id_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.period_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.generate_report_btn_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.generate_report_btn {
+  width: 200px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #ffe09d;
+  background: #2e2315;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffe09d;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.64px;
+}
+
+.table_filter_block_title {
+  display: block;
+  margin-bottom: 10px;
+  color: #fff;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+////datepicker
+.period_datepicker_wrap {
+  display: flex;
+  align-items: end;
+}
+
+.second_custom_datepicker {
+  border-radius: 0 8px 8px 0 !important;
+  border-right: none !important;
+}
+
+.custom_datepicker {
+  cursor: pointer;
+  height: 40px;
+  outline: none;
+  background: #212121;
+  border: none;
+  border-right: 1px solid #2e2e2e;
+  text-align: center;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 165px;
+  padding: 11px 0;
+  transition: all 0.3s;
+  border-radius: 8px 0 0 8px;
+}
+
+.pick_year_block {
+  height: 30px;
+  width: 90px;
+  overflow: hidden;
+  background: url("../../../public/media/common/nextArrow.png") no-repeat center;
+  select {
+    height: 100%;
+    background-color: inherit;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7e7e7e;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+  }
+}
+
+.pick_month_block {
+  height: 30px;
+  width: 70px;
+  overflow: hidden;
+  background: url("../../../public/media/common/nextArrow.png") no-repeat right;
+  select {
+    height: 100%;
+    background-color: inherit;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7e7e7e;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+  }
+}
+
+.datepicker_month_btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  background: #202020;
+  align-items: center;
+  border: none;
+  &:first-child {
+    margin-right: 25px;
+  }
+  &:last-child {
+    margin-left: 25px;
+  }
+}
+
+.datepicker_header {
+  justify-content: space-between !important;
+  display: flex;
+  align-items: center;
+}
+
+///
+.table {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  @media (max-width: 1280px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.table_item_title {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 25px;
+  @media (max-width: 650px) {
+    font-size: 14px;
+    line-height: normal;
+  }
+}
+
+.first_table_block {
+  .table_item:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+  .table_item:last-child {
+    border-radius: 0 0 8px 8px;
+    @media screen and (max-width: 700px) {
+      border-radius: 0;
+    }
+  }
+}
+
+.second_table_block {
+  .table_item:first-child {
+    border-radius: 8px 8px 0 0;
+    @media screen and (max-width: 700px) {
+      border-radius: 0;
+    }
+  }
+  .table_item:last-child {
+    border-radius: 0 0 8px 8px;
+    @media (max-width: 650px) {
+      border-radius: 0;
+    }
+  }
+  @media (max-width: 1280px) {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  @media (max-width: 650px) {
+    margin: 0 -25px;
+    border-radius: 0;
+  }
+}
+
+.second_table_block,
+.first_table_block {
+  .table_item {
+    border-bottom: 1px solid #252525;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.table_item {
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #181818;
+  &[data-even="true"] {
+    background: #1a1a1a;
+  }
+  @media (max-width: 650px) {
+    padding: 13.5px 14px;
+  }
+}
+
+.table_item_value {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 25px;
+  @media (max-width: 1280px) {
+    width: 35%;
+    display: flex;
+    justify-content: center;
+  }
+  @media (max-width: 650px) {
+    font-size: 14px;
+    line-height: normal;
+    width: auto;
+    justify-content: end;
+  }
+}
+
+.second_table_block_inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .table_item {
+    height: 100%;
+  }
+  @media (max-width: 1280px) {
+    max-height: 828px;
+    overflow-y: scroll;
+  }
+
+  @media (max-width: 650px) {
+    max-height: max-content;
+    overflow-y: auto;
+  }
+}
+
+.desk_hidden_report_btn_wrap,
+.desk_hidden_markt_tool_id_input,
+.desk_hidden_filter_block_items {
+  display: none;
+}
+
+.desk_hidden_report_btn_wrap {
+  align-items: end;
+}
+
+.desk_hidden_filter_block_items {
+  grid-template-columns: minmax(120px, 300px) 200px;
+  gap: 10px;
+}
+
+.mob_filter_btn {
+  display: none;
+  align-items: center;
+  color: #979797;
+  text-align: right;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+  img {
+    margin-right: 8px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .table_filter_block {
+    grid-template-columns: 1fr;
+  }
+  .markt_tool_id_block {
+    max-width: 480px;
+  }
+}
+
+@media screen and (max-width: 815px) {
+  .first_table_filter_block,
+  .second_table_filter_block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .currency_block {
+    max-width: 100%;
+  }
+  .website_block {
+    max-width: 100%;
+  }
+  .markt_tool_id_block,
+  .generate_report_btn_wrap {
+    display: none;
+  }
+  .desk_hidden_markt_tool_id_input {
+    display: block;
+    max-width: 300px;
+  }
+  .desk_hidden_report_btn_wrap {
+    display: flex;
+  }
+  .desk_hidden_filter_block_items {
+    display: grid;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .table_filter_block {
+    display: none;
+  }
+  .mob_filter_btn {
+    display: flex;
+  }
+}
+
+.mobile_filter_block {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.websites_filter_wrap {
+  cursor: pointer;
+  display: none;
+  gap: 10px;
+  margin-top: 25px;
+  padding: 0 0 0 15px;
+  align-items: center;
+}
+.mobile_filter_block.filter_active {
+  visibility: visible;
+  opacity: 1;
+}
+
+///
+@media screen and (max-width: 1280px) {
+  .adding_website_block {
+    display: grid;
+    grid-template-columns: 1fr 230px 230px;
+  }
+  .websites_item_block {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .adding_website_block {
+    grid-template-columns: 1fr 200px 200px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .adding_website_block {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .breadcrumbs_block,
+  .websites_filter_wrap {
+    padding: 0;
+  }
+  .first_table_filter_block,
+  .first_table_filter_block,
+  .table_records_text {
+    display: none;
+  }
+  .websites_filter_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .websites_hiddenAdded_block_item {
+    font-size: 14px;
+    width: fit-content;
+    padding: 10px 15px;
+  }
+  .websites_filter_wrap {
+    display: flex;
+  }
+  .websites_page {
+    padding: 10px;
+  }
+  .table_navigation_block {
+    margin: 14px 0 0 0;
+  }
+}
+
+.websites_filter_btn {
+  color: #979797;
+  text-align: right;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+}
+
+.inputWrapper_body {
+  @media (max-width: 700px) {
+    padding: 0 14px;
+  }
+}
