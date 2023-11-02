@@ -133,8 +133,13 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
 
   const series = [
     {
-      name: "Series 1",
-      data: data,
+      data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
+    },
+    {
+      data: [20, 29, 37, 36, 44, 45, 50, 58],
+    },
+    {
+      data: [12, 29, 32, 43, 5, 45, 50, 58],
     },
   ];
   return (

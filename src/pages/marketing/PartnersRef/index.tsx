@@ -14,6 +14,11 @@ import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropD
 import { tableRowsList } from "@/pages/Websites";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { AdaptiveInput } from "@/widgets/adaptiveInput/AdaptiveInput";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { PartnerfRefTable } from "./Table";
 
 export const sitesList = [
   {
@@ -90,11 +95,29 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [activePayoutBtn, setActivePayoutBtn] = useState("status");
   const [activeOpts, setActiveOpts] = useState([]);
   const [is700, setIs700] = useState(false);
+  const [is650, setIs650] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+
+  const [mobCurrency, setMobCurrency] = useState({});
+  const [mobCampaign, setMobCampaign] = useState({});
+  const [mobCPageInputValue, setMobCPageInputValue] = useState("/live/");
+  const [mobTableCols, setMobTableCols] = useState([]);
+  const [mobPickedSite, setMobPickedSite] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      width < 700 ? setIs700(true) : setIs700(false);
+      if (width < 700 && width > 650) {
+        setIs650(false);
+        setIs700(true);
+      } else if (width < 650) {
+        setIs650(true);
+        setIs700(false);
+      } else {
+        setIs650(false);
+        setIs700(false);
+      }
     };
 
     handleResize();
@@ -106,6 +129,10 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setActiveOpts(mobTableCols);
+  }, [is650]);
+
   return (
     <Layout>
       <section className={s.partners_ref_page}>
@@ -115,41 +142,161 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             { title: "Партнерские ссылки", link: "/marketing/PartnersRef" },
           ]}
         />
-        <div className={s.mob_filter_block}>
-          <Image src={filterIco} alt="filter-ico" />
-          Фильтры
-        </div>
-        <div className={s.table_filter_block}>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Валюта</span>
-            <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+        {is650 ? (
+          <>
+            <div
+              className={s.mob_filter_block}
+              onClick={() => setIsFilter(!isFilter)}
+            >
+              <Image src={filterIco} alt="filter-ico" />
+              Фильтры
+            </div>
+            <div
+              className={`${s.mobile_filter_block} mobile_filter_block ${
+                isFilter && s.filter_active
+              }`}
+            >
+              <AdaptivePicker
+                list={currenciesList}
+                activeTitle="partnersRefCurrencyFilter"
+                currentFilterPage={currentFilterPage}
+                setCurrentFilterPage={setCurrentFilterPage}
+                setCurrentLanguage={setMobCurrency}
+                itemId="usd"
+                blockTitle="Валюта"
+              />
+              <AdaptiveChooser
+                isInput={true}
+                list={sitesList}
+                activeTitle="partnersRefSitesFilter"
+                currentFilterPage={currentFilterPage}
+                setCurrentFilterPage={setCurrentFilterPage}
+                setMobTableOpts={setMobPickedSite}
+                blockTitle="Сайт"
+                inpPlaceholder="Example.com"
+              />
+              <AdaptivePicker
+                currentFilterPage={currentFilterPage}
+                activeTitle="partnersRefCampaignFilter"
+                blockTitle="Кампания"
+                setCurrentLanguage={setMobCampaign}
+                setCurrentFilterPage={setCurrentFilterPage}
+                itemId="dlink"
+                list={campgaignList}
+              />
+              <AdaptiveInput
+                currentFilterPage={currentFilterPage}
+                activeTitle="partnersRefCPageFilter"
+                blockTitle="Целевая страница"
+                placeholder="/live/"
+                setCurrentFilterPage={setCurrentFilterPage}
+                setValue={setMobCPageInputValue}
+                value={mobCPageInputValue}
+              />
+              <AdaptiveChooser
+                currentFilterPage={currentFilterPage}
+                activeTitle="partnersRefTableFilter"
+                blockTitle="Сортировка таблицы"
+                setCurrentFilterPage={setCurrentFilterPage}
+                setMobTableOpts={setMobTableCols}
+                list={options}
+              />
+              <div
+                className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+              >
+                <span
+                  className={`${s.close_filter_block_btn} close_filter_block_btn`}
+                  onClick={() => setIsFilter(false)}
+                >
+                  <Image src={prevArrow} alt="close-filter-ico" />
+                  Назад
+                </span>
+                <span className="mobile_filter_title">Фильтры</span>
+              </div>
+              <div className="mobile_filter_body">
+                <AdaptiveFilterItem
+                  objTitle={mobCurrency.title}
+                  title="Валюта"
+                  filterTitle="partnersRefCurrencyFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <AdaptiveFilterItem
+                  objTitle={
+                    mobPickedSite.length > 1
+                      ? `${mobPickedSite[0].title} и ещё ${
+                          mobPickedSite.length - 1
+                        }`
+                      : mobPickedSite.length == 1
+                      ? mobPickedSite[0].title
+                      : "none"
+                  }
+                  title="Сайт"
+                  filterTitle="partnersRefSitesFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <AdaptiveFilterItem
+                  objTitle={mobCampaign.title}
+                  title="Кампания"
+                  filterTitle="partnersRefCampaignFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <AdaptiveFilterItem
+                  objTitle={mobCPageInputValue}
+                  title="Целевая страница"
+                  filterTitle="partnersRefCPageFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <AdaptiveFilterItem
+                  objTitle={`Выбрано ${mobTableCols.length} п.`}
+                  title="Показать"
+                  filterTitle="partnersRefTableFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <div className={s.mob_subid_filter_input_wrap}>
+                  <input
+                    type="text"
+                    placeholder="SubId"
+                    className={`${s.mob_subid_filter_input} default_input`}
+                  />
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className={s.table_filter_block}>
+            <div className={s.table_filter_item}>
+              <span className={s.table_filter_item_title}>Валюта</span>
+              <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+            </div>
+            <div className={s.table_filter_item}>
+              <span className={s.table_filter_item_title}>Сайт</span>
+              <CustomDropdownInput list={sitesList} activeItemId="gkio" />
+            </div>
+            <div className={s.table_filter_item}>
+              <span className={s.table_filter_item_title}>Кампания</span>
+              <CustomDropdownInput list={campgaignList} activeItemId="dlink" />
+            </div>
+            <div className={s.table_filter_item}>
+              <span className={s.table_filter_item_title}>
+                Целевая страница
+              </span>
+              <input
+                type="text"
+                placeholder="/live/"
+                className={`${s.c_page_input} default_input`}
+              />
+            </div>
+            <div className={s.table_filter_item}>
+              <span className={s.table_filter_item_title}>Sub ID</span>
+              <input type="text" className={`${s.subId_input} default_input`} />
+            </div>
+            <div className={s.generate_report_btn_wrap}>
+              <button className={s.generate_report_btn}>
+                Сгенерировать отчет
+              </button>
+            </div>
           </div>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Сайт</span>
-            <CustomDropdownInput list={sitesList} activeItemId="gkio" />
-          </div>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Кампания</span>
-            <CustomDropdownInput list={campgaignList} activeItemId="dlink" />
-          </div>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Целевая страница</span>
-            <input
-              type="text"
-              placeholder="/live/"
-              className={`${s.c_page_input} default_input`}
-            />
-          </div>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Sub ID</span>
-            <input type="text" className={`${s.subId_input} default_input`} />
-          </div>
-          <div className={s.generate_report_btn_wrap}>
-            <button className={s.generate_report_btn}>
-              Сгенерировать отчет
-            </button>
-          </div>
-        </div>
+        )}
         <div className={s.statusHistory_btns_wrap}>
           <button
             className={`${s.statusHistory_btns_item} ${
@@ -175,34 +322,11 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             allPicked={true}
           />
         </div>
-        <div className={s.table_wrap}>
-          <div className="scroll-bar"></div>
-          <Swiper
-            ref={swiperRef}
-            slidesPerView={is700 ? "auto" : activeOpts.length}
-            direction="horizontal"
-            modules={[Scrollbar]}
-            scrollbar={{
-              el: ".scroll-bar",
-              draggable: true,
-            }}
-            spaceBetween={2}
-            centeredSlides={false}
-            className={s.swiper}
-          >
-            {activeOpts.map((item, ind) => (
-              <SwiperSlide className={s.swiper_slide} data-id={item.id}>
-                <div className={s.swiper_slide_body}>
-                  <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>{item.title}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
-                  </div>
-                  <div className={s.swiper_slide_content}>{item.text}</div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+        <PartnerfRefTable
+          cols={is650 ? mobTableCols : activeOpts}
+          is650={is650}
+          is700={is700}
+        />
         <div className={s.table_nav_block}>
           <div className={s.table_records_block}>
             <p className={s.table_records_text}>
