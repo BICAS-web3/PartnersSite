@@ -1,46 +1,36 @@
 import { FC } from "react";
-import Image from "next/image";
-import clsx from "clsx";
-
-import prevArrow from "@/public/media/common/prevArrow.png";
-import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-
 import s from "./styles.module.scss";
+import Image from "next/image";
+import prevArrow from "@/public/media/common/prevArrow.png";
 
-interface AdaptivePickerProps {
+interface AdaptiveInputProps {
+  placeholder: string;
+  setCurrentFilterPage: any;
+  blockTitle: string;
   currentFilterPage: string;
-  setCurrentFilterPage: (page: string) => void;
-  setCurrentLanguage: any;
-  list: any[];
-  itemId: string;
   activeTitle: string;
-  blockTitle?: string;
+  setValue: any;
+  value: string;
 }
 
-export const AdaptivePicker: FC<AdaptivePickerProps> = ({
-  list,
-  currentFilterPage,
-  setCurrentFilterPage,
-  setCurrentLanguage,
-  itemId,
-  activeTitle,
+export const AdaptiveInput: FC<AdaptiveInputProps> = ({
   blockTitle,
+  placeholder,
+  setCurrentFilterPage,
+  currentFilterPage,
+  activeTitle,
+  setValue,
+  value,
 }) => {
   return (
     <div
-      className={clsx(
-        "filter_item_page",
+      className={`filter_item_page ${
         currentFilterPage === activeTitle && "active"
-      )}
+      }`}
     >
-      <div
-        className={clsx(
-          s.mobile_filter_block_header,
-          "mobile_filter_block_header"
-        )}
-      >
+      <div className={`mobile_filter_block_header`}>
         <span
-          className={clsx(s.close_filter_block_btn, "close_filter_block_btn")}
+          className={"close_filter_block_btn"}
           onClick={() => setCurrentFilterPage("")}
         >
           <Image src={prevArrow} alt="close-filter-ico" />
@@ -49,10 +39,11 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
         <span className="mobile_filter_title">{blockTitle}</span>
       </div>
       <div className="mobile_filter_body">
-        <MobilePickList
-          list={list}
-          activeItemId={itemId}
-          setCurrent={setCurrentLanguage}
+        <input
+          className={`default_input`}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

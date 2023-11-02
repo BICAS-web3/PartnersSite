@@ -246,6 +246,17 @@ li.promo_info_text {
   margin-left: 18px;
 }
 
+.mobile_filter_block {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.filter_active {
+  visibility: visible;
+  opacity: 1;
+}
+
 @media screen and (max-width: 1280px) {
   .table_filter_block {
     grid-template-columns: minmax(150px, 230px) minmax(150px, 230px) minmax(
@@ -310,5 +321,6 @@ li.promo_info_text {
   }
   .promo_info_block_item {
     border: none;
+    padding: 0;
   }
 }

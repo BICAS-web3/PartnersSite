@@ -5,9 +5,11 @@ import Image from "next/image";
 import clsx from "clsx";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
+
 import { Layout } from "@/widgets/layout/Layout";
 import { BackHead } from "@/widgets/backHead/BackHead";
-import { $isSidebarClosed } from "@/widgets/sidebar/model";
+import { $isSidebarOpened } from "@/widgets/sidebar/model";
+import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
@@ -15,22 +17,21 @@ import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { GenerateButton } from "@/widgets/generateButton/GenerateButton";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
-import { DropdownSwiperTable } from "@/widgets/dropdownSwiperTable/DropdownSwiperTable";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
 
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
+
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
-import { tableRowsList } from "../Websites";
+import { tableRowsList } from "../../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
-import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 
 const periodsList = [
   {
@@ -208,16 +209,30 @@ interface IListProps {
 interface GamersProps {}
 
 const Gamers: FC<GamersProps> = () => {
-  const swiperRef = useRef<SwiperRef>(null);
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
 
-  const [activeOps, setActiveOpts] = useState([]);
+  const swiperRef = useRef<SwiperRef>(null);
 
-  const [medium, setMedium] = useState<boolean>(false);
-  const [closed] = useUnit([$isSidebarClosed]);
+  const [activeOpts, setActiveOpts] = useState([]);
+
+  const [closed] = useUnit([$isSidebarOpened]);
+
   const [isMobile, setIsMobile] = useState<boolean>();
+  const [medium, setMedium] = useState(false);
   const [is700, setIs700] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState(false);
+  const [checkedPlayers, setCheckedPlayers] = useState(true);
+  const [checkedDeposit, setCheckedDeposit] = useState(true);
+
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [currentCountry, setCurrentCountry] = useState<IListProps>({});
+  const [currentCompany, setCurrentCompany] = useState<IListProps>({});
+  const [mobTableOptions, setMobTableOpts] = useState(historyList);
 
   useEffect(() => {
     const handleResize = () => {
@@ -243,20 +258,6 @@ const Gamers: FC<GamersProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const [checkedPlayers, setCheckedPlayers] = useState(true);
-  const [checkedDeposit, setCheckedDeposit] = useState(true);
-
-  const [isFilter, setIsFilter] = useState(false);
-  const [isExport, setIsExport] = useState<boolean>(false);
-
-  const [currentFilterPage, setCurrentFilterPage] = useState("");
-  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
-  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
-  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
-  const [currentCountry, setCurrentCountry] = useState<IListProps>({});
-  const [currentCompany, setCurrentCompany] = useState<IListProps>({});
-  const [mobTableOptions, setMobTableOpts] = useState(historyList);
 
   return (
     <Layout>
@@ -287,7 +288,9 @@ const Gamers: FC<GamersProps> = () => {
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
-            list={periodsList}
+            list={periodsList.concat([
+              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+            ])}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
             itemId="currentMonthPeriod"
@@ -311,10 +314,11 @@ const Gamers: FC<GamersProps> = () => {
           />
           <AdaptiveChooser
             activeTitle="choose"
-            list={mobTableOptions}
+            list={historyList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
+            blockTitle=""
           />
           <div
             className={clsx(
@@ -383,7 +387,7 @@ const Gamers: FC<GamersProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${activeOps?.length} п.`}
+              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
@@ -412,7 +416,6 @@ const Gamers: FC<GamersProps> = () => {
             isExport && s.export_active
           )}
         >
-          <BackHead setIsOpen={setIsExport} title="Экспорт" />
           <div className={s.mobile_pick_list_wrap}>
             <div className={s.mobile_pick_list}>
               <MobilePickList
@@ -489,7 +492,7 @@ const Gamers: FC<GamersProps> = () => {
             <span className={s.games_table_title}>Кампания</span>
             <CustomDropdownInput list={companyList} />
           </div>
-          {(closed || !medium) && (
+          {(!closed || !medium) && (
             <GenerateButton className={clsx(s.generate_button)} />
           )}
         </div>
@@ -517,23 +520,19 @@ const Gamers: FC<GamersProps> = () => {
             </label>
           </div>
         </div>
-        {!closed && medium && <GenerateButton className={s.open_btn} />}
-
-        {!isMobile && (
-          <div className={s.options_container}>
-            <div className={s.options_wrapper}>
-              <CustomDropDownChoose
-                list={historyList}
-                allPicked={true}
-                setActiveOptions={setMobTableOpts}
-              />
-            </div>
-            <div className={s.export_wrapper}>
-              <CustomDropdownInput list={exportList} activeItemId="export" />
-            </div>
+        {closed && medium && <GenerateButton className={s.open_btn} />}
+        <div className={s.options_container}>
+          <div className={s.options_wrapper}>
+            <CustomDropDownChoose
+              list={historyList}
+              allPicked={true}
+              setActiveOptions={setActiveOpts}
+            />
           </div>
-        )}
-
+          <div className={s.export_wrapper}>
+            <CustomDropdownInput list={exportList} activeItemId="export" />
+          </div>
+        </div>
         <div className={s.slider_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
@@ -549,23 +548,21 @@ const Gamers: FC<GamersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {mobTableOptions.map(
-              (item: { title: string; id: string; text: string }, ind) => (
-                <SwiperSlide
-                  className={s.swiper_slide}
-                  key={ind}
-                  data-id={item.id}
-                >
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{item.title}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>{item.text}</div>
+            {(is700 ? mobTableOptions : activeOpts).map((item, ind) => (
+              <SwiperSlide
+                className={s.swiper_slide}
+                key={ind}
+                data-id={item.id}
+              >
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>{item.title}</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
                   </div>
-                </SwiperSlide>
-              )
-            )}
+                  <div className={s.swiper_slide_content}>{item.text}</div>
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
         <div className={s.table_navigation_block}>
