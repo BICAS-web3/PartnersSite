@@ -22,6 +22,7 @@ import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { AdaptiveMediaInputs } from "./AdaptiveMediaInputs";
 
 const mediaTypeList = [
   {
@@ -95,6 +96,10 @@ const Media: FC<MediaProps> = () => {
   const [mobLanguage, setMobLanguage] = useState({});
   const [mobCampaign, setMobCampaign] = useState({});
   const [mobTableCols, setMobTableCols] = useState([]);
+
+  const [mobInputName, setMobInputName] = useState([]);
+  const [mobInputHeight, setMobInputHeight] = useState([]);
+  const [mobInputWidth, setMobInputWidth] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -197,6 +202,15 @@ const Media: FC<MediaProps> = () => {
                 setMobTableOpts={setMobTableCols}
                 blockTitle="Сортировка таблицы"
               />
+              <AdaptiveMediaInputs
+                currentFilterPage={currentFilterPage}
+                subBlockId="mediaMobInputsBlock"
+                setCurrentFilterPage={setCurrentFilterPage}
+                blockTitle="Фильтры"
+                setInputName={setMobInputName}
+                setInputHeight={setMobInputHeight}
+                setInputWidth={setMobInputWidth}
+              />
               <BackHead setIsOpen={setIsFilter} title="Фильтры" />
               <div className="mobile_filter_body">
                 <AdaptiveFilterItem
@@ -243,6 +257,26 @@ const Media: FC<MediaProps> = () => {
                   filterTitle="mediaPageTableFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
+                <div
+                  className={s.mob_input_preview_block}
+                  onClick={() => setCurrentFilterPage("mediaMobInputsBlock")}
+                >
+                  <input
+                    className={`${s.media_mob_input} default_input`}
+                    placeholder="Имя медиа"
+                    value={mobInputName}
+                  />
+                  <input
+                    className={`${s.media_mob_input} default_input`}
+                    placeholder="Высота"
+                    value={mobInputHeight}
+                  />
+                  <input
+                    className={`${s.media_mob_input} default_input`}
+                    placeholder="Ширина"
+                    value={mobInputWidth}
+                  />
+                </div>
               </div>
             </div>
           </>
