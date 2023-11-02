@@ -1,21 +1,27 @@
 import { FC, useRef, useState, useEffect } from "react";
-import s from "./styles.module.scss";
+import Image from "next/image";
+import clsx from "clsx";
+
+import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
+
 import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
-import Image from "next/image";
-import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
+
 import "swiper/scss";
+import s from "./styles.module.scss";
 
 interface DropdownSwiperTableProps {
   cols: any[];
   rows: any[];
   isOn700Cols?: boolean;
+  slideClassName?: string;
 }
 
 export const DropdownSwiperTable: FC<DropdownSwiperTableProps> = ({
   cols,
   rows,
   isOn700Cols,
+  slideClassName,
 }) => {
   const swiperRef = useRef<SwiperRef>(null);
   const [is650, setIs650] = useState(false);
@@ -70,7 +76,11 @@ export const DropdownSwiperTable: FC<DropdownSwiperTableProps> = ({
         className={s.swiper}
       >
         {cols.map((item, ind) => (
-          <SwiperSlide className={s.swiper_slide} data-id={item.id}>
+          <SwiperSlide
+            key={ind}
+            className={clsx(s.swiper_slide, slideClassName)}
+            data-id={item.id}
+          >
             <div className={s.swiper_slide_body}>
               <div className={s.swiper_slide_header}>
                 <span className={s.swiper_slide_title}>{item.title}</span>

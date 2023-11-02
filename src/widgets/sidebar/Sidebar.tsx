@@ -97,13 +97,18 @@ const sidebarItems = [
 interface SidebarProps {}
 
 export const Sidebar: FC<SidebarProps> = () => {
-  const [setSBclosed, isClosed] = useUnit([
-    SidebarM.setClosed,
-    SidebarM.$isSidebarClosed,
+  const [setOpen, setClosed, isOpened] = useUnit([
+    SidebarM.Open,
+    SidebarM.Close,
+    SidebarM.$isSidebarOpened,
   ]);
 
+  const handleSidebarVisibility = () => {
+    !isOpened ? setOpen() : setClosed();
+  };
+
   return (
-    <div className={`${s.sidebar_block} ${isClosed && s.main_sidebar_closed}`}>
+    <div className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed}`}>
       <div className={s.sidebar_body}>
         {sidebarItems.map((item1, ind) => (
           <div key={ind} className={s.sidebar_page_item}>
@@ -112,7 +117,7 @@ export const Sidebar: FC<SidebarProps> = () => {
               {item1.isClose && (
                 <div
                   className={s.sidebar_close_btn_wrap}
-                  onClick={() => setSBclosed(!isClosed)}
+                  onClick={handleSidebarVisibility}
                 >
                   <Image src={closeSidebarIco} alt="close-ico" />
                 </div>
