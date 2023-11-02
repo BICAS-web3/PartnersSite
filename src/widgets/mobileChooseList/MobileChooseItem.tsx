@@ -22,7 +22,7 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-  if (allPicked && checked) {
+    if (allPicked && checked) {
       setList([item]);
       setAllpicked(false);
     } else if (!allPicked && checked) {
@@ -41,7 +41,6 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
       setList(initList);
     } else {
       checked ? setList([item]) : setList([]);
-
     }
   }, [allPicked]);
 

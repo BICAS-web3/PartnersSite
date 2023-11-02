@@ -1,38 +1,31 @@
 import { FC, useEffect, useRef, useState } from "react";
+
+import clsx from "clsx";
 import Image from "next/image";
-import s from "./styles.module.scss";
-import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
-import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
+import { Scrollbar } from "swiper/modules";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+
+import { tableRowsList } from "@/pages/Websites";
 import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
-import { siteCategories } from "@/widgets/welcomePageSignup/WelcomePageSignup";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
-import { getMonth, getYear } from "date-fns";
 import filterIcon from "@/public/media/common/filterImg.png";
-import range from "lodash/range";
-import { Layout } from "@/widgets/layout/Layout";
-import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
-import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import { Scrollbar } from "swiper/modules";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
-import { tableRowsList } from "@/pages/Websites";
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { Layout } from "@/widgets/layout/Layout";
+import { BackHead } from "@/widgets/backHead/BackHead";
+import { InputBlock } from "@/widgets/inputBlock/InputBlock";
+import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
+import { DataSettings } from "@/widgets/dataSettings/DataSettings";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { siteCategories } from "@/widgets/welcomePageSignup/WelcomePageSignup";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
+import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
+
+import s from "./styles.module.scss";
 
 const options = [
   {
@@ -77,20 +70,52 @@ const options = [
   },
 ];
 
+const wepPagesList = [
+  {
+    title: "https://greekkeepers.io",
+    id: "greekkeepers",
+  },
+  {
+    title: "https://dailytrust.com",
+    id: "dailytrust",
+  },
+];
+
 interface TotalProps {}
+
+interface IListProps {
+  title?: string;
+  text?: string;
+  id?: string;
+}
 
 const Total: FC<TotalProps> = () => {
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
-  const [activeOpts, setActiveOpts] = useState([]);
-  const years = range(1990, 2025);
+
   const swiperRef = useRef<SwiperRef>(null);
-  const [is1280, setIs1280] = useState(false);
+
+  const [isFilter, setIsFilter] = useState(false);
+  const [is650, setIs650] = useState(false);
+
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [activeOpts, setActiveOpts] = useState<IListProps[]>([]);
+  const [mobTableOptions, setMobTableOpts] = useState(options);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      width < 1280 ? setIs1280(true) : setIs1280(false);
+      if (width < 700 && width > 650) {
+        setIs650(false);
+      } else if (width < 650) {
+        setIs650(true);
+      } else {
+        setIs650(false);
+      }
     };
 
     handleResize();
@@ -105,13 +130,130 @@ const Total: FC<TotalProps> = () => {
   return (
     <Layout>
       <section className={s.total_page}>
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isFilter && s.filter_active
+          )}
+        >
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={currenciesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCurrency}
+            itemId="usd"
+            activeTitle="websitesCurrencyFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={wepPagesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentWebpages}
+            itemId="greekkeepers"
+            activeTitle="webPagesCategoryFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={periodsList.concat([
+              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+            ])}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentPeriod}
+            itemId="currentMonthPeriod"
+            activeTitle="websitesPeriodFilter"
+          />
+          <AdaptiveChooser
+            activeTitle="choose"
+            list={options}
+            currentFilterPage={currentFilterPage}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setMobTableOpts={setMobTableOpts}
+            isInput={false}
+            blockTitle="block title"
+          />
+          <div
+            className={clsx(
+              "filter_item_page",
+              currentFilterPage === "input" && "active"
+            )}
+          >
+            <div
+              className={clsx(
+                s.mobile_filter_block_header,
+                "mobile_filter_block_header"
+              )}
+            >
+              <span
+                className={clsx(
+                  s.close_filter_block_btn,
+                  "close_filter_block_btn"
+                )}
+                onClick={() => setCurrentFilterPage("")}
+              >
+                <Image src={prevArrow} alt="close-filter-ico" />
+                Назад
+              </span>
+              <span className="mobile_filter_title">Фильтры</span>
+            </div>
+            <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+            </div>
+            <div className="mobile_filter_item_page_footer">
+              <button className="mob_cancel_btn">Отменить</button>
+              <button className="mob_save_btn">Сохранить</button>
+            </div>
+          </div>
+          <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
+          <div className="mobile_filter_body">
+            <AdaptiveFilterItem
+              objTitle={currentCurrency}
+              title="Валюта"
+              filterTitle="websitesCurrencyFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentWebpages}
+              title="Сайт"
+              filterTitle="webPagesCategoryFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentPeriod}
+              title="Период"
+              filterTitle="websitesPeriodFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+
+            <AdaptiveFilterItem
+              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
+              title="Показать"
+              filterTitle="choose"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+              className={clsx("mobile_filter_item", s.inputWrapper)}
+              onClick={() => setCurrentFilterPage("input")}
+            >
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+            </div>
+
+            <div className="subid_input_wrap">
+              <input type="text" className="subid_input" placeholder="SubId" />
+            </div>
+          </div>
+        </div>
         <Breadcrumbs
           list={[
             { title: "Главная", link: "/" },
             { title: "Партнерские ссылки", link: "/reports/Total" },
           ]}
         />
-        <div className={s.mob_filter_btn}>
+        <div onClick={() => setIsFilter(true)} className={s.mob_filter_btn}>
           <Image src={filterIcon} alt="filter-icon" />
           Фильтры
         </div>
@@ -135,7 +277,7 @@ const Total: FC<TotalProps> = () => {
               <input
                 type="text"
                 placeholder=""
-                className={`${s.markt_tool_id_input} default_input`}
+                className={clsx(s.markt_tool_id_input, "default_input")}
               />
             </div>
           </div>
@@ -147,153 +289,12 @@ const Total: FC<TotalProps> = () => {
                 activeItemId="arbitraryPeriod"
               />
             </div>
-            <div className={s.period_datepicker_wrap}>
-              <div className={s.first_datepicker_block}>
-                <DatePicker
-                  className={`${s.custom_datepicker} lol`}
-                  renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }: any) => (
-                    <div
-                      className={s.datepicker_header}
-                      style={{
-                        margin: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <button
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                        className={s.datepicker_month_btn}
-                      >
-                        <Image src={prevArrow} alt="prev-arr" />
-                      </button>
-                      <div className={s.pick_year_block}>
-                        <select
-                          className="custom-select-style"
-                          value={getYear(date)}
-                          onChange={({ target: { value } }) =>
-                            changeYear(value)
-                          }
-                        >
-                          {years.map((option: any) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className={s.pick_month_block}>
-                        <select
-                          className="custom-select-style"
-                          value={months[getMonth(date)]}
-                          onChange={({ target: { value } }) =>
-                            changeMonth(months.indexOf(value))
-                          }
-                        >
-                          {months.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <button
-                        className={s.datepicker_month_btn}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                      >
-                        <Image src={nextArrow} alt="next-arr" />
-                      </button>
-                    </div>
-                  )}
-                  selected={firstDatePickerDate}
-                  onChange={(date: any) => setFirstDatePickerDate(date)}
-                />
-              </div>
-              <div className={s.second_datepicker_block}>
-                <DatePicker
-                  className={`${s.custom_datepicker} ${s.second_custom_datepicker}`}
-                  popperClassName="total-second-popper"
-                  renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }: any) => (
-                    <div
-                      className={s.datepicker_header}
-                      style={{
-                        margin: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <button
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                        className={s.datepicker_month_btn}
-                      >
-                        <Image src={prevArrow} alt="prev-arr" />
-                      </button>
-                      <div className={s.pick_year_block}>
-                        <select
-                          className="custom-select-style"
-                          value={getYear(date)}
-                          onChange={({ target: { value } }) =>
-                            changeYear(value)
-                          }
-                        >
-                          {years.map((option: any) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className={s.pick_month_block}>
-                        <select
-                          className="custom-select-style"
-                          value={months[getMonth(date)]}
-                          onChange={({ target: { value } }) =>
-                            changeMonth(months.indexOf(value))
-                          }
-                        >
-                          {months.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <button
-                        className={s.datepicker_month_btn}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                      >
-                        <Image src={nextArrow} alt="next-arr" />
-                      </button>
-                    </div>
-                  )}
-                  selected={secondDatePickerDate}
-                  onChange={(date: any) => setSecondDatePickerDate(date)}
-                />
-              </div>
-            </div>
+            <DataSettings
+              firstDataPicker={firstDatePickerDate}
+              secondDataPicker={secondDatePickerDate}
+              setFirstDataPicker={setFirstDatePickerDate}
+              setSecondDataPicker={setSecondDatePickerDate}
+            />
             <div className={s.generate_report_btn_wrap}>
               <button className={s.generate_report_btn}>
                 Сгенерировать отчет
@@ -302,7 +303,10 @@ const Total: FC<TotalProps> = () => {
           </div>
           <div className={s.desk_hidden_filter_block_items}>
             <div
-              className={`${s.markt_tool_id_block} ${s.desk_hidden_markt_tool_id_input}`}
+              className={clsx(
+                s.markt_tool_id_block,
+                s.desk_hidden_markt_tool_id_input
+              )}
             >
               <span className={s.table_filter_block_title}>
                 ID Маркетингового инструмента
@@ -310,11 +314,14 @@ const Total: FC<TotalProps> = () => {
               <input
                 type="text"
                 placeholder=""
-                className={`${s.markt_tool_id_input} default_input`}
+                className={clsx(s.markt_tool_id_input, "default_input")}
               />
             </div>
             <div
-              className={`${s.generate_report_btn_wrap} ${s.desk_hidden_report_btn_wrap}`}
+              className={clsx(
+                s.generate_report_btn_wrap,
+                s.desk_hidden_report_btn_wrap
+              )}
             >
               <button className={s.generate_report_btn}>
                 Сгенерировать отчет
@@ -322,18 +329,20 @@ const Total: FC<TotalProps> = () => {
             </div>
           </div>
         </div>
-        <div className={s.choose_table_opts_wrap}>
-          <CustomDropDownChoose
-            list={options}
-            setActiveOptions={setActiveOpts}
-            allPicked={true}
-          />
-        </div>
+        {!is650 && (
+          <div className={s.choose_table_opts_wrap}>
+            <CustomDropDownChoose
+              list={options}
+              setActiveOptions={setActiveOpts}
+              allPicked={true}
+            />
+          </div>
+        )}
         <div className={s.table_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
-            slidesPerView={is1280 ? "auto" : activeOpts.length}
+            slidesPerView={is650 ? 2.5 : "auto"}
             direction="horizontal"
             modules={[Scrollbar]}
             scrollbar={{
@@ -344,8 +353,12 @@ const Total: FC<TotalProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {activeOpts.map((item, ind) => (
-              <SwiperSlide className={s.swiper_slide} data-id={item.id}>
+            {(is650 ? mobTableOptions : activeOpts).map((item, ind) => (
+              <SwiperSlide
+                className={s.swiper_slide}
+                key={ind}
+                data-id={item.id}
+              >
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
                     <span className={s.swiper_slide_title}>{item.title}</span>
