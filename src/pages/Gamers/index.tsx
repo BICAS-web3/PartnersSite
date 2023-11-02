@@ -26,11 +26,12 @@ import nextArrow from "@/public/media/common/nextArrow.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
-import { tableRowsList } from "../../Websites";
+// import { tableRowsList } from "../../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
 import { InputBlock } from "@/widgets/inputBlock/InputBlock";
+import { tableRowsList } from "../Websites";
 
 const periodsList = [
   {

@@ -166,7 +166,7 @@ export const FastStats: FC<FastStatsProps> = () => {
         />
         <AdaptiveChooser
           activeTitle="choose"
-          list={mobTableOptions}
+          list={timesList}
           currentFilterPage={currentFilterPage}
           setCurrentFilterPage={setCurrentFilterPage}
           setMobTableOpts={setMobTableOpts}
@@ -203,7 +203,7 @@ export const FastStats: FC<FastStatsProps> = () => {
           spaceBetween={2}
           className={s.swiper}
         >
-          {(!isMobile ? mobTableOptions : activeOptions).map((item, ind) => (
+          {timesList.map((item, ind) => (
             <SwiperSlide key={ind} className={s.swiper_slide}>
               <div className={s.swiper_slide_body}>
                 <div className={s.swiper_slide_header}>
