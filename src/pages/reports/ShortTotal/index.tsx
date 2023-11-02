@@ -126,7 +126,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
   );
 
   return (
-    <Layout>
+    <Layout activePage="shortTotal">
       <section className={s.short_total_section}>
         <Breadcrumbs
           list={[

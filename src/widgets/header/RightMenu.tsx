@@ -9,6 +9,7 @@ import Image from "next/image";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { useUnit } from "effector-react";
 import * as RegistrationModel from "./model";
+import * as SidebarM from "@/widgets/sidebar/model";
 
 export const languagesList = [
   {
@@ -59,6 +60,24 @@ export const RightMenu: FC<RightMenuProps> = () => {
     RegistrationModel.setSignup,
   ]);
 
+  const [sbClose, sbOpen, isSbOpened] = useUnit([
+    SidebarM.Close,
+    SidebarM.Open,
+    SidebarM.$isSidebarOpened,
+  ]);
+
+  const handleSbVisibility = () => {
+    if (!isSbOpened) {
+      sbOpen();
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      sbClose();
+      document.documentElement.style.overflow = "scholl";
+    }
+  };
+
+  const isRegistered = true; // temp
+
   return (
     <div className={s.right_menu_body}>
       <div className={s.language_switcher}>
@@ -99,24 +118,39 @@ export const RightMenu: FC<RightMenuProps> = () => {
           ))}
         </div>
       </div>
-      <button
-        className={s.signUp_btn}
-        onClick={() => {
-          setSignup(true);
-          setLogin(false);
-        }}
-      >
-        Регистрация
-      </button>
-      <button
-        className={s.signIn_btn}
-        onClick={() => {
-          setSignup(false);
-          setLogin(true);
-        }}
-      >
-        Вход
-      </button>
+      {isRegistered ? (
+        <div
+          className={`${s.mob_sidebar_open_btn} ${
+            isSbOpened && s.open_btn_active
+          }`}
+          onClick={handleSbVisibility}
+        >
+          <span className={s.mob_sidebar_open_btn_bar}></span>
+          <span className={s.mob_sidebar_open_btn_bar}></span>
+          <span className={s.mob_sidebar_open_btn_bar}></span>
+        </div>
+      ) : (
+        <>
+          <button
+            className={s.signUp_btn}
+            onClick={() => {
+              setSignup(true);
+              setLogin(false);
+            }}
+          >
+            Регистрация
+          </button>
+          <button
+            className={s.signIn_btn}
+            onClick={() => {
+              setSignup(false);
+              setLogin(true);
+            }}
+          >
+            Вход
+          </button>
+        </>
+      )}
     </div>
   );
 };

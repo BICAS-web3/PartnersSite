@@ -98,7 +98,7 @@ const Promocodes: FC<PromocodesProps> = () => {
   }, []);
 
   return (
-    <Layout>
+    <Layout activePage="promocodes">
       <section className={s.promocodes_page}>
         <Breadcrumbs
           list={[

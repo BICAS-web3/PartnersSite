@@ -146,7 +146,7 @@ const Websites: FC<WebsitesProps> = () => {
   }, []);
 
   return (
-    <Layout>
+    <Layout activePage="websites">
       <section className={s.websites_page}>
         <div
           className={`${s.mobile_filter_block} mobile_filter_block ${
