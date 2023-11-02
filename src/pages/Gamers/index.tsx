@@ -26,7 +26,7 @@ import nextArrow from "@/public/media/common/nextArrow.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
-import { tableRowsList } from "../Websites";
+import { tableRowsList } from "../../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
@@ -60,6 +60,10 @@ const periodsList = [
   {
     title: "Прошлый год",
     id: "lastYearPeriod",
+  },
+  {
+    title: "Выбрать вручную",
+    id: "mobilePeriodManually",
   },
 ];
 
@@ -258,6 +262,20 @@ const Gamers: FC<GamersProps> = () => {
   const [currentCompany, setCurrentCompany] = useState<IListProps>({});
   const [mobTableOptions, setMobTableOpts] = useState(historyList);
 
+  const fRef = useRef<HTMLInputElement>(null);
+  const sRef = useRef<HTMLInputElement>(null);
+  const tRef = useRef<HTMLInputElement>(null);
+
+  const [firstInput, setFirstInput] = useState("");
+  const [secondInput, setSecondInput] = useState("");
+  const [thirdInput, setThirdInput] = useState("");
+
+  type inputFocus = "first" | "second" | "third";
+
+  const [inputFocus, setInputFocus] = useState<inputFocus | null>(null);
+  useEffect(() => {
+    inputFocus !== null && setCurrentFilterPage("input");
+  }, [inputFocus]);
   return (
     <Layout>
       <section className={s.gamers_section}>
@@ -341,9 +359,27 @@ const Gamers: FC<GamersProps> = () => {
               <span className="mobile_filter_title">Фильтры</span>
             </div>
             <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-
-              <InputBlock placeholder="ID Маркетингового инструмента" />
+              <InputBlock
+                value={firstInput}
+                setValue={setFirstInput}
+                inputRef={fRef}
+                placeholder="ID игрока"
+                focus={inputFocus === "first" && true}
+              />
+              <InputBlock
+                value={secondInput}
+                setValue={setSecondInput}
+                inputRef={sRef}
+                placeholder="Sub ID"
+                focus={inputFocus === "second" && true}
+              />
+              <InputBlock
+                focus={inputFocus === "third" && true}
+                value={thirdInput}
+                setValue={setThirdInput}
+                inputRef={tRef}
+                placeholder="ID Маркетингового инструмента"
+              />
             </div>
             <div className="mobile_filter_item_page_footer">
               <button className="mob_cancel_btn">Отменить</button>
@@ -394,14 +430,30 @@ const Gamers: FC<GamersProps> = () => {
                 flexDirection: "column",
               }}
               className={clsx("mobile_filter_item", s.inputWrapper)}
-              onClick={() => setCurrentFilterPage("input")}
             >
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-              <InputBlock placeholder="ID Маркетингового инструмента" />
+              <InputBlock
+                value={firstInput}
+                setValue={setFirstInput}
+                onClick={() => setInputFocus("first")}
+                placeholder="ID игрока"
+              />
+              <InputBlock
+                onClick={() => setInputFocus("second")}
+                placeholder="Sub ID"
+              />
+              <InputBlock
+                onClick={() => setInputFocus("third")}
+                placeholder="ID Маркетингового инструмента"
+              />
             </div>
-
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
+            <div className={s.export_btn_container}>
+              <button
+                onClick={() => setIsExport(false)}
+                className={s.export_back_btn}
+              >
+                Назад
+              </button>
+              <GenerateButton title="Сгенерировать" />
             </div>
           </div>
         </div>
@@ -549,7 +601,7 @@ const Gamers: FC<GamersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {mobTableOptions.map(
+            {historyList.map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
