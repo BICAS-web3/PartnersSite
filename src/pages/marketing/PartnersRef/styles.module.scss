@@ -237,6 +237,21 @@
   display: grid;
 }
 
+.mobile_filter_block {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.filter_active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mob_subid_filter_input_wrap {
+  margin: 20px;
+}
+
 @media screen and (max-width: 1280px) {
   .table_filter_block {
     grid-template-columns: minmax(150px, 230px) minmax(150px, 230px) minmax(

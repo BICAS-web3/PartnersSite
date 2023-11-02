@@ -14,7 +14,7 @@ export const MobilePickList: FC<MobilePickListProps> = ({
   setCurrent,
 }) => {
   const [activeItem, setActiveItem] = useState(
-activeItemId ? list.filter((item) => item?.id === activeItemId)[0] : null
+    activeItemId ? list.filter((item) => item?.id === activeItemId)[0] : null
   );
 
   useEffect(() => {
@@ -26,7 +26,6 @@ activeItemId ? list.filter((item) => item?.id === activeItemId)[0] : null
       <div className={s.mobile_pick_list}>
         {list.map((item, ind) => (
           <div
-
             key={ind}
             className={`${s.mobile_pick_list_item} ${
               activeItem.id === item.id && s.active
@@ -42,7 +41,6 @@ activeItemId ? list.filter((item) => item?.id === activeItemId)[0] : null
             <div className={s.mob_datepick_hidden}>
               {item.id == "mobilePeriodManually" && <ManualDateInput />}
             </div>
-
           </div>
         ))}
       </div>
