@@ -7,14 +7,18 @@ interface MobileChooseListProps {
   list: any[];
   setPickedList: any;
   pickedList: any[];
+  evrPicked?: boolean;
+  subscribesStyles?: boolean;
 }
 
 export const MobileChooseList: FC<MobileChooseListProps> = ({
   list,
   setPickedList,
   pickedList,
+  evrPicked,
+  subscribesStyles,
 }) => {
-  const [allPicked, setAllpicked] = useState(true);
+  const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
   const [activeItems, setActiveItems] = useState([]);
 
   useEffect(() => {
@@ -31,12 +35,24 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   return (
     <div className={s.mobile_choose_list_wrap}>
       <div className={s.mobile_choose_list}>
-        <div className={s.choose_list_item}>
+        <div
+          className={s.choose_list_item}
+          style={{
+            borderBottom: subscribesStyles && "none",
+            padding: subscribesStyles && "0 0 10px 0",
+          }}
+        >
           <span
             className={s.choose_item_text}
             onClick={() => setAllpicked(!allPicked)}
+            style={{
+              flexDirection: subscribesStyles && "row-reverse",
+              justifyContent: subscribesStyles && "start",
+            }}
           >
-            <span>Выбрать всё</span>
+            <span style={{ marginLeft: subscribesStyles && "10px" }}>
+              Выбрать всё
+            </span>
             <div className={`${s.checkbox} ${allPicked && s.checked}`}>
               <CheckBoxIco />
             </div>
@@ -51,6 +67,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             activeList={activeItems}
             setAllpicked={setAllpicked}
             initList={list}
+            subscribesStyles={subscribesStyles}
           />
         ))}
       </div>

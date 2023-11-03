@@ -28,6 +28,8 @@ import settingsIco from "@/public/media/sidebar/settingIco.png";
 import logoutIco from "@/public/media/sidebar/logoutIco.png";
 import profileIco from "@/public/media/sidebar/profileIco.png";
 import linkIco from "@/public/media/sidebar/linkIco.png";
+import { ChangeAccountBlock } from "./ChangeAccountBlock";
+import { ManageAccountBlock } from "../ManageAccountMob/ManageAccountBlock";
 
 const sidebarItems = [
   {
@@ -141,6 +143,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   );
 
   const [isMobSidebarOpened, setIsMobSidebarOpened] = useState(false);
+  const [accountSubBlock, setAccountSubBlock] = useState("");
 
   const [languagesListVisibility, setLanugagesListVisibility] = useState(false);
   const [avaibleLanguages, setAvaibleLanguages] = useState(
@@ -173,6 +176,11 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
     }
   }, [isMobSidebarOpened]);
 
+  useEffect(() => {
+    const sbProfile = document.getElementById("sidebar_profile_block");
+    sbProfile?.scrollTo(0, 0);
+  }, [accountSubBlock]);
+
   return (
     <div
       className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${
@@ -183,8 +191,17 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
       <div
         className={`${s.sidebar_profile_block} ${
           isMobSidebarOpened && s.mobSBopened
-        }`}
+        } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
+        id="sidebar_profile_block"
       >
+        <ChangeAccountBlock
+          activeSubPage={accountSubBlock}
+          setActiveSubPage={setAccountSubBlock}
+        />
+        <ManageAccountBlock
+          activeSubPage={accountSubBlock}
+          setActiveSubPage={setAccountSubBlock}
+        />
         <div className={s.sidebar_profile_block_header}>
           <span
             className={s.sidebar_profile_block_header_title}
@@ -225,7 +242,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
             <Image src={linkIco} alt="link-ico" />
           </div>
-          <div className={s.profile_options_list_item}>
+          <div
+            className={s.profile_options_list_item}
+            onClick={() => setAccountSubBlock("manageAccount")}
+          >
             <div className={s.profile_options_list_item_title_block}>
               <Image src={settingsIco} alt="wallet-ico" />
               <span className={s.profile_options_list_item_title}>
@@ -234,7 +254,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
             <Image src={nextArr} alt="next-arr" />
           </div>
-          <div className={s.profile_options_list_item}>
+          <div
+            className={s.profile_options_list_item}
+            onClick={() => setAccountSubBlock("changeAccount")}
+          >
             <div className={s.profile_options_list_item_title_block}>
               <Image src={profileIco} alt="wallet-ico" />
               <span className={s.profile_options_list_item_title}>
