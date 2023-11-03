@@ -116,7 +116,15 @@ export const FastStats: FC<FastStatsProps> = () => {
 
   const [isFilter, setIsFilter] = useState(false);
   const [mobTableOptions, setMobTableOpts] = useState(optionsList);
-
+  const handleFilterClick = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 100);
+    setIsFilter(true);
+  };
   return (
     <div className={s.fast_stats_block}>
       <span className={clsx(s.fast_stats_title, s.mobile)}>
@@ -145,7 +153,7 @@ export const FastStats: FC<FastStatsProps> = () => {
           ))}
         </div>
       </div>
-      <div className={s.websites_filter_wrap} onClick={() => setIsFilter(true)}>
+      <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
         <Image src={filterIco} alt="filter-img" />
         <span className={s.websites_filter_btn}>Фильтры</span>
       </div>
@@ -170,6 +178,7 @@ export const FastStats: FC<FastStatsProps> = () => {
           currentFilterPage={currentFilterPage}
           setCurrentFilterPage={setCurrentFilterPage}
           setMobTableOpts={setMobTableOpts}
+          blockTitle=""
         />
         <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
         <div className="mobile_filter_body">
