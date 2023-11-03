@@ -13,6 +13,7 @@ import { WebsitesFilter } from "./WebsitesFilter";
 import { WebsiteCategoryFilter } from "./WebsiteCategoryFilter";
 import { WebsiteLanguageFilter } from "./WebsitesLanguageFilter";
 import { WebsiteTableFilter } from "./WebsiteTableFilter";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 export const siteCategories = [
   {
@@ -147,6 +148,11 @@ const Websites: FC<WebsitesProps> = () => {
 
   console.log(mobTableOptions);
 
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+
   return (
     <Layout>
       <section className={s.websites_page}>
@@ -235,10 +241,7 @@ const Websites: FC<WebsitesProps> = () => {
               ]}
             />
           </div>
-          <div
-            className={s.websites_filter_wrap}
-            onClick={() => setIsFilter(true)}
-          >
+          <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
             <Image src={filterIco} alt="filter-img" />
             <span className={s.websites_filter_btn}>Фильтры</span>
           </div>
@@ -318,13 +321,11 @@ const Websites: FC<WebsitesProps> = () => {
                     Выбрано {mobTableOptions.length} п.
                   </span>
                 </div>
-                <div className="subid_input_wrap">
-                  <input
-                    type="text"
-                    className="subid_input"
-                    placeholder="SubId"
-                  />
-                </div>
+
+                <ListButtons
+                  setIsBack={setIsFilter}
+                  title="Сгенерировать отчет"
+                />
               </div>
             </div>
           ) : (

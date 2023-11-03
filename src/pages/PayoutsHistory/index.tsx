@@ -24,6 +24,7 @@ import { PhTableFilterBlock } from "./PhTableFilterBlock";
 import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistoryTable";
 import { PhExportBlock } from "./PhExportBlock";
 import exportIco from "@/public/media/common/exportIco.png";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 export const currenciesList = [
   {
@@ -203,6 +204,11 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     setActiveOpts(mobTableOpts);
   }, [is650]);
 
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+
   return (
     <Layout>
       <section className={s.payouts_history_section}>
@@ -218,10 +224,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           {is650 ? (
             <>
               <div className={s.mob_filterExport_block}>
-                <div
-                  className={s.mob_filter_block}
-                  onClick={() => setIsFilter(!isFilter)}
-                >
+                <div className={s.mob_filter_block} onClick={handleFilterClick}>
                   <Image src={filterIco} alt="filter-ico" />
                   Фильтры
                 </div>
@@ -230,6 +233,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   onClick={() => {
                     setCurrentFilterPage("phExportBlock");
                     setIsFilter(true);
+                    document.body.scrollTop = 0;
                   }}
                 >
                   <Image src={exportIco} alt="filter-ico" />
@@ -304,6 +308,10 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                       Выбрано {mobTableOpts.length} п.
                     </span>
                   </div>
+                  <ListButtons
+                    setIsBack={setIsFilter}
+                    title="Сгенерировать отчет"
+                  />
                 </div>
               </div>
             </>

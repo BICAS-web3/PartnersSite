@@ -26,6 +26,7 @@ import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdow
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 
 import s from "./styles.module.scss";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const options = [
   {
@@ -126,6 +127,11 @@ const Total: FC<TotalProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
 
   return (
     <Layout>
@@ -242,9 +248,7 @@ const Total: FC<TotalProps> = () => {
               <InputBlock placeholder="ID Маркетингового инструмента" />
             </div>
 
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
-            </div>
+            <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
         </div>
         <Breadcrumbs
@@ -253,7 +257,7 @@ const Total: FC<TotalProps> = () => {
             { title: "Партнерские ссылки", link: "/reports/Total" },
           ]}
         />
-        <div onClick={() => setIsFilter(true)} className={s.mob_filter_btn}>
+        <div onClick={handleFilterClick} className={s.mob_filter_btn}>
           <Image src={filterIcon} alt="filter-icon" />
           Фильтры
         </div>

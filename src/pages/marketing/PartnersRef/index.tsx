@@ -132,7 +132,10 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   useEffect(() => {
     setActiveOpts(mobTableCols);
   }, [is650]);
-
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
   return (
     <Layout>
       <section className={s.partners_ref_page}>
@@ -144,10 +147,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
         />
         {is650 ? (
           <>
-            <div
-              className={s.mob_filter_block}
-              onClick={() => setIsFilter(!isFilter)}
-            >
+            <div className={s.mob_filter_block} onClick={handleFilterClick}>
               <Image src={filterIco} alt="filter-ico" />
               Фильтры
             </div>

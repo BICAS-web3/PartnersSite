@@ -25,6 +25,7 @@ import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const periodsList = [
   {
@@ -237,6 +238,12 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [isExport, setIsExport] = useState<boolean>(false);
   const [activeBtn, setActiveBtn] = useState<TabsTypes>("Статус заявок");
+
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+
   return (
     <Layout>
       <section className={s.marketing_section}>
@@ -314,7 +321,6 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
               filterTitle="websitesToolsFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-
             <AdaptiveFilterItem
               objTitle={`Выбрано ${historyList?.length} п.`}
               title="Показать"
@@ -323,7 +329,8 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             />
             <div className="subid_input_wrap">
               <input type="text" className="subid_input" placeholder="SubId" />
-            </div>
+            </div>{" "}
+            <ListButtons setIsBack={setIsExport} title="Сгенерировать отчет" />
           </div>
         </div>{" "}
         <div
@@ -359,10 +366,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             { title: "Маркетинговые инструменты", link: "" },
           ]}
         />
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
+        <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>

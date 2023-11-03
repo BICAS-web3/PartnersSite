@@ -15,6 +15,7 @@ import { BackHead } from "../backHead/BackHead";
 
 import s from "./styles.module.scss";
 import "swiper/scss";
+import { ListButtons } from "../listButtons/ListExport";
 
 const optionsList = [
   {
@@ -117,16 +118,11 @@ export const FastStats: FC<FastStatsProps> = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [mobTableOptions, setMobTableOpts] = useState(optionsList);
   const handleFilterClick = () => {
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }, 100);
+    document.body.scrollTop = 0;
     setIsFilter(true);
   };
   return (
-    <div className={s.fast_stats_block}>
+    <div id="top" className={s.fast_stats_block}>
       <span className={clsx(s.fast_stats_title, s.mobile)}>
         Быстрая статистика
       </span>
@@ -195,6 +191,7 @@ export const FastStats: FC<FastStatsProps> = () => {
             filterTitle="choose"
             setCurrentFilterPage={setCurrentFilterPage}
           />
+          <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
         </div>
       </div>
       <div className={s.fast_stats_table_block}>

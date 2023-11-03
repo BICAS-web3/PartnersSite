@@ -32,6 +32,7 @@ import { tableRowsList } from "../../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const periodsList = [
   {
@@ -259,6 +260,11 @@ const Gamers: FC<GamersProps> = () => {
     };
   }, []);
 
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+
   return (
     <Layout>
       <section className={s.gamers_section}>
@@ -403,10 +409,7 @@ const Gamers: FC<GamersProps> = () => {
               <InputBlock placeholder="ID Маркетингового инструмента" />
               <InputBlock placeholder="ID Маркетингового инструмента" />
             </div>
-
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
-            </div>
+            <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
         </div>
         <div
@@ -443,10 +446,7 @@ const Gamers: FC<GamersProps> = () => {
             ]}
           />
         </div>
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
+        <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>

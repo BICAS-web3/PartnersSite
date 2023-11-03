@@ -20,6 +20,7 @@ import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterI
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 const wepPagesList = [
   {
     title: "https://greekkeepers.io",
@@ -168,6 +169,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     };
   }, []);
 
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+
   return (
     <Layout>
       <section className={s.short_total_section}>
@@ -267,10 +273,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             >
               <InputBlock placeholder="ID Маркетингового инструмента" />
             </div>
-
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
-            </div>
+            <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
         </div>
         <Breadcrumbs
@@ -279,7 +282,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             { title: "Краткий суммарный", link: "/reports/ShortTotal" },
           ]}
         />
-        <div onClick={() => setIsFilter(true)} className={s.mob_filter_btn}>
+        <div onClick={handleFilterClick} className={s.mob_filter_btn}>
           <Image src={filterIcon} alt="filter-icon" />
           Фильтры
         </div>

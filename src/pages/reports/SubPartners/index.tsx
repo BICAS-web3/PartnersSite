@@ -220,6 +220,11 @@ const SubPartners: FC<SubPartnersProps> = () => {
     };
   }, []);
 
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+
   return (
     <Layout>
       <section className={s.sub_partners_section}>
@@ -258,6 +263,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             blockTitle={""}
           />
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />
+
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
               objTitle={currentCurrency}
@@ -321,10 +327,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             { title: "По суб-партнёрам", link: "/SubPartners" },
           ]}
         />{" "}
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
+        <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>
