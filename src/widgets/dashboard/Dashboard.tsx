@@ -47,8 +47,7 @@ export const Dashboard: FC<DashboardProps> = () => {
             !isSidebarOpened && s.sidebar_closed
           }`}
         >
-          <CurrentBalance />
-          {isMobile && (
+          {isMobile ? (
             <div className={s.choose_currency_block}>
               <div className={s.choose_currency_wrap}>
                 <span className={s.currency_block_title}>Валюта</span>
@@ -56,6 +55,8 @@ export const Dashboard: FC<DashboardProps> = () => {
               </div>
               <button className={s.search_currency_btn}>Поиск</button>
             </div>
+          ) : (
+            <CurrentBalance />
           )}
           <LastEvents />
         </div>
