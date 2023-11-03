@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import s from "./styles.module.scss";
 import usaImg from "@/public/media/headerImages/usa.png";
 import russiaImg from "@/public/media/headerImages/russia.png";
@@ -68,11 +68,14 @@ export const RightMenu: FC<RightMenuProps> = () => {
 
   const handleSbVisibility = () => {
     if (!isSbOpened) {
+      window.scrollTo(0, 0);
       sbOpen();
       document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
     } else {
       sbClose();
-      document.documentElement.style.overflow = "scholl";
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
     }
   };
 

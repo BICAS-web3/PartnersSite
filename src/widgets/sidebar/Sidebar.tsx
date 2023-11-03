@@ -1,6 +1,6 @@
 import { DashboardIcon } from "@/shared/SVGs/DashboardIcon";
 import s from "./styles.module.scss";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Websites } from "@/shared/SVGs/WebsitesIco";
 import { CommissionStr } from "@/shared/SVGs/CommissionStructureIco";
 import { PayoutHistory } from "@/shared/SVGs/PayoutHistoryIco";
@@ -19,8 +19,15 @@ import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as SidebarM from "./model";
 import nextArr from "@/public/media/common/nextArrow.png";
+import prevArr from "@/public/media/common/prevArrow.png";
 import { languagesList } from "../header/RightMenu";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
+
+import walletIco from "@/public/media/sidebar/walletIco.png";
+import settingsIco from "@/public/media/sidebar/settingIco.png";
+import logoutIco from "@/public/media/sidebar/logoutIco.png";
+import profileIco from "@/public/media/sidebar/profileIco.png";
+import linkIco from "@/public/media/sidebar/linkIco.png";
 
 const sidebarItems = [
   {
@@ -132,6 +139,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
     languagesList.filter((item) => item.title === "ru")[0]
   );
+
+  const [isMobSidebarOpened, setIsMobSidebarOpened] = useState(false);
+
   const [languagesListVisibility, setLanugagesListVisibility] = useState(false);
   const [avaibleLanguages, setAvaibleLanguages] = useState(
     languagesList.filter((item) => item.title !== activeLanguage.title)
@@ -156,9 +166,95 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
     !isOpened ? setOpen() : setClosed();
   };
 
+  useEffect(() => {
+    if (isMobSidebarOpened) {
+      const elem = document.getElementById("mob_sidebar");
+      elem?.scrollTo(0, 0);
+    }
+  }, [isMobSidebarOpened]);
+
   return (
-    <div className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed}`}>
-      <div className={s.desk_hidden_profile_block}>
+    <div
+      className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${
+        isMobSidebarOpened && s.mob_account_opened
+      }`}
+      id="mob_sidebar"
+    >
+      <div
+        className={`${s.sidebar_profile_block} ${
+          isMobSidebarOpened && s.mobSBopened
+        }`}
+      >
+        <div className={s.sidebar_profile_block_header}>
+          <span
+            className={s.sidebar_profile_block_header_title}
+            onClick={() => setIsMobSidebarOpened(false)}
+          >
+            <Image src={prevArr} alt="back-arr" />
+            Back
+          </span>
+          <span className={s.sidebar_profile_block_title}>Profile</span>
+        </div>
+        <div className={s.profile_info_block}>
+          <div className={s.profile_name_block}>
+            <div className={s.profile_name_block_ico}>B</div>
+            <div className={s.profile_mailId_block}>
+              <span className={s.profile_id_title}>ID: 2132313123</span>
+              <span className={s.profile_mail_title}>IvanIvanov@gmail.com</span>
+            </div>
+          </div>
+          <div className={s.profile_balance_block}>
+            <div className={s.profile_bnb_balance}>
+              <span className={s.profile_bnb_title}>BNB</span>
+              <span className={s.profile_balance_title}>82710.10</span>
+            </div>
+            <div className={s.profile_usd_balance}>
+              <span className={s.profile_usd_title}>BNB</span>
+              <span className={s.profile_balance_title}>82710.10</span>
+            </div>
+            <button className={s.withdrawal_money_btn}>Вывод средств</button>
+          </div>
+        </div>
+        <div className={s.profile_options_list}>
+          <div className={s.profile_options_list_item}>
+            <div className={s.profile_options_list_item_title_block}>
+              <Image src={walletIco} alt="wallet-ico" />
+              <span className={s.profile_options_list_item_title}>
+                My wallet
+              </span>
+            </div>
+            <Image src={linkIco} alt="link-ico" />
+          </div>
+          <div className={s.profile_options_list_item}>
+            <div className={s.profile_options_list_item_title_block}>
+              <Image src={settingsIco} alt="wallet-ico" />
+              <span className={s.profile_options_list_item_title}>
+                Manage account
+              </span>
+            </div>
+            <Image src={nextArr} alt="next-arr" />
+          </div>
+          <div className={s.profile_options_list_item}>
+            <div className={s.profile_options_list_item_title_block}>
+              <Image src={profileIco} alt="wallet-ico" />
+              <span className={s.profile_options_list_item_title}>
+                Change account
+              </span>
+            </div>
+            <Image src={nextArr} alt="next-arr" />
+          </div>
+          <div className={s.profile_options_list_item}>
+            <div className={s.profile_options_list_item_title_block}>
+              <Image src={logoutIco} alt="wallet-ico" />
+              <span className={s.profile_options_list_item_title}>Logout</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className={s.desk_hidden_profile_block}
+        onClick={() => setIsMobSidebarOpened(true)}
+      >
         <span className={s.desk_hidden_profile_block_title}>
           examle@email.com
         </span>
