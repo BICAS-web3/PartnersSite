@@ -333,13 +333,6 @@ const SubPartners: FC<SubPartnersProps> = () => {
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
-          <Image src={filterIco} alt="filter-img" />
-          <span className={s.websites_filter_btn}>Фильтры</span>
-        </div>
         <div className={s.sub_partners_tablet}>
           <div className={s.sub_partners_tablet_item}>
             <span className={s.table_filter_block_item_title}>Период</span>
@@ -396,7 +389,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {(isMobile ? mobTableOptions : activeOps).map(
+            {(isMobile ? statisticList : activeOps).map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
