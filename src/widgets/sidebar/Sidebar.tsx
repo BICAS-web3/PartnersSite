@@ -299,7 +299,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
             <div className={s.sidebar_page_item_link_block}>
               {item1.list.map((item2, ind) => (
-                <a href={item2.link}>
+                <a href={item2.link} data-href={item2.link}>
                   <div
                     key={ind}
                     className={`${s.sidebar_page_item_link_wrap} ${

@@ -79,7 +79,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
     }
   };
 
-  const isRegistered = true; // temp
+  const isRegistered = false; // temp
 
   return (
     <div className={s.right_menu_body}>

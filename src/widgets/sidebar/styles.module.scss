@@ -568,6 +568,13 @@
 }
 
 @media screen and (max-width: 650px) {
+  .sidebar_page_item_link_block {
+    a {
+      &[data-href="/ProfileSettings"] {
+        display: none;
+      }
+    }
+  }
   .desk_hidden_lang_choose_block {
     display: block;
   }
