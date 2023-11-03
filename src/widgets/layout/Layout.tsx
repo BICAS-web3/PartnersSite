@@ -8,15 +8,16 @@ import { useUnit } from "effector-react";
 
 interface LayoutProps {
   children?: any;
+  activePage: string;
 }
 
-export const Layout: FC<LayoutProps> = ({ children }) => {
+export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
   const [isOpened] = useUnit([SidebarM.$isSidebarOpened]);
 
   return (
     <div className={`${s.page_container} ${!isOpened && s.sidebar_closed}`}>
       <Header />
-      <Sidebar />
+      <Sidebar activeSubBlock={activePage} />
       <main className={s.main_section}>
         {children} <Footer />
       </main>

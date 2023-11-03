@@ -12,7 +12,7 @@ interface ProfileSettingsProps {}
 
 const ProfileSettings: FC<ProfileSettingsProps> = () => {
   return (
-    <Layout>
+    <Layout activePage="profileSettings">
       <section className={s.profile_settings_section}>
         <Breadcrumbs
           list={[

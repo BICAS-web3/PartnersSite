@@ -11,10 +11,12 @@ export const Header: FC<HeaderProps> = () => {
   return (
     <div className={s.header}>
       <div className={s.header_body}>
-        <div className={s.header_logo_wrap}>
-          <Image src={logo} alt="header-logo" className={s.logo} />
-          <Image src={mobLogo} alt="header-logo-mob" className={s.mob_logo} />
-        </div>
+        <a href="/">
+          <div className={s.header_logo_wrap}>
+            <Image src={logo} alt="header-logo" className={s.logo} />
+            <Image src={mobLogo} alt="header-logo-mob" className={s.mob_logo} />
+          </div>
+        </a>
         <div className={s.header_right_menu_wrap}>
           <RightMenu />
         </div>

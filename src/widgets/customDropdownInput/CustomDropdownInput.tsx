@@ -7,6 +7,7 @@ interface CustomDropdownInputProps {
   activeItemId?: string;
   isExportSelect?: boolean;
   height?: number;
+  posRel?: boolean;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -14,6 +15,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   activeItemId,
   height,
   isExportSelect,
+  posRel,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -57,7 +59,10 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           <HeaderDropdownArrow />
         </div>
       </div>
-      <div className={s.dropdown_items_list}>
+      <div
+        className={s.dropdown_items_list}
+        style={{ position: posRel && "relative" }}
+      >
         {avaibleItems.map((item, ind) => (
           <div
             className={s.dropdown_items_list_item}
