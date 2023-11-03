@@ -15,6 +15,11 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import { tableRowsList } from "@/pages/Websites";
+import { PromocodesTable } from "./Table";
+import { BackHead } from "@/widgets/backHead/BackHead";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 
 const promoBenefitsList = [
   "промо-код можно использовать там, где нет возможности размещать реферальные ссылки и рекламировать товары/услуги (На фото инстаграм, на видео, в оффлайн рекламе и т.д.)",
@@ -52,20 +57,34 @@ const Promocodes: FC<PromocodesProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
   const [is700, setIs700] = useState(false);
   const [is1280, setIs1280] = useState(false);
+  const [is650, setIs650] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+
+  const [mobTableCols, setMobTableCols] = useState([]);
+  const [mobCurrency, setMobCurrency] = useState({});
+  const [mobSitesPicked, setMobSitesPicked] = useState([]);
+  const [mobCampaign, setMobCampaign] = useState({});
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      width < 700 ? setIs700(true) : setIs700(false);
       if (width < 1280 && width > 700) {
         setIs1280(true);
         setIs700(false);
-      } else if (width < 700) {
+        setIs650(false);
+      } else if (width < 700 && width > 650) {
         setIs1280(false);
+        setIs650(false);
         setIs700(true);
+      } else if (width < 650) {
+        setIs1280(false);
+        setIs700(false);
+        setIs650(true);
       } else {
         setIs1280(false);
         setIs700(false);
+        setIs650(false);
       }
     };
 
@@ -84,67 +103,135 @@ const Promocodes: FC<PromocodesProps> = () => {
         <Breadcrumbs
           list={[
             { title: "Маркетинг", link: "/" },
-            { title: "Партнерские ссылки", link: "/marketing/Promocodes" },
+            { title: "Промокоды", link: "/marketing/Promocodes" },
           ]}
         />
-        <div className={s.mob_filter_block}>
-          <Image src={filterIco} alt="filter-ico" />
-          Фильтры
-        </div>
-        <div className={s.table_filter_block}>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Валюта</span>
-            <CustomDropdownInput list={currenciesList} activeItemId="usd" />
-          </div>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Сайт</span>
-            <CustomDropdownInput list={sitesList} activeItemId="gkio" />
-          </div>
-          <div className={s.table_filter_item}>
-            <span className={s.table_filter_item_title}>Кампания</span>
-            <CustomDropdownInput list={campgaignList} activeItemId="dlink" />
-          </div>
-          <div className={s.generate_report_btn_wrap}>
-            <button className={s.generate_report_btn}>
-              Сгенерировать отчет
-            </button>
-          </div>
-        </div>
-        <div className={s.table_choose_opts_wrap}>
-          <CustomDropDownChoose
-            list={options}
-            setActiveOptions={setActiveOpts}
-            allPicked={true}
-          />
-        </div>
-        <div className={s.table_wrap}>
-          <div className="scroll-bar"></div>
-          <Swiper
-            ref={swiperRef}
-            slidesPerView={is1280 ? "auto" : is700 ? "auto" : activeOpts.length}
-            direction="horizontal"
-            modules={[Scrollbar]}
-            scrollbar={{
-              el: ".scroll-bar",
-              draggable: true,
-            }}
-            spaceBetween={2}
-            centeredSlides={false}
-            className={s.swiper}
-          >
-            {activeOpts.map((item, ind) => (
-              <SwiperSlide className={s.swiper_slide} data-id={item.id}>
-                <div className={s.swiper_slide_body}>
-                  <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>{item.title}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
-                  </div>
-                  <div className={s.swiper_slide_content}>{item.text}</div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+        {is650 ? (
+          <>
+            <div
+              className={s.mob_filter_block}
+              onClick={() => setIsFilter(!isFilter)}
+            >
+              <Image src={filterIco} alt="filter-ico" />
+              Фильтры
+            </div>
+            <div
+              className={`${s.mobile_filter_block} mobile_filter_block ${
+                isFilter && s.filter_active
+              }`}
+            >
+              <AdaptivePicker
+                list={currenciesList}
+                activeTitle="promocodesCurrencyFilter"
+                currentFilterPage={currentFilterPage}
+                setCurrentFilterPage={setCurrentFilterPage}
+                setCurrentLanguage={setMobCurrency}
+                itemId="usd"
+                blockTitle="Валюта"
+              />
+              <AdaptiveChooser
+                list={sitesList}
+                isInput={true}
+                inpPlaceholder="Example.com"
+                activeTitle="promocodesSitesFilter"
+                currentFilterPage={currentFilterPage}
+                setCurrentFilterPage={setCurrentFilterPage}
+                setMobTableOpts={setMobSitesPicked}
+                blockTitle="Сайт"
+              />
+              <AdaptivePicker
+                list={campgaignList}
+                activeTitle="promocodesCampaignFilter"
+                currentFilterPage={currentFilterPage}
+                setCurrentFilterPage={setCurrentFilterPage}
+                setCurrentLanguage={setMobCampaign}
+                itemId="dlink"
+                blockTitle="Кампания"
+              />
+              <AdaptiveChooser
+                list={options}
+                activeTitle="promocodesTableFilter"
+                currentFilterPage={currentFilterPage}
+                setCurrentFilterPage={setCurrentFilterPage}
+                setMobTableOpts={setMobTableCols}
+                blockTitle="Сортировка таблицы"
+              />
+              <BackHead setIsOpen={setIsFilter} title="Фильтры" />
+              <div className="mobile_filter_body">
+                <AdaptiveFilterItem
+                  objTitle={mobCurrency.title}
+                  title="Валюта"
+                  filterTitle="promocodesCurrencyFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <AdaptiveFilterItem
+                  objTitle={
+                    mobSitesPicked.length > 1
+                      ? `${mobSitesPicked[0].title} и ещё ${
+                          mobSitesPicked.length - 1
+                        }`
+                      : mobSitesPicked.length == 1
+                      ? mobSitesPicked[0].title
+                      : "none"
+                  }
+                  title="Сайт"
+                  filterTitle="promocodesSitesFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <AdaptiveFilterItem
+                  objTitle={mobCampaign.title}
+                  title="Кампания"
+                  filterTitle="promocodesCampaignFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <AdaptiveFilterItem
+                  objTitle={`Выбрано ${mobTableCols.length} п.`}
+                  title="Показать"
+                  filterTitle="promocodesTableFilter"
+                  setCurrentFilterPage={setCurrentFilterPage}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={s.table_filter_block}>
+              <div className={s.table_filter_item}>
+                <span className={s.table_filter_item_title}>Валюта</span>
+                <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+              </div>
+              <div className={s.table_filter_item}>
+                <span className={s.table_filter_item_title}>Сайт</span>
+                <CustomDropdownInput list={sitesList} activeItemId="gkio" />
+              </div>
+              <div className={s.table_filter_item}>
+                <span className={s.table_filter_item_title}>Кампания</span>
+                <CustomDropdownInput
+                  list={campgaignList}
+                  activeItemId="dlink"
+                />
+              </div>
+              <div className={s.generate_report_btn_wrap}>
+                <button className={s.generate_report_btn}>
+                  Сгенерировать отчет
+                </button>
+              </div>
+            </div>
+            <div className={s.table_choose_opts_wrap}>
+              <CustomDropDownChoose
+                list={options}
+                setActiveOptions={setActiveOpts}
+                allPicked={true}
+              />
+            </div>
+          </>
+        )}
+        <PromocodesTable
+          cols={is650 ? mobTableCols : activeOpts}
+          is1280={is1280}
+          is650={is650}
+          is700={is700}
+        />
         <div className={s.table_nav_block}>
           <div className={s.table_records_block}>
             <p className={s.table_records_text}>

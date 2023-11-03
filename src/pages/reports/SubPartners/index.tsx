@@ -14,10 +14,17 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-import { tableRowsList } from "../Websites";
-
+import clsx from "clsx";
+import filterIco from "@/public/media/common/filterImg.png";
 import "swiper/scss";
 import s from "./styles.module.scss";
+import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { BackHead } from "@/widgets/backHead/BackHead";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import { tableRowsList } from "@/pages/Websites";
 
 const periodsList = [
   {
@@ -150,7 +157,16 @@ const statisticList = [
 ];
 
 interface SubPartnersProps {}
-
+interface IListProps {
+  id?: string;
+  title?: string;
+  text?: string;
+}
+interface IListProps {
+  id?: string;
+  title?: string;
+  text?: string;
+}
 const SubPartners: FC<SubPartnersProps> = () => {
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
@@ -159,12 +175,22 @@ const SubPartners: FC<SubPartnersProps> = () => {
   const [is650, setIs650] = useState(false);
 
   const swiperRef = useRef<SwiperRef>(null);
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [currentTools, setCurrentTools] = useState<IListProps>({});
+  const [mobTableOptions, setMobTableOpts] = useState(statisticList);
 
   const [is700, setIs700] = useState(false);
   const [is1280, setIs1280] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>();
 
   useEffect(() => {
     const handleResize = () => {
+      setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
       if (width < 1280 && width > 700) {
         setIs700(false);
@@ -193,15 +219,115 @@ const SubPartners: FC<SubPartnersProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <Layout>
       <section className={s.sub_partners_section}>
+        <AdaptiveExportButton setIsOpen={setIsExport} />
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isFilter && s.filter_active
+          )}
+        >
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={currenciesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCurrency}
+            itemId="usd"
+            activeTitle="websitesCurrencyFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={periodsList.concat([
+              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+            ])}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentPeriod}
+            itemId="currentMonthPeriod"
+            activeTitle="websitesPeriodFilter"
+          />
+          <AdaptiveChooser
+            activeTitle="choose"
+            list={mobTableOptions}
+            currentFilterPage={currentFilterPage}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setMobTableOpts={setMobTableOpts}
+            blockTitle={""}
+          />
+          <BackHead title="Фильтры" setIsOpen={setIsFilter} />
+          <div className="mobile_filter_body">
+            <AdaptiveFilterItem
+              objTitle={currentCurrency}
+              title="Валюта"
+              filterTitle="websitesCurrencyFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentPeriod}
+              title="Период"
+              filterTitle="websitesPeriodFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={`Выбрано ${statisticList?.length} п.`}
+              title="Показать"
+              filterTitle="choose"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <div className={s.export_btn_container}>
+              <button
+                onClick={() => setIsExport(false)}
+                className={s.export_back_btn}
+              >
+                Назад
+              </button>
+              <GenerateButton title="Сгенерировать отчет" />
+            </div>
+          </div>
+        </div>{" "}
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isExport && s.export_active
+          )}
+        >
+          <BackHead setIsOpen={setIsExport} title="Экспорт" />
+          <div className={s.mobile_pick_list_wrap}>
+            <div className={s.mobile_pick_list}>
+              <MobilePickList
+                list={exportList.slice(1)}
+                activeItemId="exel"
+                setCurrent={() => {}}
+              />
+            </div>
+          </div>
+          <div className={s.export_btn_container}>
+            <button
+              onClick={() => setIsExport(false)}
+              className={s.export_back_btn}
+            >
+              Назад
+            </button>
+            <GenerateButton title="Экспортировать" />
+          </div>
+        </div>
         <Breadcrumbs
           list={[
             { title: "Отчёты", link: "" },
             { title: "По суб-партнёрам", link: "/SubPartners" },
           ]}
-        />
+        />{" "}
+        <div
+          className={s.websites_filter_wrap}
+          onClick={() => setIsFilter(true)}
+        >
+          <Image src={filterIco} alt="filter-img" />
+          <span className={s.websites_filter_btn}>Фильтры</span>
+        </div>
         <div className={s.sub_partners_tablet}>
           <div className={s.sub_partners_tablet_item}>
             <span className={s.table_filter_block_item_title}>Период</span>
@@ -228,19 +354,21 @@ const SubPartners: FC<SubPartnersProps> = () => {
           </div>
           <GenerateButton />
         </div>
-        <div className={s.options_container}>
-          {" "}
-          <div className={s.options_wrapper}>
-            <CustomDropDownChoose
-              list={statisticList}
-              allPicked={true}
-              setActiveOptions={setActiveOpts}
-            />
+        {!isMobile && (
+          <div className={s.options_container}>
+            {" "}
+            <div className={s.options_wrapper}>
+              <CustomDropDownChoose
+                list={statisticList}
+                allPicked={true}
+                setActiveOptions={setActiveOpts}
+              />
+            </div>
+            <div className={s.export_wrapper}>
+              <CustomDropdownInput list={exportList} activeItemId="export" />
+            </div>
           </div>
-          <div className={s.export_wrapper}>
-            <CustomDropdownInput list={exportList} activeItemId="export" />
-          </div>
-        </div>
+        )}
         <div className={s.table_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
@@ -256,7 +384,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {activeOps.map(
+            {(isMobile ? statisticList : activeOps).map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}

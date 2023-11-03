@@ -95,6 +95,9 @@
   img {
     cursor: pointer;
   }
+  @media (max-width: 650px) {
+    padding: 6px 14px;
+  }
   @media screen and (max-width: 1280px) {
     min-height: 50px;
   }

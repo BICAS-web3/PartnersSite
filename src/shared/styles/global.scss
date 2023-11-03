@@ -45,7 +45,6 @@ a:active {
   border-radius: 8px;
   background: #202020;
   padding: 11px 14px;
-
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
   font-size: 14px;
@@ -83,6 +82,12 @@ a:active {
   }
 }
 
+.swiper-slide {
+  &[data-id="chooseEverything"] {
+    display: none !important;
+  }
+}
+
 .scroll-bar {
   margin-bottom: 5px;
   border-radius: 4px;
@@ -92,12 +97,22 @@ a:active {
     width: 6px;
     margin-bottom: 7px;
   }
+  @media (max-width: 650px) {
+    height: 4px;
+    margin-bottom: 8px;
+  }
 }
 
 .swiper-scrollbar-drag {
   border-radius: 4px;
   background: #3e3e3e;
   height: 7px;
+  @media (max-width: 1200px) {
+    height: 6px;
+  }
+  @media (max-width: 650px) {
+    height: 4px;
+  }
 }
 
 //datepicker

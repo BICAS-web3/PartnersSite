@@ -5,9 +5,11 @@ import Image from "next/image";
 import clsx from "clsx";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
+
 import { Layout } from "@/widgets/layout/Layout";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { $isSidebarOpened } from "@/widgets/sidebar/model";
+import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
@@ -15,23 +17,21 @@ import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { GenerateButton } from "@/widgets/generateButton/GenerateButton";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
-import { DropdownSwiperTable } from "@/widgets/dropdownSwiperTable/DropdownSwiperTable";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
 
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
+
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
-// import { tableRowsList } from "../../Websites";
+import { tableRowsList } from "../../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
-import { InputBlock } from "@/widgets/inputBlock/InputBlock";
-import { tableRowsList } from "../Websites";
 
 const periodsList = [
   {
@@ -61,10 +61,6 @@ const periodsList = [
   {
     title: "Прошлый год",
     id: "lastYearPeriod",
-  },
-  {
-    title: "Выбрать вручную",
-    id: "mobilePeriodManually",
   },
 ];
 
@@ -213,16 +209,30 @@ interface IListProps {
 interface GamersProps {}
 
 const Gamers: FC<GamersProps> = () => {
-  const swiperRef = useRef<SwiperRef>(null);
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
 
-  const [activeOps, setActiveOpts] = useState([]);
+  const swiperRef = useRef<SwiperRef>(null);
 
-  const [medium, setMedium] = useState<boolean>(false);
+  const [activeOpts, setActiveOpts] = useState([]);
+
   const [closed] = useUnit([$isSidebarOpened]);
+
   const [isMobile, setIsMobile] = useState<boolean>();
+  const [medium, setMedium] = useState(false);
   const [is700, setIs700] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState(false);
+  const [checkedPlayers, setCheckedPlayers] = useState(true);
+  const [checkedDeposit, setCheckedDeposit] = useState(true);
+
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [currentCountry, setCurrentCountry] = useState<IListProps>({});
+  const [currentCompany, setCurrentCompany] = useState<IListProps>({});
+  const [mobTableOptions, setMobTableOpts] = useState(historyList);
 
   useEffect(() => {
     const handleResize = () => {
@@ -249,34 +259,6 @@ const Gamers: FC<GamersProps> = () => {
     };
   }, []);
 
-  const [checkedPlayers, setCheckedPlayers] = useState(true);
-  const [checkedDeposit, setCheckedDeposit] = useState(true);
-
-  const [isFilter, setIsFilter] = useState(false);
-  const [isExport, setIsExport] = useState<boolean>(false);
-
-  const [currentFilterPage, setCurrentFilterPage] = useState("");
-  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
-  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
-  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
-  const [currentCountry, setCurrentCountry] = useState<IListProps>({});
-  const [currentCompany, setCurrentCompany] = useState<IListProps>({});
-  const [mobTableOptions, setMobTableOpts] = useState(historyList);
-
-  const fRef = useRef<HTMLInputElement>(null);
-  const sRef = useRef<HTMLInputElement>(null);
-  const tRef = useRef<HTMLInputElement>(null);
-
-  const [firstInput, setFirstInput] = useState("");
-  const [secondInput, setSecondInput] = useState("");
-  const [thirdInput, setThirdInput] = useState("");
-
-  type inputFocus = "first" | "second" | "third";
-
-  const [inputFocus, setInputFocus] = useState<inputFocus | null>(null);
-  useEffect(() => {
-    inputFocus !== null && setCurrentFilterPage("input");
-  }, [inputFocus]);
   return (
     <Layout>
       <section className={s.gamers_section}>
@@ -306,7 +288,9 @@ const Gamers: FC<GamersProps> = () => {
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
-            list={periodsList}
+            list={periodsList.concat([
+              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+            ])}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
             itemId="currentMonthPeriod"
@@ -330,10 +314,11 @@ const Gamers: FC<GamersProps> = () => {
           />
           <AdaptiveChooser
             activeTitle="choose"
-            list={mobTableOptions}
+            list={historyList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
+            blockTitle=""
           />
           <div
             className={clsx(
@@ -360,27 +345,9 @@ const Gamers: FC<GamersProps> = () => {
               <span className="mobile_filter_title">Фильтры</span>
             </div>
             <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
-              <InputBlock
-                value={firstInput}
-                setValue={setFirstInput}
-                inputRef={fRef}
-                placeholder="ID игрока"
-                focus={inputFocus === "first" && true}
-              />
-              <InputBlock
-                value={secondInput}
-                setValue={setSecondInput}
-                inputRef={sRef}
-                placeholder="Sub ID"
-                focus={inputFocus === "second" && true}
-              />
-              <InputBlock
-                focus={inputFocus === "third" && true}
-                value={thirdInput}
-                setValue={setThirdInput}
-                inputRef={tRef}
-                placeholder="ID Маркетингового инструмента"
-              />
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+
+              <InputBlock placeholder="ID Маркетингового инструмента" />
             </div>
             <div className="mobile_filter_item_page_footer">
               <button className="mob_cancel_btn">Отменить</button>
@@ -420,7 +387,7 @@ const Gamers: FC<GamersProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${activeOps?.length} п.`}
+              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
@@ -431,30 +398,14 @@ const Gamers: FC<GamersProps> = () => {
                 flexDirection: "column",
               }}
               className={clsx("mobile_filter_item", s.inputWrapper)}
+              onClick={() => setCurrentFilterPage("input")}
             >
-              <InputBlock
-                value={firstInput}
-                setValue={setFirstInput}
-                onClick={() => setInputFocus("first")}
-                placeholder="ID игрока"
-              />
-              <InputBlock
-                onClick={() => setInputFocus("second")}
-                placeholder="Sub ID"
-              />
-              <InputBlock
-                onClick={() => setInputFocus("third")}
-                placeholder="ID Маркетингового инструмента"
-              />
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+              <InputBlock placeholder="ID Маркетингового инструмента" />
             </div>
-            <div className={s.export_btn_container}>
-              <button
-                onClick={() => setIsExport(false)}
-                className={s.export_back_btn}
-              >
-                Назад
-              </button>
-              <GenerateButton title="Сгенерировать" />
+
+            <div className="subid_input_wrap">
+              <input type="text" className="subid_input" placeholder="SubId" />
             </div>
           </div>
         </div>
@@ -465,7 +416,6 @@ const Gamers: FC<GamersProps> = () => {
             isExport && s.export_active
           )}
         >
-          <BackHead setIsOpen={setIsExport} title="Экспорт" />
           <div className={s.mobile_pick_list_wrap}>
             <div className={s.mobile_pick_list}>
               <MobilePickList
@@ -571,22 +521,18 @@ const Gamers: FC<GamersProps> = () => {
           </div>
         </div>
         {closed && medium && <GenerateButton className={s.open_btn} />}
-
-        {!isMobile && (
-          <div className={s.options_container}>
-            <div className={s.options_wrapper}>
-              <CustomDropDownChoose
-                list={historyList}
-                allPicked={true}
-                setActiveOptions={setMobTableOpts}
-              />
-            </div>
-            <div className={s.export_wrapper}>
-              <CustomDropdownInput list={exportList} activeItemId="export" />
-            </div>
+        <div className={s.options_container}>
+          <div className={s.options_wrapper}>
+            <CustomDropDownChoose
+              list={historyList}
+              allPicked={true}
+              setActiveOptions={setActiveOpts}
+            />
           </div>
-        )}
-
+          <div className={s.export_wrapper}>
+            <CustomDropdownInput list={exportList} activeItemId="export" />
+          </div>
+        </div>
         <div className={s.slider_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
@@ -602,23 +548,21 @@ const Gamers: FC<GamersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {historyList.map(
-              (item: { title: string; id: string; text: string }, ind) => (
-                <SwiperSlide
-                  className={s.swiper_slide}
-                  key={ind}
-                  data-id={item.id}
-                >
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{item.title}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>{item.text}</div>
+            {(is700 ? mobTableOptions : activeOpts).map((item, ind) => (
+              <SwiperSlide
+                className={s.swiper_slide}
+                key={ind}
+                data-id={item.id}
+              >
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>{item.title}</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
                   </div>
-                </SwiperSlide>
-              )
-            )}
+                  <div className={s.swiper_slide_content}>{item.text}</div>
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
         <div className={s.table_navigation_block}>
