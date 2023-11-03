@@ -98,7 +98,7 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
   }, [mobTableOpts]);
 
   return (
-    <Layout>
+    <Layout activePage="commissionStructure">
       <section className={s.commission_structure_wrap}>
         <div className={s.commission_structure_block}>
           <div className={s.breadcrumbs_wrap}>

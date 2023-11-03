@@ -134,7 +134,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   }, [is650]);
 
   return (
-    <Layout>
+    <Layout activePage="partnersRef">
       <section className={s.partners_ref_page}>
         <Breadcrumbs
           list={[

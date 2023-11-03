@@ -9,7 +9,7 @@ interface ContactsProps {}
 
 const Contacts: FC<ContactsProps> = () => {
   return (
-    <Layout>
+    <Layout activePage="contacts">
       <div className={s.contacts_page}>
         <div className={s.contacts_block}>
           <Breadcrumbs

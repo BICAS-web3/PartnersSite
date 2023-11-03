@@ -128,7 +128,7 @@ const Total: FC<TotalProps> = () => {
   }, []);
 
   return (
-    <Layout>
+    <Layout activePage="total">
       <section className={s.total_page}>
         <div
           className={clsx(

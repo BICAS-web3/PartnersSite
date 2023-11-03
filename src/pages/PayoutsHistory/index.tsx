@@ -204,7 +204,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   }, [is650]);
 
   return (
-    <Layout>
+    <Layout activePage="payoutsHistory">
       <section className={s.payouts_history_section}>
         <div className={s.payouts_history_block}>
           <div className={s.breadcrumbs_block}>
