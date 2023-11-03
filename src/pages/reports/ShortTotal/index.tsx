@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
@@ -13,7 +13,23 @@ import nextArrow from "@/public/media/common/nextArrow.png";
 import { getMonth, getYear } from "date-fns";
 import filterIcon from "@/public/media/common/filterImg.png";
 import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
-
+import clsx from "clsx";
+import { InputBlock } from "@/widgets/inputBlock/InputBlock";
+import { BackHead } from "@/widgets/backHead/BackHead";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
+import { DataSettings } from "@/widgets/dataSettings/DataSettings";
+const wepPagesList = [
+  {
+    title: "https://greekkeepers.io",
+    id: "greekkeepers",
+  },
+  {
+    title: "https://dailytrust.com",
+    id: "dailytrust",
+  },
+];
 const months = [
   "January",
   "February",
@@ -111,10 +127,16 @@ const tableItemsList = [
     data: "0,00 ₽",
   },
 ];
-
+interface IListProps {
+  id?: string;
+  title?: string;
+  text?: string;
+}
 interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
+  const [isMobile, setIsMobile] = useState<boolean>();
+
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
   const years = range(1990, 2025);
@@ -124,17 +146,140 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     tableItemsList.length / 2,
     tableItemsList.length
   );
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState(false);
+
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1280);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Layout activePage="shortTotal">
       <section className={s.short_total_section}>
+        <div
+          className={clsx(
+            "mobile_filter_block",
+            s.mobile_filter_block,
+            isFilter && s.filter_active
+          )}
+        >
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={currenciesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentCurrency}
+            itemId="usd"
+            activeTitle="websitesCurrencyFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={wepPagesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentWebpages}
+            itemId="greekkeepers"
+            activeTitle="webPagesCategoryFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={periodsList.concat([
+              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+            ])}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentPeriod}
+            itemId="currentMonthPeriod"
+            activeTitle="websitesPeriodFilter"
+          />
+          <div
+            className={clsx(
+              "filter_item_page",
+              currentFilterPage === "input" && "active"
+            )}
+          >
+            <div
+              className={clsx(
+                s.mobile_filter_block_header,
+                "mobile_filter_block_header"
+              )}
+            >
+              <span
+                className={clsx(
+                  s.close_filter_block_btn,
+                  "close_filter_block_btn"
+                )}
+                onClick={() => setCurrentFilterPage("")}
+              >
+                <Image src={prevArrow} alt="close-filter-ico" />
+                Назад
+              </span>
+              <span className="mobile_filter_title">Фильтры</span>
+            </div>
+            <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+            </div>
+            <div className="mobile_filter_item_page_footer">
+              <button className="mob_cancel_btn">Отменить</button>
+              <button className="mob_save_btn">Сохранить</button>
+            </div>
+          </div>
+          <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
+          <div className="mobile_filter_body">
+            <AdaptiveFilterItem
+              objTitle={currentCurrency}
+              title="Валюта"
+              filterTitle="websitesCurrencyFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentWebpages}
+              title="Сайт"
+              filterTitle="webPagesCategoryFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentPeriod}
+              title="Период"
+              filterTitle="websitesPeriodFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+              className={clsx("mobile_filter_item", s.inputWrapper)}
+              onClick={() => setCurrentFilterPage("input")}
+            >
+              <InputBlock placeholder="ID Маркетингового инструмента" />
+            </div>
+
+            <div className="subid_input_wrap">
+              <input type="text" className="subid_input" placeholder="SubId" />
+            </div>
+          </div>
+        </div>
         <Breadcrumbs
           list={[
             { title: "Главная", link: "/" },
             { title: "Краткий суммарный", link: "/reports/ShortTotal" },
           ]}
         />
-        <div className={s.mob_filter_btn}>
+        <div onClick={() => setIsFilter(true)} className={s.mob_filter_btn}>
           <Image src={filterIcon} alt="filter-icon" />
           Фильтры
         </div>
@@ -170,153 +315,12 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                 activeItemId="arbitraryPeriod"
               />
             </div>
-            <div className={s.period_datepicker_wrap}>
-              <div className={s.first_datepicker_block}>
-                <DatePicker
-                  className={`${s.custom_datepicker} lol`}
-                  renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }: any) => (
-                    <div
-                      className={s.datepicker_header}
-                      style={{
-                        margin: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <button
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                        className={s.datepicker_month_btn}
-                      >
-                        <Image src={prevArrow} alt="prev-arr" />
-                      </button>
-                      <div className={s.pick_year_block}>
-                        <select
-                          className="custom-select-style"
-                          value={getYear(date)}
-                          onChange={({ target: { value } }) =>
-                            changeYear(value)
-                          }
-                        >
-                          {years.map((option: any) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className={s.pick_month_block}>
-                        <select
-                          className="custom-select-style"
-                          value={months[getMonth(date)]}
-                          onChange={({ target: { value } }) =>
-                            changeMonth(months.indexOf(value))
-                          }
-                        >
-                          {months.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <button
-                        className={s.datepicker_month_btn}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                      >
-                        <Image src={nextArrow} alt="next-arr" />
-                      </button>
-                    </div>
-                  )}
-                  selected={firstDatePickerDate}
-                  onChange={(date: any) => setFirstDatePickerDate(date)}
-                />
-              </div>
-              <div className={s.second_datepicker_block}>
-                <DatePicker
-                  className={`${s.custom_datepicker} ${s.second_custom_datepicker}`}
-                  popperClassName="short-total-second-popper"
-                  renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }: any) => (
-                    <div
-                      className={s.datepicker_header}
-                      style={{
-                        margin: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <button
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                        className={s.datepicker_month_btn}
-                      >
-                        <Image src={prevArrow} alt="prev-arr" />
-                      </button>
-                      <div className={s.pick_year_block}>
-                        <select
-                          className="custom-select-style"
-                          value={getYear(date)}
-                          onChange={({ target: { value } }) =>
-                            changeYear(value)
-                          }
-                        >
-                          {years.map((option: any) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className={s.pick_month_block}>
-                        <select
-                          className="custom-select-style"
-                          value={months[getMonth(date)]}
-                          onChange={({ target: { value } }) =>
-                            changeMonth(months.indexOf(value))
-                          }
-                        >
-                          {months.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <button
-                        className={s.datepicker_month_btn}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                      >
-                        <Image src={nextArrow} alt="next-arr" />
-                      </button>
-                    </div>
-                  )}
-                  selected={secondDatePickerDate}
-                  onChange={(date: any) => setSecondDatePickerDate(date)}
-                />
-              </div>
-            </div>
+            <DataSettings
+              firstDataPicker={firstDatePickerDate}
+              secondDataPicker={secondDatePickerDate}
+              setFirstDataPicker={setFirstDatePickerDate}
+              setSecondDataPicker={setSecondDatePickerDate}
+            />
             <div className={s.generate_report_btn_wrap}>
               <button className={s.generate_report_btn}>
                 Сгенерировать отчет
@@ -346,21 +350,26 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           </div>
         </div>
         <div className={s.table}>
-          <div className={s.first_table_block}>
-            {firstTableBlock.map((item, ind) => (
-              <div
-                className={s.table_item}
-                key={ind}
-                data-even={(ind + 1) % 2 === 0}
-              >
-                <span className={s.table_item_title}>{item.title}</span>
-                <span className={s.table_item_value}>{item.data}</span>
-              </div>
-            ))}
-          </div>
+          {!isMobile && (
+            <div className={s.first_table_block}>
+              {firstTableBlock.map((item, ind) => (
+                <div
+                  className={s.table_item}
+                  key={ind}
+                  data-even={(ind + 1) % 2 === 0}
+                >
+                  <span className={s.table_item_title}>{item.title}</span>
+                  <span className={s.table_item_value}>{item.data}</span>
+                </div>
+              ))}
+            </div>
+          )}
           <div className={s.second_table_block}>
             <div className={s.second_table_block_inner}>
-              {secondTableBlock.map((item, ind) => (
+              {(isMobile
+                ? firstTableBlock.concat(secondTableBlock)
+                : secondTableBlock
+              ).map((item, ind) => (
                 <div
                   className={s.table_item}
                   key={ind}

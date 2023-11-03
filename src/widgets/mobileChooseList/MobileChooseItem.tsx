@@ -39,6 +39,10 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
   useEffect(() => {
     if (allPicked) {
       setChecked(false);
+
+      setList(initList);
+    } else {
+      checked ? setList([item]) : setList([]);
     }
   }, [allPicked]);
 

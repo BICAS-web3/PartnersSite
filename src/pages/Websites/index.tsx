@@ -145,6 +145,8 @@ const Websites: FC<WebsitesProps> = () => {
     };
   }, []);
 
+  console.log(mobTableOptions);
+
   return (
     <Layout activePage="websites">
       <section className={s.websites_page}>

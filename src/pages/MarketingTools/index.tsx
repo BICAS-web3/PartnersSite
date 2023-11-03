@@ -3,33 +3,28 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
 import Image from "next/image";
 
+import filterIco from "@/public/media/common/filterImg.png";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { GenerateButton } from "@/widgets/generateButton/GenerateButton";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-<<<<<<< HEAD
-import { tableRowsList } from "../../Websites";
+import { tableRowsList } from "../Websites";
 
-=======
-import clsx from "clsx";
-import filterIco from "@/public/media/common/filterImg.png";
->>>>>>> 3161704e281460fcffc79e0fc8ea29ee561a7367
 import "swiper/scss";
 import s from "./styles.module.scss";
+import clsx from "clsx";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
-import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
-import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { BackHead } from "@/widgets/backHead/BackHead";
-import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { tableRowsList } from "@/pages/Websites";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 
 const periodsList = [
   {
@@ -88,30 +83,61 @@ const exportList = [
   },
 ];
 
-const statisticList = [
+const wepPagesList = [
   {
-    title: "Сайт",
-    id: "site",
+    title: "https://greekkeepers.io",
+    id: "greekkeepers",
+  },
+  {
+    title: "https://dailytrust.com",
+    id: "dailytrust",
+  },
+];
+
+const historyList = [
+  {
+    title: "ID инструмента",
+    id: "id_tool",
     text: "-",
   },
   {
-    title: "ID",
-    id: "ID",
+    title: "Sub ID",
+    id: "sub_id",
     text: "-",
   },
   {
-    title: "Уровень суб-партнёра",
-    id: "level",
+    title: "Регистрация",
+    id: "registration",
     text: "-",
   },
   {
-    title: "ID сайта регистрации",
-    id: "ID_registration",
+    title: "Аккаунты с депозитами",
+    id: "deposit_account",
     text: "-",
   },
   {
-    title: "Процент",
-    id: "procentage",
+    title: "Сумма депозитов",
+    id: "deposit_summ",
+    text: "-",
+  },
+  {
+    title: "Доход компаний (общий)",
+    id: "company_income",
+    text: "-",
+  },
+  {
+    title: "Сумма коммиссий",
+    id: "commission_summ",
+    text: "-",
+  },
+  {
+    title: "Тип инструмента",
+    id: "tool_type",
+    text: "-",
+  },
+  {
+    title: "ID сайта",
+    id: "id_page",
     text: "-",
   },
   {
@@ -124,75 +150,49 @@ const statisticList = [
     id: "clicks",
     text: "-",
   },
+];
+
+const toolsTypeList = [
   {
-    title: "Прямые сслыки",
-    id: "links",
-    text: "-",
+    title: "Flash",
+    id: "flash",
   },
   {
-    title: "Регистрации",
-    id: "registratiob",
-    text: "-",
+    title: "Wallpaper",
+    id: "wallpaper",
   },
   {
-    title: "Новые аккаунты с депозитами",
-    id: "new_accounts",
-    text: "-",
+    title: "HTML 5",
+    id: "html",
   },
   {
-    title: "Сумма всех депозитов",
-    id: "summ_deposit",
-    text: "-",
-  },
-  {
-    title: "Доход",
-    id: "income",
-    text: "-",
-  },
-  {
-    title: "CPA",
-    id: "CPA",
-    text: "-",
-  },
-  {
-    title: "Реферальная коммиссия",
-    id: "referal_fee",
-    text: "-",
+    title: "Direct link",
+    id: "direct_link",
   },
 ];
 
-interface SubPartnersProps {}
+const TabsTypes = ["Статус заявок", "История выплат"] as const;
+type TabsTypes = "Статус заявок" | "История выплат";
+
+interface MarketingToolsProps {}
 interface IListProps {
   id?: string;
   title?: string;
   text?: string;
 }
-interface IListProps {
-  id?: string;
-  title?: string;
-  text?: string;
-}
-const SubPartners: FC<SubPartnersProps> = () => {
+
+const MarketingTools: FC<MarketingToolsProps> = () => {
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
 
-  const [activeOps, setActiveOpts] = useState([]);
   const [is650, setIs650] = useState(false);
 
   const swiperRef = useRef<SwiperRef>(null);
-  const [currentFilterPage, setCurrentFilterPage] = useState("");
-  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
-  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
-  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
-  const [currentTools, setCurrentTools] = useState<IListProps>({});
-  const [mobTableOptions, setMobTableOpts] = useState(statisticList);
 
   const [is700, setIs700] = useState(false);
   const [is1280, setIs1280] = useState(false);
-  const [isFilter, setIsFilter] = useState(false);
-  const [isExport, setIsExport] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>();
 
+  const [isMobile, setIsMobile] = useState<boolean>();
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
@@ -225,9 +225,21 @@ const SubPartners: FC<SubPartnersProps> = () => {
     };
   }, []);
 
+  const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
+  const [currentWebpages, setCurrentWebpages] = useState<IListProps>({});
+  const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
+  const [currentCountry, setCurrentCountry] = useState<IListProps>({});
+  const [currentCompany, setCurrentCompany] = useState<IListProps>({});
+  const [currentTools, setCurrentTools] = useState<IListProps>({});
+  const [mobTableOptions, setMobTableOpts] = useState(historyList);
+
+  const [isFilter, setIsFilter] = useState(false);
+  const [isExport, setIsExport] = useState<boolean>(false);
+  const [activeBtn, setActiveBtn] = useState<TabsTypes>("Статус заявок");
   return (
-    <Layout activePage="bySubPartners">
-      <section className={s.sub_partners_section}>
+    <Layout>
+      <section className={s.marketing_section}>
         <AdaptiveExportButton setIsOpen={setIsExport} />
         <div
           className={clsx(
@@ -246,13 +258,27 @@ const SubPartners: FC<SubPartnersProps> = () => {
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
-            list={periodsList.concat([
-              { title: "Выбрать вручную", id: "mobilePeriodManually" },
-            ])}
+            list={wepPagesList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentWebpages}
+            itemId="greekkeepers"
+            activeTitle="webPagesCategoryFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={periodsList}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
             itemId="currentMonthPeriod"
             activeTitle="websitesPeriodFilter"
+          />
+          <AdaptivePicker
+            currentFilterPage={currentFilterPage}
+            list={toolsTypeList}
+            setCurrentFilterPage={setCurrentFilterPage}
+            setCurrentLanguage={setCurrentTools}
+            itemId="flash"
+            activeTitle="websitesToolsFilter"
           />
           <AdaptiveChooser
             activeTitle="choose"
@@ -260,14 +286,20 @@ const SubPartners: FC<SubPartnersProps> = () => {
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
-            blockTitle={""}
           />
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />
+
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
               objTitle={currentCurrency}
               title="Валюта"
               filterTitle="websitesCurrencyFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+            <AdaptiveFilterItem
+              objTitle={currentWebpages}
+              title="Сайт"
+              filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
@@ -277,19 +309,20 @@ const SubPartners: FC<SubPartnersProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${statisticList?.length} п.`}
+              objTitle={currentTools}
+              title="Тип инструмента"
+              filterTitle="websitesToolsFilter"
+              setCurrentFilterPage={setCurrentFilterPage}
+            />
+
+            <AdaptiveFilterItem
+              objTitle={`Выбрано ${historyList?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            <div className={s.export_btn_container}>
-              <button
-                onClick={() => setIsExport(false)}
-                className={s.export_back_btn}
-              >
-                Назад
-              </button>
-              <GenerateButton title="Сгенерировать отчет" />
+            <div className="subid_input_wrap">
+              <input type="text" className="subid_input" placeholder="SubId" />
             </div>
           </div>
         </div>{" "}
@@ -323,9 +356,9 @@ const SubPartners: FC<SubPartnersProps> = () => {
         <Breadcrumbs
           list={[
             { title: "Отчёты", link: "" },
-            { title: "По суб-партнёрам", link: "/SubPartners" },
+            { title: "Маркетинговые инструменты", link: "" },
           ]}
-        />{" "}
+        />
         <div
           className={s.websites_filter_wrap}
           onClick={() => setIsFilter(true)}
@@ -333,55 +366,74 @@ const SubPartners: FC<SubPartnersProps> = () => {
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
-          <Image src={filterIco} alt="filter-img" />
-          <span className={s.websites_filter_btn}>Фильтры</span>
-        </div>
-        <div className={s.sub_partners_tablet}>
-          <div className={s.sub_partners_tablet_item}>
-            <span className={s.table_filter_block_item_title}>Период</span>
-            <CustomDropdownInput
-              list={periodsList}
-              activeItemId="arbitraryPeriod"
-            />
+        <div className={s.marketing_table_container}>
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Сайт</span>
+            <CustomDropdownInput list={wepPagesList} />
+          </div>
+          <div
+            className={clsx(
+              s.marketing_table_item,
+              s.marketing_table_item_subid
+            )}
+          >
+            <span className={s.marketing_table_title}>Sub ID</span>
+            <input className={s.marketing_table_input} />
+          </div>
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Период</span>
+            <CustomDropdownInput list={periodsList} />
           </div>
           <DataSettings
+            className={s.data_settings}
             firstDataPicker={firstDataPicker}
             secondDataPicker={secondDataPicker}
             setFirstDataPicker={setFirstDataPicker}
             setSecondDataPicker={setSecondDataPicker}
           />
-          <div className={s.sub_partners_tablet_item}>
-            <span className={s.table_filter_block_item_title}>Валюта</span>
-            <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Тип инструмента</span>
+            <CustomDropdownInput list={toolsTypeList} />
           </div>
-          <div className={s.sub_partners_tablet_item_grow}>
-            <span className={s.table_filter_block_item_title}>
-              Дата регистрации суб-партнера
+          <div
+            className={clsx(
+              s.marketing_table_item,
+              s.marketing_table_item_grow
+            )}
+          >
+            <span className={s.marketing_table_title}>
+              ID Маркетингового инструмента
             </span>
-            <input className={s.sub_partners_registration} type="text" />
+            <input className={s.marketing_table_input} />
           </div>
-          <GenerateButton />
+          <div className={s.marketing_table_item}>
+            <span className={s.marketing_table_title}>Валюта</span>
+            <CustomDropdownInput list={currenciesList} />
+          </div>
+          <GenerateButton className={clsx(s.generate_button)} />
         </div>
-        {!isMobile && (
-          <div className={s.options_container}>
-            {" "}
-            <div className={s.options_wrapper}>
-              <CustomDropDownChoose
-                list={statisticList}
-                allPicked={true}
-                setActiveOptions={setActiveOpts}
-              />
-            </div>
-            <div className={s.export_wrapper}>
+        <div className={s.marketing_options_container}>
+          <div className={s.marketing_options_wrapper}>
+            {TabsTypes.map((btn, i) => (
+              <button
+                className={clsx(
+                  s.marketing_tab_btn,
+                  activeBtn === btn && s.marketing_tab_btn_active
+                )}
+                onClick={() => setActiveBtn(btn)}
+                key={i}
+              >
+                {btn}
+              </button>
+            ))}
+          </div>
+          {!isMobile && (
+            <div className={s.marketing_export}>
               <CustomDropdownInput list={exportList} activeItemId="export" />
             </div>
-          </div>
-        )}
-        <div className={s.table_wrap}>
+          )}
+        </div>
+        <div className={s.marketing_slider_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
@@ -396,7 +448,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {(isMobile ? mobTableOptions : activeOps).map(
+            {historyList.map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
@@ -415,23 +467,25 @@ const SubPartners: FC<SubPartnersProps> = () => {
             )}
           </Swiper>
         </div>
-        <div className={s.table_navigation_block}>
-          <div className={s.table_records_block}>
-            <p className={s.table_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
-            </p>
-          </div>
-          <div className={s.table_pages_wrap}>
-            <div className={s.table_pages_block}>
-              <div className={s.table_prev_page_btn}>
+        <div className={s.marketing_navigation_block}>
+          {!isMobile && (
+            <div className={s.marketing_records_block}>
+              <p className={s.marketing_records_text}>
+                Записи с 1 по 1 (всего 1 записей)
+              </p>
+            </div>
+          )}
+          <div className={s.marketing_pages_wrap}>
+            <div className={s.marketing_pages_block}>
+              <div className={s.marketing_prev_page_btn}>
                 <Image src={prevArrow} alt="prev-arr" />
               </div>
-              <div className={s.table_current_page_btn}>1</div>
-              <div className={s.table_next_page_btn}>
+              <div className={s.marketing_current_page_btn}>1</div>
+              <div className={s.marketing_next_page_btn}>
                 <Image src={nextArrow} alt="next-arr" />
               </div>
             </div>
-            <div className={s.choose_table_rows_block}>
+            <div className={s.choose_marketing_rows_block}>
               <CustomDropdownInput
                 list={tableRowsList}
                 activeItemId="ten"
@@ -445,4 +499,4 @@ const SubPartners: FC<SubPartnersProps> = () => {
   );
 };
 
-export default SubPartners;
+export default MarketingTools;
