@@ -47,9 +47,22 @@
   }
 }
 
+.currency_charts_wrap_closed {
+  grid-template-columns: 1fr 1fr;
+  @media screen and (max-width: 1280px) {
+    grid-template-columns: 1fr;
+  }
+}
+.currency_charts_wrap_opened {
+  grid-template-columns: 49.5% 49.5%;
+  @media screen and (max-width: 1280px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .currency_charts_wrap {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  // grid-template-columns: 1fr 1fr;
   gap: 20px;
   @media screen and (max-width: 1280px) {
     grid-template-columns: 1fr;

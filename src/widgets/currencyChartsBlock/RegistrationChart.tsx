@@ -27,6 +27,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
   const options = {
     chart: {
       id: "line-chart",
+
       toolbar: {
         show: false,
       },
