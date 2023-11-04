@@ -1,6 +1,7 @@
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
+import { useDropdown } from "@/shared/tools";
 
 interface CustomDropdownInputProps {
   list: any[];
@@ -20,26 +21,32 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   );
 
   const [listVisibility, setListVisibility] = useState(false);
+  const { dropdownRef, toggle, close, isOpen } = useDropdown();
   const [avaibleItems, setAvaibleItems] = useState(
     activeItemId ? list.filter((item) => item.id !== activeItemId) : list
   );
 
   const handleActiveItemSetting = (itemId: any) => {
-    setListVisibility(false);
+    // setListVisibility(false);
+    close();
     setActiveItem(avaibleItems.filter((item) => item.id === itemId)[0]);
     setAvaibleItems(list.filter((item) => item.id !== itemId));
   };
 
   return (
     <div
+      ref={dropdownRef}
       className={`${s.dropdown_input_block_wrap} ${
-        listVisibility && s.dropdown_active
+        isOpen && s.dropdown_active
       }`}
     >
       <div
         className={s.active_dropdown_block}
         style={{ height: height }}
-        onClick={() => setListVisibility(!listVisibility)}
+        onClick={() => {
+          // setListVisibility(!listVisibility);
+          toggle();
+        }}
       >
         <div
           className={s.active_dropdown_title_block}
