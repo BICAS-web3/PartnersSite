@@ -1,8 +1,8 @@
 .welcomePage_container {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .welcomePage_body {
@@ -21,6 +21,18 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+  padding: 20px;
+  &.isSignup_container {
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 650px) {
+  .welcomePage_content_wrap {
+    &.isSignup_container {
+      padding: 20px;
+    }
+  }
 }
 
 .planet_img_block {
@@ -230,7 +242,7 @@
 @media screen and (max-width: 650px) {
   .welcomePage_content_wrap {
     box-sizing: border-box;
-    padding: 70px 0 40px 0;
+    padding: 70px 15px 40px 15px;
   }
   .welcomePage_content_wrap.isSignup_container {
     padding: 0;

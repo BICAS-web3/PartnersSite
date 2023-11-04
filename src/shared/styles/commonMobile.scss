@@ -105,6 +105,9 @@
   transition: all 0.3s;
   visibility: hidden;
   opacity: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .filter_item_page.active {
@@ -113,8 +116,6 @@
 }
 
 .mobile_filter_item_page_footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   background: #151515;
   padding: 14px;

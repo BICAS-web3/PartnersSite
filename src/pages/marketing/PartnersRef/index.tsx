@@ -132,10 +132,32 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   useEffect(() => {
     setActiveOpts(mobTableCols);
   }, [is650]);
+<<<<<<< HEAD
+
+  useEffect(() => {
+    if (isFilter) {
+      document.documentElement.style.overflow = "hidden";
+      document.documentElement.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }
+  }, [isFilter]);
+
+  useEffect(() => {
+    if (currentFilterPage !== "") {
+      const el = document.getElementById("partnersRef_filter_block");
+      el?.scrollTo(0, 0);
+    }
+  }, [currentFilterPage]);
+
+=======
   const handleFilterClick = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
   return (
     <Layout activePage="partnersRef">
       <section className={s.partners_ref_page}>
@@ -154,7 +176,8 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             <div
               className={`${s.mobile_filter_block} mobile_filter_block ${
                 isFilter && s.filter_active
-              }`}
+              } ${currentFilterPage !== "" && s.scroll_disabled}`}
+              id="partnersRef_filter_block"
             >
               <AdaptivePicker
                 list={currenciesList}

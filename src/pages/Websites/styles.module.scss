@@ -62,7 +62,11 @@
   letter-spacing: 0.64px;
 }
 
-.websites_filter_block {
+.scroll_disabled {
+  overflow: hidden !important;
+}
+
+.website_downTable_filter_block {
   margin-top: 20px;
 }
 
@@ -189,6 +193,7 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
+  overflow: auto;
 }
 
 .mobile_filter_block.filter_active {
@@ -229,7 +234,7 @@
   .table_records_text {
     display: none;
   }
-  .websites_filter_block {
+  .website_downTable_filter_block {
     display: flex;
     justify-content: center;
     align-items: center;

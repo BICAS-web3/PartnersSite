@@ -169,10 +169,30 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     };
   }, []);
 
+<<<<<<< HEAD
+  useEffect(() => {
+    if (isFilter) {
+      document.documentElement.style.overflow = "hidden";
+      document.documentElement.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }
+  }, [isFilter]);
+
+  useEffect(() => {
+    if (currentFilterPage !== "") {
+      const el = document.getElementById("shortTotal_filter_block");
+      el?.scrollTo(0, 0);
+    }
+  }, [currentFilterPage]);
+=======
   const handleFilterClick = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="shortTotal">
@@ -181,8 +201,10 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           className={clsx(
             "mobile_filter_block",
             s.mobile_filter_block,
-            isFilter && s.filter_active
+            isFilter && s.filter_active,
+            currentFilterPage !== "" && s.scroll_disabled
           )}
+          id="shortTotal_filter_block"
         >
           <AdaptivePicker
             currentFilterPage={currentFilterPage}

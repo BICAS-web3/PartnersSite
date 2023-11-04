@@ -236,8 +236,13 @@
 
 .mobile_filter_block {
   visibility: hidden;
+  overflow: auto;
   opacity: 0;
   transition: all 0.3s;
+}
+
+.scroll_disabled {
+  overflow: hidden !important;
 }
 
 .filter_active {
