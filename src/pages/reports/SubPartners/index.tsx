@@ -14,13 +14,8 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-<<<<<<< HEAD
-import { tableRowsList } from "../../Websites";
-
-=======
 import clsx from "clsx";
 import filterIco from "@/public/media/common/filterImg.png";
->>>>>>> 3161704e281460fcffc79e0fc8ea29ee561a7367
 import "swiper/scss";
 import s from "./styles.module.scss";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
