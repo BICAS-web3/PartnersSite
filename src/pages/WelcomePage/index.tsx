@@ -93,6 +93,13 @@ const WelcomePage: FC<WelcomePageProps> = () => {
     }
   }, [is1280, is700, isMob]);
 
+  useEffect(() => {
+    document.body.style.width = "100%";
+    document.documentElement.style.display = "flex";
+    const nextCont = document.getElementById("__next");
+    nextCont.style.display = "flex";
+  }, []);
+
   return (
     <div className={s.welcomePage_container}>
       <Header />

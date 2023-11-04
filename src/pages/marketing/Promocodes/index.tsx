@@ -97,6 +97,24 @@ const Promocodes: FC<PromocodesProps> = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isFilter) {
+      document.documentElement.style.overflow = "hidden";
+      document.documentElement.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }
+  }, [isFilter]);
+
+  useEffect(() => {
+    if (currentFilterPage !== "") {
+      const el = document.getElementById("promocodes_filter_block");
+      el?.scrollTo(0, 0);
+    }
+  }, [currentFilterPage]);
+
   return (
     <Layout activePage="promocodes">
       <section className={s.promocodes_page}>
@@ -118,7 +136,8 @@ const Promocodes: FC<PromocodesProps> = () => {
             <div
               className={`${s.mobile_filter_block} mobile_filter_block ${
                 isFilter && s.filter_active
-              }`}
+              } ${currentFilterPage !== s.scroll_disabled}`}
+              id="promocodes_filter_block"
             >
               <AdaptivePicker
                 list={currenciesList}

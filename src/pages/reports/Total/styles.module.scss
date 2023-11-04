@@ -419,12 +419,17 @@
 }
 
 //! adaptive
-
 .mobile_filter_block {
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
+  overflow: auto;
 }
+
+.scroll_disable {
+  overflow: hidden !important;
+}
+
 .websites_filter_wrap {
   cursor: pointer;
   display: none;
@@ -433,6 +438,7 @@
   padding: 0 0 0 15px;
   align-items: center;
 }
+
 .mobile_filter_block.filter_active {
   visibility: visible;
   opacity: 1;

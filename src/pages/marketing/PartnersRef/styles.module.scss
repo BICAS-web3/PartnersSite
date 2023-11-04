@@ -241,6 +241,11 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
+  overflow: auto;
+}
+
+.scroll_disabled {
+  overflow: hidden !important;
 }
 
 .filter_active {

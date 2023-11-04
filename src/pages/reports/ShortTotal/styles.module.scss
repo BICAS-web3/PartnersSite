@@ -288,7 +288,6 @@
     max-height: 828px;
     overflow-y: scroll;
   }
-
   @media (max-width: 650px) {
     max-height: max-content;
     overflow-y: auto;
@@ -375,7 +374,13 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
+  overflow: auto;
 }
+
+.scroll_disabled {
+  overflow: hidden !important;
+}
+
 .websites_filter_wrap {
   cursor: pointer;
   display: none;
@@ -384,6 +389,7 @@
   padding: 0 0 0 15px;
   align-items: center;
 }
+
 .mobile_filter_block.filter_active {
   visibility: visible;
   opacity: 1;

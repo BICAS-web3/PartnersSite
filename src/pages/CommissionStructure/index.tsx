@@ -97,6 +97,16 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
     setActiveOpts(mobTableOpts);
   }, [mobTableOpts]);
 
+  useEffect(() => {
+    if (isFilter) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }
+  }, [isFilter]);
+
   return (
     <Layout activePage="commissionStructure">
       <section className={s.commission_structure_wrap}>

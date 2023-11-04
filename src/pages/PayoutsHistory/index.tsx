@@ -203,6 +203,24 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     setActiveOpts(mobTableOpts);
   }, [is650]);
 
+  useEffect(() => {
+    if (isFilter) {
+      document.documentElement.style.overflow = "hidden";
+      document.documentElement.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }
+  }, [isFilter]);
+
+  useEffect(() => {
+    if (currentFilterPage !== "") {
+      const el = document.getElementById("payouts_history_filter");
+      el?.scrollTo(0, 0);
+    }
+  }, [currentFilterPage]);
+
   return (
     <Layout activePage="payoutsHistory">
       <section className={s.payouts_history_section}>
@@ -239,7 +257,8 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
               <div
                 className={`${s.mobile_filter_block} mobile_filter_block ${
                   isFilter && s.filter_active
-                }`}
+                } ${currentFilterPage !== "" && s.scroll_disable}`}
+                id="payouts_history_filter"
               >
                 <PhCurrencyMobBlock
                   setCurrentFilterPage={setCurrentFilterPage}

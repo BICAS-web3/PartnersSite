@@ -225,6 +225,24 @@ const SubPartners: FC<SubPartnersProps> = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isFilter) {
+      document.documentElement.style.overflow = "hidden";
+      document.documentElement.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }
+  }, [isFilter]);
+
+  useEffect(() => {
+    if (currentFilterPage !== "") {
+      const el = document.getElementById("subPartners_filter_block");
+      el?.scrollTo(0, 0);
+    }
+  }, [currentFilterPage]);
+
   return (
     <Layout activePage="bySubPartners">
       <section className={s.sub_partners_section}>
@@ -233,8 +251,10 @@ const SubPartners: FC<SubPartnersProps> = () => {
           className={clsx(
             "mobile_filter_block",
             s.mobile_filter_block,
-            isFilter && s.filter_active
+            isFilter && s.filter_active,
+            currentFilterPage !== '' && s.scroll_disable
           )}
+          id="subPartners_filter_block"
         >
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
