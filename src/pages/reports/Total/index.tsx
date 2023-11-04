@@ -106,9 +106,11 @@ const Total: FC<TotalProps> = () => {
   const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
   const [activeOpts, setActiveOpts] = useState<IListProps[]>([]);
   const [mobTableOptions, setMobTableOpts] = useState(options);
+  const [isMobile, setIsMobile] = useState<boolean>();
 
   useEffect(() => {
     const handleResize = () => {
+      setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
       if (width < 700 && width > 650) {
         setIs650(false);
@@ -357,7 +359,7 @@ const Total: FC<TotalProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {(is650 ? mobTableOptions : activeOpts).map((item, ind) => (
+            {(isMobile ? mobTableOptions : activeOpts).map((item, ind) => (
               <SwiperSlide
                 className={s.swiper_slide}
                 key={ind}

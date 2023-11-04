@@ -548,7 +548,7 @@ const Gamers: FC<GamersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {(is700 ? mobTableOptions : activeOpts).map((item, ind) => (
+            {(isMobile ? mobTableOptions : activeOpts).map((item, ind) => (
               <SwiperSlide
                 className={s.swiper_slide}
                 key={ind}

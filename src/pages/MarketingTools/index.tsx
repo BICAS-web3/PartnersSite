@@ -289,10 +289,11 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           />
           <AdaptiveChooser
             activeTitle="choose"
-            list={mobTableOptions}
+            list={historyList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
+            blockTitle=""
           />
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />
 
@@ -322,7 +323,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${historyList?.length} п.`}
+              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
@@ -452,7 +453,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {historyList.map(
+            {(isMobile ? mobTableOptions : historyList).map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}

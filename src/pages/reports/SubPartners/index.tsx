@@ -256,7 +256,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
           />
           <AdaptiveChooser
             activeTitle="choose"
-            list={mobTableOptions}
+            list={statisticList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
@@ -278,7 +278,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${statisticList?.length} п.`}
+              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
@@ -387,7 +387,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {(isMobile ? statisticList : activeOps).map(
+            {(isMobile ? mobTableOptions : activeOps).map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
