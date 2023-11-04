@@ -3,6 +3,7 @@ import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 import { CustomDropDownItem } from "./CustomDropDownItem";
+import { useDropdown } from "@/shared/tools";
 
 interface CustomDropDownChooseProps {
   list: any[];
@@ -14,7 +15,9 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   list,
   setActiveOptions,
 }) => {
-  const [listVisibility, setListVisibility] = useState(false);
+  // const [listVisibility, setListVisibility] = useState(false);
+  const { dropdownRef, toggle, isOpen } = useDropdown();
+
   const [activeItems, setActiveItems] = useState([]);
   const [isAllPicked, setIsAllPicked] = useState(true);
 
@@ -30,13 +33,17 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   return (
     <div
+      ref={dropdownRef}
       className={`${s.dropdown_input_block_wrap} ${
-        listVisibility && s.dropdown_active
+        isOpen && s.dropdown_active
       }`}
     >
       <div
         className={s.active_dropdown_block}
-        onClick={() => setListVisibility(!listVisibility)}
+        onClick={() => {
+          // setListVisibility(!listVisibility);
+          toggle();
+        }}
       >
         <div className={s.active_dropdown_title_block}>
           Выбрано {activeItems.length} п.

@@ -23,6 +23,7 @@ import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterI
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptiveMediaInputs } from "./AdaptiveMediaInputs";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const mediaTypeList = [
   {
@@ -142,6 +143,10 @@ const Media: FC<MediaProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
 
   return (
     <Layout activePage="media">
@@ -154,10 +159,7 @@ const Media: FC<MediaProps> = () => {
         />
         {is650 ? (
           <>
-            <div
-              className={s.mob_filter_block}
-              onClick={() => setIsFilter(!isFilter)}
-            >
+            <div className={s.mob_filter_block} onClick={handleFilterClick}>
               <Image src={filterIco} alt="filter-ico" />
               Фильтры
             </div>
@@ -295,7 +297,8 @@ const Media: FC<MediaProps> = () => {
                     placeholder="Ширина"
                     value={mobInputWidth}
                   />
-                </div>
+                </div>{" "}
+                <ListButtons setIsBack={setIsFilter} title="Поиск" />
               </div>
             </div>
           </>

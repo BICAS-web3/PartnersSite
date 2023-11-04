@@ -14,7 +14,13 @@ export const AdaptiveExportButton: FC<AdaptiveExportButtonProps> = ({
   setIsOpen,
 }) => {
   return (
-    <div onClick={() => setIsOpen(true)} className={clsx(s.export, className)}>
+    <div
+      onClick={() => {
+        setIsOpen(true);
+        document.body.scrollTop = 0;
+      }}
+      className={clsx(s.export, className)}
+    >
       <button className={s.export_btn}>
         <ExportIcon />
         Экспорт

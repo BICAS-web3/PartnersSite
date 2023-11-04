@@ -24,6 +24,7 @@ import { PhTableFilterBlock } from "./PhTableFilterBlock";
 import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistoryTable";
 import { PhExportBlock } from "./PhExportBlock";
 import exportIco from "@/public/media/common/exportIco.png";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 export const currenciesList = [
   {
@@ -203,6 +204,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     setActiveOpts(mobTableOpts);
   }, [is650]);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -220,6 +222,12 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
+=======
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="payoutsHistory">
@@ -236,10 +244,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           {is650 ? (
             <>
               <div className={s.mob_filterExport_block}>
-                <div
-                  className={s.mob_filter_block}
-                  onClick={() => setIsFilter(!isFilter)}
-                >
+                <div className={s.mob_filter_block} onClick={handleFilterClick}>
                   <Image src={filterIco} alt="filter-ico" />
                   Фильтры
                 </div>
@@ -248,6 +253,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   onClick={() => {
                     setCurrentFilterPage("phExportBlock");
                     setIsFilter(true);
+                    document.body.scrollTop = 0;
                   }}
                 >
                   <Image src={exportIco} alt="filter-ico" />
@@ -323,6 +329,10 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                       Выбрано {mobTableOpts.length} п.
                     </span>
                   </div>
+                  <ListButtons
+                    setIsBack={setIsFilter}
+                    title="Сгенерировать отчет"
+                  />
                 </div>
               </div>
             </>

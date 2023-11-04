@@ -20,6 +20,7 @@ import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const promoBenefitsList = [
   "промо-код можно использовать там, где нет возможности размещать реферальные ссылки и рекламировать товары/услуги (На фото инстаграм, на видео, в оффлайн рекламе и т.д.)",
@@ -97,6 +98,7 @@ const Promocodes: FC<PromocodesProps> = () => {
     };
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -115,6 +117,12 @@ const Promocodes: FC<PromocodesProps> = () => {
     }
   }, [currentFilterPage]);
 
+=======
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
   return (
     <Layout activePage="promocodes">
       <section className={s.promocodes_page}>
@@ -126,10 +134,7 @@ const Promocodes: FC<PromocodesProps> = () => {
         />
         {is650 ? (
           <>
-            <div
-              className={s.mob_filter_block}
-              onClick={() => setIsFilter(!isFilter)}
-            >
+            <div className={s.mob_filter_block} onClick={handleFilterClick}>
               <Image src={filterIco} alt="filter-ico" />
               Фильтры
             </div>
@@ -208,6 +213,10 @@ const Promocodes: FC<PromocodesProps> = () => {
                   title="Показать"
                   filterTitle="promocodesTableFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
+                />
+                <ListButtons
+                  setIsBack={setIsFilter}
+                  title="Сгенерировать отчет"
                 />
               </div>
             </div>

@@ -7,6 +7,13 @@
   background: #181818;
   border-radius: 12px;
   border: 1px solid #2d2d2d;
+  @media (max-width: 1200px) {
+    padding: 20px;
+    gap: 20px;
+  }
+  @media (max-width: 650px) {
+    border-radius: 0;
+  }
 }
 
 .current_balance_header {
@@ -14,6 +21,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: 1200px) {
+    margin-bottom: 10px;
+  }
 }
 
 .current_balance_title {
@@ -42,6 +52,10 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 8px;
+  @media (max-width: 1200px) {
+    margin-bottom: 0px;
+    gap: 8px;
+  }
 }
 
 .current_btc_balance,

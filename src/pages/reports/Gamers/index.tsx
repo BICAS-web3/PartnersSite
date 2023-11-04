@@ -32,6 +32,7 @@ import { tableRowsList } from "../../Websites";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const periodsList = [
   {
@@ -259,6 +260,7 @@ const Gamers: FC<GamersProps> = () => {
     };
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -276,6 +278,12 @@ const Gamers: FC<GamersProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
+=======
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="byGamers">
@@ -423,10 +431,7 @@ const Gamers: FC<GamersProps> = () => {
               <InputBlock placeholder="ID Маркетингового инструмента" />
               <InputBlock placeholder="ID Маркетингового инструмента" />
             </div>
-
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
-            </div>
+            <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
         </div>
         <div
@@ -463,10 +468,7 @@ const Gamers: FC<GamersProps> = () => {
             ]}
           />
         </div>
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
+        <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>
@@ -568,7 +570,7 @@ const Gamers: FC<GamersProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {(is700 ? mobTableOptions : activeOpts).map((item, ind) => (
+            {(isMobile ? mobTableOptions : activeOpts).map((item, ind) => (
               <SwiperSlide
                 className={s.swiper_slide}
                 key={ind}

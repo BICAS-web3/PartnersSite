@@ -16,6 +16,7 @@ import { Scrollbar } from "swiper/modules";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import { CSTableFilter } from "./CSMobTableFilter";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 export const optsList = [
   {
@@ -93,6 +94,11 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
     };
   }, []);
 
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(!isFilter);
+  };
+
   useEffect(() => {
     setActiveOpts(mobTableOpts);
   }, [mobTableOpts]);
@@ -121,10 +127,7 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
           </div>
           {is650 ? (
             <>
-              <div
-                className={s.mob_filter_block}
-                onClick={() => setIsFilter(!isFilter)}
-              >
+              <div className={s.mob_filter_block} onClick={handleFilterClick}>
                 <Image src={filterIco} alt="filter-ico" />
                 Фильтры
               </div>
@@ -160,6 +163,10 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
                       Выбрано {mobTableOpts.length} п.
                     </span>
                   </div>
+                  <ListButtons
+                    setIsBack={setIsFilter}
+                    title="Сгенерировать отчет"
+                  />
                 </div>
               </div>
             </>

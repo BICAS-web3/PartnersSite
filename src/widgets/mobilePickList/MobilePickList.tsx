@@ -28,7 +28,7 @@ export const MobilePickList: FC<MobilePickListProps> = ({
           <div
             key={ind}
             className={`${s.mobile_pick_list_item} ${
-              activeItem.id === item.id && s.active
+              activeItem?.id === item?.id && s.active
             }`}
             onClick={() => setActiveItem(item)}
           >

@@ -14,13 +14,8 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-<<<<<<< HEAD
-import { tableRowsList } from "../../Websites";
-
-=======
 import clsx from "clsx";
 import filterIco from "@/public/media/common/filterImg.png";
->>>>>>> 3161704e281460fcffc79e0fc8ea29ee561a7367
 import "swiper/scss";
 import s from "./styles.module.scss";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
@@ -225,6 +220,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
     };
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -242,6 +238,12 @@ const SubPartners: FC<SubPartnersProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
+=======
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="bySubPartners">
@@ -276,13 +278,14 @@ const SubPartners: FC<SubPartnersProps> = () => {
           />
           <AdaptiveChooser
             activeTitle="choose"
-            list={mobTableOptions}
+            list={statisticList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
             blockTitle={""}
           />
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />
+
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
               objTitle={currentCurrency}
@@ -297,7 +300,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${statisticList?.length} п.`}
+              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
@@ -346,17 +349,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
             { title: "По суб-партнёрам", link: "/SubPartners" },
           ]}
         />{" "}
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
-          <Image src={filterIco} alt="filter-img" />
-          <span className={s.websites_filter_btn}>Фильтры</span>
-        </div>
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
+        <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>

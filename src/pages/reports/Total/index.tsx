@@ -26,6 +26,7 @@ import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdow
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 
 import s from "./styles.module.scss";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const options = [
   {
@@ -105,9 +106,11 @@ const Total: FC<TotalProps> = () => {
   const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
   const [activeOpts, setActiveOpts] = useState<IListProps[]>([]);
   const [mobTableOptions, setMobTableOpts] = useState(options);
+  const [isMobile, setIsMobile] = useState<boolean>();
 
   useEffect(() => {
     const handleResize = () => {
+      setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
       if (width < 700 && width > 650) {
         setIs650(false);
@@ -127,6 +130,7 @@ const Total: FC<TotalProps> = () => {
     };
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -144,6 +148,12 @@ const Total: FC<TotalProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
+=======
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="total">
@@ -262,9 +272,7 @@ const Total: FC<TotalProps> = () => {
               <InputBlock placeholder="ID Маркетингового инструмента" />
             </div>
 
-            <div className="subid_input_wrap">
-              <input type="text" className="subid_input" placeholder="SubId" />
-            </div>
+            <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
         </div>
         <Breadcrumbs
@@ -273,7 +281,7 @@ const Total: FC<TotalProps> = () => {
             { title: "Партнерские ссылки", link: "/reports/Total" },
           ]}
         />
-        <div onClick={() => setIsFilter(true)} className={s.mob_filter_btn}>
+        <div onClick={handleFilterClick} className={s.mob_filter_btn}>
           <Image src={filterIcon} alt="filter-icon" />
           Фильтры
         </div>
@@ -373,7 +381,7 @@ const Total: FC<TotalProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {(is650 ? mobTableOptions : activeOpts).map((item, ind) => (
+            {(isMobile ? mobTableOptions : activeOpts).map((item, ind) => (
               <SwiperSlide
                 className={s.swiper_slide}
                 key={ind}

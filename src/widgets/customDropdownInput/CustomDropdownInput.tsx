@@ -1,13 +1,13 @@
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
+import { useDropdown } from "@/shared/tools";
 
 interface CustomDropdownInputProps {
   list: any[];
   activeItemId?: string;
   isExportSelect?: boolean;
   height?: number;
-  posRel?: boolean;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -15,33 +15,38 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   activeItemId,
   height,
   isExportSelect,
-  posRel,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
   );
 
   const [listVisibility, setListVisibility] = useState(false);
+  const { dropdownRef, toggle, close, isOpen } = useDropdown();
   const [avaibleItems, setAvaibleItems] = useState(
     activeItemId ? list.filter((item) => item.id !== activeItemId) : list
   );
 
   const handleActiveItemSetting = (itemId: any) => {
-    setListVisibility(false);
+    // setListVisibility(false);
+    close();
     setActiveItem(avaibleItems.filter((item) => item.id === itemId)[0]);
     setAvaibleItems(list.filter((item) => item.id !== itemId));
   };
 
   return (
     <div
+      ref={dropdownRef}
       className={`${s.dropdown_input_block_wrap} ${
-        listVisibility && s.dropdown_active
+        isOpen && s.dropdown_active
       }`}
     >
       <div
         className={s.active_dropdown_block}
         style={{ height: height }}
-        onClick={() => setListVisibility(!listVisibility)}
+        onClick={() => {
+          // setListVisibility(!listVisibility);
+          toggle();
+        }}
       >
         <div
           className={s.active_dropdown_title_block}
@@ -59,10 +64,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           <HeaderDropdownArrow />
         </div>
       </div>
-      <div
-        className={s.dropdown_items_list}
-        style={{ position: posRel && "relative" }}
-      >
+      <div className={s.dropdown_items_list}>
         {avaibleItems.map((item, ind) => (
           <div
             className={s.dropdown_items_list_item}

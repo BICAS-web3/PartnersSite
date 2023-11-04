@@ -25,6 +25,7 @@ import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
+import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const periodsList = [
   {
@@ -238,6 +239,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
   const [isExport, setIsExport] = useState<boolean>(false);
   const [activeBtn, setActiveBtn] = useState<TabsTypes>("Статус заявок");
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -255,6 +257,12 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
+=======
+  const handleFilterClick = () => {
+    document.body.scrollTop = 0;
+    setIsFilter(true);
+  };
+>>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="marketTools">
@@ -303,10 +311,11 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           />
           <AdaptiveChooser
             activeTitle="choose"
-            list={mobTableOptions}
+            list={historyList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
+            blockTitle=""
           />
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />
 
@@ -335,16 +344,16 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
               filterTitle="websitesToolsFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${historyList?.length} п.`}
+              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <div className="subid_input_wrap">
               <input type="text" className="subid_input" placeholder="SubId" />
-            </div>
+            </div>{" "}
+            <ListButtons setIsBack={setIsExport} title="Сгенерировать отчет" />
           </div>
         </div>{" "}
         <div
@@ -380,10 +389,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             { title: "Маркетинговые инструменты", link: "" },
           ]}
         />
-        <div
-          className={s.websites_filter_wrap}
-          onClick={() => setIsFilter(true)}
-        >
+        <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
           <Image src={filterIco} alt="filter-img" />
           <span className={s.websites_filter_btn}>Фильтры</span>
         </div>
@@ -469,7 +475,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             centeredSlides={false}
             className={s.swiper}
           >
-            {historyList.map(
+            {(isMobile ? mobTableOptions : historyList).map(
               (item: { title: string; id: string; text: string }, ind) => (
                 <SwiperSlide
                   className={s.swiper_slide}
