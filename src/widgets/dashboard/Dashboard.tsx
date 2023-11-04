@@ -22,6 +22,7 @@ const currenciesList = [
 ];
 export const Dashboard: FC<DashboardProps> = () => {
   const [isSidebarOpened] = useUnit([SidebarM.$isSidebarOpened]);
+
   const [isMobile, setIsMobile] = useState<boolean>();
   useEffect(() => {
     const handleResize = () => {
