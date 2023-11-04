@@ -27,6 +27,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
   const options = {
     chart: {
       id: "line-chart",
+
       toolbar: {
         show: false,
       },
@@ -40,23 +41,22 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
         opacity: 0.4,
       },
     },
+
+    dataLabels: {
+      enabled: false,
+    },
     fill: {
       type: "gradient",
       gradient: {
-        shade: "#CD4C30",
-        type: "vertical",
-        shadeIntensity: 0.5,
-        // gradientToColors: ["#F2DE2F", "#2FF24E", "#CD4C30"],
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 50, 100],
-        colorStops: [],
+        opacityFrom: 0.2,
+        opacityTo: 0,
       },
     },
     xaxis: {
       categories: categories,
       type: "category",
       position: "bottom",
+      tickPlacement: "between",
 
       labels: {
         show: true,
@@ -68,7 +68,6 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
           colors: "#7E7E7E",
           fontSize: isMobile ? "8px" : "12px",
           fontWeight: 400,
-          cssClass: "apexcharts-xaxis-label",
         },
         offsetX: 0,
         offsetY: 0,
@@ -225,6 +224,15 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
         highlightDataSeries: true,
       },
     },
+    tooltip: {
+      enabled: true,
+      enabledOnSeries: undefined,
+      shared: true,
+      intersect: false,
+      custom: undefined,
+      fillSeriesColor: false,
+      theme: "dark",
+    },
   };
 
   const series = [
@@ -253,7 +261,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
     <ReactApexChart
       options={options}
       series={series}
-      type="line"
+      type="area"
       height={350}
     />
   );

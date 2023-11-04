@@ -132,7 +132,7 @@ const Media: FC<MediaProps> = () => {
   };
 
   return (
-    <Layout>
+    <Layout activePage="media">
       <section className={s.media_page_section}>
         <Breadcrumbs
           list={[

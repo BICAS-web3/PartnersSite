@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: 260px 1fr;
   grid-template-rows: 80px 1fr;
-  height: 100%;
   transition: all 0.4s;
+  overflow: hidden;
 }
 
 .main_section {

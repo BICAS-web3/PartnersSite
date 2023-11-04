@@ -6,6 +6,8 @@ import { RegistrationChart } from "./RegistrationChart";
 import { FollowsChart } from "./FollowsChart";
 
 import s from "./styles.module.scss";
+import { useUnit } from "effector-react";
+import { $isSidebarOpened } from "../sidebar/model";
 
 const currenciesList = [
   {
@@ -64,8 +66,13 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
   const [currentTimeStatsReg, setCurrentTimeStatsReg] = useState(
     timesList[0].id
   );
+  const [isOpen] = useUnit([$isSidebarOpened]);
+  useEffect(() => {
+    // alert(isOpen);
+    console.log(isOpen);
+  }, [isOpen]);
   return (
-    <div className={s.currency_wrap}>
+    <div className={clsx(s.currency_wrap)}>
       <div className={s.currency_block}>
         {!isMobile && (
           <>
@@ -78,7 +85,15 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
             </div>
           </>
         )}
-        <div className={s.currency_charts_wrap}>
+        <div
+          //?-----------------------------
+          className={clsx(
+            s.currency_charts_wrap,
+            isOpen
+              ? s.currency_charts_wrap_opened
+              : s.currency_charts_wrap_closed
+          )}
+        >
           <div className={s.follows_chart_wrap}>
             <TimeStats
               list={timesList}

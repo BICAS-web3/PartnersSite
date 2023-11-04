@@ -226,7 +226,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
   };
 
   return (
-    <Layout>
+    <Layout activePage="bySubPartners">
       <section className={s.sub_partners_section}>
         <AdaptiveExportButton setIsOpen={setIsExport} />
         <div

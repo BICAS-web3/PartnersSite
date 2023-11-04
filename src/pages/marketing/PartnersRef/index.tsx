@@ -137,7 +137,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     setIsFilter(true);
   };
   return (
-    <Layout>
+    <Layout activePage="partnersRef">
       <section className={s.partners_ref_page}>
         <Breadcrumbs
           list={[

@@ -40,20 +40,16 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
         opacity: 0.4,
       },
     },
-    // fill: {
-    //   opacity: 0.9,
-    //   type: "gradient",
-    //   gradient: {
-    //     shade: "#F28D2F",
-    //     type: "vertical",
-    //     shadeIntensity: 0.5,
-    //     gradientToColors: "#F28D2F",
-    //     inverseColors: true,
-    //     opacityFrom: 1,
-    //     opacityTo: 1,
-    //     colorStops: [],
-    //   },
-    // },
+    dataLabels: {
+      enabled: false,
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        opacityFrom: 0.2,
+        opacityTo: 0,
+      },
+    },
     xaxis: {
       categories: categories,
       type: "category",
@@ -227,6 +223,15 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
         left: 20,
       },
     },
+    tooltip: {
+      enabled: true,
+      enabledOnSeries: undefined,
+      shared: true,
+      intersect: false,
+      custom: undefined,
+      fillSeriesColor: false,
+      theme: "dark",
+    },
   };
 
   const series = [
@@ -257,7 +262,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
     <ReactApexChart
       options={options}
       series={series}
-      type="line"
+      type="area"
       height={350}
     />
   );

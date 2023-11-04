@@ -9,6 +9,7 @@ interface MobileChooseItemProps {
   allPicked: boolean;
   setAllpicked: any;
   initList: any[];
+  subscribesStyles?: boolean;
 }
 
 export const MobileChooseItem: FC<MobileChooseItemProps> = ({
@@ -18,6 +19,7 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
   allPicked,
   setAllpicked,
   initList,
+  subscribesStyles,
 }) => {
   const [checked, setChecked] = useState(false);
 
@@ -45,9 +47,24 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
   }, [allPicked]);
 
   return (
-    <div className={s.choose_list_item}>
-      <span className={s.choose_item_text} onClick={() => setChecked(!checked)}>
-        <span>{item.title}</span>
+    <div
+      className={s.choose_list_item}
+      style={{
+        borderBottom: subscribesStyles && "none",
+        padding: subscribesStyles && "0 0 10px 0",
+      }}
+    >
+      <span
+        className={s.choose_item_text}
+        onClick={() => setChecked(!checked)}
+        style={{
+          flexDirection: subscribesStyles && "row-reverse",
+          justifyContent: subscribesStyles && "start",
+        }}
+      >
+        <span style={{ marginLeft: subscribesStyles && "10px" }}>
+          {item.title}
+        </span>
         <div className={`${s.checkbox} ${checked && s.checked}`}>
           <CheckBoxIco />
         </div>

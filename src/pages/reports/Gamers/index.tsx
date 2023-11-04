@@ -266,7 +266,7 @@ const Gamers: FC<GamersProps> = () => {
   };
 
   return (
-    <Layout>
+    <Layout activePage="byGamers">
       <section className={s.gamers_section}>
         <AdaptiveExportButton setIsOpen={setIsExport} />
         <div

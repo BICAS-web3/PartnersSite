@@ -103,7 +103,7 @@ const Promocodes: FC<PromocodesProps> = () => {
     setIsFilter(true);
   };
   return (
-    <Layout>
+    <Layout activePage="promocodes">
       <section className={s.promocodes_page}>
         <Breadcrumbs
           list={[

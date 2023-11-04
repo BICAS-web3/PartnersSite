@@ -6,7 +6,7 @@ import { countries } from "countries-list";
 import { languagesList } from "../welcomePageSignup/WelcomePageSignup";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
-const messangersList = [
+export const messangersList = [
   {
     title: "Instagram",
     id: "inst",
@@ -17,7 +17,7 @@ const messangersList = [
   },
 ];
 
-const countriesList = Object.keys(countries).map((code) => ({
+export const countriesList = Object.keys(countries).map((code) => ({
   title: countries[code].name,
   id: code,
 }));
