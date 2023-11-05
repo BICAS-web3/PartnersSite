@@ -117,10 +117,16 @@ export const FastStats: FC<FastStatsProps> = () => {
 
   const [isFilter, setIsFilter] = useState(false);
   const [mobTableOptions, setMobTableOpts] = useState(optionsList);
-  const handleFilterClick = () => {
-    document.body.scrollTop = 0;
-    setIsFilter(true);
-  };
+
+  useEffect(() => {
+    if (isFilter) {
+      window.scrollTo(0, 0);
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "auto";
+    }
+  }, [isFilter]);
+
   return (
     <div id="top" className={s.fast_stats_block}>
       <span className={clsx(s.fast_stats_title, s.mobile)}>
@@ -149,7 +155,7 @@ export const FastStats: FC<FastStatsProps> = () => {
           ))}
         </div>
       </div>
-      <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
+      <div className={s.websites_filter_wrap} onClick={() => setIsFilter(true)}>
         <Image src={filterIco} alt="filter-img" />
         <span className={s.websites_filter_btn}>Фильтры</span>
       </div>
@@ -157,7 +163,8 @@ export const FastStats: FC<FastStatsProps> = () => {
         className={clsx(
           "mobile_filter_block",
           s.mobile_filter_block,
-          isFilter && s.export_active
+          isFilter && s.export_active,
+          currentFilterPage !== "" && s.scroll_disable
         )}
       >
         <AdaptivePicker
