@@ -260,7 +260,6 @@ const Gamers: FC<GamersProps> = () => {
     };
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -278,12 +277,10 @@ const Gamers: FC<GamersProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
-=======
   const handleFilterClick = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
->>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="byGamers">
