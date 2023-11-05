@@ -124,6 +124,7 @@
   font-weight: 600;
   line-height: 110%;
 }
+
 .websites_filter_wrap {
   margin-left: 20px;
   cursor: pointer;
@@ -133,27 +134,37 @@
   padding: 0 0 0 15px;
   align-items: center;
 }
+
 .mobile {
   @media (max-width: 650px) {
     display: none;
   }
 }
+
 .mobile_filter_block {
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
+  overflow: auto;
 }
+
+.scroll_disable {
+  overflow: hidden auto;
+}
+
 .mobile_filter_block.export_active {
   visibility: visible;
   opacity: 1;
   display: flex;
   flex-direction: column;
 }
+
 .mobile_filter_block {
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
 }
+
 .websites_filter_wrap {
   cursor: pointer;
   display: none;
@@ -162,6 +173,7 @@
   padding: 0 0 0 15px;
   align-items: center;
 }
+
 .mobile_filter_block.filter_active {
   visibility: visible;
   opacity: 1;
@@ -220,6 +232,7 @@
     margin: 14px 0 0 0;
   }
 }
+
 .websites_filter_btn {
   color: #979797;
   text-align: right;
