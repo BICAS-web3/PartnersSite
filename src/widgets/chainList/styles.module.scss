@@ -133,6 +133,10 @@
 }
 
 .chain_img {
+  @media (max-width: 1200px) {
+    width: 44px;
+    height: 44px;
+  }
   @media (max-width: 650px) {
     width: 32px;
     height: 32px;
