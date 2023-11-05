@@ -10,6 +10,9 @@ import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { useUnit } from "effector-react";
 import * as RegistrationModel from "./model";
 import * as SidebarM from "@/widgets/sidebar/model";
+import { ChainList } from "../chainList/ChainList";
+import { ProfileWindow } from "../profileWindow/ProfileWindow";
+import { useMediaQuery } from "@/shared/tools";
 
 export const languagesList = [
   {
@@ -37,6 +40,8 @@ export const languagesList = [
 interface RightMenuProps {}
 
 export const RightMenu: FC<RightMenuProps> = () => {
+  const isMobile = useMediaQuery("(max-width: 650px)");
+
   const [activeLanguage, setActiveLanguage] = useState(
     languagesList.filter((item) => item.title === "ru")[0]
   );
@@ -79,7 +84,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
     }
   };
 
-  const isRegistered = false; // temp
+  const isRegistered = true; // temp
 
   return (
     <div className={s.right_menu_body}>
@@ -122,16 +127,25 @@ export const RightMenu: FC<RightMenuProps> = () => {
         </div>
       </div>
       {isRegistered ? (
-        <div
-          className={`${s.mob_sidebar_open_btn} ${
-            isSbOpened && s.open_btn_active
-          }`}
-          onClick={handleSbVisibility}
-        >
-          <span className={s.mob_sidebar_open_btn_bar}></span>
-          <span className={s.mob_sidebar_open_btn_bar}></span>
-          <span className={s.mob_sidebar_open_btn_bar}></span>
-        </div>
+        <>
+          {isMobile && <ChainList />}
+          <div
+            className={`${s.mob_sidebar_open_btn} ${
+              isSbOpened && s.open_btn_active
+            }`}
+            onClick={handleSbVisibility}
+          >
+            {isMobile && (
+              <>
+                <span className={s.mob_sidebar_open_btn_bar}></span>
+                <span className={s.mob_sidebar_open_btn_bar}></span>
+                <span className={s.mob_sidebar_open_btn_bar}></span>
+              </>
+            )}
+          </div>
+          {!isMobile && <ChainList />}
+          <ProfileWindow />
+        </>
       ) : (
         <>
           <button

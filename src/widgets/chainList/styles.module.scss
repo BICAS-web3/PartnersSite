@@ -1,0 +1,141 @@
+.chains {
+  z-index: 5;
+  color: white;
+  position: relative;
+  border-radius: 8px;
+  font-family: var(--font-nunito-sans);
+  min-width: 230px;
+  @media (max-width: 650px) {
+    min-width: 150px;
+  }
+}
+.chains_button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  border-radius: 8px;
+  border: 1px solid var(--switch-in-game-2-e, #2e2e2e);
+  background: var(--gray-320, #202020);
+  transition: all 0.5s;
+  outline: none;
+  cursor: pointer;
+  color: var(--white-1-ea, #eaeaea);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.chains_button_data {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.chains_button_open {
+  border-bottom: 1px solid var(--switch-in-game-2-e, #2e2e2e);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown_ico_block {
+  transition: all 0.5s;
+  padding: 0 13px;
+  margin-left: 6px;
+  svg {
+    transition: all 0.5s;
+  }
+}
+.dropdown_ico_block:hover {
+  svg {
+    path {
+      fill: #eaeaea;
+    }
+  }
+}
+.activ_icon {
+  transition: all 0.5s;
+  svg {
+    transform: rotate(180deg);
+    path {
+      fill: #eaeaea;
+    }
+  }
+}
+
+.chains_body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s;
+  position: absolute;
+  top: 100%;
+  background: var(--gray-320, #202020);
+  border-bottom: 1px solid var(--switch-in-game-2-e, #2e2e2e);
+  border-right: 1px solid var(--switch-in-game-2-e, #2e2e2e);
+  border-left: 1px solid var(--switch-in-game-2-e, #2e2e2e);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.chains_body_open {
+  max-height: 1000px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.chain_item {
+  min-width: max-content;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s;
+  color: var(--white-1-ea, #eaeaea);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  @media (max-width: 650px) {
+    font-size: 13px;
+    letter-spacing: 0.56px;
+  }
+  &:hover {
+    background: var(--gray-320, #282828);
+  }
+}
+
+.chains_button_value {
+  color: var(--white-1-ea, #eaeaea);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  @media (max-width: 650px) {
+    font-size: 14px;
+    letter-spacing: 0.56px;
+  }
+}
+
+.chains_button_title {
+  color: var(--white-1-ea, #eaeaea);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-left: 4px;
+  @media (max-width: 650px) {
+    display: none;
+  }
+}
+
+.chain_img {
+  @media (max-width: 650px) {
+    width: 32px;
+    height: 32px;
+    margin-right: 7px;
+  }
+}
