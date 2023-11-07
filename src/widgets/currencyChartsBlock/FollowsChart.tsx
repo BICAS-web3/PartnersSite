@@ -260,6 +260,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
 
   return (
     <ReactApexChart
+      // @ts-ignore
       options={options}
       series={series}
       type="area"

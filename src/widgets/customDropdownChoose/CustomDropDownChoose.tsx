@@ -18,7 +18,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   // const [listVisibility, setListVisibility] = useState(false);
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
-  const [activeItems, setActiveItems] = useState([]);
+  const [activeItems, setActiveItems] = useState<any[]>([]);
   const [isAllPicked, setIsAllPicked] = useState(true);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               setActiveItems={setActiveItems}
               key={ind}
               item={item}
-              initList={list}
+              // initList={list}
               setIsAllPicked={setIsAllPicked}
               allPicked={isAllPicked}
             />

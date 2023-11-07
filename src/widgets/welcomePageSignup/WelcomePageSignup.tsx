@@ -100,6 +100,7 @@ const paymentTypes = [
 ];
 
 const countriesList = Object.keys(countries).map((code) => ({
+  // @ts-ignore
   title: countries[code].name,
   id: code,
 }));
@@ -110,7 +111,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [isPPchecked, setIsPPchecked] = useState(false);
 
-  const handlePhoneChange = (e) => {
+  const handlePhoneChange = (e: { target: { value: string } }) => {
     let inputValue = e.target.value;
     inputValue = inputValue.replace(/\D/g, "");
     inputValue = "+" + inputValue;

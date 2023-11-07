@@ -50,19 +50,19 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
     <div
       className={s.choose_list_item}
       style={{
-        borderBottom: subscribesStyles && "none",
-        padding: subscribesStyles && "0 0 10px 0",
+        borderBottom: subscribesStyles ? "none" : "",
+        padding: subscribesStyles ? "0 0 10px 0" : "",
       }}
     >
       <span
         className={s.choose_item_text}
         onClick={() => setChecked(!checked)}
         style={{
-          flexDirection: subscribesStyles && "row-reverse",
-          justifyContent: subscribesStyles && "start",
+          flexDirection: subscribesStyles ? "row-reverse" : "row",
+          justifyContent: subscribesStyles ? "start" : "",
         }}
       >
-        <span style={{ marginLeft: subscribesStyles && "10px" }}>
+        <span style={{ marginLeft: subscribesStyles ? "10px" : "" }}>
           {item.title}
         </span>
         <div className={`${s.checkbox} ${checked && s.checked}`}>

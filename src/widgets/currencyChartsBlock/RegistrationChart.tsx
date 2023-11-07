@@ -259,6 +259,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
   ];
   return (
     <ReactApexChart
+      // @ts-ignore
       options={options}
       series={series}
       type="area"

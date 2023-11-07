@@ -12,7 +12,7 @@ export const ManualDateInput: FC<ManualDateInputProps> = ({}) => {
   useEffect(() => {
     const fromInput = document.getElementById("fromInp");
     const toInput = document.getElementById("toInp");
-
+    // @ts-ignore
     import("inputmask").then(({ default: Inputmask }) => {
       Inputmask({ mask: "99-99-9999" }).mask(fromInput);
       Inputmask({ mask: "99-99-9999" }).mask(toInput);

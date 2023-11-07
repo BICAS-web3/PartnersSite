@@ -8,6 +8,7 @@ interface CustomDropdownInputProps {
   activeItemId?: string;
   isExportSelect?: boolean;
   height?: number;
+  posRel?: boolean;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({

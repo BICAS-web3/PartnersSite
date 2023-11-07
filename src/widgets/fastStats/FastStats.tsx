@@ -147,7 +147,7 @@ export const FastStats: FC<FastStatsProps> = () => {
               key={item?.id}
               onClick={() => setCurrentTimeStats(item?.id)}
               style={{
-                background: currentTimeStats === item?.id && "#212121",
+                background: currentTimeStats === item?.id ? "#212121" : "",
               }}
             >
               <span className={s.time_range_block_title}>{item.title}</span>

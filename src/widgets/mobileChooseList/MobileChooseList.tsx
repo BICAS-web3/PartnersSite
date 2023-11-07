@@ -19,7 +19,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   subscribesStyles,
 }) => {
   const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
-  const [activeItems, setActiveItems] = useState([]);
+  const [activeItems, setActiveItems] = useState<any>([]);
 
   useEffect(() => {
     setPickedList(activeItems);
@@ -54,19 +54,19 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
         <div
           className={s.choose_list_item}
           style={{
-            borderBottom: subscribesStyles && "none",
-            padding: subscribesStyles && "0 0 10px 0",
+            borderBottom: subscribesStyles ? "none" : "",
+            padding: subscribesStyles ? "0 0 10px 0" : "",
           }}
         >
           <span
             className={s.choose_item_text}
             onClick={() => setAllpicked(!allPicked)}
             style={{
-              flexDirection: subscribesStyles && "row-reverse",
-              justifyContent: subscribesStyles && "start",
+              flexDirection: subscribesStyles ? "row-reverse" : "row",
+              justifyContent: subscribesStyles ? "start" : "",
             }}
           >
-            <span style={{ marginLeft: subscribesStyles && "10px" }}>
+            <span style={{ marginLeft: subscribesStyles ? "10px" : "" }}>
               Выбрать всё
             </span>
             <div className={`${s.checkbox} ${allPicked && s.checked}`}>

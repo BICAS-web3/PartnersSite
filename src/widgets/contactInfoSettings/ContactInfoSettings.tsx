@@ -18,6 +18,7 @@ export const messangersList = [
 ];
 
 export const countriesList = Object.keys(countries).map((code) => ({
+  // @ts-ignore
   title: countries[code].name,
   id: code,
 }));
