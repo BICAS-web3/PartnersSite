@@ -12,7 +12,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ list }) => {
     <div>
       <div className={s.breadcrumbs_list}>
         {list.map((crumb, ind) => (
-          <div className={s.breadcrumbs_list_item}>
+          <div key={crumb.title} className={s.breadcrumbs_list_item}>
             <span className={s.breadcrumbs_list_item_title}>
               <a href={crumb.link}>{crumb.title}</a>
             </span>

@@ -205,7 +205,11 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
               className={s.swiper}
             >
               {activeOps.map((item: any, ind: number) => (
-                <SwiperSlide className={s.swiper_slide} data-id={item?.id}>
+                <SwiperSlide
+                  key={item?.id}
+                  className={s.swiper_slide}
+                  data-id={item?.id}
+                >
                   <div className={s.swiper_slide_body}>
                     <div className={s.swiper_slide_header}>
                       <span className={s.swiper_slide_title}>

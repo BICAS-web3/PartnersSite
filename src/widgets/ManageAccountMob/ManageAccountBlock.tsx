@@ -10,6 +10,7 @@ import { PayoutData } from "./PayoutData";
 import { ChangePasswordBlock } from "./ChangePasswordBlock";
 import { TwoFactorAuth } from "./TwoFactorAuth";
 import { SubscribesBlock } from "./SubscribesBlock";
+import Link from "next/link";
 
 interface ManageAccountBlockProps {
   activeSubPage: string;
@@ -49,12 +50,12 @@ export const ManageAccountBlock: FC<ManageAccountBlockProps> = ({
         setActiveFilterBlock={setFitlerBlock}
       />
       <div className={s.change_account_block_breadcrumbs}>
-        <a className={s.change_account_block_breadcrumbs_title} href="/">
+        <Link className={s.change_account_block_breadcrumbs_title} href="/">
           Главная <Image src={nextArr} alt="next-arr" />
-        </a>
-        <a className={s.change_account_block_breadcrumbs_title} href="#">
+        </Link>
+        <Link className={s.change_account_block_breadcrumbs_title} href="#">
           Настройки профиля
-        </a>
+        </Link>
       </div>
       <div className={s.manage_account_body}>
         <div
