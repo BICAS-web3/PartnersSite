@@ -72,6 +72,7 @@ export const Table: FC<TableProps> = ({ activeOpts }) => {
         </SwiperSlide>
         {activeOpts.map((item, ind) => (
           <SwiperSlide
+            key={item?.id}
             className={`${s.swiper_slide} ${!isOpened && s.sidebar_closed}`}
             data-id={item.id}
           >

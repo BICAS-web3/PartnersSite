@@ -36,7 +36,11 @@ export const PartnerfRefTable: FC<PartnerfRefTableProps> = ({
         className={s.swiper}
       >
         {cols.map((item, ind) => (
-          <SwiperSlide className={s.swiper_slide} data-id={item.id}>
+          <SwiperSlide
+            key={item?.id}
+            className={s.swiper_slide}
+            data-id={item.id}
+          >
             <div className={s.swiper_slide_body}>
               <div className={s.swiper_slide_header}>
                 <span className={s.swiper_slide_title}>{item.title}</span>
