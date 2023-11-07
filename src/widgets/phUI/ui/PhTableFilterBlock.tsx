@@ -1,27 +1,33 @@
 import s from "./styles.module.scss";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../PayoutsHistory";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { siteCategories } from ".";
+import { MobileChooseList } from "@/widgets/mobileChooseList/MobileChooseList";
+import { optionsList } from "../../../pages/PayoutsHistory";
 
-interface WebsiteCategoryFilterProps {
+interface PhTableFilterBlockProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
-  setCurrentSiteCategory: any;
+  setMobTableOpts: any;
 }
 
-export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
+export const PhTableFilterBlock: FC<PhTableFilterBlockProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
-  setCurrentSiteCategory,
+  setMobTableOpts,
 }) => {
+  const [pickedList, setPickedList] = useState([]);
+
+  useEffect(() => {
+    setMobTableOpts(pickedList);
+  }, [pickedList]);
+
   return (
     <div
       className={`filter_item_page ${
-        currentFilterPage === "websitesCategoryFilter" && "active"
+        currentFilterPage === "phMobTableFilterBlock" && "active"
       }`}
     >
       <div
@@ -37,10 +43,10 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
         <span className="mobile_filter_title">Категория сайта</span>
       </div>
       <div className="mobile_filter_body">
-        <MobilePickList
-          list={siteCategories}
-          activeItemId="sportsForecasts"
-          setCurrent={setCurrentSiteCategory}
+        <MobileChooseList
+          list={optionsList}
+          setPickedList={setPickedList}
+          pickedList={pickedList}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

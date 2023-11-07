@@ -1,30 +1,34 @@
 import s from "./styles.module.scss";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import {
-  currenciesList,
-  mobilePeriodsList,
-  periodsList,
-} from "../PayoutsHistory";
+import { currenciesList } from "../../../pages/PayoutsHistory";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import { siteCategories, tableColumnsList } from "../../../pages/Websites";
+import { MobileChooseList } from "@/widgets/mobileChooseList/MobileChooseList";
 
-interface PhPeriodMobBlockProps {
+interface WebsiteTableFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
-  setCurrentSiteCategory: any;
+  setMobTableOpts: any;
 }
 
-export const PhPeriodMobBlock: FC<PhPeriodMobBlockProps> = ({
+export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
-  setCurrentSiteCategory,
+  setMobTableOpts,
 }) => {
+  const [pickedList, setPickedList] = useState([]);
+
+  useEffect(() => {
+    setMobTableOpts(pickedList);
+  }, [pickedList]);
+
   return (
     <div
       className={`filter_item_page ${
-        currentFilterPage === "phPeriodMobBlock" && "active"
+        currentFilterPage === "websitesTableFilter" && "active"
       }`}
     >
       <div
@@ -40,10 +44,10 @@ export const PhPeriodMobBlock: FC<PhPeriodMobBlockProps> = ({
         <span className="mobile_filter_title">Категория сайта</span>
       </div>
       <div className="mobile_filter_body">
-        <MobilePickList
-          list={mobilePeriodsList}
-          activeItemId="currentYearPeriod"
-          setCurrent={setCurrentSiteCategory}
+        <MobileChooseList
+          list={tableColumnsList}
+          setPickedList={setPickedList}
+          pickedList={pickedList}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

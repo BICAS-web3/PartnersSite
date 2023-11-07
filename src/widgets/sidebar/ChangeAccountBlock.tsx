@@ -44,7 +44,7 @@ export const ChangeAccountBlock: FC<ChangeAccountBlockProps> = ({
         <h1 className={s.change_account_body_title}>Мои аккаунты</h1>
         <div className={s.accounts_list}>
           {accsList.map((item, ind) => (
-            <div className={s.accounts_list_item}>
+            <div key={item.id + ind} className={s.accounts_list_item}>
               <div className={s.accounts_list_item_ico_block}>B</div>
               <div className={s.accounts_list_mailId_block}>
                 <span className={s.accounts_list_id_title}>{item.id}</span>

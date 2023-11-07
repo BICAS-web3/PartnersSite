@@ -18,7 +18,7 @@ import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptiveInput } from "@/widgets/adaptiveInput/AdaptiveInput";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
-import { PartnerfRefTable } from "./Table";
+import { PartnerfRefTable } from "../../../widgets/partnersRefTable/Table";
 
 export const sitesList = [
   {

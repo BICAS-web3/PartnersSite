@@ -1,34 +1,26 @@
 import s from "./styles.module.scss";
-import { FC, useState, useEffect } from "react";
+import { FC } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../PayoutsHistory";
+import { currenciesList } from "../../../pages/PayoutsHistory";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { optsList } from ".";
-import { MobileChooseList } from "@/widgets/mobileChooseList/MobileChooseList";
 
-interface CSTableFilterProps {
+interface PhCurrencyMobBlockProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
-  setMobTableOpts: any;
+  setCurrentSiteCategory: any;
 }
 
-export const CSTableFilter: FC<CSTableFilterProps> = ({
+export const PhCurrencyMobBlock: FC<PhCurrencyMobBlockProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
-  setMobTableOpts,
+  setCurrentSiteCategory,
 }) => {
-  const [pickedList, setPickedList] = useState([]);
-
-  useEffect(() => {
-    setMobTableOpts(pickedList);
-  }, [pickedList]);
-
   return (
     <div
       className={`filter_item_page ${
-        currentFilterPage === "CSMobTableFilter" && "active"
+        currentFilterPage === "phCurrencyMobBlock" && "active"
       }`}
     >
       <div
@@ -44,10 +36,10 @@ export const CSTableFilter: FC<CSTableFilterProps> = ({
         <span className="mobile_filter_title">Категория сайта</span>
       </div>
       <div className="mobile_filter_body">
-        <MobileChooseList
-          list={optsList}
-          setPickedList={setPickedList}
-          pickedList={pickedList}
+        <MobilePickList
+          list={currenciesList}
+          activeItemId="usd"
+          setCurrent={setCurrentSiteCategory}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

@@ -15,7 +15,7 @@ import "swiper/scss";
 import { Scrollbar } from "swiper/modules";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import filterIco from "@/public/media/common/filterImg.png";
-import { CSTableFilter } from "./CSMobTableFilter";
+import { CSTableFilter } from "../../widgets/csMobFilter/CSMobTableFilter";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 export const optsList = [

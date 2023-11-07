@@ -1,34 +1,27 @@
 import s from "./styles.module.scss";
-import { FC, useState, useEffect } from "react";
+import { FC } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../PayoutsHistory";
+import { currenciesList } from "../../../pages/PayoutsHistory";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { siteCategories, tableColumnsList } from ".";
-import { MobileChooseList } from "@/widgets/mobileChooseList/MobileChooseList";
+import { siteCategories } from "../../../pages/Websites";
 
-interface WebsiteTableFilterProps {
+interface WebsiteCategoryFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
-  setMobTableOpts: any;
+  setCurrentSiteCategory: any;
 }
 
-export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
+export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
-  setMobTableOpts,
+  setCurrentSiteCategory,
 }) => {
-  const [pickedList, setPickedList] = useState([]);
-
-  useEffect(() => {
-    setMobTableOpts(pickedList);
-  }, [pickedList]);
-
   return (
     <div
       className={`filter_item_page ${
-        currentFilterPage === "websitesTableFilter" && "active"
+        currentFilterPage === "websitesCategoryFilter" && "active"
       }`}
     >
       <div
@@ -44,10 +37,10 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
         <span className="mobile_filter_title">Категория сайта</span>
       </div>
       <div className="mobile_filter_body">
-        <MobileChooseList
-          list={tableColumnsList}
-          setPickedList={setPickedList}
-          pickedList={pickedList}
+        <MobilePickList
+          list={siteCategories}
+          activeItemId="sportsForecasts"
+          setCurrent={setCurrentSiteCategory}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

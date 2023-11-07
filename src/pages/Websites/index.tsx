@@ -9,10 +9,10 @@ import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import Image from "next/image";
 import filterIco from "@/public/media/common/filterImg.png";
-import { WebsitesFilter } from "./WebsitesFilter";
-import { WebsiteCategoryFilter } from "./WebsiteCategoryFilter";
-import { WebsiteLanguageFilter } from "./WebsitesLanguageFilter";
-import { WebsiteTableFilter } from "./WebsiteTableFilter";
+import { WebsitesFilter } from "../../widgets/websitesUI/";
+import { WebsiteCategoryFilter } from "../../widgets/websitesUI/";
+import { WebsiteLanguageFilter } from "../../widgets/websitesUI/";
+import { WebsiteTableFilter } from "../../widgets/websitesUI/";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 export const siteCategories = [

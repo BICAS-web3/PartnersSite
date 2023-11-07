@@ -3,31 +3,26 @@ import { FC } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import {
-  currenciesList,
-  mobilePeriodsList,
-  periodsList,
-  phExportOptions,
-} from "../PayoutsHistory";
-import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import { currenciesList } from "../../../pages/PayoutsHistory";
 
-interface PhExportBlockProps {
+import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
+import { languagesList } from "../../../pages/Websites";
+
+interface WebsiteLanguageFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
-  setCurrentSiteCategory: any;
-  setIsFilter: any;
+  setCurrentLanguage: any;
 }
 
-export const PhExportBlock: FC<PhExportBlockProps> = ({
+export const WebsiteLanguageFilter: FC<WebsiteLanguageFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
-  setCurrentSiteCategory,
-  setIsFilter,
+  setCurrentLanguage,
 }) => {
   return (
     <div
       className={`filter_item_page ${
-        currentFilterPage === "phExportBlock" && "active"
+        currentFilterPage === "websitesLanguageFilter" && "active"
       }`}
     >
       <div
@@ -35,34 +30,23 @@ export const PhExportBlock: FC<PhExportBlockProps> = ({
       >
         <span
           className={`${s.close_filter_block_btn} close_filter_block_btn`}
-          onClick={() => {
-            setCurrentFilterPage("");
-            setIsFilter(false);
-          }}
+          onClick={() => setCurrentFilterPage("")}
         >
           <Image src={prevArrow} alt="close-filter-ico" />
-          Назад
+          Фильтры
         </span>
-        <span className="mobile_filter_title">Экспорт</span>
+        <span className="mobile_filter_title">Категория сайта</span>
       </div>
       <div className="mobile_filter_body">
         <MobilePickList
-          list={phExportOptions}
-          activeItemId="excelExport"
-          setCurrent={setCurrentSiteCategory}
+          list={languagesList}
+          activeItemId="eng"
+          setCurrent={setCurrentLanguage}
         />
       </div>
       <div className="mobile_filter_item_page_footer">
-        <button
-          className="mob_back_btn"
-          onClick={() => {
-            setCurrentFilterPage("");
-            setIsFilter(false);
-          }}
-        >
-          Назад
-        </button>
-        <button className="mob_export_btn">Экспортировать</button>
+        <button className="mob_cancel_btn">Отменить</button>
+        <button className="mob_save_btn">Сохранить</button>
       </div>
     </div>
   );

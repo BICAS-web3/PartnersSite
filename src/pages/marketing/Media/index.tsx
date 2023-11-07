@@ -12,7 +12,7 @@ import { campgaignList, sitesList } from "../PartnersRef";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import { useUnit } from "effector-react/compat";
 import * as SidebarM from "@/widgets/sidebar/model";
-import { Table } from "./Table";
+import { Table } from "../../../widgets/mediaTable/mediaTable";
 import filterIco from "@/public/media/common/filterImg.png";
 import Image from "next/image";
 import { tableRowsList } from "@/pages/Websites";
@@ -22,7 +22,7 @@ import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
-import { AdaptiveMediaInputs } from "./AdaptiveMediaInputs";
+import { AdaptiveMediaInputs } from "../../../widgets/adaptiveMediaInputs/AdaptiveMediaInputs";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 
 const mediaTypeList = [

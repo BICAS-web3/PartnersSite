@@ -3,16 +3,20 @@ import { FC } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../PayoutsHistory";
+import {
+  currenciesList,
+  mobilePeriodsList,
+  periodsList,
+} from "../../../pages/PayoutsHistory";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
 
-interface PhCurrencyMobBlockProps {
+interface PhPeriodMobBlockProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
   setCurrentSiteCategory: any;
 }
 
-export const PhCurrencyMobBlock: FC<PhCurrencyMobBlockProps> = ({
+export const PhPeriodMobBlock: FC<PhPeriodMobBlockProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
   setCurrentSiteCategory,
@@ -20,7 +24,7 @@ export const PhCurrencyMobBlock: FC<PhCurrencyMobBlockProps> = ({
   return (
     <div
       className={`filter_item_page ${
-        currentFilterPage === "phCurrencyMobBlock" && "active"
+        currentFilterPage === "phPeriodMobBlock" && "active"
       }`}
     >
       <div
@@ -37,8 +41,8 @@ export const PhCurrencyMobBlock: FC<PhCurrencyMobBlockProps> = ({
       </div>
       <div className="mobile_filter_body">
         <MobilePickList
-          list={currenciesList}
-          activeItemId="usd"
+          list={mobilePeriodsList}
+          activeItemId="currentYearPeriod"
           setCurrent={setCurrentSiteCategory}
         />
       </div>

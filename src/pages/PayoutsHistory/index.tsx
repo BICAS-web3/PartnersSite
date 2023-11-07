@@ -18,11 +18,11 @@ import range from "lodash/range";
 import { getMonth, getYear } from "date-fns";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import filterIco from "@/public/media/common/filterImg.png";
-import { PhCurrencyMobBlock } from "./PhCurrencyMobBlock";
-import { PhPeriodMobBlock } from "./PhPeriodMobBlock";
-import { PhTableFilterBlock } from "./PhTableFilterBlock";
+import { PhCurrencyMobBlock } from "../../widgets/phUI/";
+import { PhPeriodMobBlock } from "../../widgets/phUI/";
+import { PhTableFilterBlock } from "../../widgets/phUI/";
 import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistoryTable";
-import { PhExportBlock } from "./PhExportBlock";
+import { PhExportBlock } from "../../widgets/phUI/";
 import exportIco from "@/public/media/common/exportIco.png";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 
