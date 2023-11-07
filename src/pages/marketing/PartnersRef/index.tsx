@@ -99,11 +99,17 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
 
-  const [mobCurrency, setMobCurrency] = useState({});
-  const [mobCampaign, setMobCampaign] = useState({});
+  const [mobCurrency, setMobCurrency] = useState<any>({});
+  const [mobCampaign, setMobCampaign] = useState<any>({});
   const [mobCPageInputValue, setMobCPageInputValue] = useState("/live/");
   const [mobTableCols, setMobTableCols] = useState([]);
-  const [mobPickedSite, setMobPickedSite] = useState([]);
+  const [mobPickedSite, setMobPickedSite] = useState<
+    | {
+        title?: string;
+        id?: string;
+      }
+    | any
+  >([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -132,7 +138,6 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   useEffect(() => {
     setActiveOpts(mobTableCols);
   }, [is650]);
-<<<<<<< HEAD
 
   useEffect(() => {
     if (isFilter) {
@@ -152,12 +157,10 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     }
   }, [currentFilterPage]);
 
-=======
   const handleFilterClick = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
->>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
   return (
     <Layout activePage="partnersRef">
       <section className={s.partners_ref_page}>

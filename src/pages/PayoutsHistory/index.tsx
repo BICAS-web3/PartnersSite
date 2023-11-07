@@ -172,8 +172,16 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
   const [mobTableOpts, setMobTableOpts] = useState([]);
-  const [mobSiteCategory, setMobSiteCategory] = useState({});
-  const [mobPeriod, setMobPeriod] = useState({});
+  const [mobSiteCategory, setMobSiteCategory] = useState<{
+    title?: string;
+    id?: string;
+    text?: string;
+  }>({});
+  const [mobPeriod, setMobPeriod] = useState<{
+    title?: string;
+    id?: string;
+    text?: string;
+  }>({});
   const [mobExportPicked, setMobExportPicked] = useState({});
 
   useEffect(() => {
@@ -204,7 +212,6 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     setActiveOpts(mobTableOpts);
   }, [is650]);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -222,12 +229,10 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
       el?.scrollTo(0, 0);
     }
   }, [currentFilterPage]);
-=======
   const handleFilterClick = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
->>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
 
   return (
     <Layout activePage="payoutsHistory">

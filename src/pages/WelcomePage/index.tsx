@@ -97,7 +97,7 @@ const WelcomePage: FC<WelcomePageProps> = () => {
     document.body.style.width = "100%";
     document.documentElement.style.display = "flex";
     const nextCont = document.getElementById("__next");
-    nextCont.style.display = "flex";
+    if (nextCont) nextCont.style.display = "flex";
   }, []);
 
   return (

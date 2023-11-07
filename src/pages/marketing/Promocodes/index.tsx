@@ -63,9 +63,9 @@ const Promocodes: FC<PromocodesProps> = () => {
   const [currentFilterPage, setCurrentFilterPage] = useState("");
 
   const [mobTableCols, setMobTableCols] = useState([]);
-  const [mobCurrency, setMobCurrency] = useState({});
-  const [mobSitesPicked, setMobSitesPicked] = useState([]);
-  const [mobCampaign, setMobCampaign] = useState({});
+  const [mobCurrency, setMobCurrency] = useState<any>({});
+  const [mobSitesPicked, setMobSitesPicked] = useState<any>([]);
+  const [mobCampaign, setMobCampaign] = useState<any>({});
 
   useEffect(() => {
     const handleResize = () => {
@@ -98,7 +98,6 @@ const Promocodes: FC<PromocodesProps> = () => {
     };
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -117,12 +116,10 @@ const Promocodes: FC<PromocodesProps> = () => {
     }
   }, [currentFilterPage]);
 
-=======
   const handleFilterClick = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
->>>>>>> 01f206a5a36dd8345680b34759cd4f80721e5e33
   return (
     <Layout activePage="promocodes">
       <section className={s.promocodes_page}>

@@ -118,8 +118,14 @@ const Websites: FC<WebsitesProps> = () => {
 
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
-  const [currentSiteCategory, setCurrentSiteCategory] = useState({});
-  const [currentLanguage, setCurrentLanguage] = useState({});
+  const [currentSiteCategory, setCurrentSiteCategory] = useState<{
+    title?: string;
+    id?: string;
+  }>({});
+  const [currentLanguage, setCurrentLanguage] = useState<{
+    title?: string;
+    id?: string;
+  }>({});
   const [mobTableOptions, setMobTableOpts] = useState(tableColumnsList);
 
   useEffect(() => {

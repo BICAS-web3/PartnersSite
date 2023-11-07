@@ -54,7 +54,14 @@ export const optsList = [
 interface CommissionStructureProps {}
 
 const CommissionStructure: FC<CommissionStructureProps> = () => {
-  const [activeOps, setActiveOpts] = useState([]);
+  const [activeOps, setActiveOpts] = useState<
+    | {
+        title?: string;
+        id?: string;
+        text?: string;
+      }
+    | any
+  >([]);
   const [is650, setIs650] = useState(false);
   const swiperRef = useRef<SwiperRef>(null);
   const [is700, setIs700] = useState(false);
@@ -197,14 +204,16 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
               centeredSlides={false}
               className={s.swiper}
             >
-              {activeOps.map((item, ind) => (
-                <SwiperSlide className={s.swiper_slide} data-id={item.id}>
+              {activeOps.map((item: any, ind: number) => (
+                <SwiperSlide className={s.swiper_slide} data-id={item?.id}>
                   <div className={s.swiper_slide_body}>
                     <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{item.title}</span>
+                      <span className={s.swiper_slide_title}>
+                        {item?.title}
+                      </span>
                       <Image src={upDownArrows} alt="sort-ico" />
                     </div>
-                    <div className={s.swiper_slide_content}>{item.text}</div>
+                    <div className={s.swiper_slide_content}>{item?.text}</div>
                   </div>
                 </SwiperSlide>
               ))}

@@ -91,11 +91,11 @@ const Media: FC<MediaProps> = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
 
-  const [mobMediaType, setMobMediaType] = useState({});
-  const [mobCurrency, setMobCurrency] = useState({});
-  const [mobPickedSite, setMobPickedSite] = useState([]);
-  const [mobLanguage, setMobLanguage] = useState({});
-  const [mobCampaign, setMobCampaign] = useState({});
+  const [mobMediaType, setMobMediaType] = useState<any>({});
+  const [mobCurrency, setMobCurrency] = useState<any>({});
+  const [mobPickedSite, setMobPickedSite] = useState<any>([]);
+  const [mobLanguage, setMobLanguage] = useState<any>({});
+  const [mobCampaign, setMobCampaign] = useState<any>({});
   const [mobTableCols, setMobTableCols] = useState([]);
 
   const [mobInputName, setMobInputName] = useState([]);
