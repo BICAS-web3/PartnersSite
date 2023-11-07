@@ -8,6 +8,7 @@ import { CurrencyChartsBlock } from "../currencyChartsBlock/CurrencyChartsBlock"
 import { FastStats } from "../fastStats/FastStats";
 import { useMediaQuery } from "@/shared/tools";
 import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
+import Link from "next/link";
 
 interface DashboardProps {}
 const currenciesList = [
@@ -40,9 +41,9 @@ export const Dashboard: FC<DashboardProps> = () => {
   return (
     <section className={s.dashboard_container}>
       <div className={s.dashboard_body}>
-        <a href="/" className={s.dashboard_title}>
+        <Link href="/" className={s.dashboard_title}>
           {isMobile ? "Dachboard" : "Главная"}
-        </a>
+        </Link>
         <div
           className={`${s.dashboard_header} ${
             !isSidebarOpened && s.sidebar_closed
