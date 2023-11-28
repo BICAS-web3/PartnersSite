@@ -30,6 +30,7 @@ import profileIco from "@/public/media/sidebar/profileIco.png";
 import linkIco from "@/public/media/sidebar/linkIco.png";
 import { ChangeAccountBlock } from "./ChangeAccountBlock";
 import { ManageAccountBlock } from "../ManageAccountMob/ManageAccountBlock";
+import Link from "next/link";
 
 const sidebarItems = [
   {
@@ -299,7 +300,11 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
             <div className={s.sidebar_page_item_link_block}>
               {item1.list.map((item2, ind) => (
-                <a key={item2?.title} href={item2.link} data-href={item2.link}>
+                <Link
+                  key={item2?.title}
+                  href={`${item2.link}`}
+                  data-href={item2.link}
+                >
                   <div
                     className={`${s.sidebar_page_item_link_wrap} ${
                       item2.pageActive === activeSubBlock && s.active_sub_block
@@ -316,7 +321,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                     </div>
                     <Image src={nextArr} alt="right-arrow" />
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

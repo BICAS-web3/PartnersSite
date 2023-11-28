@@ -142,13 +142,65 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   const [selectedSourse, setSelectedSourse] = useState<any>();
   const [selectedCountry, setSelectedCountry] = useState<any>("");
+  const [selectedMessanger, setSelectedMessanger] = useState<any>();
+  const [messangerValue, setMessangerValue] = useState("");
+  const [startRegistration, setStartRegistration] = useState(false);
 
+  //!-----
+
+  const {
+    signMessage: fitstSignMessage,
+    variables: firstVariables,
+    data: signFirstMessageData,
+  } = useSignMessage();
+  const [newDate, setNewDate] = useState<any>();
+  useEffect(() => {
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const run = async () => {
+      if (address && isConnected) {
+        const now = Date.now();
+        setNewDate(now);
+        await sleep(2000);
+        fitstSignMessage({
+          message: `PARTNER AUTH ${address.toLowerCase()} ${now}`,
+        });
+      }
+    };
+
+    run();
+  }, [address, isConnected]);
+  //!-----
+
+  useEffect(() => {
+    (async () => {
+      if (
+        startRegistration &&
+        selectedMessanger &&
+        messangerValue &&
+        address &&
+        signFirstMessageData
+      ) {
+        const data = await api.registerContact({
+          wallet: address.toLowerCase(),
+          name: selectedMessanger,
+          url: messangerValue,
+          auth: signFirstMessageData.slice(2),
+          timestamp: newDate,
+        });
+      }
+    })();
+  }, [
+    startRegistration,
+    selectedMessanger,
+    messangerValue,
+    address,
+    signFirstMessageData,
+  ]);
   useEffect(() => {
     setFullName(`${name} ${lastName}`);
   }, [name, lastName]);
 
   useEffect(() => {}, [selectedSourse]);
-  const [startRegistration, setStartRegistration] = useState(false);
 
   const [errorName, setErrorName] = useState(false);
   const [errorLastName, setErrorLastName] = useState(false);
@@ -184,23 +236,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     }
   }, [errorLastName]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (startRegistration) {
-  //       await api.registerUser({
-  //         name: fullname,
-  //         main_wallet: address!,
-  //         signature: "",
-  //         traffic_source: selectedSourse,
-  //         country: selectedCountry,
-  //         users_amount_a_month: 0,
-  //       });
-
-  //       // location.href = "/";
-  //     }
-  //   })();
-  // }, [startRegistration]);
-
   //?----------------
 
   useEffect(() => {
@@ -229,8 +264,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         });
         if (response.status === "OK") {
           setSignup(true);
+          location.href = "/";
         }
-        // location.href = "/";
       }
     })();
   }, [signMessageData, variables?.message]);
@@ -250,39 +285,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         </span>
         <span className={s.desk_hidden_current_block_title}>Регистрация</span>
       </div>
-      <form className={s.welcome_page_signup_form}>
+      <div className={s.welcome_page_signup_form}>
         <div className={s.welcome_page_signup_leftBlock}>
-          {/* <div className={s.welcome_page_paslog_block}>
-            <span className={s.welcome_page_paslog_block_title}>
-              Логин и пароль
-            </span>
-            <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Логин*</span>
-              <input
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="login"
-              />
-            </div>
-            <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Пароль*</span>
-              <input
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="password"
-              />
-            </div>
-            <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>
-                Повторите пароль*
-              </span>
-              <input
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="password"
-              />
-            </div>
-          </div> */}
           <div className={s.welcome_page_additionalInfo_block}>
             <span className={s.welcome_page_additionalInfo_block_title}>
               Дополнительная информация
@@ -362,13 +366,19 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             <div className={s.welcome_page_contactInfo_otherInfo_block}>
               <div className={s.welcome_page_input_block} style={{ zIndex: 3 }}>
                 <span className={s.welcome_page_input_title}>Мессенджер*</span>
-                <CustomDropdownInput list={messangersList} activeItemId="asd" />
+                <CustomDropdownInput
+                  setSelectedValue={setSelectedMessanger}
+                  list={messangersList}
+                  activeItemId="asd"
+                />
               </div>
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>
                   Логин мессенджера*
                 </span>
                 <input
+                  value={messangerValue}
+                  onChange={(el) => setMessangerValue(el.target.value)}
                   type="text"
                   className={`${s.welcome_page_input} default_input`}
                   placeholder="@asdasdasd"
@@ -418,7 +428,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             </div>
           </div>
         </div>
-      </form>
+      </div>
       <div className={s.form_info}>
         <p className={s.form_info_text}>
           Использование веб - сайта https://greekkepers.partners.io/
@@ -455,7 +465,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             {/* Зарегистрироваться */}
           </button>
           <button
-            // disabled={!isPPchecked}
             onClick={() => setLogin(true)}
             className={s.register_submit_btn}
           >
@@ -466,3 +475,37 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     </div>
   );
 };
+
+{
+  /* <div className={s.welcome_page_paslog_block}>
+            <span className={s.welcome_page_paslog_block_title}>
+              Логин и пароль
+            </span>
+            <div className={s.welcome_page_input_block}>
+              <span className={s.welcome_page_input_title}>Логин*</span>
+              <input
+                type="text"
+                className={`${s.welcome_page_input} default_input`}
+                placeholder="login"
+              />
+            </div>
+            <div className={s.welcome_page_input_block}>
+              <span className={s.welcome_page_input_title}>Пароль*</span>
+              <input
+                type="text"
+                className={`${s.welcome_page_input} default_input`}
+                placeholder="password"
+              />
+            </div>
+            <div className={s.welcome_page_input_block}>
+              <span className={s.welcome_page_input_title}>
+                Повторите пароль*
+              </span>
+              <input
+                type="text"
+                className={`${s.welcome_page_input} default_input`}
+                placeholder="password"
+              />
+            </div>
+          </div> */
+}

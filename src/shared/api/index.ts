@@ -106,6 +106,7 @@ export const getTokens = createEffect<T_GetTokens, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
 export type T_RegisterUser = {
   country: string;
   name: string;
@@ -128,3 +129,31 @@ export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export type T_RegisterContact = {
+  name: string;
+  url: string;
+  timestamp: number | string;
+  wallet: string;
+  auth: string;
+};
+
+export const registerContact = createEffect<
+  T_RegisterContact,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`https://affiliate.greekkeepers.io/api/partner/contacts/add`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+    body: JSON.stringify({ name: form.name, url: form.url }),
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});

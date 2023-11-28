@@ -25,7 +25,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
 
   useEffect(() => {
     setSelectedValue;
-    setSelectedValue && setSelectedValue(activeItem.title);
+    setSelectedValue && setSelectedValue(activeItem?.title);
   }, [activeItem]);
 
   const [listVisibility, setListVisibility] = useState(false);
