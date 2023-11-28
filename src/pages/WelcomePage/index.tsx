@@ -160,14 +160,14 @@ const WelcomePage: FC<WelcomePageProps> = () => {
             isSignup && s.isSignup_container
           }`}
         >
-          {/* {isLogin ? (
+          {isLogin ? (
             <WelcomePageLogin />
           ) : isSignup ? (
             <WelcomePageSignup />
           ) : (
             <WelcomePageInitial />
-          )} */}
-          <WelcomePageSignup />
+          )}
+          {/* <WelcomePageInitial /> */}
         </div>
       </div>
       <Footer />

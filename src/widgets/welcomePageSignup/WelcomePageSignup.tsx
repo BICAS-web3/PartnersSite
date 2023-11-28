@@ -219,15 +219,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   useEffect(() => {
     (async () => {
       if (variables?.message && signMessageData && isConnected && address) {
-        await api.registerUser({
+        const response = await api.registerUser({
           country: selectedCountry.toLowerCase(),
           main_wallet: address.toLowerCase() as `0x${string}`,
           name: fullname.toLowerCase(),
-          signature: signMessageData,
+          signature: signMessageData.slice(2),
           traffic_source: selectedSourse.toLowerCase(),
           users_amount_a_month: 1,
         });
-
+        if (response.status === "OK") {
+          setSignup(true);
+        }
         // location.href = "/";
       }
     })();
@@ -436,20 +438,30 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             ознакомился, понимаю и принимаю вышеизложенные условия и политики
           </span>
         </div>
-        <button
-          disabled={!isPPchecked}
-          onClick={handleRegistration}
-          className={s.register_submit_btn}
-        >
-          {/* {isConnected
-            ? "Зарегистрироваться"
-            : errorLastName
-            ? "Укажите Фамилию"
-            : errorName
-            ? "Укажите Имя"
-            : "Подключить кошелек"} */}
-          Зарегистрироваться
-        </button>
+        <div className={s.btns_container}>
+          {" "}
+          <button
+            disabled={!isPPchecked}
+            onClick={handleRegistration}
+            className={s.register_submit_btn}
+          >
+            {isConnected
+              ? "Зарегистрироваться"
+              : errorLastName
+              ? "Укажите Фамилию"
+              : errorName
+              ? "Укажите Имя"
+              : "Подключить кошелек"}
+            {/* Зарегистрироваться */}
+          </button>
+          <button
+            // disabled={!isPPchecked}
+            onClick={() => setLogin(true)}
+            className={s.register_submit_btn}
+          >
+            Есть аккаунт?
+          </button>
+        </div>
       </div>
     </div>
   );

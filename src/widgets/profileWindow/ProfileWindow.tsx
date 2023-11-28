@@ -4,16 +4,22 @@ import clsx from "clsx";
 import { useDropdown, useMediaQuery } from "@/shared/tools";
 import { LogOutIco } from "@/shared/SVGs/LogOutIco";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
+import * as RegistrM from "@/widgets/header/model";
 
 import { GenerateButton } from "../generateButton/GenerateButton";
 
 import s from "./styles.module.scss";
+import { useUnit } from "effector-react";
 
 interface ProfileWindowProps {}
 
 export const ProfileWindow: FC<ProfileWindowProps> = () => {
   const isTablet = useMediaQuery("(max-width: 1200px)");
 
+  const [setLogin, setRegistr] = useUnit([
+    RegistrM.setLogin,
+    RegistrM.setSignup,
+  ]);
   const { dropdownRef, toggle, isOpen } = useDropdown();
   const {
     dropdownRef: accountRef,
@@ -82,7 +88,14 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
                 </div>
               </div>
             ))}{" "}
-            <div className={s.profile_logout}>
+            <div
+              onClick={() => {
+                setLogin(true);
+                setRegistr(true);
+                location.href = "/WelcomePage";
+              }}
+              className={s.profile_logout}
+            >
               <span>
                 <LogOutIco />
               </span>

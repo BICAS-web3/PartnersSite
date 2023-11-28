@@ -60,11 +60,16 @@ export const RightMenu: FC<RightMenuProps> = () => {
     setLanugagesListVisibility(!languagesListVisibility);
   };
 
-  const [setLogin, setSignup] = useUnit([
+  const [setLogin, setSignup, isLogin, isSignUp] = useUnit([
     RegistrationModel.setLogin,
     RegistrationModel.setSignup,
+    RegistrationModel.$isLogin,
+    RegistrationModel.$isSignup,
   ]);
 
+  // useEffect(() => {
+  //   alert(`${isLogin} ${isSignUp}`);
+  // }, [isLogin, isSignUp]);
   const [sbClose, sbOpen, isSbOpened] = useUnit([
     SidebarM.Close,
     SidebarM.Open,
@@ -126,7 +131,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
           ))}
         </div>
       </div>
-      {isRegistered ? (
+      {!isLogin || !isSignUp ? (
         <>
           {isMobile && <ChainList />}
           <div
