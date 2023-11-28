@@ -9,6 +9,7 @@ interface CustomDropdownInputProps {
   isExportSelect?: boolean;
   height?: number;
   posRel?: boolean;
+  setSelectedValue?: (el: boolean) => void;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -16,10 +17,16 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   activeItemId,
   height,
   isExportSelect,
+  setSelectedValue,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
   );
+
+  useEffect(() => {
+    setSelectedValue;
+    setSelectedValue && setSelectedValue(activeItem.title);
+  }, [activeItem]);
 
   const [listVisibility, setListVisibility] = useState(false);
   const { dropdownRef, toggle, close, isOpen } = useDropdown();

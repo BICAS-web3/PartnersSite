@@ -51,6 +51,7 @@ const WelcomePage: FC<WelcomePageProps> = () => {
   };
 
   useEffect(() => {
+    false;
     const handleResize = () => {
       const width = window.innerWidth;
       if (width < 1280 && width > 700) {
@@ -159,13 +160,14 @@ const WelcomePage: FC<WelcomePageProps> = () => {
             isSignup && s.isSignup_container
           }`}
         >
-          {isLogin ? (
+          {/* {isLogin ? (
             <WelcomePageLogin />
           ) : isSignup ? (
             <WelcomePageSignup />
           ) : (
             <WelcomePageInitial />
-          )}
+          )} */}
+          <WelcomePageSignup />
         </div>
       </div>
       <Footer />

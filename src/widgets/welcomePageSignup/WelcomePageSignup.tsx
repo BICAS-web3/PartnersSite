@@ -7,6 +7,9 @@ import leftArr from "@/public/media/common/prevArrow.png";
 import Image from "next/image";
 import * as RegistrM from "@/widgets/header/model";
 import { useUnit } from "effector-react";
+import { useAccount, useConnect, useSignMessage } from "wagmi";
+
+import * as api from "@/shared/api";
 
 export const siteCategories = [
   {
@@ -108,8 +111,11 @@ const countriesList = Object.keys(countries).map((code) => ({
 interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
+  const { signMessage, variables, data: signMessageData } = useSignMessage();
   const [phoneValue, setPhoneValue] = useState("");
   const [isPPchecked, setIsPPchecked] = useState(false);
+
+  const { isConnected, address } = useAccount();
 
   const handlePhoneChange = (e: { target: { value: string } }) => {
     let inputValue = e.target.value;
@@ -124,6 +130,108 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     RegistrM.setLogin,
     RegistrM.setSignup,
   ]);
+
+  // const {isConnected} = useAccount()
+
+  const { connectors, connect } = useConnect();
+
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  const [fullname, setFullName] = useState("");
+
+  const [selectedSourse, setSelectedSourse] = useState<any>();
+  const [selectedCountry, setSelectedCountry] = useState<any>("");
+
+  useEffect(() => {
+    setFullName(`${name} ${lastName}`);
+  }, [name, lastName]);
+
+  useEffect(() => {}, [selectedSourse]);
+  const [startRegistration, setStartRegistration] = useState(false);
+
+  const [errorName, setErrorName] = useState(false);
+  const [errorLastName, setErrorLastName] = useState(false);
+  function handleRegistration() {
+    if (!isConnected) {
+      connect({ connector: connectors[0] });
+    } else {
+      if (!name) {
+        setErrorName(true);
+        return;
+      }
+      if (!lastName) {
+        setErrorLastName(true);
+        return;
+      }
+      setStartRegistration(true);
+    }
+  }
+
+  useEffect(() => {
+    if (errorName) {
+      setTimeout(() => {
+        setErrorName((prev) => !prev);
+      }, 2000);
+    }
+  }, [errorName]);
+
+  useEffect(() => {
+    if (errorLastName) {
+      setTimeout(() => {
+        setErrorLastName((prev) => !prev);
+      }, 2000);
+    }
+  }, [errorLastName]);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     if (startRegistration) {
+  //       await api.registerUser({
+  //         name: fullname,
+  //         main_wallet: address!,
+  //         signature: "",
+  //         traffic_source: selectedSourse,
+  //         country: selectedCountry,
+  //         users_amount_a_month: 0,
+  //       });
+
+  //       // location.href = "/";
+  //     }
+  //   })();
+  // }, [startRegistration]);
+
+  //?----------------
+
+  useEffect(() => {
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const run = async () => {
+      if (isConnected && address && startRegistration) {
+        await sleep(2000);
+        signMessage({
+          message: `${fullname.toLowerCase()} ${selectedCountry.toLowerCase()} ${selectedSourse.toLowerCase()} ${1} ${address.toLowerCase()}`,
+        });
+      }
+    };
+    run();
+  }, [isConnected, startRegistration]);
+
+  useEffect(() => {
+    (async () => {
+      if (variables?.message && signMessageData && isConnected && address) {
+        await api.registerUser({
+          country: selectedCountry.toLowerCase(),
+          main_wallet: address.toLowerCase() as `0x${string}`,
+          name: fullname.toLowerCase(),
+          signature: signMessageData,
+          traffic_source: selectedSourse.toLowerCase(),
+          users_amount_a_month: 1,
+        });
+
+        // location.href = "/";
+      }
+    })();
+  }, [signMessageData, variables?.message]);
 
   return (
     <div className={s.welcome_page_signup_content}>
@@ -142,7 +250,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       </div>
       <form className={s.welcome_page_signup_form}>
         <div className={s.welcome_page_signup_leftBlock}>
-          <div className={s.welcome_page_paslog_block}>
+          {/* <div className={s.welcome_page_paslog_block}>
             <span className={s.welcome_page_paslog_block_title}>
               Логин и пароль
             </span>
@@ -172,7 +280,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 placeholder="password"
               />
             </div>
-          </div>
+          </div> */}
           <div className={s.welcome_page_additionalInfo_block}>
             <span className={s.welcome_page_additionalInfo_block_title}>
               Дополнительная информация
@@ -206,6 +314,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   Как вы узнали о нас?*
                 </span>
                 <CustomDropdownInput
+                  setSelectedValue={setSelectedSourse}
                   list={fromWhereList}
                   activeItemId="advert"
                 />
@@ -222,6 +331,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>Имя*</span>
                 <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   type="text"
                   className={`${s.welcome_page_input} default_input`}
                   placeholder="Name"
@@ -230,6 +341,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>Фамилия*</span>
                 <input
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   type="text"
                   className={`${s.welcome_page_input} default_input`}
                   placeholder="Surname"
@@ -261,7 +374,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
                 <span className={s.welcome_page_input_title}>Страна*</span>
-                <CustomDropdownInput list={countriesList} activeItemId="UA" />
+                <CustomDropdownInput
+                  setSelectedValue={setSelectedCountry}
+                  list={countriesList}
+                  activeItemId="UA"
+                />
               </div>
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>
@@ -319,7 +436,20 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             ознакомился, понимаю и принимаю вышеизложенные условия и политики
           </span>
         </div>
-        <button className={s.register_submit_btn}>Зарегистрироваться</button>
+        <button
+          disabled={!isPPchecked}
+          onClick={handleRegistration}
+          className={s.register_submit_btn}
+        >
+          {/* {isConnected
+            ? "Зарегистрироваться"
+            : errorLastName
+            ? "Укажите Фамилию"
+            : errorName
+            ? "Укажите Имя"
+            : "Подключить кошелек"} */}
+          Зарегистрироваться
+        </button>
       </div>
     </div>
   );
