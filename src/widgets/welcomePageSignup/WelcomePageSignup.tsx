@@ -238,6 +238,15 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     }
   }, [errorLastName]);
 
+  function noUserData() {
+    if (errorLastName) {
+      return "Укажите Фамилию";
+    }
+    if (errorName) {
+      return "Укажите Имя";
+    }
+  }
+
   //?----------------
 
   useEffect(() => {
@@ -457,13 +466,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             onClick={handleRegistration}
             className={s.register_submit_btn}
           >
-            {isConnected
-              ? "Зарегистрироваться"
-              : errorLastName
-              ? "Укажите Фамилию"
-              : errorName
-              ? "Укажите Имя"
-              : "Подключить кошелек"}
+            {isConnected ? "Зарегистрироваться" : "Подключить кошелек"}
+            {/* {isConnected
+              ? errorLastName || errorName
+                ? noUserData()
+                : "Зарегистрироваться"
+              : "Подключить кошелек"} */}
             {/* Зарегистрироваться */}
           </button>
           <button
