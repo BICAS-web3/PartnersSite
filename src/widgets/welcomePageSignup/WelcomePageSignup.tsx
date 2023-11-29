@@ -12,6 +12,7 @@ import { useUnit } from "effector-react";
 import { useAccount, useConnect, useSignMessage } from "wagmi";
 
 import * as api from "@/shared/api";
+import clsx from "clsx";
 
 export const siteCategories = [
   {
@@ -182,7 +183,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         address &&
         signFirstMessageData
       ) {
-        const data = await api.registerContact({
+        await api.registerContact({
           wallet: address.toLowerCase(),
           name: selectedMessanger,
           url: messangerValue,
@@ -209,15 +210,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   function handleRegistration() {
     if (!isConnected) {
       connect({ connector: connectors[0] });
+    } else if (!name) {
+      setErrorName(true);
+    } else if (!lastName) {
+      setErrorLastName(true);
     } else {
-      if (!name) {
-        setErrorName(true);
-        return;
-      }
-      if (!lastName) {
-        setErrorLastName(true);
-        return;
-      }
       setStartRegistration(true);
     }
   }
@@ -238,14 +235,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     }
   }, [errorLastName]);
 
-  function noUserData() {
-    if (errorLastName) {
-      return "Укажите Фамилию";
-    }
-    if (errorName) {
-      return "Укажите Имя";
-    }
-  }
+  // function noUserData() {
+  //   if (errorLastName) {
+  //     return "Укажите Фамилию";
+  //   }
+  //   if (errorName) {
+  //     return "Укажите Имя";
+  //   }
+  // }
 
   //?----------------
 
@@ -351,7 +348,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   type="text"
-                  className={`${s.welcome_page_input} default_input`}
+                  className={clsx(
+                    s.welcome_page_input,
+                    "default_input",
+                    errorName && s.error_input
+                  )}
                   placeholder="Name"
                 />
               </div>
@@ -361,7 +362,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   type="text"
-                  className={`${s.welcome_page_input} default_input`}
+                  className={clsx(
+                    s.welcome_page_input,
+                    "default_input",
+                    errorLastName && s.error_input
+                  )}
                   placeholder="Surname"
                 />
               </div>
@@ -467,12 +472,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             className={s.register_submit_btn}
           >
             {isConnected ? "Зарегистрироваться" : "Подключить кошелек"}
-            {/* {isConnected
-              ? errorLastName || errorName
-                ? noUserData()
-                : "Зарегистрироваться"
-              : "Подключить кошелек"} */}
-            {/* Зарегистрироваться */}
           </button>
           <button
             onClick={() => setLogin(true)}

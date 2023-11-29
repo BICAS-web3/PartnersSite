@@ -22,6 +22,18 @@
 .welcome_page_input {
   padding: 8px 14px;
   width: 100%;
+  transition: all 0.5s;
+  &::placeholder {
+    transition: all 0.5s;
+  }
+}
+
+.error_input {
+  // border: 1px solid red !important;
+  box-shadow: 0 0 1px 1px red;
+  &::placeholder {
+    color: red;
+  }
 }
 
 .welcome_page_input_title {
