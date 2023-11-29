@@ -117,7 +117,7 @@ export type T_RegisterUser = {
 };
 export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
   async (form) => {
-    return fetch(`https://affiliate.greekkeepers.io/api/partner/register`, {
+    return fetch(`${BaseApiUrl}/partner/register`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -143,7 +143,7 @@ export const registerContact = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  return fetch(`https://affiliate.greekkeepers.io/api/partner/contacts/add`, {
+  return fetch(`${BaseApiUrl}/partner/contacts/add`, {
     method: "POST",
     headers: {
       Accept: "application/json",
