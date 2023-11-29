@@ -10,9 +10,11 @@ import Image from "next/image";
 import * as RegistrM from "@/widgets/header/model";
 import { useUnit } from "effector-react";
 import { useAccount, useConnect, useSignMessage } from "wagmi";
+import * as UserDataModel from "./model";
 
 import * as api from "@/shared/api";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 
 export const siteCategories = [
   {
@@ -114,6 +116,30 @@ const countriesList = Object.keys(countries).map((code) => ({
 interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
+  const [
+    setUserCountry,
+    setUserEmail,
+    setUserLastName,
+    setUserMessanger,
+    setUserName,
+    setUserPageCategory,
+    setUserPageName,
+    setUserPhone,
+    setUserSelectedSource,
+    setUserMessangerValue,
+  ] = useUnit([
+    UserDataModel.setUserCountry,
+    UserDataModel.setUserEmail,
+    UserDataModel.setUserLastName,
+    UserDataModel.setUserMessanger,
+    UserDataModel.setUserName,
+    UserDataModel.setUserPageCategory,
+    UserDataModel.setUserPageName,
+    UserDataModel.setUserPhone,
+    UserDataModel.setUserSelectedSource,
+    UserDataModel.setUserMessangerValue,
+  ]);
+
   const { signMessage, variables, data: signMessageData } = useSignMessage();
   const [phoneValue, setPhoneValue] = useState("");
   const [isPPchecked, setIsPPchecked] = useState(false);
@@ -135,7 +161,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   ]);
 
   // const {isConnected} = useAccount()
-
+  const navigation = useRouter();
   const { connectors, connect } = useConnect();
 
   const [name, setName] = useState("");
@@ -143,12 +169,15 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   const [fullname, setFullName] = useState("");
 
+  const [startRegistration, setStartRegistration] = useState(false);
+
   const [selectedSourse, setSelectedSourse] = useState<any>();
   const [selectedCountry, setSelectedCountry] = useState<any>("");
   const [selectedMessanger, setSelectedMessanger] = useState<any>();
   const [messangerValue, setMessangerValue] = useState("");
-  const [startRegistration, setStartRegistration] = useState(false);
-
+  const [email, setEmail] = useState("");
+  const [categoryPage, setCategotyPage] = useState<any>("");
+  const [pageName, setPageName] = useState("");
   //!-----
 
   const {
@@ -174,17 +203,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   }, [address, isConnected]);
   //!-----
 
+  //! Register messanger
   useEffect(() => {
     (async () => {
       if (
         startRegistration &&
         selectedMessanger &&
         messangerValue &&
-        address &&
         signFirstMessageData
       ) {
         await api.registerContact({
-          wallet: address.toLowerCase(),
+          wallet: address!.toLowerCase(),
           name: selectedMessanger,
           url: messangerValue,
           auth: signFirstMessageData.slice(2),
@@ -196,9 +225,54 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     startRegistration,
     selectedMessanger,
     messangerValue,
-    address,
     signFirstMessageData,
   ]);
+
+  //! Register country
+  useEffect(() => {
+    (async () => {
+      if (startRegistration && selectedCountry && signFirstMessageData) {
+        await api.registerContact({
+          wallet: address!.toLowerCase(),
+          name: "Country",
+          url: selectedCountry,
+          auth: signFirstMessageData.slice(2),
+          timestamp: newDate,
+        });
+      }
+    })();
+  }, [startRegistration, selectedCountry, signFirstMessageData]);
+
+  //! Register Phone
+  useEffect(() => {
+    (async () => {
+      if (startRegistration && phoneValue && signFirstMessageData) {
+        await api.registerContact({
+          wallet: address!.toLowerCase(),
+          name: "Number",
+          url: phoneValue,
+          auth: signFirstMessageData.slice(2),
+          timestamp: newDate,
+        });
+      }
+    })();
+  }, [startRegistration, phoneValue, signFirstMessageData]);
+
+  //! Register Email
+  useEffect(() => {
+    (async () => {
+      if (startRegistration && phoneValue && signFirstMessageData) {
+        await api.registerContact({
+          wallet: address!.toLowerCase(),
+          name: "Email",
+          url: email,
+          auth: signFirstMessageData.slice(2),
+          timestamp: newDate,
+        });
+      }
+    })();
+  }, [startRegistration, email, signFirstMessageData]);
+
   useEffect(() => {
     setFullName(`${name} ${lastName}`);
   }, [name, lastName]);
@@ -215,6 +289,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     } else if (!lastName) {
       setErrorLastName(true);
     } else {
+      email && setUserEmail(email);
+      selectedCountry && setUserCountry(selectedCountry);
+      lastName && setUserLastName(lastName);
+      name && setUserName(name);
+      selectedMessanger && setUserMessanger(selectedMessanger);
+      categoryPage && setUserPageCategory(categoryPage);
+      pageName && setUserPageName(pageName);
+      phoneValue && setUserPhone(phoneValue);
+      selectedSourse && setUserSelectedSource(selectedSourse);
+      messangerValue && setUserMessangerValue(messangerValue);
       setStartRegistration(true);
     }
   }
@@ -272,7 +356,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         });
         if (response.status === "OK") {
           setSignup(true);
-          location.href = "/";
+          navigation.push("/");
         }
       }
     })();
@@ -303,6 +387,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>Сайт*</span>
                 <input
+                  value={pageName}
+                  onChange={(el) => setPageName(el.target.value)}
                   type="text"
                   className={`${s.welcome_page_input} default_input`}
                   placeholder="example.com"
@@ -315,6 +401,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 <CustomDropdownInput
                   list={siteCategories}
                   activeItemId="casino"
+                  setSelectedValue={setCategotyPage}
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
@@ -436,6 +523,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>E-mail</span>
                 <input
+                  value={email}
+                  onChange={(el) => setEmail(el.target.value)}
                   type="email"
                   className={`${s.welcome_page_input} default_input`}
                   placeholder="e-mail"

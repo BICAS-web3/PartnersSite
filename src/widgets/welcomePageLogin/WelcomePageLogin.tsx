@@ -10,6 +10,7 @@ import * as LoginModel from "./model";
 import * as RegistrM from "@/widgets/header/model";
 
 import s from "./styles.module.scss";
+import { useRouter } from "next/router";
 
 interface WelcomePageLoginProps {}
 
@@ -17,6 +18,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const { address, isConnected } = useAccount();
   const { signMessage, variables, data: signMessageData } = useSignMessage();
   const { connectors, connect } = useConnect();
+  const navigation = useRouter();
 
   const [setSignup, setLogin, setTimestamp] = useUnit([
     RegistrM.setSignup,
@@ -47,7 +49,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
       setLoginSignature(signMessageData.slice(2));
       setLogin(false);
       setSignup(false);
-      location.href = "/";
+      navigation.push("/");
     }
   }, [signMessageData, address]);
 

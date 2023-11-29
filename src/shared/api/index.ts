@@ -143,7 +143,7 @@ export const registerContact = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  return fetch(`https://affiliate.greekkeepers.io/api/partner/contacts/add`, {
+  return fetch(`http://127.0.0.1:8586/api/partner/contacts/add`, {
     method: "POST",
     headers: {
       Accept: "application/json",
