@@ -10,6 +10,7 @@ import { GenerateButton } from "../generateButton/GenerateButton";
 
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
+import { useRouter } from "next/router";
 
 interface ProfileWindowProps {}
 
@@ -20,6 +21,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
     RegistrM.setLogin,
     RegistrM.setSignup,
   ]);
+  const navigation = useRouter();
   const { dropdownRef, toggle, isOpen } = useDropdown();
   const {
     dropdownRef: accountRef,
@@ -92,7 +94,8 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
               onClick={() => {
                 setLogin(true);
                 setRegistr(true);
-                location.href = "/WelcomePage";
+                // location.href = "/WelcomePage";
+                navigation.push("/WelcomePage");
               }}
               className={s.profile_logout}
             >

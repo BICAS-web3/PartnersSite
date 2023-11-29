@@ -1,3 +1,5 @@
+"use client";
+
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";

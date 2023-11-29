@@ -1,3 +1,5 @@
+"use client";
+
 import s from "./styles.module.scss";
 import { FC, useState, useEffect } from "react";
 import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
