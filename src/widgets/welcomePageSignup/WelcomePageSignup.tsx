@@ -1,20 +1,23 @@
 "use client";
 
-import s from "./styles.module.scss";
-import { FC, useState, useEffect } from "react";
-import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
-import { countries } from "countries-list";
-import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
-import leftArr from "@/public/media/common/prevArrow.png";
-import Image from "next/image";
-import * as RegistrM from "@/widgets/header/model";
-import { useUnit } from "effector-react";
 import { useAccount, useConnect, useSignMessage } from "wagmi";
-import * as UserDataModel from "./model";
-
-import * as api from "@/shared/api";
-import clsx from "clsx";
+import { FC, useState, useEffect } from "react";
+import { useUnit } from "effector-react";
 import { useRouter } from "next/router";
+import { countries } from "countries-list";
+import Image from "next/image";
+import clsx from "clsx";
+
+import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
+import s from "./styles.module.scss";
+
+import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
+import * as api from "@/shared/api";
+
+import leftArr from "@/public/media/common/prevArrow.png";
+
+import * as RegistrM from "@/widgets/header/model";
+import * as UserDataModel from "./model";
 
 export const siteCategories = [
   {
@@ -127,6 +130,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     setUserPhone,
     setUserSelectedSource,
     setUserMessangerValue,
+    setSignature,
+    setTimestamp,
+    setUserLanguage,
+    setCallContactReg,
   ] = useUnit([
     UserDataModel.setUserCountry,
     UserDataModel.setUserEmail,
@@ -138,6 +145,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     UserDataModel.setUserPhone,
     UserDataModel.setUserSelectedSource,
     UserDataModel.setUserMessangerValue,
+    UserDataModel.setSignature,
+    UserDataModel.setTimestamp,
+    UserDataModel.setUserLanguage,
+    UserDataModel.setCallContactReg,
   ]);
 
   const { signMessage, variables, data: signMessageData } = useSignMessage();
@@ -160,17 +171,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     RegistrM.setSignup,
   ]);
 
-  // const {isConnected} = useAccount()
   const navigation = useRouter();
   const { connectors, connect } = useConnect();
 
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-
-  const [fullname, setFullName] = useState("");
-
   const [startRegistration, setStartRegistration] = useState(false);
 
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [fullname, setFullName] = useState("");
   const [selectedSourse, setSelectedSourse] = useState<any>();
   const [selectedCountry, setSelectedCountry] = useState<any>("");
   const [selectedMessanger, setSelectedMessanger] = useState<any>();
@@ -178,14 +186,13 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [email, setEmail] = useState("");
   const [categoryPage, setCategotyPage] = useState<any>("");
   const [pageName, setPageName] = useState("");
-  //!-----
+  const [selectedLanguage, setSelectedLanguage] = useState<any>();
 
-  const {
-    signMessage: fitstSignMessage,
-    variables: firstVariables,
-    data: signFirstMessageData,
-  } = useSignMessage();
+  const { signMessage: fitstSignMessage, data: signFirstMessageData } =
+    useSignMessage();
+
   const [newDate, setNewDate] = useState<any>();
+
   useEffect(() => {
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const run = async () => {
@@ -201,77 +208,18 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
     run();
   }, [address, isConnected]);
-  //!-----
 
-  //! Register messanger
   useEffect(() => {
-    (async () => {
-      if (
-        startRegistration &&
-        selectedMessanger &&
-        messangerValue &&
-        signFirstMessageData
-      ) {
-        await api.registerContact({
-          wallet: address!.toLowerCase(),
-          name: selectedMessanger,
-          url: messangerValue,
-          auth: signFirstMessageData.slice(2),
-          timestamp: newDate,
-        });
-      }
-    })();
-  }, [
-    startRegistration,
-    selectedMessanger,
-    messangerValue,
-    signFirstMessageData,
-  ]);
+    if (newDate) {
+      setTimestamp(newDate);
+    }
+  }, [newDate]);
 
-  //! Register country
   useEffect(() => {
-    (async () => {
-      if (startRegistration && selectedCountry && signFirstMessageData) {
-        await api.registerContact({
-          wallet: address!.toLowerCase(),
-          name: "Country",
-          url: selectedCountry,
-          auth: signFirstMessageData.slice(2),
-          timestamp: newDate,
-        });
-      }
-    })();
-  }, [startRegistration, selectedCountry, signFirstMessageData]);
-
-  //! Register Phone
-  useEffect(() => {
-    (async () => {
-      if (startRegistration && phoneValue && signFirstMessageData) {
-        await api.registerContact({
-          wallet: address!.toLowerCase(),
-          name: "Number",
-          url: phoneValue,
-          auth: signFirstMessageData.slice(2),
-          timestamp: newDate,
-        });
-      }
-    })();
-  }, [startRegistration, phoneValue, signFirstMessageData]);
-
-  //! Register Email
-  useEffect(() => {
-    (async () => {
-      if (startRegistration && phoneValue && signFirstMessageData) {
-        await api.registerContact({
-          wallet: address!.toLowerCase(),
-          name: "Email",
-          url: email,
-          auth: signFirstMessageData.slice(2),
-          timestamp: newDate,
-        });
-      }
-    })();
-  }, [startRegistration, email, signFirstMessageData]);
+    if (signFirstMessageData) {
+      setSignature(signFirstMessageData.slice(2));
+    }
+  }, [signFirstMessageData]);
 
   useEffect(() => {
     setFullName(`${name} ${lastName}`);
@@ -279,56 +227,43 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   useEffect(() => {}, [selectedSourse]);
 
-  const [errorName, setErrorName] = useState(false);
-  const [errorLastName, setErrorLastName] = useState(false);
   function handleRegistration() {
     if (!isConnected) {
       connect({ connector: connectors[0] });
-    } else if (!name) {
-      setErrorName(true);
-    } else if (!lastName) {
-      setErrorLastName(true);
+    } else if (
+      !name ||
+      !lastName ||
+      !email ||
+      !pageName ||
+      !messangerValue ||
+      !selectedMessanger
+    ) {
+      setError(true);
     } else {
-      email && setUserEmail(email);
-      selectedCountry && setUserCountry(selectedCountry);
-      lastName && setUserLastName(lastName);
-      name && setUserName(name);
-      selectedMessanger && setUserMessanger(selectedMessanger);
-      categoryPage && setUserPageCategory(categoryPage);
-      pageName && setUserPageName(pageName);
-      phoneValue && setUserPhone(phoneValue);
-      selectedSourse && setUserSelectedSource(selectedSourse);
-      messangerValue && setUserMessangerValue(messangerValue);
+      setUserEmail(email);
+      setUserCountry(selectedCountry);
+      setUserLastName(lastName);
+      setUserName(name);
+      setUserMessanger(selectedMessanger);
+      setUserPageCategory(categoryPage);
+      setUserPageName(pageName);
+      setUserPhone(phoneValue);
+      setUserSelectedSource(selectedSourse);
+      setUserMessangerValue(messangerValue);
+      setUserLanguage(selectedLanguage);
       setStartRegistration(true);
     }
   }
 
-  useEffect(() => {
-    if (errorName) {
-      setTimeout(() => {
-        setErrorName((prev) => !prev);
-      }, 2000);
-    }
-  }, [errorName]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (errorLastName) {
+    if (error) {
       setTimeout(() => {
-        setErrorLastName((prev) => !prev);
+        setError((prev) => !prev);
       }, 2000);
     }
-  }, [errorLastName]);
-
-  // function noUserData() {
-  //   if (errorLastName) {
-  //     return "Укажите Фамилию";
-  //   }
-  //   if (errorName) {
-  //     return "Укажите Имя";
-  //   }
-  // }
-
-  //?----------------
+  }, [error]);
 
   useEffect(() => {
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -355,6 +290,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           users_amount_a_month: 1,
         });
         if (response.status === "OK") {
+          setCallContactReg(true);
           setSignup(true);
           navigation.push("/");
         }
@@ -390,7 +326,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   value={pageName}
                   onChange={(el) => setPageName(el.target.value)}
                   type="text"
-                  className={`${s.welcome_page_input} default_input`}
+                  className={clsx(
+                    s.welcome_page_input,
+                    "default_input",
+                    !pageName && error && s.error_input
+                  )}
                   placeholder="example.com"
                 />
               </div>
@@ -408,7 +348,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 <span className={s.welcome_page_input_title}>
                   Предпочитаемый язык*
                 </span>
-                <CustomDropdownInput list={languagesList} activeItemId="rus" />
+                <CustomDropdownInput
+                  setSelectedValue={setSelectedLanguage}
+                  list={languagesList}
+                  activeItemId="rus"
+                />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
                 <span className={s.welcome_page_input_title}>
@@ -438,7 +382,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   className={clsx(
                     s.welcome_page_input,
                     "default_input",
-                    errorName && s.error_input
+                    !name && error && s.error_input
                   )}
                   placeholder="Name"
                 />
@@ -452,7 +396,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   className={clsx(
                     s.welcome_page_input,
                     "default_input",
-                    errorLastName && s.error_input
+                    !lastName && error && s.error_input
                   )}
                   placeholder="Surname"
                 />
@@ -461,8 +405,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             <div className={s.welcome_page_input_block}>
               <span className={s.welcome_page_input_title}>E-mail*</span>
               <input
+                value={email}
+                onChange={(el) => setEmail(el.target.value)}
                 type="text"
-                className={`${s.welcome_page_input} default_input`}
+                className={clsx(
+                  s.welcome_page_input,
+                  "default_input",
+                  !email && error && s.error_input
+                )}
                 placeholder="e-mail"
               />
             </div>
@@ -473,6 +423,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   setSelectedValue={setSelectedMessanger}
                   list={messangersList}
                   activeItemId="asd"
+                  className={!selectedMessanger && error ? s.error_input : ""}
                 />
               </div>
               <div className={s.welcome_page_input_block}>
@@ -483,7 +434,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   value={messangerValue}
                   onChange={(el) => setMessangerValue(el.target.value)}
                   type="text"
-                  className={`${s.welcome_page_input} default_input`}
+                  className={clsx(
+                    s.welcome_page_input,
+                    "default_input",
+                    !messangerValue && error && s.error_input
+                  )}
                   placeholder="@asdasdasd"
                 />
               </div>
@@ -523,8 +478,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>E-mail</span>
                 <input
-                  value={email}
-                  onChange={(el) => setEmail(el.target.value)}
+                  // value={email}
+                  // onChange={(el) => setEmail(el.target.value)}
                   type="email"
                   className={`${s.welcome_page_input} default_input`}
                   placeholder="e-mail"
@@ -607,3 +562,37 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             </div>
           </div> */
 }
+
+// useEffect(() => {
+//   (async () => {
+//     if (startRegistration && signFirstMessageData) {
+//       await api.registerContact({
+//         wallet: address!.toLowerCase(),
+//         auth: signFirstMessageData.slice(2),
+//         timestamp: newDate,
+//         contact: [
+//           {
+//             name: selectedMessanger,
+//             url: messangerValue,
+//           },
+//           {
+//             name: "Email",
+//             url: email,
+//           },
+//           {
+//             name: categoryPage,
+//             url: pageName,
+//           },
+//           {
+//             name: "Country",
+//             url: selectedCountry,
+//           },
+//           {
+//             name: "Language",
+//             url: selectedLanguage,
+//           },
+//         ],
+//       });
+//     }
+//   })();
+// }, [startRegistration, signFirstMessageData]);

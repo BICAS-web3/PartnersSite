@@ -1,4 +1,5 @@
 import { createEffect, createEvent } from "effector";
+import { format } from "path";
 
 export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
@@ -117,7 +118,7 @@ export type T_RegisterUser = {
 };
 export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
   async (form) => {
-    return fetch(`https://affiliate.greekkeepers.io/api/partner/register`, {
+    return fetch(`${BaseApiUrl}/partner/register`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -131,11 +132,10 @@ export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
 );
 
 export type T_RegisterContact = {
-  name: string;
-  url: string;
   timestamp: number | string;
   wallet: string;
   auth: string;
+  contact: { name: string; url: string }[];
 };
 
 export const registerContact = createEffect<
@@ -143,7 +143,7 @@ export const registerContact = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  return fetch(`http://127.0.0.1:8586/api/partner/contacts/add`, {
+  return fetch(`${BaseApiUrl}/partner/contacts/add`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -152,7 +152,11 @@ export const registerContact = createEffect<
       wallet: form.wallet,
       auth: form.auth,
     },
-    body: JSON.stringify({ name: form.name, url: form.url }),
+    body: JSON.stringify({
+      contacts: form.contact.map((el) => {
+        return { name: el.name, url: el.url };
+      }),
+    }),
   })
     .then(async (res) => await res.json())
     .catch((e) => e);

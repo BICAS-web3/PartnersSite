@@ -1,14 +1,19 @@
+import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
+import { useAccount } from "wagmi";
+import Link from "next/link";
+
+import { CurrencyChartsBlock } from "../currencyChartsBlock/CurrencyChartsBlock";
+import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
 import { CurrentBalance } from "../currentBalance/CurrentBalance";
 import { LastEvents } from "../lastEvents/LastEvents";
-import s from "./styles.module.scss";
-import { FC, useEffect, useState } from "react";
-import * as SidebarM from "@/widgets/sidebar/model";
-import { CurrencyChartsBlock } from "../currencyChartsBlock/CurrencyChartsBlock";
 import { FastStats } from "../fastStats/FastStats";
-import { useMediaQuery } from "@/shared/tools";
-import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
-import Link from "next/link";
+import s from "./styles.module.scss";
+
+import * as SidebarM from "@/widgets/sidebar/model";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+
+import * as api from "@/shared/api";
 
 interface DashboardProps {}
 const currenciesList = [
@@ -22,6 +27,63 @@ const currenciesList = [
   },
 ];
 export const Dashboard: FC<DashboardProps> = () => {
+  const [
+    userEmail,
+    userCountry,
+    userPageCategory,
+    userPageName,
+    userMessanger,
+    userMessangerValue,
+    signature,
+    timestamp,
+    userLanguage,
+    callContactReg,
+  ] = useUnit([
+    ContactModel.$userEmail,
+    ContactModel.$userCountry,
+    ContactModel.$userPageCategory,
+    ContactModel.$userPageName,
+    ContactModel.$userMessanger,
+    ContactModel.$userMessangerValue,
+    ContactModel.$signature,
+    ContactModel.$timestamp,
+    ContactModel.$userLanguage,
+    ContactModel.$callContactReg,
+  ]);
+  const { address } = useAccount();
+  useEffect(() => {
+    (async () => {
+      if (callContactReg) {
+        await api.registerContact({
+          wallet: address!.toLowerCase(),
+          auth: signature,
+          timestamp,
+          contact: [
+            {
+              name: userMessanger,
+              url: userMessangerValue,
+            },
+            {
+              name: "Email",
+              url: userEmail,
+            },
+            {
+              name: userPageCategory,
+              url: userPageName,
+            },
+            {
+              name: "Country",
+              url: userCountry,
+            },
+            {
+              name: "Language",
+              url: userLanguage,
+            },
+          ],
+        });
+      }
+    })();
+  }, [callContactReg]);
   const [isSidebarOpened] = useUnit([SidebarM.$isSidebarOpened]);
 
   const [isMobile, setIsMobile] = useState<boolean>();

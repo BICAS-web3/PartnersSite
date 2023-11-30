@@ -11,12 +11,13 @@ import { GenerateButton } from "../generateButton/GenerateButton";
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 import { useRouter } from "next/router";
+import { useDisconnect } from "wagmi";
 
 interface ProfileWindowProps {}
 
 export const ProfileWindow: FC<ProfileWindowProps> = () => {
   const isTablet = useMediaQuery("(max-width: 1200px)");
-
+  const { disconnect } = useDisconnect();
   const [setLogin, setRegistr] = useUnit([
     RegistrM.setLogin,
     RegistrM.setSignup,
@@ -94,7 +95,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
               onClick={() => {
                 setLogin(true);
                 setRegistr(true);
-                // location.href = "/WelcomePage";
+                disconnect();
                 navigation.push("/WelcomePage");
               }}
               className={s.profile_logout}
