@@ -1,6 +1,6 @@
 import { Layout } from "@/widgets/layout/Layout";
 import s from "./styles.module.scss";
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, use } from "react";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
@@ -14,6 +14,14 @@ import { WebsiteCategoryFilter } from "../../widgets/websitesUI/";
 import { WebsiteLanguageFilter } from "../../widgets/websitesUI/";
 import { WebsiteTableFilter } from "../../widgets/websitesUI/";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import { useAccount } from "wagmi";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+
+import * as api from "@/shared/api";
+import { useUnit } from "effector-react";
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
+import { useRouter } from "next/router";
+import clsx from "clsx";
 
 export const siteCategories = [
   {
@@ -110,6 +118,13 @@ export const tableRowsList = [
 interface WebsitesProps {}
 
 const Websites: FC<WebsitesProps> = () => {
+  const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
+
+  const [timestamp, signature] = useUnit([
+    ContactModel.$timestamp,
+    ContactModel.$signature,
+  ]);
+
   const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
   const [activeOptions, setActiveOptions] = useState([]);
   const [isTablet, setIsTablet] = useState(false);
@@ -174,6 +189,71 @@ const Websites: FC<WebsitesProps> = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
+
+  const [error, setError] = useState(false);
+  const [addPage, setAddPage] = useState(false);
+  const { isConnected, address } = useAccount();
+
+  const [pageUrl, setPageUrl] = useState("");
+  const [pageType, setPageType] = useState<any>("");
+
+  useEffect(() => {
+    (async () => {
+      if (isConnected && address && addPage && pageType && pageUrl) {
+        const response = await api.registerPage({
+          name: pageType,
+          url: pageUrl,
+          wallet: address.toLowerCase(),
+          auth: signature,
+          timestamp,
+        });
+        if (response.status === "OK") {
+          setAddPage(false);
+          // setCallContactReg(true);
+          // setSignup(true);
+          // setIsAuthed(true);
+        }
+      }
+    })();
+  }, [isConnected, address, addPage]);
+  //error_input
+
+  const navigation = useRouter();
+  const [isAuthed] = useUnit([AuthModel.$isAuthed]);
+  function handleAddPage() {
+    if (!isAuthed) {
+      navigation.push("WelcomePage");
+    } else if (!pageUrl || !pageType) {
+      setError(true);
+    } else {
+      setAddPage(true);
+    }
+  }
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    (async () => {
+      if (isConnected && isAuthed && address) {
+        const data = await api.getUserSites({
+          wallet: address?.toLowerCase(),
+          auth: signature,
+          timestamp,
+        });
+        console.log(data.status);
+        if (data.status === "OK") {
+          console.log(data.body);
+          setPageResponse(data.body as api.T_UserSitesResp);
+        }
+      }
+    })();
+  }, [address, isConnected, isAuthed]);
 
   return (
     <Layout activePage="websites">
@@ -284,13 +364,19 @@ const Websites: FC<WebsitesProps> = () => {
                   Веб-сайт
                 </span>
                 <input
+                  value={pageUrl}
+                  onChange={(el) => setPageUrl(el.target.value)}
                   type="text"
                   placeholder={`${
                     isTablet
                       ? "example.com"
                       : "Введите свой сайт. Например: mysite.com"
                   }`}
-                  className={`${s.adding_website_input} default_input`}
+                  className={clsx(
+                    s.adding_website_input,
+                    "default_input",
+                    error && !pageUrl && "error_input"
+                  )}
                 />
               </div>
               <div className={s.adding_website_block_item}>
@@ -298,8 +384,10 @@ const Websites: FC<WebsitesProps> = () => {
                   Категория сайта
                 </span>
                 <CustomDropdownInput
+                  setSelectedValue={setPageType}
                   list={siteCategories}
                   activeItemId="sportsForecasts"
+                  className={clsx(error && !pageType && "error_input")}
                 />
               </div>
               <div className={s.adding_website_block_item}>
@@ -309,7 +397,9 @@ const Websites: FC<WebsitesProps> = () => {
                   activeItemId="sportsForecasts"
                 />
               </div>
-              <button className={s.add_website_btn}>Добавить сайт</button>
+              <button onClick={handleAddPage} className={s.add_website_btn}>
+                {isAuthed ? "Добавить сайт" : "Войти"}
+              </button>
             </div>
           )}
           <div className={s.website_downTable_filter_block}>

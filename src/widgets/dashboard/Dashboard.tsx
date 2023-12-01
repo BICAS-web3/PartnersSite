@@ -11,11 +11,6 @@ import { FastStats } from "../fastStats/FastStats";
 import s from "./styles.module.scss";
 
 import * as SidebarM from "@/widgets/sidebar/model";
-import * as ContactModel from "@/widgets/welcomePageSignup/model";
-import * as AuthModel from "@/widgets/welcomePageInitial/model";
-
-import * as api from "@/shared/api";
-import { useRouter } from "next/router";
 
 interface DashboardProps {}
 const currenciesList = [
@@ -30,117 +25,6 @@ const currenciesList = [
 ];
 
 export const Dashboard: FC<DashboardProps> = () => {
-  const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
-  const [
-    userEmail,
-    userCountry,
-    userPageCategory,
-    userPageName,
-    userMessanger,
-    userMessangerValue,
-    signature,
-    timestamp,
-    userLanguage,
-    callContactReg,
-    userPhone,
-    userSelectedSource,
-    setUserEmail,
-    setUserName,
-    setUserLastName,
-  ] = useUnit([
-    ContactModel.$userEmail,
-    ContactModel.$userCountry,
-    ContactModel.$userPageCategory,
-    ContactModel.$userPageName,
-    ContactModel.$userMessanger,
-    ContactModel.$userMessangerValue,
-    ContactModel.$signature,
-    ContactModel.$timestamp,
-    ContactModel.$userLanguage,
-    ContactModel.$callContactReg,
-    ContactModel.$userPhone,
-    ContactModel.$userSelectedSource,
-    ContactModel.setUserEmail,
-    ContactModel.setUserName,
-    ContactModel.setUserLastName,
-  ]);
-
-  //?----------------------
-
-  //?----------------------
-  const { address, isConnected } = useAccount();
-
-  const [localName, setLocalName] = useState("");
-  const [localEmail, setLocalEmail] = useState("");
-  const [localLastName, setLocalLastName] = useState("");
-  useEffect(() => {
-    if (isConnected) {
-      const getEmail = localStorage.getItem(`${address}-mail`);
-      getEmail && setLocalEmail(getEmail);
-      const getName = localStorage.getItem(`${address}-name`);
-      getName && setLocalName(getName);
-      const getLastName = localStorage.getItem(`${address}-last_name`);
-      getLastName && setLocalLastName(getLastName);
-    }
-  }, []);
-  useEffect(() => {
-    if ((localEmail || localName || localLastName) && isConnected) {
-      setUserEmail(localEmail);
-      setUserName(localName);
-      setUserLastName(localLastName);
-      setIsAuthed(true);
-    }
-  }, [localEmail, localName, localLastName]);
-
-  useEffect(() => {
-    (async () => {
-      if (callContactReg) {
-        await api.registerContact({
-          wallet: address!.toLowerCase(),
-          auth: signature,
-          timestamp,
-          contact: [
-            {
-              name: "messenger_login",
-              url: userMessangerValue,
-            },
-            {
-              name: "email",
-              url: userEmail,
-            },
-            {
-              name: "messenger_type",
-              url: userMessanger,
-            },
-            {
-              name: "page_name",
-              url: userPageName,
-            },
-            {
-              name: "country",
-              url: userCountry,
-            },
-            {
-              name: "page_type",
-              url: userPageCategory,
-            },
-            {
-              name: "language",
-              url: userLanguage,
-            },
-            {
-              name: "phone",
-              url: userPhone,
-            },
-            {
-              name: "source_from",
-              url: userSelectedSource,
-            },
-          ],
-        });
-      }
-    })();
-  }, [callContactReg]);
   const [isSidebarOpened] = useUnit([SidebarM.$isSidebarOpened]);
 
   const [isMobile, setIsMobile] = useState<boolean>();

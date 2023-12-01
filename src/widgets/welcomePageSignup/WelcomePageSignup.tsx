@@ -248,6 +248,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       localStorage.setItem(`${address}-last_name`, lastName);
       setUserName(name);
       localStorage.setItem(`${address}-name`, name);
+      localStorage.setItem(`${address}-timestamp`, `${newDate}`);
+      localStorage.setItem(
+        `${address}-signature`,
+        (signFirstMessageData?.slice(2) as string) || ""
+      );
       setUserMessanger(selectedMessanger);
       setUserPageCategory(categoryPage);
       setUserPageName(pageName);

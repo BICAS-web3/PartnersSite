@@ -50,10 +50,49 @@ export type R_getUser = {
   sites: [];
 };
 
+export type T_UserSitesResp = [
+  {
+    basic: {
+      id: number;
+      internal_id: number;
+      name: string;
+      partner_id: string;
+      url: string;
+    };
+    sub_ids: [
+      {
+        id: number;
+        internal_id: number;
+        name: string;
+        partner_id: string;
+        site_id: number;
+        url: string;
+      }
+    ];
+  }
+];
+
+export type T_RegisterPage = {
+  timestamp: number | string;
+  wallet: string;
+  auth: string;
+  name: string;
+  url: string;
+};
+
+export type T_RegisterSubId = {
+  timestamp: number | string;
+  wallet: string;
+  auth: string;
+  name: string;
+  url: string;
+  internal_site_id: number;
+};
+
 export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
-  T_Networks | T_Rpcs | R_getUser;
+  T_Networks | T_Rpcs | R_getUser | T_UserSitesResp;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -205,3 +244,62 @@ export const getUserData = createEffect<T_GetEserData, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export const getUserSites = createEffect<T_GetEserData, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/site/get`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        timestamp: form.timestamp.toString(),
+        wallet: form.wallet,
+        auth: form.auth,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const registerPage = createEffect<T_RegisterPage, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/site/add`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        timestamp: form.timestamp.toString(),
+        wallet: form.wallet,
+        auth: form.auth,
+      },
+      body: JSON.stringify({ url: form.url, name: form.name }),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const registerSubId = createEffect<
+  T_RegisterSubId,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/site/subid/add`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+    body: JSON.stringify({
+      url: form.url,
+      name: form.name,
+      internal_site_id: form.internal_site_id,
+    }),
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});

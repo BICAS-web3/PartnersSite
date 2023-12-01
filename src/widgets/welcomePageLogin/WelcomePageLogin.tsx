@@ -121,6 +121,11 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
       setUserSelectedSource(
         responseBody.contacts.find((el) => el.name === "source_from")?.url || ""
       );
+      localStorage.setItem(`${address}-timestamp`, `${newDate}`);
+      localStorage.setItem(
+        `${address}-signature`,
+        signMessageData?.slice(2) as string
+      );
       localStorage.setItem(
         `${address}-name`,
         responseBody.basic.name.split(" ")[0]
