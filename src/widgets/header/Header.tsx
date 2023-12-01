@@ -1,18 +1,27 @@
 import { FC, useEffect, useState } from "react";
-import s from "./styles.module.scss";
+import { useAccount, useSignMessage } from "wagmi";
+import { useUnit } from "effector-react";
 import Image from "next/image";
+import Link from "next/link";
+
 import logo from "@/public/media/common/headerLogo.png";
 import mobLogo from "@/public/media/common/headerMobLogo.png";
-import { RightMenu } from "./RightMenu";
-import Link from "next/link";
-import { useAccount } from "wagmi";
-import { useUnit } from "effector-react";
+
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
+
 import * as api from "@/shared/api";
+
+import { RightMenu } from "./RightMenu";
+import s from "./styles.module.scss";
+
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
+  const { isConnected, address } = useAccount();
+  const { signMessage, data: signMessageData } = useSignMessage();
+  const [updateSignature, setUpdateSignature] = useState(false);
+
   const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
   const [
     userEmail,
@@ -51,12 +60,13 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setSignature,
     ContactModel.setTimestamp,
   ]);
+
   const [localName, setLocalName] = useState("");
   const [localEmail, setLocalEmail] = useState("");
   const [localLastName, setLocalLastName] = useState("");
   const [localTimestamp, setLocalTimestamp] = useState(0);
   const [localSignature, setLocalSignature] = useState("");
-  const { isConnected, address } = useAccount();
+
   useEffect(() => {
     if (isConnected) {
       const getEmail = localStorage.getItem(`${address}-mail`);
@@ -71,6 +81,7 @@ export const Header: FC<HeaderProps> = () => {
       getSignature && setLocalSignature(getSignature);
     }
   }, []);
+
   useEffect(() => {
     if (
       (localEmail ||
@@ -80,14 +91,22 @@ export const Header: FC<HeaderProps> = () => {
         localTimestamp) &&
       isConnected
     ) {
+      const currentTime = Date.now();
+      const timeDifference = currentTime - localTimestamp;
+
+      if (timeDifference > 60000 * 10) {
+        setUpdateSignature(true);
+      } else {
+        setTimestamp(localTimestamp);
+        setSignature(localSignature);
+      }
       setUserEmail(localEmail);
       setUserName(localName);
       setUserLastName(localLastName);
-      setSignature(localSignature);
-      setTimestamp(localTimestamp);
       setIsAuthed(true);
     }
   }, [localEmail, localName, localLastName]);
+
   useEffect(() => {
     (async () => {
       if (callContactReg) {
@@ -137,6 +156,33 @@ export const Header: FC<HeaderProps> = () => {
       }
     })();
   }, [callContactReg]);
+
+  useEffect(() => {
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const run = async () => {
+      if (isConnected && updateSignature) {
+        const now = Date.now();
+        setTimestamp(now);
+        setLocalTimestamp(now);
+        localStorage.setItem(`${address}-timestamp`, `${now}`);
+        await sleep(2000);
+        signMessage({
+          message: `PARTNER AUTH ${address!.toLowerCase()} ${now}`,
+        });
+      }
+    };
+    run();
+  }, [isConnected, updateSignature]);
+
+  useEffect(() => {
+    if (updateSignature && signMessageData) {
+      setSignature(signMessageData.slice(2));
+      localStorage.setItem(`${address}-signature`, signMessageData.slice(2));
+      setLocalSignature(signMessageData.slice(2));
+      setUpdateSignature(false);
+    }
+  }, [updateSignature, signMessageData]);
+
   return (
     <div className={s.header}>
       <div className={s.header_body}>
