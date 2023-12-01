@@ -1,6 +1,6 @@
 import { Layout } from "@/widgets/layout/Layout";
 import s from "./styles.module.scss";
-import { FC, useState, useEffect, use } from "react";
+import { FC, useState, useEffect, use, useRef } from "react";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
@@ -22,7 +22,11 @@ import { useUnit } from "effector-react";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import { useMediaQuery } from "@/shared/tools";
+import { Scrollbar } from "swiper/modules";
+import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 export const siteCategories = [
   {
     title: "Прогнозы на спорт",
@@ -119,12 +123,39 @@ interface WebsitesProps {}
 
 const Websites: FC<WebsitesProps> = () => {
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
+  const [pageResponseUpdated, setPageResponseUpdated] = useState<any>();
+  const [updateGetRequest, setUpdateGetRequest] = useState("");
 
+  useEffect(() => {
+    if (pageResponse && !pageResponseUpdated) {
+      const change = pageResponse?.map((el) => {
+        // id: el.basic.id, title: el.basic.name, text: el.basic.url
+        return [
+          { title: "ID", id: el.basic.id, text: el.basic.id },
+          {
+            title: "Сайт",
+            id: el.basic.id,
+            text: el.basic.url,
+          },
+          {
+            title: "Состояние",
+            id: el.basic.id,
+            text: el.basic.name,
+          },
+        ];
+      });
+      console.log("fix: ", change);
+      setPageResponseUpdated(change.flat());
+    }
+  }, [pageResponse, pageResponseUpdated, updateGetRequest]);
+
+  useState<api.T_UserSitesResp>();
+  const isMobile = useMediaQuery("(max-width:650px)");
   const [timestamp, signature] = useUnit([
     ContactModel.$timestamp,
     ContactModel.$signature,
   ]);
-
+  const swiperRef = useRef<SwiperRef>(null);
   const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
   const [activeOptions, setActiveOptions] = useState([]);
   const [isTablet, setIsTablet] = useState(false);
@@ -141,7 +172,8 @@ const Websites: FC<WebsitesProps> = () => {
     title?: string;
     id?: string;
   }>({});
-  const [mobTableOptions, setMobTableOpts] = useState(tableColumnsList);
+
+  const [mobTableOptions, setMobTableOpts] = useState(pageResponseUpdated);
 
   useEffect(() => {
     const handleResize = () => {
@@ -208,6 +240,7 @@ const Websites: FC<WebsitesProps> = () => {
           timestamp,
         });
         if (response.status === "OK") {
+          setUpdateGetRequest("OK");
           setAddPage(false);
           // setCallContactReg(true);
           // setSignup(true);
@@ -222,10 +255,26 @@ const Websites: FC<WebsitesProps> = () => {
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
   function handleAddPage() {
     if (!isAuthed) {
-      navigation.push("WelcomePage");
+      navigation.push("/");
     } else if (!pageUrl || !pageType) {
       setError(true);
     } else {
+      const getLastId = pageResponseUpdated[pageResponseUpdated?.length]?.id;
+      setPageResponseUpdated((prev: any) => [
+        ...prev,
+        { title: "ID", id: getLastId + 1, text: getLastId + 1 },
+        {
+          title: "Сайт",
+          id: getLastId + 1,
+          text: pageUrl,
+        },
+        {
+          title: "Состояние",
+          id: getLastId + 1,
+          text: pageType,
+        },
+      ]);
+
       setAddPage(true);
     }
   }
@@ -250,10 +299,15 @@ const Websites: FC<WebsitesProps> = () => {
         if (data.status === "OK") {
           console.log(data.body);
           setPageResponse(data.body as api.T_UserSitesResp);
+
+          setUpdateGetRequest("");
         }
       }
     })();
-  }, [address, isConnected, isAuthed]);
+  }, [address, isConnected, isAuthed, updateGetRequest]);
+  useEffect(() => {
+    console.log(2, pageResponseUpdated);
+  }, [pageResponseUpdated]);
 
   return (
     <Layout activePage="websites">
@@ -345,7 +399,7 @@ const Websites: FC<WebsitesProps> = () => {
                 >
                   <span className="mobile_filter_item_title">Показать</span>
                   <span className="mobile_filter_item_picked_value">
-                    Выбрано {mobTableOptions.length} п.
+                    Выбрано {mobTableOptions?.length} п.
                   </span>
                 </div>
 
@@ -423,16 +477,58 @@ const Websites: FC<WebsitesProps> = () => {
             </div>
             <div className={s.choose_table_cols}>
               <CustomDropDownChoose
-                list={tableColumnsList}
+                list={pageResponseUpdated}
                 setActiveOptions={setActiveOptions}
               />
             </div>
           </div>
-          <div className={s.websites_table_wrap}>
+          {/* <div className={s.websites_table_wrap}>
             <DropdownSwiperTable
+              slideClassName={s.slide}
               cols={is650 ? mobTableOptions : activeOptions}
               rows={[]}
             />
+          </div> */}
+          <div className={s.table_wrap}>
+            <div className="scroll-bar"></div>
+            <Swiper
+              ref={swiperRef}
+              slidesPerView={isMobile ? 2.5 : "auto"}
+              direction="horizontal"
+              modules={[Scrollbar]}
+              scrollbar={{
+                el: ".scroll-bar",
+                draggable: true,
+              }}
+              spaceBetween={2}
+              centeredSlides={false}
+              className={s.swiper}
+            >
+              {(isMobile ? mobTableOptions : activeOptions)?.map(
+                (
+                  item: { title: string; id: string; text: string },
+                  ind: number
+                ) => (
+                  <SwiperSlide
+                    className={s.swiper_slide}
+                    key={ind}
+                    data-id={item.id}
+                  >
+                    <div className={s.swiper_slide_body}>
+                      <div className={s.swiper_slide_header}>
+                        <span className={s.swiper_slide_title}>
+                          {item.title}
+                        </span>
+                        <Image src={upDownArrows} alt="sort-ico" />
+                      </div>
+                      <div className={s.swiper_slide_content}>
+                        {item.title === "ID" ? item.text + 1 : item.text}
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                )
+              )}
+            </Swiper>
           </div>
           <div className={s.table_navigation_block}>
             <div className={s.table_records_block}>

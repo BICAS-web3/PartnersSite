@@ -63,7 +63,7 @@ export const DropdownSwiperTable: FC<DropdownSwiperTableProps> = ({
             ? 1.5
             : isOn700Cols && is650
             ? 2.5
-            : cols.length
+            : cols?.length
         }
         direction="horizontal"
         modules={[Scrollbar]}
@@ -75,13 +75,9 @@ export const DropdownSwiperTable: FC<DropdownSwiperTableProps> = ({
         centeredSlides={false}
         className={s.swiper}
       >
-        {cols.map((item, ind) => (
-          <SwiperSlide
-            key={ind}
-            className={clsx(s.swiper_slide, slideClassName)}
-            data-id={item.id}
-          >
-            <div className={s.swiper_slide_body}>
+        {cols?.map((item, ind) => (
+          <SwiperSlide key={ind} className={s.swiper_slide} data-id={item.id}>
+            <div className={clsx(s.swiper_slide_body, slideClassName)}>
               <div className={s.swiper_slide_header}>
                 <span className={s.swiper_slide_title}>{item.title}</span>
                 <Image src={upDownArrows} alt="sort-ico" />

@@ -150,7 +150,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
       setLoginSignature(signMessageData.slice(2));
       setLogin(false);
       setSignup(false);
-      navigation.push("/");
+      navigation.push("/home");
       setStartLogin((prev) => !prev);
     }
   }, [signMessageData, address, startLogin]);

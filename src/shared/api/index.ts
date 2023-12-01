@@ -50,27 +50,25 @@ export type R_getUser = {
   sites: [];
 };
 
-export type T_UserSitesResp = [
-  {
-    basic: {
+export type T_UserSitesResp = {
+  basic: {
+    id: number;
+    internal_id: number;
+    name: string;
+    partner_id: string;
+    url: string;
+  };
+  sub_ids: [
+    {
       id: number;
       internal_id: number;
       name: string;
       partner_id: string;
+      site_id: number;
       url: string;
-    };
-    sub_ids: [
-      {
-        id: number;
-        internal_id: number;
-        name: string;
-        partner_id: string;
-        site_id: number;
-        url: string;
-      }
-    ];
-  }
-];
+    }
+  ];
+}[];
 
 export type T_RegisterPage = {
   timestamp: number | string;

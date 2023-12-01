@@ -46,7 +46,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
         }}
       >
         <div className={s.active_dropdown_title_block}>
-          Выбрано {activeItems.length} п.
+          Выбрано {activeItems?.length} п.
         </div>
         <div className={s.dropdown_ico_block}>
           <HeaderDropdownArrow />
@@ -65,7 +65,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               <span>Выбрать все</span>
             </span>
           </div>
-          {list.map((item, ind) => (
+          {list?.map((item, ind) => (
             <CustomDropDownItem
               activeItems={activeItems}
               setActiveItems={setActiveItems}

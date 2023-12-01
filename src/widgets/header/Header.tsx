@@ -22,7 +22,10 @@ export const Header: FC<HeaderProps> = () => {
   const { signMessage, data: signMessageData } = useSignMessage();
   const [updateSignature, setUpdateSignature] = useState(false);
 
-  const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
+  const [setIsAuthed, isAuthed] = useUnit([
+    AuthModel.setIsAuthed,
+    AuthModel.$isAuthed,
+  ]);
   const [
     userEmail,
     userCountry,
@@ -41,6 +44,14 @@ export const Header: FC<HeaderProps> = () => {
     setUserLastName,
     setSignature,
     setTimestamp,
+    setUserPhone,
+    setUserLanguage,
+    setUserCountry,
+    setUserMessangerValue,
+    setUserMessanger,
+    setUserPageName,
+    setUserPageCategory,
+    setUserSelectedSource,
   ] = useUnit([
     ContactModel.$userEmail,
     ContactModel.$userCountry,
@@ -59,9 +70,18 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setUserLastName,
     ContactModel.setSignature,
     ContactModel.setTimestamp,
+    ContactModel.setUserPhone,
+    ContactModel.setUserLanguage,
+    ContactModel.setUserCountry,
+    ContactModel.setUserMessangerValue,
+    ContactModel.setUserMessanger,
+    ContactModel.setUserPageName,
+    ContactModel.setUserPageCategory,
+    ContactModel.setUserSelectedSource,
   ]);
 
   const [localName, setLocalName] = useState("");
+  const [localPhone, setLocalPhone] = useState("");
   const [localEmail, setLocalEmail] = useState("");
   const [localLastName, setLocalLastName] = useState("");
   const [localTimestamp, setLocalTimestamp] = useState(0);
@@ -73,6 +93,8 @@ export const Header: FC<HeaderProps> = () => {
       getEmail && setLocalEmail(getEmail);
       const getName = localStorage.getItem(`${address}-name`);
       getName && setLocalName(getName);
+      const getPhone = localStorage.getItem(`${address}-phone`);
+      getPhone && setLocalPhone(getPhone);
       const getLastName = localStorage.getItem(`${address}-last_name`);
       getLastName && setLocalLastName(getLastName);
       const getTimestamp = localStorage.getItem(`${address}-timestamp`);
@@ -103,6 +125,7 @@ export const Header: FC<HeaderProps> = () => {
       setUserEmail(localEmail);
       setUserName(localName);
       setUserLastName(localLastName);
+      setUserPhone(localPhone);
       setIsAuthed(true);
     }
   }, [localEmail, localName, localLastName]);
@@ -182,6 +205,67 @@ export const Header: FC<HeaderProps> = () => {
       setUpdateSignature(false);
     }
   }, [updateSignature, signMessageData]);
+
+  //!-----------
+  const [handleRequest, setHandleRequest] = useState(true);
+  const [responseBody, setResponseBody] = useState<api.R_getUser>();
+
+  useEffect(() => {
+    (async () => {
+      if (address && !responseBody && isAuthed && handleRequest) {
+        const respobse = await api.getUserData({
+          wallet: address.toLowerCase() as string,
+          auth: signature,
+          timestamp,
+        });
+        setResponseBody(respobse.body as api.R_getUser);
+        setHandleRequest(false);
+      }
+    })();
+  }, [responseBody, isAuthed, handleRequest]);
+  useEffect(() => {
+    if (responseBody && isAuthed) {
+      setUserMessangerValue(
+        responseBody?.contacts?.find((el) => el.name === "messenger_login")
+          ?.url || ""
+      );
+      setUserEmail(
+        responseBody?.contacts?.find((el) => el.name === "email")?.url || ""
+      );
+      setUserMessanger(
+        responseBody?.contacts?.find((el) => el.name === "messenger_type")
+          ?.url || ""
+      );
+      setUserPageName(
+        responseBody?.contacts?.find((el) => el.name === "page_name")?.url || ""
+      );
+      setUserCountry(
+        responseBody?.contacts?.find((el) => el.name === "country")?.url || ""
+      );
+      setUserPageCategory(
+        responseBody?.contacts?.find((el) => el.name === "page_type")?.url || ""
+      );
+      setUserLanguage(
+        responseBody?.contacts?.find((el) => el.name === "language")?.url || ""
+      );
+      setUserPhone(
+        responseBody?.contacts?.find((el) => el.name === "phone")?.url || ""
+      );
+      setUserSelectedSource(
+        responseBody?.contacts?.find((el) => el.name === "source_from")?.url ||
+          ""
+      );
+
+      setUserName(responseBody?.basic?.name?.split(" ")[0]);
+      setUserLastName(responseBody?.basic?.name?.split(" ")[1]);
+    }
+  }, [responseBody, isAuthed]);
+
+  useEffect(() => {
+    return () => {
+      setHandleRequest(false);
+    };
+  }, []);
 
   return (
     <div className={s.header}>

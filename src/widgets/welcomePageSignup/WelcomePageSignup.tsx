@@ -302,7 +302,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setCallContactReg(true);
           setSignup(true);
           setIsAuthed(true);
-          navigation.push("/");
+          navigation.push("/home");
         }
       }
     })();

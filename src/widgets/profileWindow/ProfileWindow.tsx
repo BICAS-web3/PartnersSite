@@ -103,7 +103,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
                 setRegistr(true);
                 disconnect();
                 setIsAuthed(false);
-                navigation.push("/WelcomePage");
+                navigation.push("/");
               }}
               className={s.profile_logout}
             >

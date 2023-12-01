@@ -158,7 +158,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
       ) : (
         <>
           <Link
-            href={"/WelcomePage"}
+            href={"/"}
             className={s.signUp_btn}
             onClick={() => {
               setSignup(true);
@@ -168,7 +168,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
             Регистрация
           </Link>
           <Link
-            href={"/WelcomePage"}
+            href={"/"}
             className={s.signIn_btn}
             onClick={() => {
               setSignup(false);

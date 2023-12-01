@@ -41,7 +41,7 @@ const sidebarItems = [
         title: "Dashboard",
         icon: <DashboardIcon />,
         pageActive: "dashboard",
-        link: "/",
+        link: "/home",
       },
       {
         title: "Веб-сайты",
