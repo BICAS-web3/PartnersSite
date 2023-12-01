@@ -13,7 +13,9 @@ import * as SidebarM from "@/widgets/sidebar/model";
 import { ChainList } from "../chainList/ChainList";
 import { ProfileWindow } from "../profileWindow/ProfileWindow";
 import { useMediaQuery } from "@/shared/tools";
-
+import { useAccount } from "wagmi";
+import Link from "next/link";
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
 export const languagesList = [
   {
     img: russiaImg,
@@ -40,6 +42,8 @@ export const languagesList = [
 interface RightMenuProps {}
 
 export const RightMenu: FC<RightMenuProps> = () => {
+  const [isAuthed] = useUnit([AuthModel.$isAuthed]);
+  const { isConnected } = useAccount();
   const isMobile = useMediaQuery("(max-width: 650px)");
 
   const [activeLanguage, setActiveLanguage] = useState(
@@ -131,7 +135,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
           ))}
         </div>
       </div>
-      {!isLogin || !isSignUp ? (
+      {isConnected && isAuthed ? (
         <>
           {isMobile && <ChainList />}
           <div
@@ -153,7 +157,8 @@ export const RightMenu: FC<RightMenuProps> = () => {
         </>
       ) : (
         <>
-          <button
+          <Link
+            href={"/WelcomePage"}
             className={s.signUp_btn}
             onClick={() => {
               setSignup(true);
@@ -161,8 +166,9 @@ export const RightMenu: FC<RightMenuProps> = () => {
             }}
           >
             Регистрация
-          </button>
-          <button
+          </Link>
+          <Link
+            href={"/WelcomePage"}
             className={s.signIn_btn}
             onClick={() => {
               setSignup(false);
@@ -170,7 +176,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
             }}
           >
             Вход
-          </button>
+          </Link>
         </>
       )}
     </div>

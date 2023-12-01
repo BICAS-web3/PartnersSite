@@ -18,7 +18,7 @@ import leftArr from "@/public/media/common/prevArrow.png";
 
 import * as RegistrM from "@/widgets/header/model";
 import * as UserDataModel from "./model";
-
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
 export const siteCategories = [
   {
     title: "Казино",
@@ -119,6 +119,7 @@ const countriesList = Object.keys(countries).map((code) => ({
 interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
+  const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
   const [
     setUserCountry,
     setUserEmail,
@@ -241,9 +242,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       setError(true);
     } else {
       setUserEmail(email);
+      localStorage.setItem(`${address}-mail`, email);
       setUserCountry(selectedCountry);
       setUserLastName(lastName);
+      localStorage.setItem(`${address}-last_name`, lastName);
       setUserName(name);
+      localStorage.setItem(`${address}-name`, name);
       setUserMessanger(selectedMessanger);
       setUserPageCategory(categoryPage);
       setUserPageName(pageName);
@@ -292,6 +296,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         if (response.status === "OK") {
           setCallContactReg(true);
           setSignup(true);
+          setIsAuthed(true);
           navigation.push("/");
         }
       }

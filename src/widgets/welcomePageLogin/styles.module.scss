@@ -12,6 +12,9 @@
   display: flex;
   flex-direction: column;
   width: 372px;
+  @media (max-width: 650px) {
+    width: auto;
+  }
 }
 
 .welcome_page_login_form_input {

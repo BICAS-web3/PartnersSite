@@ -5,17 +5,23 @@ import { useDropdown, useMediaQuery } from "@/shared/tools";
 import { LogOutIco } from "@/shared/SVGs/LogOutIco";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import * as RegistrM from "@/widgets/header/model";
-
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import { GenerateButton } from "../generateButton/GenerateButton";
 
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 import { useRouter } from "next/router";
 import { useDisconnect } from "wagmi";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 interface ProfileWindowProps {}
 
 export const ProfileWindow: FC<ProfileWindowProps> = () => {
+  const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
+  const [userEmail, userName] = useUnit([
+    ContactModel.$userEmail,
+    ContactModel.$userName,
+  ]);
   const isTablet = useMediaQuery("(max-width: 1200px)");
   const { disconnect } = useDisconnect();
   const [setLogin, setRegistr] = useUnit([
@@ -39,22 +45,22 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
     <article ref={dropdownRef} className={s.profile}>
       {isTablet ? (
         <span onClick={toggle} className={s.profile_name}>
-          E
+          {userName}
         </span>
       ) : (
         <button
           className={clsx(s.profile_button, isOpen && s.profile_button_open)}
           onClick={toggle}
         >
-          example@gmail.com
+          {userEmail}
           <span className={clsx(s.dropdown_ico_block, isOpen && s.activ_icon)}>
             <HeaderDropdownArrow />
           </span>
         </button>
       )}
       <div className={clsx(s.profile_body, isOpen && s.profile_body_open)}>
-        {!isTablet && <span className={s.profile_name}>E</span>}
-        <span className={s.profile_gmail}>Example@gmail.com</span>
+        {!isTablet && <span className={s.profile_name}>{userName}</span>}
+        <span className={s.profile_gmail}>{userEmail}</span>
         <GenerateButton className={s.profile_btn} title="Manage account" />
         <div className={s.detail_container} ref={accountRef}>
           <button
@@ -96,6 +102,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
                 setLogin(true);
                 setRegistr(true);
                 disconnect();
+                setIsAuthed(false);
                 navigation.push("/WelcomePage");
               }}
               className={s.profile_logout}

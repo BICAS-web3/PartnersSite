@@ -1,5 +1,4 @@
-import { createEffect, createEvent } from "effector";
-import { format } from "path";
+import { createEffect } from "effector";
 
 export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
@@ -31,10 +30,30 @@ export type T_RpcUrl = {
   network_id: number;
   url: string;
 };
+
+export type R_getUser = {
+  basic: {
+    name: string;
+    country: string;
+    traffic_source: string;
+    users_amount_a_month: number;
+    main_wallet: string;
+    program: string;
+    is_verified: boolean;
+  };
+  contacts: {
+    id: number;
+    name: string;
+    url: string;
+    partner_id: string;
+  }[];
+  sites: [];
+};
+
 export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
-  T_Networks | T_Rpcs;
+  T_Networks | T_Rpcs | R_getUser;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -49,6 +68,7 @@ export type T_ApiResponse = {
   // | T_TokenPrice
   // | T_NFTMarket;
 };
+
 export type T_Rpcs = {
   rpcs: Array<T_RpcUrl>;
 };
@@ -161,3 +181,27 @@ export const registerContact = createEffect<
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+
+//?-------
+export type T_GetEserData = {
+  timestamp: number;
+  wallet: string;
+  auth: string;
+};
+
+export const getUserData = createEffect<T_GetEserData, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/get`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        timestamp: form.timestamp.toString(),
+        wallet: form.wallet,
+        auth: form.auth,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);

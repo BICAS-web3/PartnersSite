@@ -158,6 +158,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .register_submit_btn {

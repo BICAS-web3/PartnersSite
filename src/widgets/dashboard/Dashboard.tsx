@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import Link from "next/link";
 
 import { CurrencyChartsBlock } from "../currencyChartsBlock/CurrencyChartsBlock";
@@ -12,8 +12,10 @@ import s from "./styles.module.scss";
 
 import * as SidebarM from "@/widgets/sidebar/model";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
 
 import * as api from "@/shared/api";
+import { useRouter } from "next/router";
 
 interface DashboardProps {}
 const currenciesList = [
@@ -26,7 +28,9 @@ const currenciesList = [
     id: "uah",
   },
 ];
+
 export const Dashboard: FC<DashboardProps> = () => {
+  const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
   const [
     userEmail,
     userCountry,
@@ -38,6 +42,11 @@ export const Dashboard: FC<DashboardProps> = () => {
     timestamp,
     userLanguage,
     callContactReg,
+    userPhone,
+    userSelectedSource,
+    setUserEmail,
+    setUserName,
+    setUserLastName,
   ] = useUnit([
     ContactModel.$userEmail,
     ContactModel.$userCountry,
@@ -49,8 +58,40 @@ export const Dashboard: FC<DashboardProps> = () => {
     ContactModel.$timestamp,
     ContactModel.$userLanguage,
     ContactModel.$callContactReg,
+    ContactModel.$userPhone,
+    ContactModel.$userSelectedSource,
+    ContactModel.setUserEmail,
+    ContactModel.setUserName,
+    ContactModel.setUserLastName,
   ]);
-  const { address } = useAccount();
+
+  //?----------------------
+
+  //?----------------------
+  const { address, isConnected } = useAccount();
+
+  const [localName, setLocalName] = useState("");
+  const [localEmail, setLocalEmail] = useState("");
+  const [localLastName, setLocalLastName] = useState("");
+  useEffect(() => {
+    if (isConnected) {
+      const getEmail = localStorage.getItem(`${address}-mail`);
+      getEmail && setLocalEmail(getEmail);
+      const getName = localStorage.getItem(`${address}-name`);
+      getName && setLocalName(getName);
+      const getLastName = localStorage.getItem(`${address}-last_name`);
+      getLastName && setLocalLastName(getLastName);
+    }
+  }, []);
+  useEffect(() => {
+    if ((localEmail || localName || localLastName) && isConnected) {
+      setUserEmail(localEmail);
+      setUserName(localName);
+      setUserLastName(localLastName);
+      setIsAuthed(true);
+    }
+  }, [localEmail, localName, localLastName]);
+
   useEffect(() => {
     (async () => {
       if (callContactReg) {
@@ -60,24 +101,40 @@ export const Dashboard: FC<DashboardProps> = () => {
           timestamp,
           contact: [
             {
-              name: userMessanger,
+              name: "messenger_login",
               url: userMessangerValue,
             },
             {
-              name: "Email",
+              name: "email",
               url: userEmail,
             },
             {
-              name: userPageCategory,
+              name: "messenger_type",
+              url: userMessanger,
+            },
+            {
+              name: "page_name",
               url: userPageName,
             },
             {
-              name: "Country",
+              name: "country",
               url: userCountry,
             },
             {
-              name: "Language",
+              name: "page_type",
+              url: userPageCategory,
+            },
+            {
+              name: "language",
               url: userLanguage,
+            },
+            {
+              name: "phone",
+              url: userPhone,
+            },
+            {
+              name: "source_from",
+              url: userSelectedSource,
             },
           ],
         });
