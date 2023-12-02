@@ -124,10 +124,13 @@ interface WebsitesProps {}
 const Websites: FC<WebsitesProps> = () => {
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
   const [pageResponseUpdated, setPageResponseUpdated] = useState<any>();
+  const [pageResponseUpdatedMobile, setPageResponseUpdatedMobile] =
+    useState<any>();
   const [updateGetRequest, setUpdateGetRequest] = useState("");
 
   useEffect(() => {
     if (pageResponse && !pageResponseUpdated) {
+      setPageResponseUpdatedMobile(pageResponse);
       const change = pageResponse?.map((el) => {
         // id: el.basic.id, title: el.basic.name, text: el.basic.url
         return [
@@ -144,7 +147,6 @@ const Websites: FC<WebsitesProps> = () => {
           },
         ];
       });
-      console.log("fix: ", change);
       setPageResponseUpdated(change.flat());
     }
   }, [pageResponse, pageResponseUpdated, updateGetRequest]);
@@ -173,7 +175,17 @@ const Websites: FC<WebsitesProps> = () => {
     id?: string;
   }>({});
 
-  const [mobTableOptions, setMobTableOpts] = useState(pageResponseUpdated);
+  const [mobTableOptions, setMobTableOpts] = useState([]);
+
+  useEffect(() => {
+    if (pageResponseUpdatedMobile) {
+      setMobTableOpts(
+        pageResponseUpdatedMobile.map((el: any) => {
+          return { name: el.basic.name, url: el.basic.url };
+        })
+      );
+    }
+  }, [pageResponseUpdatedMobile]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -305,9 +317,10 @@ const Websites: FC<WebsitesProps> = () => {
       }
     })();
   }, [address, isConnected, isAuthed, updateGetRequest]);
+
   useEffect(() => {
-    console.log(2, pageResponseUpdated);
-  }, [pageResponseUpdated]);
+    console.log(25, mobTableOptions);
+  }, [mobTableOptions]);
 
   return (
     <Layout activePage="websites">
@@ -340,6 +353,8 @@ const Websites: FC<WebsitesProps> = () => {
                 setCurrentFilterPage={setCurrentFilterPage}
                 currentFilterPage={currentFilterPage}
                 setCurrentSiteCategory={setCurrentSiteCategory}
+                setMobTableOpts={setMobTableOpts}
+                startOptions={pageResponseUpdatedMobile}
               />
               <WebsiteLanguageFilter
                 setCurrentFilterPage={setCurrentFilterPage}
@@ -479,6 +494,7 @@ const Websites: FC<WebsitesProps> = () => {
               <CustomDropDownChoose
                 list={pageResponseUpdated}
                 setActiveOptions={setActiveOptions}
+                activeOptions={activeOptions}
               />
             </div>
           </div>
@@ -506,23 +522,33 @@ const Websites: FC<WebsitesProps> = () => {
             >
               {(isMobile ? mobTableOptions : activeOptions)?.map(
                 (
-                  item: { title: string; id: string; text: string },
+                  item: {
+                    title: string;
+                    id: string;
+                    text: string;
+                    url?: string;
+                    name?: string;
+                  },
                   ind: number
                 ) => (
                   <SwiperSlide
                     className={s.swiper_slide}
                     key={ind}
-                    data-id={item.id}
+                    data-id={item?.id}
                   >
                     <div className={s.swiper_slide_body}>
                       <div className={s.swiper_slide_header}>
                         <span className={s.swiper_slide_title}>
-                          {item.title}
+                          {isMobile ? item?.name : item?.title}
                         </span>
                         <Image src={upDownArrows} alt="sort-ico" />
                       </div>
                       <div className={s.swiper_slide_content}>
-                        {item.title === "ID" ? item.text + 1 : item.text}
+                        {!isMobile
+                          ? item?.title === "ID"
+                            ? item?.text + 1
+                            : item?.text
+                          : item.url}
                       </div>
                     </div>
                   </SwiperSlide>

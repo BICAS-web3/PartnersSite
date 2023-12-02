@@ -44,6 +44,7 @@ export const PhPeriodMobBlock: FC<PhPeriodMobBlockProps> = ({
           list={mobilePeriodsList}
           activeItemId="currentYearPeriod"
           setCurrent={setCurrentSiteCategory}
+          startOptions={mobilePeriodsList}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

@@ -208,9 +208,9 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setActiveOpts(mobTableOpts);
-  }, [is650]);
+  // useEffect(() => {
+  //   setActiveOpts(mobTableOpts);
+  // }, [is650]);
 
   useEffect(() => {
     if (isFilter) {
@@ -533,6 +533,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                 <CustomDropDownChoose
                   list={optionsList}
                   setActiveOptions={setActiveOpts}
+                  activeOptions={activeOps}
                 />
               </div>
               <div className={s.export_choose_wrap}>

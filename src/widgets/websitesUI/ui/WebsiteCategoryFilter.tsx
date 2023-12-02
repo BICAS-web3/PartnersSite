@@ -11,12 +11,16 @@ interface WebsiteCategoryFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
   setCurrentSiteCategory: any;
+  setMobTableOpts: any;
+  startOptions: any;
 }
 
 export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
   setCurrentSiteCategory,
+  setMobTableOpts,
+  startOptions,
 }) => {
   return (
     <div
@@ -38,9 +42,11 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
       </div>
       <div className="mobile_filter_body">
         <MobilePickList
+          setMobTableOpts={setMobTableOpts}
           list={siteCategories}
           activeItemId="sportsForecasts"
           setCurrent={setCurrentSiteCategory}
+          startOptions={startOptions}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

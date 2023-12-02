@@ -1,17 +1,23 @@
 import { FC, useState, useEffect } from "react";
+
 import s from "./styles.module.scss";
+
 import { ManualDateInput } from "../manualDateInput/ManualDateInput";
 
 interface MobilePickListProps {
   list: any[];
   activeItemId: string;
   setCurrent: any;
+  setMobTableOpts?: any;
+  startOptions: any;
 }
 
 export const MobilePickList: FC<MobilePickListProps> = ({
   list,
   activeItemId,
   setCurrent,
+  setMobTableOpts,
+  startOptions,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item?.id === activeItemId)[0] : null
@@ -20,6 +26,10 @@ export const MobilePickList: FC<MobilePickListProps> = ({
   useEffect(() => {
     setCurrent(activeItem);
   }, [activeItem]);
+
+  useEffect(() => {
+    console.log(555, startOptions);
+  }, [startOptions]);
 
   return (
     <div className={s.mobile_pick_list_wrap}>
@@ -30,7 +40,16 @@ export const MobilePickList: FC<MobilePickListProps> = ({
             className={`${s.mobile_pick_list_item} ${
               activeItem?.id === item?.id && s.active
             }`}
-            onClick={() => setActiveItem(item)}
+            onClick={() => {
+              setActiveItem(item);
+              setMobTableOpts(() =>
+                startOptions
+                  .filter((el: any) => el.basic.name === item.title)
+                  .map((el: any) => {
+                    return { name: el.basic.name, url: el.basic.url };
+                  })
+              );
+            }} //
           >
             <div className={s.mob_pick_list_header}>
               <span className={s.mobile_pick_list_item_title}>

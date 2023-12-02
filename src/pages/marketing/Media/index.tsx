@@ -358,6 +358,7 @@ const Media: FC<MediaProps> = () => {
             list={options}
             allPicked={true}
             setActiveOptions={setActiveOpts}
+            activeOptions={activeOpts}
           />
         </div>
         <Table activeOpts={is650 ? mobTableCols : activeOpts} />

@@ -138,6 +138,7 @@ export const FastStats: FC<FastStatsProps> = () => {
             list={optionsList}
             setActiveOptions={setActiveOptions}
             allPicked={true}
+            activeOptions={activeOptions}
           />
         </div>
         <div className={s.time_range_block}>

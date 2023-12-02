@@ -17,6 +17,7 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import { CSTableFilter } from "../../widgets/csMobFilter/CSMobTableFilter";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import { useMediaQuery } from "@/shared/tools";
 
 export const optsList = [
   {
@@ -105,10 +106,10 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
     document.body.scrollTop = 0;
     setIsFilter(!isFilter);
   };
-
-  useEffect(() => {
-    setActiveOpts(mobTableOpts);
-  }, [mobTableOpts]);
+  const isMobile = useMediaQuery("(max-width:650px)");
+  // useEffect(() => {
+  //   setActiveOpts(mobTableOpts);
+  // }, [mobTableOpts]);
 
   useEffect(() => {
     if (isFilter) {
@@ -182,6 +183,7 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
               <span className={s.fast_stats_title}>Быстрая статистика</span>
               <div className={s.choose_opts_wrap}>
                 <CustomDropDownChoose
+                  activeOptions={activeOps}
                   list={optsList}
                   allPicked={true}
                   setActiveOptions={setActiveOpts}
@@ -204,23 +206,25 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
               centeredSlides={false}
               className={s.swiper}
             >
-              {activeOps.map((item: any, ind: number) => (
-                <SwiperSlide
-                  key={item?.id}
-                  className={s.swiper_slide}
-                  data-id={item?.id}
-                >
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>
-                        {item?.title}
-                      </span>
-                      <Image src={upDownArrows} alt="sort-ico" />
+              {(isMobile ? mobTableOpts : activeOps)?.map(
+                (item: any, ind: number) => (
+                  <SwiperSlide
+                    key={item?.id}
+                    className={s.swiper_slide}
+                    data-id={item?.id}
+                  >
+                    <div className={s.swiper_slide_body}>
+                      <div className={s.swiper_slide_header}>
+                        <span className={s.swiper_slide_title}>
+                          {item?.title}
+                        </span>
+                        <Image src={upDownArrows} alt="sort-ico" />
+                      </div>
+                      <div className={s.swiper_slide_content}>{item?.text}</div>
                     </div>
-                    <div className={s.swiper_slide_content}>{item?.text}</div>
-                  </div>
-                </SwiperSlide>
-              ))}
+                  </SwiperSlide>
+                )
+              )}
             </Swiper>
           </div>
           <div className={s.table_navigation_block}>

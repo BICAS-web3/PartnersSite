@@ -21,9 +21,9 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
 }) => {
   const [pickedList, setPickedList] = useState([]);
 
-  useEffect(() => {
-    setMobTableOpts(pickedList);
-  }, [pickedList]);
+  // useEffect(() => {
+  //   setMobTableOpts(pickedList);
+  // }, [pickedList]);
 
   return (
     <div
@@ -48,6 +48,8 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
           list={tableColumnsList}
           setPickedList={setPickedList}
           pickedList={pickedList}
+
+          // setMobTableOpts={setMobTableOpts}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

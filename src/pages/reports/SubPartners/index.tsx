@@ -327,6 +327,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
                 list={exportList.slice(1)}
                 activeItemId="exel"
                 setCurrent={() => {}}
+                startOptions={exportList.slice(1)}
               />
             </div>
           </div>
@@ -384,6 +385,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
                 list={statisticList}
                 allPicked={true}
                 setActiveOptions={setActiveOpts}
+                activeOptions={activeOps}
               />
             </div>
             <div className={s.export_wrapper}>

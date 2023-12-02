@@ -367,6 +367,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
                 list={exportList.slice(1)}
                 activeItemId="exel"
                 setCurrent={() => {}}
+                startOptions={exportList.slice(1)}
               />
             </div>
           </div>

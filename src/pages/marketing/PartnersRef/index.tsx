@@ -135,9 +135,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setActiveOpts(mobTableCols);
-  }, [is650]);
+  // useEffect(() => {
+  //   setActiveOpts(mobTableCols);
+  // }, [is650]);
 
   useEffect(() => {
     if (isFilter) {
@@ -346,6 +346,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             list={options}
             setActiveOptions={setActiveOpts}
             allPicked={true}
+            activeOptions={activeOpts}
           />
         </div>
         <PartnerfRefTable

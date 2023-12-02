@@ -42,6 +42,7 @@ export const WebsiteLanguageFilter: FC<WebsiteLanguageFilterProps> = ({
           list={languagesList}
           activeItemId="eng"
           setCurrent={setCurrentLanguage}
+          startOptions={languagesList}
         />
       </div>
       <div className="mobile_filter_item_page_footer">
