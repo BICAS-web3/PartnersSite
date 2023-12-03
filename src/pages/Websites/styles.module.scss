@@ -274,6 +274,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
 }
 
 .swiper_slide_header {

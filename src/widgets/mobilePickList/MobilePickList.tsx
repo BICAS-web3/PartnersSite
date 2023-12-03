@@ -43,11 +43,7 @@ export const MobilePickList: FC<MobilePickListProps> = ({
             onClick={() => {
               setActiveItem(item);
               setMobTableOpts(() =>
-                startOptions
-                  .filter((el: any) => el.basic.name === item.title)
-                  .map((el: any) => {
-                    return { name: el.basic.name, url: el.basic.url };
-                  })
+                startOptions.filter((el: any) => el.typeFilter === item.title)
               );
             }} //
           >

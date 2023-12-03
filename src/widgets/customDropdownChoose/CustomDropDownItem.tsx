@@ -33,6 +33,7 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
 
   const [click, setClick] = useState(false);
   useEffect(() => {
+    console.log(click);
     if (click) {
       if (!checked) {
         setDeleteArr((prev: any) =>
@@ -45,10 +46,12 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
   }, [checked]);
 
   useEffect(() => {
+    console.log(deleteArr);
     if (click) {
-      if (!checked) {
+      if (checked === false) {
         setActiveItems((prev: { title: string; id: number | string }[]) => {
           return prev.filter((el) => {
+            console.log(deleteArr, prev);
             if (deleteArr.includes(el.title)) {
               return el;
             } else {
@@ -58,13 +61,17 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
         });
       } else {
         setActiveItems(() => {
-          return startList.filter((el) => {
-            if (deleteArr.includes(el.title)) {
-              return el;
-            } else {
-              return;
-            }
-          });
+          return (
+            startList &&
+            startList.filter((el) => {
+              console.log(deleteArr, startList);
+              if (deleteArr.includes(el.title)) {
+                return el;
+              } else {
+                return;
+              }
+            })
+          );
         });
       }
     }

@@ -22,18 +22,22 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 }) => {
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
+  const [apiGet, setApiGet] = useState(true);
   useEffect(() => {
-    if (list) {
+    if (list && apiGet) {
+      setApiGet(false);
       setActiveOptions(list);
       setStartList(list);
     }
-  }, [list]);
+  }, [list, apiGet]);
   const [isAllPicked, setIsAllPicked] = useState(true);
 
-  const [updateList, setUpdateList] = useState<any>();
+  const [updateList, setUpdateList] = useState<any>([]);
   useEffect(() => {
-    setUpdateList([...new Set(list?.map((el) => el?.title))]);
-  }, [list]);
+    if (updateList?.length <= 0) {
+      setUpdateList([...new Set(list?.map((el) => el?.title))]);
+    }
+  }, [list, updateList]);
 
   const [startList, setStartList] = useState<any>();
 
@@ -53,6 +57,9 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   useEffect(() => {
     setDeleteArr(updateList);
   }, [updateList]);
+  useEffect(() => {
+    console.log(activeOptions);
+  }, [activeOptions]);
   return (
     <div
       ref={dropdownRef}

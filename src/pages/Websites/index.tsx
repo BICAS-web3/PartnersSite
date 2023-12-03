@@ -129,25 +129,36 @@ const Websites: FC<WebsitesProps> = () => {
   const [updateGetRequest, setUpdateGetRequest] = useState("");
 
   useEffect(() => {
-    if (pageResponse && !pageResponseUpdated) {
-      setPageResponseUpdatedMobile(pageResponse);
+    if (
+      (pageResponse && !pageResponseUpdated) ||
+      (pageResponse && pageResponseUpdated.length >= 1)
+    ) {
+      // setPageResponseUpdatedMobile(pageResponse);
       const change = pageResponse?.map((el) => {
         // id: el.basic.id, title: el.basic.name, text: el.basic.url
         return [
-          { title: "ID", id: el.basic.id, text: el.basic.id },
+          {
+            title: "ID",
+            id: el.basic.id,
+            text: el.basic.id,
+            typeFilter: el.basic.name,
+          },
           {
             title: "Сайт",
             id: el.basic.id,
             text: el.basic.url,
+            typeFilter: el.basic.name,
           },
           {
             title: "Состояние",
             id: el.basic.id,
             text: el.basic.name,
+            typeFilter: el.basic.name,
           },
         ];
       });
       setPageResponseUpdated(change.flat());
+      setPageResponseUpdatedMobile(change.flat());
     }
   }, [pageResponse, pageResponseUpdated, updateGetRequest]);
 
@@ -176,16 +187,6 @@ const Websites: FC<WebsitesProps> = () => {
   }>({});
 
   const [mobTableOptions, setMobTableOpts] = useState([]);
-
-  useEffect(() => {
-    if (pageResponseUpdatedMobile) {
-      setMobTableOpts(
-        pageResponseUpdatedMobile.map((el: any) => {
-          return { name: el.basic.name, url: el.basic.url };
-        })
-      );
-    }
-  }, [pageResponseUpdatedMobile]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -268,24 +269,58 @@ const Websites: FC<WebsitesProps> = () => {
   function handleAddPage() {
     if (!isAuthed) {
       navigation.push("/");
-    } else if (!pageUrl || !pageType) {
+    } else if (!pageUrl || !pageType || validateWebPage(pageUrl) === false) {
       setError(true);
     } else {
-      const getLastId = pageResponseUpdated[pageResponseUpdated?.length]?.id;
-      setPageResponseUpdated((prev: any) => [
-        ...prev,
-        { title: "ID", id: getLastId + 1, text: getLastId + 1 },
-        {
-          title: "Сайт",
-          id: getLastId + 1,
-          text: pageUrl,
-        },
-        {
-          title: "Состояние",
-          id: getLastId + 1,
-          text: pageType,
-        },
-      ]);
+      const getLastId =
+        pageResponseUpdated &&
+        pageResponseUpdated[pageResponseUpdated?.length]?.id;
+      setPageResponseUpdated((prev: any) => {
+        if (prev) {
+          return [
+            ...prev,
+            {
+              title: "ID",
+              id: getLastId + 1,
+              text: getLastId + 1,
+              typeFilter: pageType,
+            },
+            {
+              title: "Сайт",
+              id: getLastId + 1,
+              text: pageUrl,
+              typeFilter: pageType,
+            },
+            {
+              title: "Состояние",
+              id: getLastId + 1,
+              text: pageType,
+              typeFilter: pageType,
+            },
+          ];
+        } else {
+          return [
+            {
+              title: "ID",
+              id: getLastId + 1,
+              text: getLastId + 1,
+              typeFilter: pageType,
+            },
+            {
+              title: "Сайт",
+              id: getLastId + 1,
+              text: pageUrl,
+              typeFilter: pageType,
+            },
+            {
+              title: "Состояние",
+              id: getLastId + 1,
+              text: pageType,
+              typeFilter: pageType,
+            },
+          ];
+        }
+      });
 
       setAddPage(true);
     }
@@ -307,9 +342,7 @@ const Websites: FC<WebsitesProps> = () => {
           auth: signature,
           timestamp,
         });
-        console.log(data.status);
         if (data.status === "OK") {
-          console.log(data.body);
           setPageResponse(data.body as api.T_UserSitesResp);
 
           setUpdateGetRequest("");
@@ -318,9 +351,17 @@ const Websites: FC<WebsitesProps> = () => {
     })();
   }, [address, isConnected, isAuthed, updateGetRequest]);
 
+  function validateWebPage(webPage: string) {
+    const urlRegex =
+      /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/[a-zA-Z0-9-._?=%&#=]*)?$/;
+    return urlRegex.test(webPage);
+  }
+
+  const [mobileTableLeng, setMobileTableLing] = useState<number>();
+
   useEffect(() => {
-    console.log(25, mobTableOptions);
-  }, [mobTableOptions]);
+    console.log(mobTableOptions);
+  }, [mobTableOptions?.length]);
 
   return (
     <Layout activePage="websites">
@@ -354,7 +395,8 @@ const Websites: FC<WebsitesProps> = () => {
                 currentFilterPage={currentFilterPage}
                 setCurrentSiteCategory={setCurrentSiteCategory}
                 setMobTableOpts={setMobTableOpts}
-                startOptions={pageResponseUpdatedMobile}
+                startOptions={pageResponseUpdated}
+                list={pageResponseUpdated}
               />
               <WebsiteLanguageFilter
                 setCurrentFilterPage={setCurrentFilterPage}
@@ -365,6 +407,10 @@ const Websites: FC<WebsitesProps> = () => {
                 setCurrentFilterPage={setCurrentFilterPage}
                 currentFilterPage={currentFilterPage}
                 setMobTableOpts={setMobTableOpts}
+                activeOptions={mobTableOptions}
+                setActiveOptions={setMobTableOpts}
+                list={pageResponseUpdated}
+                setMobileTableLing={setMobileTableLing}
               />
               <div
                 className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
@@ -414,7 +460,7 @@ const Websites: FC<WebsitesProps> = () => {
                 >
                   <span className="mobile_filter_item_title">Показать</span>
                   <span className="mobile_filter_item_picked_value">
-                    Выбрано {mobTableOptions?.length} п.
+                    Выбрано {mobileTableLeng} п.
                   </span>
                 </div>
 
@@ -444,7 +490,10 @@ const Websites: FC<WebsitesProps> = () => {
                   className={clsx(
                     s.adding_website_input,
                     "default_input",
-                    error && !pageUrl && "error_input"
+                    (validateWebPage(pageUrl) === false &&
+                      error &&
+                      "error_input") ||
+                      (error && !pageUrl && "error_input")
                   )}
                 />
               </div>
@@ -531,6 +580,27 @@ const Websites: FC<WebsitesProps> = () => {
                   },
                   ind: number
                 ) => (
+                  // <SwiperSlide
+                  //   className={s.swiper_slide}
+                  //   key={ind}
+                  //   data-id={item?.id}
+                  // >
+                  //   <div className={s.swiper_slide_body}>
+                  //     <div className={s.swiper_slide_header}>
+                  //       <span className={s.swiper_slide_title}>
+                  //         {isMobile ? item?.name : item?.title}
+                  //       </span>
+                  //       <Image src={upDownArrows} alt="sort-ico" />
+                  //     </div>
+                  //     <div className={s.swiper_slide_content}>
+                  //       {!isMobile
+                  //         ? item?.title === "ID"
+                  //           ? item?.text + 1
+                  //           : item?.text
+                  //         : item.url}
+                  //     </div>
+                  //   </div>
+                  // </SwiperSlide>
                   <SwiperSlide
                     className={s.swiper_slide}
                     key={ind}
@@ -539,16 +609,12 @@ const Websites: FC<WebsitesProps> = () => {
                     <div className={s.swiper_slide_body}>
                       <div className={s.swiper_slide_header}>
                         <span className={s.swiper_slide_title}>
-                          {isMobile ? item?.name : item?.title}
+                          {item?.title}
                         </span>
                         <Image src={upDownArrows} alt="sort-ico" />
                       </div>
                       <div className={s.swiper_slide_content}>
-                        {!isMobile
-                          ? item?.title === "ID"
-                            ? item?.text + 1
-                            : item?.text
-                          : item.url}
+                        {item?.title === "ID" ? item?.text + 1 : item?.text}
                       </div>
                     </div>
                   </SwiperSlide>

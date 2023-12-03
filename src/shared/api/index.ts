@@ -87,10 +87,17 @@ export type T_RegisterSubId = {
   internal_site_id: number;
 };
 
+export type T_GetSubIdClickResponse = {
+  clicks: number;
+  id: number;
+  partner_id: string;
+  sub_id_internal: number;
+};
+
 export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
-  T_Networks | T_Rpcs | R_getUser | T_UserSitesResp;
+  T_Networks | T_Rpcs | R_getUser | T_UserSitesResp | T_GetSubIdClickResponse;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -278,6 +285,64 @@ export const registerPage = createEffect<T_RegisterPage, T_ApiResponse, string>(
   }
 );
 
+export type T_GetSubIdClicks = {
+  timestamp: number;
+  wallet: string;
+  auth: string;
+  site_id: string;
+  sub_id: string;
+};
+
+export const getSubIdClicks = createEffect<
+  T_GetSubIdClicks,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(
+    `${BaseApiUrl}/partner/site/subid/clicks/${form.site_id}/${form.sub_id}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        timestamp: form.timestamp.toString(),
+        wallet: form.wallet,
+        auth: form.auth,
+      },
+    }
+  )
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+
+// для чего
+export const getUserContact = createEffect<
+  T_GetEserData,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/contacts/get`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
 export const registerSubId = createEffect<
   T_RegisterSubId,
   T_ApiResponse,
@@ -296,6 +361,43 @@ export const registerSubId = createEffect<
       url: form.url,
       name: form.name,
       internal_site_id: form.internal_site_id,
+    }),
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export type T_RegisterSubIdConnect = {
+  timestamp: number | string;
+  wallet: string;
+  auth: string;
+  partner_wallet: string;
+  signature: string;
+  site_id: number;
+  sub_id: number;
+  user_wallet: string;
+};
+
+export const registerSubIdConnect = createEffect<
+  T_RegisterSubIdConnect,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/site/subid/connect`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+    body: JSON.stringify({
+      partner_wallet: form.partner_wallet,
+      signature: form.signature,
+      site_id: form.site_id,
+      sub_id: form.sub_id,
+      user_wallet: form.user_wallet,
     }),
   })
     .then(async (res) => await res.json())

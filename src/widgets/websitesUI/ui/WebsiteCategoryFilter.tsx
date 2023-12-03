@@ -1,5 +1,5 @@
 import s from "./styles.module.scss";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
@@ -13,6 +13,7 @@ interface WebsiteCategoryFilterProps {
   setCurrentSiteCategory: any;
   setMobTableOpts: any;
   startOptions: any;
+  list?: any;
 }
 
 export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
@@ -20,8 +21,16 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
   setCurrentFilterPage,
   setCurrentSiteCategory,
   setMobTableOpts,
-  startOptions,
+  list,
 }) => {
+  const [startList, setStartList] = useState<any>();
+  const [getApi, setGetApi] = useState(true);
+  useEffect(() => {
+    if (getApi && list) {
+      setStartList(list);
+      setGetApi(false);
+    }
+  }, [list, getApi]);
   return (
     <div
       className={`filter_item_page ${
@@ -46,7 +55,7 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
           list={siteCategories}
           activeItemId="sportsForecasts"
           setCurrent={setCurrentSiteCategory}
-          startOptions={startOptions}
+          startOptions={startList}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

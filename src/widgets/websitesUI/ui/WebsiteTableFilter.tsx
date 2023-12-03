@@ -12,12 +12,20 @@ interface WebsiteTableFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
   setMobTableOpts: any;
+  list?: any[];
+  setActiveOptions?: any;
+  activeOptions?: any;
+  setMobileTableLing?: any;
 }
 
 export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
   setMobTableOpts,
+  list,
+  setActiveOptions,
+  activeOptions,
+  setMobileTableLing,
 }) => {
   const [pickedList, setPickedList] = useState([]);
 
@@ -25,6 +33,42 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
   //   setMobTableOpts(pickedList);
   // }, [pickedList]);
 
+  // useEffect(() => {
+  //   if (list) {
+  //     setActiveOptions(list);
+  //     setStartList(list);
+  //   }
+  // }, [list]);
+  // const [isAllPicked, setIsAllPicked] = useState(true);
+
+  // const [updateList, setUpdateList] = useState<any>();
+  // useEffect(() => {
+  //   setUpdateList([...new Set(list?.map((el) => el?.title))]);
+  // }, [list]);
+
+  // const [startList, setStartList] = useState<any>();
+
+  // useEffect(() => {
+  //   if (
+  //     [...new Set(activeOptions?.map((el: any) => el?.title))]?.length ===
+  //     updateList?.length
+  //   ) {
+  //     setIsAllPicked(true);
+  //     // setActiveOptions(startList);
+  //   } else {
+  //     setIsAllPicked(false);
+  //   }
+  // }, [activeOptions]);
+
+  // const [deleteArr, setDeleteArr] = useState<string[]>([]);
+  // useEffect(() => {
+  //   setDeleteArr(updateList);
+  // }, [updateList]);
+
+  // setDeleteArr,
+  // deleteArr,
+  // setActiveItems,
+  // startList,
   return (
     <div
       className={`filter_item_page ${
@@ -45,9 +89,12 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
       </div>
       <div className="mobile_filter_body">
         <MobileChooseList
-          list={tableColumnsList}
+          list={list}
           setPickedList={setPickedList}
           pickedList={pickedList}
+          activeOptions={activeOptions}
+          setActiveOptions={setActiveOptions}
+          setMobileTableLing={setMobileTableLing}
 
           // setMobTableOpts={setMobTableOpts}
         />
