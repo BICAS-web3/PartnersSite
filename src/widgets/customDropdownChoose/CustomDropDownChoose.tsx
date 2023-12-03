@@ -10,9 +10,9 @@ import { CustomDropDownItem } from "./CustomDropDownItem";
 
 interface CustomDropDownChooseProps {
   list: any[];
-  setActiveOptions?: any;
+  setActiveOptions?: (el: any) => void;
   allPicked?: boolean;
-  activeOptions: any;
+  activeOptions: any[];
 }
 
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
@@ -31,7 +31,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   useEffect(() => {
     if (list && apiGet) {
       setApiGet(false);
-      setActiveOptions(list);
+      setActiveOptions && setActiveOptions(list);
       setStartList(list);
     }
   }, [list, apiGet]);
@@ -52,7 +52,6 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
       updateList?.length
     ) {
       setIsAllPicked(true);
-      // setActiveOptions(startList);
     } else {
       setIsAllPicked(false);
     }
@@ -99,14 +98,10 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               deleteArr={deleteArr}
               setDeleteArr={setDeleteArr}
               startList={startList}
-              activeItems={activeOptions}
               setActiveItems={setActiveOptions}
               key={ind}
               item={item}
-              // initList={list}
-              setIsAllPicked={setIsAllPicked}
               allPicked={isAllPicked}
-              updateList={updateList}
             />
           ))}
         </div>

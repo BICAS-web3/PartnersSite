@@ -2,10 +2,8 @@ import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
-import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../../../pages/PayoutsHistory";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { siteCategories } from "../../../pages/Websites";
+import { siteCategories } from "@/pages/Websites";
 
 interface WebsiteCategoryFilterProps {
   currentFilterPage: string;

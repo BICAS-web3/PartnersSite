@@ -12,8 +12,10 @@ interface CustomDropdownInputProps {
   isExportSelect?: boolean;
   height?: number;
   posRel?: boolean;
-  setSelectedValue?: (el: boolean) => void;
+  setSelectedValue?: (el: string) => void;
   className?: string;
+  startList?: any[];
+  setActiveOptions?: any;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -23,6 +25,8 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   isExportSelect,
   setSelectedValue,
   className,
+  startList,
+  setActiveOptions,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -33,14 +37,12 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
     setSelectedValue && setSelectedValue(activeItem?.title);
   }, [activeItem]);
 
-  const [listVisibility, setListVisibility] = useState(false);
   const { dropdownRef, toggle, close, isOpen } = useDropdown();
   const [avaibleItems, setAvaibleItems] = useState(
     activeItemId ? list.filter((item) => item.id !== activeItemId) : list
   );
 
   const handleActiveItemSetting = (itemId: any) => {
-    // setListVisibility(false);
     close();
     setActiveItem(avaibleItems.filter((item) => item.id === itemId)[0]);
     setAvaibleItems(list.filter((item) => item.id !== itemId));
@@ -54,10 +56,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
       <div
         className={clsx(s.active_dropdown_block, className)}
         style={{ height: height }}
-        onClick={() => {
-          // setListVisibility(!listVisibility);
-          toggle();
-        }}
+        onClick={toggle}
       >
         <div
           className={s.active_dropdown_title_block}
@@ -80,7 +79,15 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           <div
             className={s.dropdown_items_list_item}
             key={ind}
-            onClick={() => handleActiveItemSetting(item.id)}
+            onClick={() => {
+              handleActiveItemSetting(item.id);
+              setActiveOptions &&
+                setActiveOptions(
+                  startList?.filter(
+                    (el: any) => el.typeFilter === item.title
+                  ) || []
+                );
+            }}
           >
             {item.title}
           </div>

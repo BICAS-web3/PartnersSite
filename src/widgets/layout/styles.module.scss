@@ -4,6 +4,8 @@
   grid-template-rows: 80px 1fr;
   transition: all 0.4s;
   overflow: hidden;
+  width: 100%;
+  // width: 100vw;
 }
 
 .main_section {

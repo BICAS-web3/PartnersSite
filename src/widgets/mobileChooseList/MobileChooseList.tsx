@@ -51,6 +51,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   //   if (allPicked) {
   //     setActiveItems(list);
   //   }
+  const [click, setClick] = useState(false);
   // });
   const [startList, setStartList] = useState<any>();
   const [getApi, setGetApi] = useState(true);
@@ -71,22 +72,23 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
     }
   }, [list, updateList]);
 
-  useEffect(() => {
-    if (
-      [...new Set(activeOptions?.map((el: any) => el?.title))]?.length ===
-      updateList?.length
-    ) {
-      setIsAllPicked(true);
-      // setActiveOptions(startList);
-    } else {
-      setIsAllPicked(false);
-    }
-  }, [activeOptions]);
-
   const [deleteArr, setDeleteArr] = useState<string[]>([]);
   useEffect(() => {
     setDeleteArr(updateList);
+    setMobileTableLing && setMobileTableLing(updateList?.length);
   }, [updateList]);
+
+  useEffect(() => {
+    setMobileTableLing && setMobileTableLing(deleteArr?.length);
+  }, [deleteArr]);
+
+  useEffect(() => {
+    if (updateList?.length === deleteArr?.length) {
+      setIsAllPicked(true);
+    } else {
+      setIsAllPicked(false);
+    }
+  }, [deleteArr, updateList]);
 
   return (
     <div className={s.mobile_choose_list_wrap}>
@@ -100,7 +102,10 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
         >
           <span
             className={s.choose_item_text}
-            onClick={() => setAllpicked(!allPicked)}
+            onClick={() => {
+              setDeleteArr(updateList);
+              setClick(true);
+            }}
             style={{
               flexDirection: subscribesStyles ? "row-reverse" : "row",
               justifyContent: subscribesStyles ? "start" : "",
@@ -109,7 +114,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             <span style={{ marginLeft: subscribesStyles ? "10px" : "" }}>
               Выбрать всё
             </span>
-            <div className={`${s.checkbox} ${allPicked && s.checked}`}>
+            <div className={`${s.checkbox} ${isAllPicked && s.checked}`}>
               <CheckBoxIco />
             </div>
           </span>
@@ -119,15 +124,17 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             item={item}
             key={ind}
             setList={setActiveItems}
-            allPicked={allPicked}
+            allPicked={isAllPicked}
             activeList={activeItems}
-            setAllpicked={setAllpicked}
+            setAllpicked={setIsAllPicked}
             // initList={list}
             subscribesStyles={subscribesStyles}
             deleteArr={deleteArr}
             setDeleteArr={setDeleteArr}
             startList={startList}
             setActiveItems={setActiveOptions}
+            click={click}
+            setClick={setClick}
           />
         ))}
       </div>

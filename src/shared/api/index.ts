@@ -356,7 +356,7 @@ export const getSiteClicks = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  return fetch(`${BaseApiUrl}/partner/site/subid/clicks/0/14`, {
+  return fetch(`${BaseApiUrl}/partner/site/clicks/${form.id}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -456,3 +456,20 @@ export const registerSubIdConnect = createEffect<
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+
+export const deleteContact = createEffect<T_GetEserData, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/contacts/delete`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        timestamp: form.timestamp.toString(),
+        wallet: form.wallet,
+        auth: form.auth,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);

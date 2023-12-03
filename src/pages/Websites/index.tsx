@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, use, useRef } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { useUnit } from "effector-react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -127,7 +127,15 @@ interface WebsitesProps {}
 
 const Websites: FC<WebsitesProps> = () => {
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
-  const [pageResponseUpdated, setPageResponseUpdated] = useState<any>();
+  const [pageResponseUpdated, setPageResponseUpdated] = useState<
+    | {
+        title: string;
+        id: number;
+        text: string | number;
+        typeFilter: string;
+      }[]
+    | any
+  >();
 
   const [subidPage, setSubidPage] = useState<{
     basic: {
@@ -140,13 +148,13 @@ const Websites: FC<WebsitesProps> = () => {
     sub_ids: any;
   }>();
 
-  useState<any>();
+  // useState<any>();
   const [updateGetRequest, setUpdateGetRequest] = useState("");
 
   useEffect(() => {
     if (
       (pageResponse && !pageResponseUpdated) ||
-      (pageResponse && pageResponseUpdated.length >= 1)
+      (pageResponse && pageResponseUpdated && pageResponseUpdated.length >= 1)
     ) {
       const change = pageResponse?.map((el) => {
         return [
@@ -252,7 +260,7 @@ const Websites: FC<WebsitesProps> = () => {
   const { isConnected, address } = useAccount();
 
   const [pageUrl, setPageUrl] = useState("");
-  const [pageType, setPageType] = useState<any>("");
+  const [pageType, setPageType] = useState<string>("");
 
   useEffect(() => {
     (async () => {
@@ -289,19 +297,19 @@ const Websites: FC<WebsitesProps> = () => {
             ...prev,
             {
               title: "ID",
-              id: getLastId + 1,
-              text: getLastId + 1,
+              id: getLastId && getLastId + 1,
+              text: getLastId && getLastId + 1,
               typeFilter: pageType,
             },
             {
               title: "Сайт",
-              id: getLastId + 1,
+              id: getLastId && getLastId + 1,
               text: pageUrl,
               typeFilter: pageType,
             },
             {
               title: "Состояние",
-              id: getLastId + 1,
+              id: getLastId && getLastId + 1,
               text: pageType,
               typeFilter: pageType,
             },
@@ -310,19 +318,19 @@ const Websites: FC<WebsitesProps> = () => {
           return [
             {
               title: "ID",
-              id: getLastId + 1,
-              text: getLastId + 1,
+              id: getLastId && getLastId + 1,
+              text: getLastId && getLastId + 1,
               typeFilter: pageType,
             },
             {
               title: "Сайт",
-              id: getLastId + 1,
+              id: getLastId && getLastId + 1,
               text: pageUrl,
               typeFilter: pageType,
             },
             {
               title: "Состояние",
-              id: getLastId + 1,
+              id: getLastId && getLastId + 1,
               text: pageType,
               typeFilter: pageType,
             },
@@ -548,6 +556,8 @@ const Websites: FC<WebsitesProps> = () => {
                   list={siteCategories}
                   activeItemId="sportsForecasts"
                   className={clsx(error && !pageType && "error_input")}
+                  startList={pageResponseUpdated}
+                  setActiveOptions={setActiveOptions}
                 />
               </div>
               <div className={s.adding_website_block_item}>
@@ -589,13 +599,7 @@ const Websites: FC<WebsitesProps> = () => {
               />
             </div>
           </div>
-          {/* <div className={s.websites_table_wrap}>
-            <DropdownSwiperTable
-              slideClassName={s.slide}
-              cols={is650 ? mobTableOptions : activeOptions}
-              rows={[]}
-            />
-          </div> */}
+
           <div className={s.table_wrap}>
             <div className="scroll-bar"></div>
             <Swiper
@@ -622,27 +626,6 @@ const Websites: FC<WebsitesProps> = () => {
                   },
                   ind: number
                 ) => (
-                  // <SwiperSlide
-                  //   className={s.swiper_slide}
-                  //   key={ind}
-                  //   data-id={item?.id}
-                  // >
-                  //   <div className={s.swiper_slide_body}>
-                  //     <div className={s.swiper_slide_header}>
-                  //       <span className={s.swiper_slide_title}>
-                  //         {isMobile ? item?.name : item?.title}
-                  //       </span>
-                  //       <Image src={upDownArrows} alt="sort-ico" />
-                  //     </div>
-                  //     <div className={s.swiper_slide_content}>
-                  //       {!isMobile
-                  //         ? item?.title === "ID"
-                  //           ? item?.text + 1
-                  //           : item?.text
-                  //         : item.url}
-                  //     </div>
-                  //   </div>
-                  // </SwiperSlide>
                   <SwiperSlide
                     className={s.swiper_slide}
                     key={ind}

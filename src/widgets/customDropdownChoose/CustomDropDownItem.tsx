@@ -7,12 +7,9 @@ import s from "./styles.module.scss";
 
 interface CustomDropDownItemProps {
   item: any;
-  setActiveItems: any;
-  activeItems: any[];
-  setIsAllPicked: any;
+  setActiveItems?: (el: any) => void;
   allPicked: any;
   startList: any[];
-  updateList: any[];
   setDeleteArr: any;
   deleteArr: any;
 }
@@ -20,11 +17,8 @@ interface CustomDropDownItemProps {
 export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
   item,
   setActiveItems,
-  activeItems,
-  setIsAllPicked,
   allPicked,
   startList,
-  updateList,
   setDeleteArr,
   deleteArr,
 }) => {
@@ -33,7 +27,6 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
 
   const [click, setClick] = useState(false);
   useEffect(() => {
-    console.log(click);
     if (click) {
       if (!checked) {
         setDeleteArr((prev: any) =>
@@ -46,33 +39,39 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
   }, [checked]);
 
   useEffect(() => {
-    console.log(deleteArr);
+    if (allPicked) {
+      setChecked(true);
+      setActiveItems && setActiveItems(startList);
+    }
+  }, [allPicked]);
+
+  useEffect(() => {
     if (click) {
       if (checked === false) {
-        setActiveItems((prev: { title: string; id: number | string }[]) => {
-          return prev.filter((el) => {
-            console.log(deleteArr, prev);
-            if (deleteArr.includes(el.title)) {
-              return el;
-            } else {
-              return;
-            }
-          });
-        });
-      } else {
-        setActiveItems(() => {
-          return (
-            startList &&
-            startList.filter((el) => {
-              console.log(deleteArr, startList);
+        setActiveItems &&
+          setActiveItems((prev: { title: string; id: number | string }[]) => {
+            return prev.filter((el) => {
               if (deleteArr.includes(el.title)) {
                 return el;
               } else {
                 return;
               }
-            })
-          );
-        });
+            });
+          });
+      } else {
+        setActiveItems &&
+          setActiveItems(() => {
+            return (
+              startList &&
+              startList.filter((el) => {
+                if (deleteArr.includes(el.title)) {
+                  return el;
+                } else {
+                  return;
+                }
+              })
+            );
+          });
       }
     }
     setClick(false);

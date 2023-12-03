@@ -316,6 +316,29 @@
   line-height: 110%;
 }
 
+// .swiper_slide {
+//   max-width: 206px;
+// }
+
 .swiper_slide {
-  max-width: 206px;
+  &:first-child {
+    .swiper_slide_body {
+      border-radius: 8px 0 0 8px;
+    }
+    .swiper_slide_header {
+      border-radius: 8px 0 0 0;
+    }
+  }
+  &:last-child {
+    .swiper_slide_body {
+      border-radius: 0 8px 8px 0;
+    }
+    .swiper_slide_header {
+      border-radius: 0 8px 0 0;
+    }
+  }
+  // flex: 1 0 200px;
+  // min-width: 200px !important;
+  width: max-content !important;
+  max-width: max-content !important;
 }
