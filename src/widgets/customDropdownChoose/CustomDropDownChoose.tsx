@@ -23,6 +23,11 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
   const [apiGet, setApiGet] = useState(true);
+
+  useEffect(() => {
+    setApiGet(true);
+  }, [list?.length]);
+
   useEffect(() => {
     if (list && apiGet) {
       setApiGet(false);

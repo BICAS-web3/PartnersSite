@@ -26,6 +26,9 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
   const [startList, setStartList] = useState<any>();
   const [getApi, setGetApi] = useState(true);
   useEffect(() => {
+    setGetApi(true);
+  }, [list?.length]);
+  useEffect(() => {
     if (getApi && list) {
       setStartList(list);
       setGetApi(false);

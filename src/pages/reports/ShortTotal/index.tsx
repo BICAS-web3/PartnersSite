@@ -163,6 +163,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     (async () => {
       if (isConnected && isAuthed && address) {
         const data = await api.getSiteClicks({
+          //! -------------------------------------------------
           wallet: address?.toLowerCase(),
           auth: signature,
           timestamp,
