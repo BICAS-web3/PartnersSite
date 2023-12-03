@@ -1,32 +1,36 @@
-import { Layout } from "@/widgets/layout/Layout";
-import s from "./styles.module.scss";
 import { FC, useState, useEffect, use, useRef } from "react";
+import { useUnit } from "effector-react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { useAccount } from "wagmi";
+import clsx from "clsx";
+import "swiper/scss";
+
+import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
-import { DropdownSwiperTable } from "@/widgets/dropdownSwiperTable/DropdownSwiperTable";
-import prevArrow from "@/public/media/common/prevArrow.png";
-import nextArrow from "@/public/media/common/nextArrow.png";
-import Image from "next/image";
-import filterIco from "@/public/media/common/filterImg.png";
-import { WebsitesFilter } from "../../widgets/websitesUI/";
-import { WebsiteCategoryFilter } from "../../widgets/websitesUI/";
-import { WebsiteLanguageFilter } from "../../widgets/websitesUI/";
-import { WebsiteTableFilter } from "../../widgets/websitesUI/";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
-import { useAccount } from "wagmi";
+import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
+import { WebsitesFilter } from "@/widgets/websitesUI/";
+import { WebsiteCategoryFilter } from "@/widgets/websitesUI/";
+import { WebsiteLanguageFilter } from "@/widgets/websitesUI/";
+import { WebsiteTableFilter } from "@/widgets/websitesUI/";
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
+import prevArrow from "@/public/media/common/prevArrow.png";
+import nextArrow from "@/public/media/common/nextArrow.png";
+import filterIco from "@/public/media/common/filterImg.png";
+import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
+
 import * as api from "@/shared/api";
-import { useUnit } from "effector-react";
-import * as AuthModel from "@/widgets/welcomePageInitial/model";
-import { useRouter } from "next/router";
-import clsx from "clsx";
+
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import "swiper/scss";
 import { useMediaQuery } from "@/shared/tools";
 import { Scrollbar } from "swiper/modules";
-import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
+
+import s from "./styles.module.scss";
+
 export const siteCategories = [
   {
     title: "Прогнозы на спорт",
@@ -124,8 +128,19 @@ interface WebsitesProps {}
 const Websites: FC<WebsitesProps> = () => {
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
   const [pageResponseUpdated, setPageResponseUpdated] = useState<any>();
-  const [pageResponseUpdatedMobile, setPageResponseUpdatedMobile] =
-    useState<any>();
+
+  const [subidPage, setSubidPage] = useState<{
+    basic: {
+      internal_id: number;
+      id: number;
+      name: string;
+      url: string;
+      partner_id: string;
+    };
+    sub_ids: any;
+  }>();
+
+  useState<any>();
   const [updateGetRequest, setUpdateGetRequest] = useState("");
 
   useEffect(() => {
@@ -133,9 +148,7 @@ const Websites: FC<WebsitesProps> = () => {
       (pageResponse && !pageResponseUpdated) ||
       (pageResponse && pageResponseUpdated.length >= 1)
     ) {
-      // setPageResponseUpdatedMobile(pageResponse);
       const change = pageResponse?.map((el) => {
-        // id: el.basic.id, title: el.basic.name, text: el.basic.url
         return [
           {
             title: "ID",
@@ -158,7 +171,6 @@ const Websites: FC<WebsitesProps> = () => {
         ];
       });
       setPageResponseUpdated(change.flat());
-      setPageResponseUpdatedMobile(change.flat());
     }
   }, [pageResponse, pageResponseUpdated, updateGetRequest]);
 
@@ -245,27 +257,23 @@ const Websites: FC<WebsitesProps> = () => {
   useEffect(() => {
     (async () => {
       if (isConnected && address && addPage && pageType && pageUrl) {
-        const response = await api.registerPage({
+        await api.registerPage({
           name: pageType,
           url: pageUrl,
           wallet: address.toLowerCase(),
           auth: signature,
           timestamp,
         });
-        if (response.status === "OK") {
-          setUpdateGetRequest("OK");
-          setAddPage(false);
-          // setCallContactReg(true);
-          // setSignup(true);
-          // setIsAuthed(true);
-        }
+        setUpdateGetRequest("OK");
+        setAddSubid(true);
+        setAddPage(false);
       }
     })();
   }, [isConnected, address, addPage]);
-  //error_input
 
   const navigation = useRouter();
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
+  // const []
   function handleAddPage() {
     if (!isAuthed) {
       navigation.push("/");
@@ -333,7 +341,7 @@ const Websites: FC<WebsitesProps> = () => {
       }, 2000);
     }
   }, [error]);
-
+  const [addSubid, setAddSubid] = useState(false);
   useEffect(() => {
     (async () => {
       if (isConnected && isAuthed && address) {
@@ -343,6 +351,24 @@ const Websites: FC<WebsitesProps> = () => {
           timestamp,
         });
         if (data.status === "OK") {
+          console.log("-----------", data.body);
+
+          if (data?.body && Array.isArray(data?.body)) {
+            setSubidPage(
+              data.body[data.body?.length - 1] as {
+                basic: {
+                  internal_id: number;
+                  id: number;
+                  name: string;
+                  url: string;
+                  partner_id: string;
+                };
+                sub_ids: any;
+              }
+            );
+          }
+          setAddSubid(false);
+
           setPageResponse(data.body as api.T_UserSitesResp);
 
           setUpdateGetRequest("");
@@ -350,6 +376,22 @@ const Websites: FC<WebsitesProps> = () => {
       }
     })();
   }, [address, isConnected, isAuthed, updateGetRequest]);
+
+  useEffect(() => {
+    (async () => {
+      if (subidPage && address && addSubid) {
+        const response = await api.registerSubId({
+          timestamp,
+          wallet: address?.toLowerCase(),
+          auth: signature,
+          name: subidPage.basic.name,
+          url: subidPage.basic.url,
+          internal_site_id: subidPage.basic.internal_id,
+        });
+        console.log("---response---", response);
+      }
+    })();
+  }, [subidPage, addSubid]);
 
   function validateWebPage(webPage: string) {
     const urlRegex =

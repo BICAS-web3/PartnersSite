@@ -21,6 +21,12 @@ import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import * as api from "@/shared/api";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { useUnit } from "effector-react";
+import { useAccount } from "wagmi";
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
+
 const wepPagesList = [
   {
     title: "https://greekkeepers.io",
@@ -136,6 +142,37 @@ interface IListProps {
 interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
+  const { address, isConnected } = useAccount();
+  const [isAuthed] = useUnit([AuthModel.$isAuthed]);
+  const [timestamp, signature] = useUnit([
+    ContactModel.$timestamp,
+    ContactModel.$signature,
+  ]);
+
+  const [clicks, setClicks] = useState<
+    | {
+        clicks: number;
+        id: number;
+        partner_id: string;
+        sub_id_internal: number;
+      }
+    | false
+  >(false);
+
+  useEffect(() => {
+    (async () => {
+      if (isConnected && isAuthed && address) {
+        const data = await api.getSiteClicks({
+          wallet: address?.toLowerCase(),
+          auth: signature,
+          timestamp,
+          id: 1,
+        });
+        data.status === "OK" && setClicks(data.body as api.T_ClicksResponse);
+      }
+    })();
+  }, [address, isConnected, isAuthed]);
+
   const [isMobile, setIsMobile] = useState<boolean>();
 
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
@@ -381,7 +418,13 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                   data-even={(ind + 1) % 2 === 0}
                 >
                   <span className={s.table_item_title}>{item.title}</span>
-                  <span className={s.table_item_value}>{item.data}</span>
+                  <span className={s.table_item_value}>
+                    {item.data === "Клики"
+                      ? clicks
+                        ? clicks?.clicks
+                        : "d"
+                      : item.data}
+                  </span>
                 </div>
               ))}
             </div>

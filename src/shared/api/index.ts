@@ -87,6 +87,13 @@ export type T_RegisterSubId = {
   internal_site_id: number;
 };
 
+export type T_ClicksResponse = {
+  clicks: number;
+  id: number;
+  partner_id: string;
+  sub_id_internal: number;
+};
+
 export type T_GetSubIdClickResponse = {
   clicks: number;
   id: number;
@@ -97,7 +104,12 @@ export type T_GetSubIdClickResponse = {
 export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
-  T_Networks | T_Rpcs | R_getUser | T_UserSitesResp | T_GetSubIdClickResponse;
+  | T_Networks
+    | T_Rpcs
+    | R_getUser
+    | T_UserSitesResp
+    | T_GetSubIdClickResponse
+    | T_ClicksResponse;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -233,6 +245,13 @@ export type T_GetEserData = {
   auth: string;
 };
 
+export type T_GetSiteClicks = {
+  timestamp: number;
+  wallet: string;
+  auth: string;
+  id: number | string;
+};
+
 export const getUserData = createEffect<T_GetEserData, T_ApiResponse, string>(
   async (form) => {
     return fetch(`${BaseApiUrl}/partner/get`, {
@@ -315,15 +334,49 @@ export const getSubIdClicks = createEffect<
     .catch((e) => e);
 });
 
-//?--------------------------------------
-//?--------------------------------------
-//?--------------------------------------
-//?--------------------------------------
-//?--------------------------------------
-//?--------------------------------------
-//?--------------------------------------
+export const getFullClicks = createEffect<T_GetEserData, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/clicks`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        timestamp: form.timestamp.toString(),
+        wallet: form.wallet,
+        auth: form.auth,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
 
-// для чего
+export const getSiteClicks = createEffect<
+  T_GetSiteClicks,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/site/subid/clicks/0/14`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
+//?--------------------------------------
 export const getUserContact = createEffect<
   T_GetEserData,
   T_ApiResponse,
