@@ -419,10 +419,10 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                 >
                   <span className={s.table_item_title}>{item.title}</span>
                   <span className={s.table_item_value}>
-                    {item.data === "Клики"
+                    {item.title === "Клики"
                       ? clicks
                         ? clicks?.clicks
-                        : "d"
+                        : 0
                       : item.data}
                   </span>
                 </div>
