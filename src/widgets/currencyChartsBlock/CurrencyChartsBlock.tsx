@@ -8,6 +8,7 @@ import { FollowsChart } from "./FollowsChart";
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 import { $isSidebarOpened } from "../sidebar/model";
+import * as PeriodModel from "@/widgets/dashboard/model";
 
 const currenciesList = [
   {
@@ -19,35 +20,65 @@ const currenciesList = [
     id: "uah",
   },
 ];
+
+const currentDate = new Date();
+
 const timesList = [
   {
     title: "1 день",
     id: "1day",
+    timeLine: 24 * 3600 * 1000,
   },
   {
     title: "7 дней",
     id: "7days",
+    timeLine: 7 * 24 * 3600 * 1000,
   },
   {
     title: "1 мес",
     id: "1month",
+    timeLine:
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        0
+      ).getTime() -
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
   },
   {
     title: "3 мес",
     id: "3months",
+    timeLine:
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 3,
+        1
+      ).getTime(),
   },
   {
     title: "1 год",
     id: "1year",
+    timeLine:
+      new Date(currentDate.getFullYear(), 11, 31).getTime() -
+      new Date(currentDate.getFullYear(), 0, 1).getTime(),
   },
   {
     title: "Все время",
     id: "allTime",
+    timeLine:
+      new Date(currentDate.getFullYear(), 11, 31).getTime() -
+      new Date(currentDate.getFullYear(), 0, 1).getTime(),
   },
 ];
 interface CurrencyChartsBlockProps {}
 
 export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
+  const [setPeriodFirst, setPeriodSecond] = useUnit([
+    PeriodModel.setPeriodFirst,
+    PeriodModel.setPeriodSecond,
+  ]);
+
   const [isMobile, setIsMobile] = useState<boolean>();
   useEffect(() => {
     const handleResize = () => {
@@ -67,10 +98,6 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
     timesList[0].id
   );
   const [isOpen] = useUnit([$isSidebarOpened]);
-  useEffect(() => {
-    // alert(isOpen);
-    console.log(isOpen);
-  }, [isOpen]);
   return (
     <div className={clsx(s.currency_wrap)}>
       <div className={s.currency_block}>
@@ -96,6 +123,7 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
         >
           <div className={s.follows_chart_wrap}>
             <TimeStats
+              setTime={setPeriodFirst}
               list={timesList}
               value={currentTimeStats}
               setValue={setCurrentTimeStats}
@@ -104,6 +132,7 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
           </div>
           <div className={s.registration_chart_wrap}>
             <TimeStats
+              setTime={setPeriodSecond}
               list={timesList}
               value={currentTimeStatsReg}
               setValue={setCurrentTimeStatsReg}
@@ -119,16 +148,18 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
 interface ITime {
   title: string;
   id: string;
+  timeLine: number;
 }
 
 interface ITimeStatsProps {
   value: string;
   setValue: (el: string) => void;
   list: ITime[];
+  setTime: any;
 }
 
 const TimeStats: FC<ITimeStatsProps> = (props) => {
-  const { list, value, setValue } = props;
+  const { list, value, setValue, setTime } = props;
   return (
     <div className={s.time_range_block}>
       {list.map((item) => (
@@ -138,7 +169,10 @@ const TimeStats: FC<ITimeStatsProps> = (props) => {
             value === item?.id && s.black_background
           )}
           key={item?.id}
-          onClick={() => setValue(item?.id)}
+          onClick={() => {
+            setValue(item?.id);
+            setTime(item.timeLine);
+          }}
         >
           <span className={s.time_range_block_title}>{item.title}</span>
         </div>

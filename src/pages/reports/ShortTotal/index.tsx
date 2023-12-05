@@ -175,6 +175,22 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     })();
   }, [address, isConnected, isAuthed]);
 
+  const [usersRegistration, setUsersRegistration] = useState<any>();
+  useEffect(() => {
+    (async () => {
+      if (isConnected && isAuthed && address) {
+        const data = await api.getUsersRegistration({
+          //! -------------------------------------------------
+          wallet: address?.toLowerCase(),
+          auth: signature,
+          timestamp,
+          period: "all",
+        });
+        data.status === "OK" && setUsersRegistration(data.body);
+      }
+    })();
+  }, [address, isConnected, isAuthed]);
+
   const [isMobile, setIsMobile] = useState<boolean>();
 
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
@@ -423,7 +439,12 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                       ? clicks
                         ? clicks?.clicks
                         : 0
+                      : item.title === "Регистрации"
+                      ? usersRegistration
+                        ? usersRegistration?.connected_wallets
+                        : 0
                       : item.data}
+                    {}
                   </span>
                 </div>
               ))}

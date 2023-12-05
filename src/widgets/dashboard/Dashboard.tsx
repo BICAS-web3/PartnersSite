@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
-import { useAccount, useSignMessage } from "wagmi";
 import Link from "next/link";
 
 import { CurrencyChartsBlock } from "../currencyChartsBlock/CurrencyChartsBlock";
@@ -9,7 +8,6 @@ import { CurrentBalance } from "../currentBalance/CurrentBalance";
 import { LastEvents } from "../lastEvents/LastEvents";
 import { FastStats } from "../fastStats/FastStats";
 import s from "./styles.module.scss";
-
 import * as SidebarM from "@/widgets/sidebar/model";
 
 interface DashboardProps {}
@@ -41,6 +39,7 @@ export const Dashboard: FC<DashboardProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <section className={s.dashboard_container}>
       <div className={s.dashboard_body}>

@@ -101,6 +101,8 @@ export type T_GetSubIdClickResponse = {
   sub_id_internal: number;
 };
 
+export type T_ChartResponse = { connected_wallets: number };
+
 export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
@@ -109,7 +111,8 @@ export type T_ApiResponse = {
     | R_getUser
     | T_UserSitesResp
     | T_GetSubIdClickResponse
-    | T_ClicksResponse;
+    | T_ClicksResponse
+    | T_ChartResponse;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -212,6 +215,20 @@ export type T_RegisterContact = {
   wallet: string;
   auth: string;
   contact: { name: string; url: string }[];
+};
+
+export type T_RegisterWallets = {
+  timestamp: number | string;
+  wallet: string;
+  auth: string;
+  period: "daily" | "weekly" | "monthly" | "all";
+};
+
+export type T_RegisterChart = {
+  timestamp: number | string;
+  wallet: string;
+  auth: string;
+  endTime: number;
 };
 
 export const registerContact = createEffect<
@@ -473,3 +490,42 @@ export const deleteContact = createEffect<T_GetEserData, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export const getUsersRegistration = createEffect<
+  T_RegisterWallets,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/connected/${form.period}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getUsersRegistrationChart = createEffect<
+  T_RegisterChart,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  const startTime = Date.now();
+  return fetch(`${BaseApiUrl}/partner/connected/${startTime}/${form.endTime}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
