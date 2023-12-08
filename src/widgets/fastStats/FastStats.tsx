@@ -178,25 +178,37 @@ export const FastStats: FC<FastStatsProps> = () => {
   const { address } = useAccount();
 
   const [conversionBody, setConversionBody] = useState<any>();
+  const [depositedUsersBody, setDepositedUsersBody] = useState<any>();
 
   useEffect(() => {
     (async () => {
       if (tablePeriod && address) {
-        const response = await api.getUsersRegistration({
+        const response = await api.getUsersRegistrationChart({
+          auth: signature,
+          timestamp,
+          wallet: address?.toLowerCase(),
+          endTime: tablePeriod,
+        });
+        if (response.status === "OK") {
+          setConversionBody(response.body);
+        }
+
+        const response2 = await api.getDepositedUsers({
           auth: signature,
           timestamp,
           wallet: address?.toLowerCase(),
           period: "daily",
         });
-        if (response.status === "OK") {
-          setConversionBody(response.body);
+
+        if (response2.status === "OK") {
+          setDepositedUsersBody(response2.body);
         }
-        console.log("FAST STATS RESPONSE", response);
       }
     })();
   }, [signature, tablePeriod]);
 
   console.log(conversionBody?.connected_wallets);
+  console.log("TEST", depositedUsersBody?.connected_wallets);
 
   return (
     <div id="top" className={s.fast_stats_block}>

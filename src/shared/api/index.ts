@@ -102,6 +102,7 @@ export type T_GetSubIdClickResponse = {
 };
 
 export type T_ChartResponse = { connected_wallets: number };
+export type T_DepositResponse = { connected_wallets: number };
 
 export type T_ApiResponse = {
   status: string;
@@ -112,7 +113,8 @@ export type T_ApiResponse = {
     | T_UserSitesResp
     | T_GetSubIdClickResponse
     | T_ClicksResponse
-    | T_ChartResponse;
+    | T_ChartResponse
+    | T_DepositResponse;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -229,6 +231,13 @@ export type T_RegisterChart = {
   wallet: string;
   auth: string;
   endTime: number;
+};
+
+export type T_DepositedUsers = {
+  timestamp: number | string;
+  wallet: string;
+  auth: string;
+  period: "daily" | "weekly" | "monthly" | "all";
 };
 
 export const registerContact = createEffect<
@@ -517,6 +526,26 @@ export const getUsersRegistrationChart = createEffect<
 >(async (form) => {
   const startTime = Date.now();
   return fetch(`${BaseApiUrl}/partner/connected/${startTime}/${form.endTime}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      timestamp: form.timestamp.toString(),
+      wallet: form.wallet,
+      auth: form.auth,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getDepositedUsers = createEffect<
+  T_DepositedUsers,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  const startTime = Date.now();
+  return fetch(`${BaseApiUrl}/partner/connected/betted/${form.period}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
