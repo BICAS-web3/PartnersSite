@@ -217,17 +217,29 @@ export const FastStats: FC<FastStatsProps> = () => {
           spaceBetween={2}
           className={s.swiper}
         >
-          {timesList.map((item, ind) => (
-            <SwiperSlide key={ind} className={s.swiper_slide}>
-              <div className={s.swiper_slide_body}>
-                <div className={s.swiper_slide_header}>
-                  <span className={s.swiper_slide_title}>{item.title}</span>
-                  <Image src={upDownArrows} alt="sort-ico" />
-                </div>
-                <div className={s.swiper_slide_content}>-</div>
-              </div>
-            </SwiperSlide>
-          ))}
+          {!isMobile
+            ? activeOptions.map((item, ind) => (
+                <SwiperSlide key={ind} className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>{item.title}</span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>-</div>
+                  </div>
+                </SwiperSlide>
+              ))
+            : mobTableOptions.map((item, ind) => (
+                <SwiperSlide key={ind} className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>{item.title}</span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>-</div>
+                  </div>
+                </SwiperSlide>
+              ))}
         </Swiper>
       </div>
     </div>

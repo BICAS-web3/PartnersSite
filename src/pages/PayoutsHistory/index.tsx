@@ -184,6 +184,8 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   }>({});
   const [mobExportPicked, setMobExportPicked] = useState({});
 
+  console.log(activeOps);
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
