@@ -131,7 +131,7 @@ export const Header: FC<HeaderProps> = () => {
   }, [localEmail, localName, localLastName]);
 
   useEffect(() => {
-    setUpdateSignature(true);
+    isConnected && setUpdateSignature(true);
   }, []);
 
   useEffect(() => {
