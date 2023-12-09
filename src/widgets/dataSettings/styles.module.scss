@@ -12,6 +12,12 @@
   // width: 50%;
 }
 
+.custom_datepicker_second {
+  .react-datepicker-popper {
+    display: none !important;
+  }
+}
+
 .custom_datepicker {
   cursor: pointer;
   outline: none;
@@ -23,6 +29,7 @@
   font-family: var(--font-nunito-sans);
   font-size: 14px;
   font-style: normal;
+  height: 42px;
   font-weight: 500;
   line-height: normal;
   width: 100%;

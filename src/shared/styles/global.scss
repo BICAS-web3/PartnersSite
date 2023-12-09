@@ -83,10 +83,9 @@ a:active {
 }
 
 .swiper-slide {
-  min-width: 200px;
-  @media (max-width: 650px) {
-    min-width: 170px;
-  }
+  // @media (max-width: 650px) {
+  //   min-width: 170px;
+  // }
   &[data-id="chooseEverything"] {
     display: none !important;
   }

@@ -25,6 +25,8 @@ import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistor
 import { PhExportBlock } from "../../widgets/phUI/";
 import exportIco from "@/public/media/common/exportIco.png";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
+import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 
 export const currenciesList = [
   {
@@ -210,10 +212,6 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   setActiveOpts(mobTableOpts);
-  // }, [is650]);
-
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -283,11 +281,19 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   currentFilterPage={currentFilterPage}
                   setCurrentSiteCategory={setMobPeriod}
                 />
-                <PhTableFilterBlock
+                <AdaptiveChooser
+                  activeTitle="choose"
+                  list={optionsList}
+                  currentFilterPage={currentFilterPage}
+                  setCurrentFilterPage={setCurrentFilterPage}
+                  setMobTableOpts={setMobTableOpts}
+                  blockTitle=""
+                />
+                {/* <PhTableFilterBlock
                   setCurrentFilterPage={setCurrentFilterPage}
                   currentFilterPage={currentFilterPage}
                   setMobTableOpts={setMobTableOpts}
-                />
+                /> */}
                 <PhExportBlock
                   setCurrentFilterPage={setCurrentFilterPage}
                   currentFilterPage={currentFilterPage}
@@ -325,7 +331,13 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                       {mobPeriod.title}
                     </span>
                   </div>
-                  <div
+                  <AdaptiveFilterItem
+                    objTitle={`Выбрано ${activeOps?.length} п.`}
+                    title="Показать"
+                    filterTitle="choose"
+                    setCurrentFilterPage={setCurrentFilterPage}
+                  />
+                  {/* <div
                     className="mobile_filter_item"
                     onClick={() =>
                       setCurrentFilterPage("phMobTableFilterBlock")
@@ -335,7 +347,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                     <span className="mobile_filter_item_picked_value">
                       Выбрано {mobTableOpts.length} п.
                     </span>
-                  </div>
+                  </div> */}
                   <ListButtons
                     setIsBack={setIsFilter}
                     title="Сгенерировать отчет"

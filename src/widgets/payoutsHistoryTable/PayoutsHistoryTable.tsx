@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import s from "@/pages/PayoutsHistory/styles.module.scss";
 import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
 import { Scrollbar } from "swiper/modules";

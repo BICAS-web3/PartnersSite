@@ -38,7 +38,12 @@ export const Footer: FC<FooterProps> = () => {
           </div>
           <div className={s.footer_upper_block_rightSide}>
             <div className={s.footer_upper_block_contactUs_block}>
-              <button className={s.footer_upper_block_contactUs_btn}>
+              <button
+                className={s.footer_upper_block_contactUs_btn}
+                onClick={() => {
+                  location.href = "https://t.me/GKSupportt";
+                }}
+              >
                 <Image src={mailIco} alt="mainbox-ico" />
                 Contact us
               </button>
