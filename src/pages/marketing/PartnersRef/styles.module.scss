@@ -6,10 +6,9 @@
   gap: 10px;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(150px, 230px) minmax(150px, 230px) minmax(
-      150px,
-      230px
-    ) minmax(110px, 190px) minmax(110px, 190px) 200px;
+  grid-template-columns:
+    minmax(150px, 230px) minmax(150px, 230px) minmax(150px, 230px)
+    minmax(110px, 190px) minmax(110px, 190px) 200px;
 }
 
 .table_filter_item {
@@ -259,10 +258,9 @@
 
 @media screen and (max-width: 1280px) {
   .table_filter_block {
-    grid-template-columns: minmax(150px, 230px) minmax(150px, 230px) minmax(
-        150px,
-        230px
-      ) minmax(110px, 190px);
+    grid-template-columns:
+      minmax(150px, 230px) minmax(150px, 230px) minmax(150px, 230px)
+      minmax(110px, 190px);
   }
   .generate_report_btn {
     width: 230px;
@@ -272,6 +270,12 @@
   }
   .swiper_slide_header {
     padding: 8px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .swiper_slide[data-id="num"] {
+    width: 70px !important;
   }
 }
 

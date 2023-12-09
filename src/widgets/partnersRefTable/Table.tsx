@@ -1,5 +1,5 @@
 import { FC, useRef } from "react";
-import s from "@/pages/PayoutsHistory/styles.module.scss";
+import s from "./styles.module.scss";
 import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
 import Image from "next/image";
@@ -10,12 +10,14 @@ interface PartnerfRefTableProps {
   cols: any[];
   is700: boolean;
   is650: boolean;
+  is1280: boolean;
 }
 
 export const PartnerfRefTable: FC<PartnerfRefTableProps> = ({
   cols,
   is700,
   is650,
+  is1280,
 }) => {
   const swiperRef = useRef<SwiperRef>(null);
 
@@ -24,7 +26,9 @@ export const PartnerfRefTable: FC<PartnerfRefTableProps> = ({
       <div className="scroll-bar"></div>
       <Swiper
         ref={swiperRef}
-        slidesPerView={is700 ? "auto" : is650 ? "auto" : cols.length}
+        slidesPerView={
+          is1280 ? "auto" : is700 ? "auto" : is650 ? "auto" : cols.length
+        }
         direction="horizontal"
         modules={[Scrollbar]}
         scrollbar={{

@@ -88,7 +88,7 @@
   margin-top: 20px;
 }
 
-.swiper_slide {
+.swiper_slide_ph {
   @media screen and (max-width: 700px) {
     width: 100%;
     min-width: 200px;
@@ -109,7 +109,7 @@
   height: 100%;
 }
 
-.swiper_slide {
+.swiper_slide_ph {
   &:first-child {
     .swiper_slide_body {
       border-radius: 8px 0 0 8px;
