@@ -17,6 +17,7 @@ import { WebsiteLanguageFilter } from "@/widgets/websitesUI/";
 import { WebsiteTableFilter } from "@/widgets/websitesUI/";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import * as HeaderModel from "@/widgets/header/model";
 
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
@@ -126,6 +127,7 @@ export const tableRowsList = [
 interface WebsitesProps {}
 
 const Websites: FC<WebsitesProps> = () => {
+  const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
   const [pageResponseUpdated, setPageResponseUpdated] = useState<
     | {
@@ -264,7 +266,14 @@ const Websites: FC<WebsitesProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (isConnected && address && addPage && pageType && pageUrl) {
+      if (
+        isConnected &&
+        address &&
+        addPage &&
+        pageType &&
+        pageUrl &&
+        readyUpdate
+      ) {
         await api.registerPage({
           name: pageType,
           url: pageUrl,
@@ -277,7 +286,7 @@ const Websites: FC<WebsitesProps> = () => {
         setAddPage(false);
       }
     })();
-  }, [isConnected, address, addPage]);
+  }, [isConnected, address, addPage, readyUpdate]);
 
   const navigation = useRouter();
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
@@ -352,7 +361,7 @@ const Websites: FC<WebsitesProps> = () => {
   const [addSubid, setAddSubid] = useState(false);
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address) {
+      if (isConnected && isAuthed && address && readyUpdate) {
         const data = await api.getUserSites({
           wallet: address?.toLowerCase(),
           auth: signature,
@@ -383,11 +392,11 @@ const Websites: FC<WebsitesProps> = () => {
         }
       }
     })();
-  }, [address, isConnected, isAuthed, updateGetRequest]);
+  }, [address, isConnected, isAuthed, updateGetRequest, readyUpdate]);
 
   useEffect(() => {
     (async () => {
-      if (subidPage && address && addSubid) {
+      if (subidPage && address && addSubid && readyUpdate) {
         const response = await api.registerSubId({
           timestamp,
           wallet: address?.toLowerCase(),
@@ -399,7 +408,7 @@ const Websites: FC<WebsitesProps> = () => {
         console.log("---response---", response);
       }
     })();
-  }, [subidPage, addSubid]);
+  }, [subidPage, addSubid, readyUpdate]);
 
   function validateWebPage(webPage: string) {
     const urlRegex =
