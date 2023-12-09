@@ -3,8 +3,8 @@ import { FC, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/shared/tools";
 import * as PeriodModel from "@/widgets/dashboard/model";
-import { useUnit } from "effector-react";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { useUnit } from "effector-react";
 import { useAccount } from "wagmi";
 
 import * as api from "@/shared/api/";

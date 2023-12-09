@@ -300,7 +300,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
             <div className={s.sidebar_page_item_link_block}>
               {item1.list.map((item2, ind) => (
-                <Link
+                <a
                   key={item2?.title}
                   href={`${item2.link}`}
                   data-href={item2.link}
@@ -321,7 +321,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                     </div>
                     <Image src={nextArr} alt="right-arrow" />
                   </div>
-                </Link>
+                </a>
               ))}
             </div>
           </div>

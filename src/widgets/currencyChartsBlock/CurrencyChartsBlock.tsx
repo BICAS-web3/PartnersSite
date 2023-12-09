@@ -9,6 +9,7 @@ import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 import { $isSidebarOpened } from "../sidebar/model";
 import * as PeriodModel from "@/widgets/dashboard/model";
+import * as TimeTypeModel from "./model";
 
 const currenciesList = [
   {
@@ -28,15 +29,18 @@ const timesList = [
     title: "1 день",
     id: "1day",
     timeLine: 24 * 3600 * 1000,
+    timeType: "daily",
   },
   {
     title: "7 дней",
     id: "7days",
     timeLine: 7 * 24 * 3600 * 1000,
+    timeType: "weekly",
   },
   {
     title: "1 мес",
     id: "1month",
+    timeType: "monthly",
     timeLine:
       new Date(
         currentDate.getFullYear(),
@@ -48,6 +52,7 @@ const timesList = [
   {
     title: "3 мес",
     id: "3months",
+    timeType: "monthly",
     timeLine:
       new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
       new Date(
@@ -59,6 +64,7 @@ const timesList = [
   {
     title: "1 год",
     id: "1year",
+    timeType: "monthly",
     timeLine:
       new Date(currentDate.getFullYear(), 11, 31).getTime() -
       new Date(currentDate.getFullYear(), 0, 1).getTime(),
@@ -66,6 +72,7 @@ const timesList = [
   {
     title: "Все время",
     id: "allTime",
+    timeType: "all",
     timeLine:
       new Date(currentDate.getFullYear(), 11, 31).getTime() -
       new Date(currentDate.getFullYear(), 0, 1).getTime(),
@@ -74,9 +81,10 @@ const timesList = [
 interface CurrencyChartsBlockProps {}
 
 export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
-  const [setPeriodFirst, setPeriodSecond] = useUnit([
+  const [setPeriodFirst, setPeriodSecond, setPeriodType] = useUnit([
     PeriodModel.setPeriodFirst,
     PeriodModel.setPeriodSecond,
+    TimeTypeModel.setPeriodType,
   ]);
 
   const [isMobile, setIsMobile] = useState<boolean>();
@@ -136,6 +144,7 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
               list={timesList}
               value={currentTimeStatsReg}
               setValue={setCurrentTimeStatsReg}
+              setTimePeriod={setPeriodType}
             />
             <RegistrationChart />
           </div>
@@ -149,6 +158,7 @@ interface ITime {
   title: string;
   id: string;
   timeLine: number;
+  timeType: string;
 }
 
 interface ITimeStatsProps {
@@ -156,10 +166,11 @@ interface ITimeStatsProps {
   setValue: (el: string) => void;
   list: ITime[];
   setTime: any;
+  setTimePeriod?: (el: string) => void;
 }
 
 const TimeStats: FC<ITimeStatsProps> = (props) => {
-  const { list, value, setValue, setTime } = props;
+  const { list, value, setValue, setTime, setTimePeriod } = props;
   return (
     <div className={s.time_range_block}>
       {list.map((item) => (
@@ -172,6 +183,7 @@ const TimeStats: FC<ITimeStatsProps> = (props) => {
           onClick={() => {
             setValue(item?.id);
             setTime(item.timeLine);
+            setTimePeriod && setTimePeriod(item.timeType);
           }}
         >
           <span className={s.time_range_block_title}>{item.title}</span>
