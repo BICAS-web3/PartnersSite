@@ -8,8 +8,14 @@ interface MobileChooseItemProps {
   activeList: any[];
   allPicked: boolean;
   setAllpicked: any;
-  initList: any[];
+  initList?: any[];
   subscribesStyles?: boolean;
+  setDeleteArr?: any;
+  deleteArr?: any;
+  setActiveItems?: any;
+  startList?: any[];
+  setClick: (el: boolean) => void;
+  click: boolean;
 }
 
 export const MobileChooseItem: FC<MobileChooseItemProps> = ({
@@ -20,31 +26,65 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
   setAllpicked,
   initList,
   subscribesStyles,
+  setDeleteArr,
+  deleteArr,
+  setActiveItems,
+  startList,
+  setClick,
+  click,
 }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
+  const [filterActive, setFilterActive] = useState("");
 
   useEffect(() => {
-    if (allPicked && checked) {
-      setList([item]);
-      setAllpicked(false);
-    } else if (!allPicked && checked) {
-      if (!activeList.includes(item)) {
-        setList([...activeList, item]);
+    if (allPicked) {
+      setChecked(true);
+      setActiveItems && setActiveItems(startList);
+    }
+  }, [allPicked]);
+
+  useEffect(() => {
+    if (click) {
+      if (!checked) {
+        setDeleteArr((prev: any) =>
+          prev.filter((el: any) => el !== filterActive)
+        );
+      } else {
+        setDeleteArr((prev: any) => [...prev, filterActive]);
       }
-    } else if (!allPicked && !checked) {
-      setList(activeList.filter((activeItem) => activeItem !== item));
     }
   }, [checked]);
 
   useEffect(() => {
-    if (allPicked) {
-      setChecked(false);
-
-      setList(initList);
-    } else {
-      checked ? setList([item]) : setList([]);
+    if (click) {
+      if (checked === false) {
+        setAllpicked(false);
+        setActiveItems((prev: { title: string; id: number | string }[]) => {
+          return prev.filter((el) => {
+            if (deleteArr.includes(el.title)) {
+              return el;
+            } else {
+              return;
+            }
+          });
+        });
+      } else {
+        setActiveItems(() => {
+          return (
+            startList &&
+            startList.filter((el) => {
+              if (deleteArr.includes(el.title)) {
+                return el;
+              } else {
+                return;
+              }
+            })
+          );
+        });
+      }
     }
-  }, [allPicked]);
+    setClick(false);
+  }, [deleteArr]);
 
   return (
     <div
@@ -56,14 +96,18 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
     >
       <span
         className={s.choose_item_text}
-        onClick={() => setChecked(!checked)}
+        onClick={() => {
+          setFilterActive(item);
+          setChecked((prev) => !prev);
+          setClick(true);
+        }}
         style={{
           flexDirection: subscribesStyles ? "row-reverse" : "row",
           justifyContent: subscribesStyles ? "start" : "",
         }}
       >
         <span style={{ marginLeft: subscribesStyles ? "10px" : "" }}>
-          {item.title}
+          {item}
         </span>
         <div className={`${s.checkbox} ${checked && s.checked}`}>
           <CheckBoxIco />
@@ -72,3 +116,28 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
     </div>
   );
 };
+
+// const [checked, setChecked] = useState(false);
+
+// useEffect(() => {
+//   if (allPicked && checked) {
+//     setList([item]);
+//     setAllpicked(false);
+//   } else if (!allPicked && checked) {
+//     if (!activeList.includes(item)) {
+//       setList([...activeList, item]);
+//     }
+//   } else if (!allPicked && !checked) {
+//     setList(activeList.filter((activeItem) => activeItem !== item));
+//   }
+// }, [checked]);
+
+// useEffect(() => {
+//   if (allPicked) {
+//     setChecked(false);
+
+//     setList(initList);
+//   } else {
+//     checked ? setList([item]) : setList([]);
+//   }
+// }, [allPicked]);

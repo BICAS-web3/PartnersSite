@@ -83,6 +83,10 @@ a:active {
 }
 
 .swiper-slide {
+  min-width: 200px;
+  @media (max-width: 650px) {
+    min-width: 170px;
+  }
   &[data-id="chooseEverything"] {
     display: none !important;
   }
@@ -210,4 +214,12 @@ a:active {
 
 .apexcharts-xaxis-title {
   background-color: red;
+}
+
+.error_input {
+  // border: 1px solid red !important;
+  box-shadow: 0 0 1px 1px red;
+  &::placeholder {
+    color: red;
+  }
 }

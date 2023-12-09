@@ -360,6 +360,7 @@ const Total: FC<TotalProps> = () => {
               list={options}
               setActiveOptions={setActiveOpts}
               allPicked={true}
+              activeOptions={activeOpts}
             />
           </div>
         )}

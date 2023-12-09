@@ -1,7 +1,13 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/shared/tools";
+import * as PeriodModel from "@/widgets/dashboard/model";
+import { useUnit } from "effector-react";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { useAccount } from "wagmi";
+
+import * as api from "@/shared/api/";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -10,6 +16,32 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 interface FollowsChartProps {}
 
 export const FollowsChart: FC<FollowsChartProps> = () => {
+  const [periodFirst, signature, timestamp] = useUnit([
+    PeriodModel.$periodFirst,
+    ContactModel.$signature,
+    ContactModel.$timestamp,
+  ]);
+
+  const { address } = useAccount();
+
+  const [startTime, setStartTime] = useState<any>();
+  useEffect(() => {
+    (async () => {
+      if (periodFirst && address) {
+        const response = await api.getUsersRegistrationChart({
+          auth: signature,
+          timestamp,
+          wallet: address?.toLowerCase(),
+          endTime: periodFirst,
+        });
+        if (response.status === "OK") {
+          setStartTime(response.body);
+        }
+        console.log("chart response", response);
+      }
+    })();
+  }, [periodFirst]);
+
   const isMobile = useMediaQuery("(max-width: 650px)");
   const categories = [
     "00:00",
@@ -236,24 +268,10 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
 
   const series = [
     {
-      name: "Просмотры",
+      name: "My Series",
       data: [
-        0, 1.2, 1.4, 1.5, 1.7, 1.8, 1.9, 1.5, 1.3, 1.2, 1.5, 1.7, 1.8, 1.9, 1.5,
-        1.1, 1.2, 1.4,
-      ],
-    },
-    {
-      name: "Клики",
-      data: [
-        0.4, 2.5, 2.7, 2.4, 2.5, 2.6, 2.1, 2.2, 2.5, 2.6, 2.7, 2.8, 2.9, 2.4,
-        2.2, 2.1, 2.5, 2.5,
-      ],
-    },
-    {
-      name: "Прямые ссылки",
-      data: [
-        0.7, 3.8, 3.9, 3.5, 3.3, 3.2, 3.5, 3.7, 3.7, 3.4, 3.5, 3.6, 3.1, 3.2,
-        3.5, 3.6, 3.7, 3.2,
+        { x: Date.now() - periodFirst, y: startTime?.connected_wallets || 1 }, // One hour ago
+        { x: Date.now(), y: startTime?.connected_wallets || 1 }, // Current time
       ],
     },
   ];

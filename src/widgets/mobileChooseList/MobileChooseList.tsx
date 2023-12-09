@@ -4,11 +4,14 @@ import { MobileChooseItem } from "./MobileChooseItem";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
 interface MobileChooseListProps {
-  list: any[];
+  list?: any[];
   setPickedList: any;
   pickedList: any[];
   evrPicked?: boolean;
   subscribesStyles?: boolean;
+  setActiveOptions?: any;
+  activeOptions?: any;
+  setMobileTableLing?: any;
 }
 
 export const MobileChooseList: FC<MobileChooseListProps> = ({
@@ -17,37 +20,76 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   pickedList,
   evrPicked,
   subscribesStyles,
+  setActiveOptions,
+  activeOptions,
+  setMobileTableLing,
 }) => {
   const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
   const [activeItems, setActiveItems] = useState<any>([]);
 
-  useEffect(() => {
-    setPickedList(activeItems);
-  });
+  // useEffect(() => {
+  //   setPickedList(activeItems);
+  // });
 
+  // useEffect(() => {
+  //   if (allPicked) {
+  //     setActiveItems(list);
+  //   }
+  // });
+
+  // console.log(activeItems);
+
+  // useEffect(() => {
+  //   if (allPicked) {
+  //     setActiveItems(list);
+  //   }
+  // });
+
+  // console.log(activeItems);
+
+  // useEffect(() => {
+  //   if (allPicked) {
+  //     setActiveItems(list);
+  //   }
+  const [click, setClick] = useState(false);
+  // });
+  const [startList, setStartList] = useState<any>();
+  const [getApi, setGetApi] = useState(true);
   useEffect(() => {
-    if (allPicked) {
-      setActiveItems(list);
+    if (getApi && list) {
+      setActiveOptions && setActiveOptions(list);
+      setStartList(list);
+      setGetApi(false);
     }
-  });
+  }, [list, getApi]);
 
-  console.log(activeItems);
+  const [isAllPicked, setIsAllPicked] = useState(true);
+
+  const [updateList, setUpdateList] = useState<any>([]);
+  useEffect(() => {
+    if (updateList?.length <= 0) {
+      setUpdateList([...new Set(list?.map((el) => el?.title))]);
+    }
+  }, [list, updateList]);
+
+  const [deleteArr, setDeleteArr] = useState<string[]>([]);
+  useEffect(() => {
+    setDeleteArr(updateList);
+    setMobileTableLing && setMobileTableLing(updateList?.length);
+  }, [updateList]);
 
   useEffect(() => {
-    if (allPicked) {
-      setActiveItems(list);
-    }
-  });
-
-  console.log(activeItems);
+    setMobileTableLing && setMobileTableLing(deleteArr?.length);
+  }, [deleteArr]);
 
   useEffect(() => {
-    if (allPicked) {
-      setActiveItems(list);
+    if (updateList?.length === deleteArr?.length) {
+      setIsAllPicked(true);
+    } else {
+      setIsAllPicked(false);
     }
-  });
+  }, [deleteArr, updateList]);
 
-  console.log(activeItems);
   return (
     <div className={s.mobile_choose_list_wrap}>
       <div className={s.mobile_choose_list}>
@@ -60,7 +102,10 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
         >
           <span
             className={s.choose_item_text}
-            onClick={() => setAllpicked(!allPicked)}
+            onClick={() => {
+              setDeleteArr(updateList);
+              setClick(true);
+            }}
             style={{
               flexDirection: subscribesStyles ? "row-reverse" : "row",
               justifyContent: subscribesStyles ? "start" : "",
@@ -69,21 +114,27 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             <span style={{ marginLeft: subscribesStyles ? "10px" : "" }}>
               Выбрать всё
             </span>
-            <div className={`${s.checkbox} ${allPicked && s.checked}`}>
+            <div className={`${s.checkbox} ${isAllPicked && s.checked}`}>
               <CheckBoxIco />
             </div>
           </span>
         </div>
-        {list.map((item, ind) => (
+        {updateList?.map((item: string, ind: number) => (
           <MobileChooseItem
             item={item}
             key={ind}
             setList={setActiveItems}
-            allPicked={allPicked}
+            allPicked={isAllPicked}
             activeList={activeItems}
-            setAllpicked={setAllpicked}
-            initList={list}
+            setAllpicked={setIsAllPicked}
+            // initList={list}
             subscribesStyles={subscribesStyles}
+            deleteArr={deleteArr}
+            setDeleteArr={setDeleteArr}
+            startList={startList}
+            setActiveItems={setActiveOptions}
+            click={click}
+            setClick={setClick}
           />
         ))}
       </div>

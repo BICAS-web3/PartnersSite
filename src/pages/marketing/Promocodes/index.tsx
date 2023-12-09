@@ -244,6 +244,7 @@ const Promocodes: FC<PromocodesProps> = () => {
             </div>
             <div className={s.table_choose_opts_wrap}>
               <CustomDropDownChoose
+                activeOptions={activeOpts}
                 list={options}
                 setActiveOptions={setActiveOpts}
                 allPicked={true}

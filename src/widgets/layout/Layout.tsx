@@ -5,7 +5,6 @@ import { Footer } from "../footer/Footer";
 import { Sidebar } from "../sidebar/Sidebar";
 import * as SidebarM from "@/widgets/sidebar/model";
 import { useUnit } from "effector-react";
-
 interface LayoutProps {
   children?: any;
   activePage: string;

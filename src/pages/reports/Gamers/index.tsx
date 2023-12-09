@@ -444,6 +444,7 @@ const Gamers: FC<GamersProps> = () => {
                 list={exportList.slice(1)}
                 activeItemId="exel"
                 setCurrent={() => {}}
+                startOptions={exportList.slice(1)}
               />
             </div>
           </div>
@@ -546,6 +547,7 @@ const Gamers: FC<GamersProps> = () => {
               list={historyList}
               allPicked={true}
               setActiveOptions={setActiveOpts}
+              activeOptions={activeOpts}
             />
           </div>
           <div className={s.export_wrapper}>

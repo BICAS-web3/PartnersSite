@@ -40,6 +40,7 @@ export const PhCurrencyMobBlock: FC<PhCurrencyMobBlockProps> = ({
           list={currenciesList}
           activeItemId="usd"
           setCurrent={setCurrentSiteCategory}
+          startOptions={currenciesList}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

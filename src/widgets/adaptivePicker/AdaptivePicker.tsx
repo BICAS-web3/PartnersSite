@@ -53,6 +53,7 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
           list={list}
           activeItemId={itemId}
           setCurrent={setCurrentLanguage}
+          startOptions={list}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

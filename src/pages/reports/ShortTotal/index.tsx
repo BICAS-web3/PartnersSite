@@ -1,26 +1,34 @@
 import { FC, useEffect, useState } from "react";
-import s from "./styles.module.scss";
+import { useUnit } from "effector-react";
+import { useAccount } from "wagmi";
+import range from "lodash/range";
+import Image from "next/image";
+import "react-datepicker/dist/react-datepicker.css";
+
+import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
+
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { siteCategories } from "@/widgets/welcomePageSignup/WelcomePageSignup";
-import range from "lodash/range";
-import Image from "next/image";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import prevArrow from "@/public/media/common/prevArrow.png";
-import nextArrow from "@/public/media/common/nextArrow.png";
-import { getMonth, getYear } from "date-fns";
-import filterIcon from "@/public/media/common/filterImg.png";
-import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
-import clsx from "clsx";
 import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
-import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
+
+import prevArrow from "@/public/media/common/prevArrow.png";
+import filterIcon from "@/public/media/common/filterImg.png";
+
+import * as api from "@/shared/api";
+
+import s from "./styles.module.scss";
+
+import clsx from "clsx";
+
 const wepPagesList = [
   {
     title: "https://greekkeepers.io",
@@ -136,11 +144,57 @@ interface IListProps {
 interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
+  const { address, isConnected } = useAccount();
+  const [isAuthed] = useUnit([AuthModel.$isAuthed]);
+  const [timestamp, signature] = useUnit([
+    ContactModel.$timestamp,
+    ContactModel.$signature,
+  ]);
+
+  const [clicks, setClicks] = useState<
+    | {
+        clicks: number;
+        id: number;
+        partner_id: string;
+        sub_id_internal: number;
+      }
+    | false
+  >(false);
+
+  useEffect(() => {
+    (async () => {
+      if (isConnected && isAuthed && address) {
+        const data = await api.getFullClicks({
+          //! -------------------------------------------------
+          wallet: address?.toLowerCase(),
+          auth: signature,
+          timestamp,
+        });
+        data.status === "OK" && setClicks(data.body as api.T_ClicksResponse);
+      }
+    })();
+  }, [address, isConnected, isAuthed]);
+
+  const [usersRegistration, setUsersRegistration] = useState<any>();
+  useEffect(() => {
+    (async () => {
+      if (isConnected && isAuthed && address) {
+        const data = await api.getUsersRegistration({
+          //! -------------------------------------------------
+          wallet: address?.toLowerCase(),
+          auth: signature,
+          timestamp,
+          period: "all",
+        });
+        data.status === "OK" && setUsersRegistration(data.body);
+      }
+    })();
+  }, [address, isConnected, isAuthed]);
+
   const [isMobile, setIsMobile] = useState<boolean>();
 
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
-  const years = range(1990, 2025);
 
   const firstTableBlock = tableItemsList.slice(0, tableItemsList.length / 2);
   const secondTableBlock = tableItemsList.slice(
@@ -148,7 +202,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     tableItemsList.length
   );
   const [isFilter, setIsFilter] = useState(false);
-  const [isExport, setIsExport] = useState(false);
 
   const [currentFilterPage, setCurrentFilterPage] = useState("");
   const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
@@ -381,7 +434,18 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                   data-even={(ind + 1) % 2 === 0}
                 >
                   <span className={s.table_item_title}>{item.title}</span>
-                  <span className={s.table_item_value}>{item.data}</span>
+                  <span className={s.table_item_value}>
+                    {item.title === "Клики"
+                      ? clicks
+                        ? clicks?.clicks
+                        : 0
+                      : item.title === "Регистрации"
+                      ? usersRegistration
+                        ? usersRegistration?.connected_wallets
+                        : 0
+                      : item.data}
+                    {}
+                  </span>
                 </div>
               ))}
             </div>

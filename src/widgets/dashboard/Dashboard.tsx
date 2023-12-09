@@ -1,14 +1,14 @@
+import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
+import Link from "next/link";
+
+import { CurrencyChartsBlock } from "../currencyChartsBlock/CurrencyChartsBlock";
+import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
 import { CurrentBalance } from "../currentBalance/CurrentBalance";
 import { LastEvents } from "../lastEvents/LastEvents";
-import s from "./styles.module.scss";
-import { FC, useEffect, useState } from "react";
-import * as SidebarM from "@/widgets/sidebar/model";
-import { CurrencyChartsBlock } from "../currencyChartsBlock/CurrencyChartsBlock";
 import { FastStats } from "../fastStats/FastStats";
-import { useMediaQuery } from "@/shared/tools";
-import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
-import Link from "next/link";
+import s from "./styles.module.scss";
+import * as SidebarM from "@/widgets/sidebar/model";
 
 interface DashboardProps {}
 const currenciesList = [
@@ -21,6 +21,7 @@ const currenciesList = [
     id: "uah",
   },
 ];
+
 export const Dashboard: FC<DashboardProps> = () => {
   const [isSidebarOpened] = useUnit([SidebarM.$isSidebarOpened]);
 
@@ -38,6 +39,7 @@ export const Dashboard: FC<DashboardProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <section className={s.dashboard_container}>
       <div className={s.dashboard_body}>

@@ -30,7 +30,9 @@
     "react-datepicker": "^4.21.0",
     "react-dom": "^18",
     "sass": "^1.69.4",
-    "swiper": "^11.0.2"
+    "swiper": "^11.0.2",
+    "wagmi": "^1.4.7",
+    "web3": "^4.2.2"
   },
   "devDependencies": {
     "@types/node": "^20.8.7",

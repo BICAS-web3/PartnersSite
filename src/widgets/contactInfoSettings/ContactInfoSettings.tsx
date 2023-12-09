@@ -6,6 +6,8 @@ import { countries } from "countries-list";
 import { languagesList } from "../welcomePageSignup/WelcomePageSignup";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
+import * as UserDataModel from "@/widgets/welcomePageSignup/model";
+import { useUnit } from "effector-react";
 export const messangersList = [
   {
     title: "Instagram",
@@ -28,6 +30,24 @@ interface ContactInfoSettingsProps {}
 export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
   const [domenChecked, setDomenChecked] = useState(false);
 
+  const [
+    userName,
+    userLastName,
+    userPhone,
+    userMessanger,
+    userMessangerValue,
+    userCountry,
+    userLanguage,
+  ] = useUnit([
+    UserDataModel.$userName,
+    UserDataModel.$userLastName,
+    UserDataModel.$userPhone,
+    UserDataModel.$userMessanger,
+    UserDataModel.$userMessangerValue,
+    UserDataModel.$userCountry,
+    UserDataModel.$userLanguage,
+  ]);
+
   return (
     <div className={s.contact_info_settings_block}>
       <span className={s.contact_info_settings_block_title}>
@@ -39,7 +59,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="Иван"
+            placeholder={userName ? userName : "Иван"}
           />
         </div>
         <div className={s.input_block}>
@@ -47,7 +67,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="Иванов"
+            placeholder={userLastName ? userLastName : "Иванов"}
           />
         </div>
       </div>
@@ -57,7 +77,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="+1234567890"
+            placeholder={userPhone ? userPhone : "+1234567890"}
           />
         </div>
       </div>
@@ -71,7 +91,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="@asdasdsad"
+            placeholder={userMessangerValue ? userMessangerValue : "@asdasdsad"}
           />
         </div>
       </div>
@@ -84,11 +104,23 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
       <div className={s.country_language_block}>
         <div className={s.input_block}>
           <span className={s.input_block_title}>Страна</span>
-          <CustomDropdownInput list={countriesList} />
+          <CustomDropdownInput
+            activeItemId={
+              userCountry &&
+              countriesList.find((el) => el.title === userCountry)?.id
+            }
+            list={countriesList}
+          />
         </div>
         <div className={s.input_block}>
           <span className={s.input_block_title}>Язык для уведомлений</span>
-          <CustomDropdownInput list={languagesList} />
+          <CustomDropdownInput
+            activeItemId={
+              userLanguage &&
+              languagesList.find((el) => el.title === userLanguage)?.id
+            }
+            list={languagesList}
+          />
         </div>
       </div>
       <div className={s.change_domen_notif_wrap}>

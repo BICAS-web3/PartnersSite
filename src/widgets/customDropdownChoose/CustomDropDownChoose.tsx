@@ -1,36 +1,69 @@
-import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
-import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
+
+import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
-import { CustomDropDownItem } from "./CustomDropDownItem";
 import { useDropdown } from "@/shared/tools";
+
+import s from "./styles.module.scss";
+
+import { CustomDropDownItem } from "./CustomDropDownItem";
 
 interface CustomDropDownChooseProps {
   list: any[];
-  setActiveOptions?: any;
+  setActiveOptions?: (el: any) => void;
   allPicked?: boolean;
+  activeOptions: any[];
 }
 
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   list,
   setActiveOptions,
+  activeOptions,
 }) => {
-  // const [listVisibility, setListVisibility] = useState(false);
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
-  const [activeItems, setActiveItems] = useState<any[]>([]);
+  const [apiGet, setApiGet] = useState(true);
+
+  useEffect(() => {
+    setApiGet(true);
+  }, [list?.length]);
+
+  useEffect(() => {
+    if (list && apiGet) {
+      setApiGet(false);
+      setActiveOptions && setActiveOptions(list);
+      setStartList(list);
+    }
+  }, [list, apiGet]);
   const [isAllPicked, setIsAllPicked] = useState(true);
 
+  const [updateList, setUpdateList] = useState<any>([]);
   useEffect(() => {
-    if (isAllPicked) {
-      setActiveItems(list);
+    if (updateList?.length <= 0) {
+      setUpdateList([...new Set(list?.map((el) => el?.title))]);
     }
-  });
+  }, [list, updateList]);
+
+  const [startList, setStartList] = useState<any>();
 
   useEffect(() => {
-    setActiveOptions(activeItems);
-  });
+    if (
+      [...new Set(activeOptions?.map((el: any) => el?.title))]?.length ===
+      updateList?.length
+    ) {
+      setIsAllPicked(true);
+    } else {
+      setIsAllPicked(false);
+    }
+  }, [activeOptions]);
 
+  const [deleteArr, setDeleteArr] = useState<string[]>([]);
+  useEffect(() => {
+    setDeleteArr(updateList);
+  }, [updateList]);
+  useEffect(() => {
+    console.log(activeOptions);
+  }, [activeOptions]);
   return (
     <div
       ref={dropdownRef}
@@ -38,15 +71,10 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
         isOpen && s.dropdown_active
       }`}
     >
-      <div
-        className={s.active_dropdown_block}
-        onClick={() => {
-          // setListVisibility(!listVisibility);
-          toggle();
-        }}
-      >
+      <div className={s.active_dropdown_block} onClick={toggle}>
         <div className={s.active_dropdown_title_block}>
-          Выбрано {activeItems.length} п.
+          Выбрано{" "}
+          {[...new Set(activeOptions?.map((el: any) => el?.title))]?.length} п.
         </div>
         <div className={s.dropdown_ico_block}>
           <HeaderDropdownArrow />
@@ -65,14 +93,14 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               <span>Выбрать все</span>
             </span>
           </div>
-          {list.map((item, ind) => (
+          {updateList?.map((item: string, ind: number) => (
             <CustomDropDownItem
-              activeItems={activeItems}
-              setActiveItems={setActiveItems}
+              deleteArr={deleteArr}
+              setDeleteArr={setDeleteArr}
+              startList={startList}
+              setActiveItems={setActiveOptions}
               key={ind}
               item={item}
-              // initList={list}
-              setIsAllPicked={setIsAllPicked}
               allPicked={isAllPicked}
             />
           ))}
@@ -81,3 +109,14 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
     </div>
   );
 };
+
+// useEffect(() => {
+//   if (isAllPicked) {
+//     setActiveItems(list);
+//   }
+// });
+
+// useEffect(() => {
+//   setActiveOptions(activeItems);
+// });
+// const [activeItems, setActiveItems] = useState<any[]>([]);

@@ -22,6 +22,7 @@
 }
 
 .active_dropdown_block {
+  transition: all 0.5s;
   box-sizing: content-box;
   position: relative;
   user-select: none;

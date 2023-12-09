@@ -50,6 +50,7 @@ export const PhExportBlock: FC<PhExportBlockProps> = ({
           list={phExportOptions}
           activeItemId="excelExport"
           setCurrent={setCurrentSiteCategory}
+          startOptions={phExportOptions}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

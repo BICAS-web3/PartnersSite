@@ -1,29 +1,30 @@
-import s from "./styles.module.scss";
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import Image from "next/image";
-import prevArrow from "@/public/media/common/prevArrow.png";
-import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../../../pages/PayoutsHistory";
-import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { siteCategories, tableColumnsList } from "../../../pages/Websites";
+
 import { MobileChooseList } from "@/widgets/mobileChooseList/MobileChooseList";
 
+import prevArrow from "@/public/media/common/prevArrow.png";
+
+import s from "./styles.module.scss";
 interface WebsiteTableFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
   setMobTableOpts: any;
+  list?: any[];
+  setActiveOptions?: any;
+  activeOptions?: any;
+  setMobileTableLing?: any;
 }
 
 export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
-  setMobTableOpts,
+  list,
+  setActiveOptions,
+  activeOptions,
+  setMobileTableLing,
 }) => {
   const [pickedList, setPickedList] = useState([]);
-
-  useEffect(() => {
-    setMobTableOpts(pickedList);
-  }, [pickedList]);
 
   return (
     <div
@@ -45,9 +46,12 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
       </div>
       <div className="mobile_filter_body">
         <MobileChooseList
-          list={tableColumnsList}
+          list={list}
           setPickedList={setPickedList}
           pickedList={pickedList}
+          activeOptions={activeOptions}
+          setActiveOptions={setActiveOptions}
+          setMobileTableLing={setMobileTableLing}
         />
       </div>
       <div className="mobile_filter_item_page_footer">
@@ -57,3 +61,43 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
     </div>
   );
 };
+// useEffect(() => {
+//   setMobTableOpts(pickedList);
+// }, [pickedList]);
+
+// useEffect(() => {
+//   if (list) {
+//     setActiveOptions(list);
+//     setStartList(list);
+//   }
+// }, [list]);
+// const [isAllPicked, setIsAllPicked] = useState(true);
+
+// const [updateList, setUpdateList] = useState<any>();
+// useEffect(() => {
+//   setUpdateList([...new Set(list?.map((el) => el?.title))]);
+// }, [list]);
+
+// const [startList, setStartList] = useState<any>();
+
+// useEffect(() => {
+//   if (
+//     [...new Set(activeOptions?.map((el: any) => el?.title))]?.length ===
+//     updateList?.length
+//   ) {
+//     setIsAllPicked(true);
+//     // setActiveOptions(startList);
+//   } else {
+//     setIsAllPicked(false);
+//   }
+// }, [activeOptions]);
+
+// const [deleteArr, setDeleteArr] = useState<string[]>([]);
+// useEffect(() => {
+//   setDeleteArr(updateList);
+// }, [updateList]);
+
+// setDeleteArr,
+// deleteArr,
+// setActiveItems,
+// startList,

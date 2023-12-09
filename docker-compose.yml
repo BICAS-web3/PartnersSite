@@ -1,0 +1,31 @@
+version: "1.0"
+services:
+  nginx:
+    build: ./nginx/
+    image: partner-nginx
+    container_name: partner-nginx
+    #restart: always
+    # network_mode: "host"
+    ports:
+      - '8586:8586'
+    networks:
+      - partnernet
+    # volumes:
+    #   - ./BicasCasino/src/public:/public
+
+  frontend:
+    build: ./
+    image: partnerfrontend
+    container_name: partnerfrontend
+    ports:
+      - '5000:5000'
+    networks:
+      - partnernet
+    volumes:
+      - ./:/app
+      - /app/node_modules
+
+
+networks:
+  partnernet:
+    driver: bridge

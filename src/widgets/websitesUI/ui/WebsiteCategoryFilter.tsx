@@ -1,23 +1,37 @@
 import s from "./styles.module.scss";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
-import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "../../../pages/PayoutsHistory";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { siteCategories } from "../../../pages/Websites";
+import { siteCategories } from "@/pages/Websites";
 
 interface WebsiteCategoryFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
   setCurrentSiteCategory: any;
+  setMobTableOpts: any;
+  startOptions: any;
+  list?: any;
 }
 
 export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
   setCurrentSiteCategory,
+  setMobTableOpts,
+  list,
 }) => {
+  const [startList, setStartList] = useState<any>();
+  const [getApi, setGetApi] = useState(true);
+  useEffect(() => {
+    setGetApi(true);
+  }, [list?.length]);
+  useEffect(() => {
+    if (getApi && list) {
+      setStartList(list);
+      setGetApi(false);
+    }
+  }, [list, getApi]);
   return (
     <div
       className={`filter_item_page ${
@@ -38,9 +52,11 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
       </div>
       <div className="mobile_filter_body">
         <MobilePickList
+          setMobTableOpts={setMobTableOpts}
           list={siteCategories}
           activeItemId="sportsForecasts"
           setCurrent={setCurrentSiteCategory}
+          startOptions={startList}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

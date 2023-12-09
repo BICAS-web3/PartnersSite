@@ -1,7 +1,10 @@
+"use client";
+
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
 import { useDropdown } from "@/shared/tools";
+import clsx from "clsx";
 
 interface CustomDropdownInputProps {
   list: any[];
@@ -9,6 +12,10 @@ interface CustomDropdownInputProps {
   isExportSelect?: boolean;
   height?: number;
   posRel?: boolean;
+  setSelectedValue?: (el: string) => void;
+  className?: string;
+  startList?: any[];
+  setActiveOptions?: any;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -16,19 +23,26 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   activeItemId,
   height,
   isExportSelect,
+  setSelectedValue,
+  className,
+  startList,
+  setActiveOptions,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
   );
 
-  const [listVisibility, setListVisibility] = useState(false);
+  useEffect(() => {
+    setSelectedValue;
+    setSelectedValue && setSelectedValue(activeItem?.title);
+  }, [activeItem]);
+
   const { dropdownRef, toggle, close, isOpen } = useDropdown();
   const [avaibleItems, setAvaibleItems] = useState(
     activeItemId ? list.filter((item) => item.id !== activeItemId) : list
   );
 
   const handleActiveItemSetting = (itemId: any) => {
-    // setListVisibility(false);
     close();
     setActiveItem(avaibleItems.filter((item) => item.id === itemId)[0]);
     setAvaibleItems(list.filter((item) => item.id !== itemId));
@@ -37,17 +51,12 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   return (
     <div
       ref={dropdownRef}
-      className={`${s.dropdown_input_block_wrap} ${
-        isOpen && s.dropdown_active
-      }`}
+      className={clsx(s.dropdown_input_block_wrap, isOpen && s.dropdown_active)}
     >
       <div
-        className={s.active_dropdown_block}
+        className={clsx(s.active_dropdown_block, className)}
         style={{ height: height }}
-        onClick={() => {
-          // setListVisibility(!listVisibility);
-          toggle();
-        }}
+        onClick={toggle}
       >
         <div
           className={s.active_dropdown_title_block}
@@ -70,7 +79,15 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           <div
             className={s.dropdown_items_list_item}
             key={ind}
-            onClick={() => handleActiveItemSetting(item.id)}
+            onClick={() => {
+              handleActiveItemSetting(item.id);
+              setActiveOptions &&
+                setActiveOptions(
+                  startList?.filter(
+                    (el: any) => el.typeFilter === item.title
+                  ) || []
+                );
+            }}
           >
             {item.title}
           </div>

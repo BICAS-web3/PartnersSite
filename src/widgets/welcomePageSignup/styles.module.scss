@@ -22,6 +22,18 @@
 .welcome_page_input {
   padding: 8px 14px;
   width: 100%;
+  transition: all 0.5s;
+  &::placeholder {
+    transition: all 0.5s;
+  }
+}
+
+.error_input {
+  // border: 1px solid red !important;
+  box-shadow: 0 0 1px 1px red;
+  &::placeholder {
+    color: red;
+  }
 }
 
 .welcome_page_input_title {
@@ -50,7 +62,7 @@
 }
 
 .welcome_page_additionalInfo_block {
-  margin-top: 14px;
+  // margin-top: 14px;
 }
 
 .welcome_page_paslog_block_title,
@@ -139,6 +151,18 @@
   margin-top: 20px;
 }
 
+.btns_container {
+  margin: 0 auto;
+  width: fit-content;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .register_submit_btn {
   padding: 13px 41px;
   border-radius: 8px;
@@ -150,12 +174,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
   height: 50px;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  cursor: pointer;
 }
 
 .desk_hidden_nav {
