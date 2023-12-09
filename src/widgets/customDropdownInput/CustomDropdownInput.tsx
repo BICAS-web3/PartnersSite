@@ -16,6 +16,7 @@ interface CustomDropdownInputProps {
   className?: string;
   startList?: any[];
   setActiveOptions?: any;
+  setActiveInner?: any;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -27,12 +28,14 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   className,
   startList,
   setActiveOptions,
+  setActiveInner,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
   );
 
   useEffect(() => {
+    setActiveInner && setActiveInner(activeItem);
     setSelectedValue;
     setSelectedValue && setSelectedValue(activeItem?.title);
   }, [activeItem]);
