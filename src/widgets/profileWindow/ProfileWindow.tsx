@@ -45,7 +45,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
     <article ref={dropdownRef} className={s.profile}>
       {isTablet ? (
         <span onClick={toggle} className={s.profile_name}>
-          {userName}
+          {userName[0]}
         </span>
       ) : (
         <button
@@ -59,7 +59,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
         </button>
       )}
       <div className={clsx(s.profile_body, isOpen && s.profile_body_open)}>
-        {!isTablet && <span className={s.profile_name}>{userName}</span>}
+        {!isTablet && <span className={s.profile_name}>{userName[0]}</span>}
         <span className={s.profile_gmail}>{userEmail}</span>
         <GenerateButton className={s.profile_btn} title="Manage account" />
         <div className={s.detail_container} ref={accountRef}>

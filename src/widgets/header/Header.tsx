@@ -131,6 +131,10 @@ export const Header: FC<HeaderProps> = () => {
   }, [localEmail, localName, localLastName]);
 
   useEffect(() => {
+    isConnected && setUpdateSignature(true);
+  }, []);
+
+  useEffect(() => {
     (async () => {
       if (callContactReg) {
         await api.registerContact({

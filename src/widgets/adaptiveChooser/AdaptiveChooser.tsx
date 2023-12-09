@@ -67,6 +67,7 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
           </div>
         )}
         <MobileChooseList
+          setActiveOptions={setMobTableOpts}
           list={list}
           setPickedList={setPickedList}
           pickedList={pickedList}

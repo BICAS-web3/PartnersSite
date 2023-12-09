@@ -121,6 +121,7 @@ export const DataSettings: FC<DataSettingsProps> = (
           <DatePicker
             className={clsx(s.custom_datepicker, s.custom_datepicker_second)}
             dateFormat={"dd-mm-yyyy"}
+            popperClassName="date-picker-second-popper"
             renderCustomHeader={({
               date,
               changeYear,

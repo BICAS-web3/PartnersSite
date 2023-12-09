@@ -42,7 +42,7 @@ export const MobilePickList: FC<MobilePickListProps> = ({
             }`}
             onClick={() => {
               setActiveItem(item);
-              setMobTableOpts(() =>
+              setCurrent(() =>
                 startOptions.filter((el: any) => el.typeFilter === item.title)
               );
             }} //

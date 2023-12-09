@@ -8,6 +8,7 @@ import telegram from "@/public/media/footerImages/tgIco.png";
 import mailIco from "@/public/media/footerImages/mailIco.png";
 
 import Image from "next/image";
+import Link from "next/link";
 
 interface FooterProps {}
 
@@ -37,16 +38,29 @@ export const Footer: FC<FooterProps> = () => {
           </div>
           <div className={s.footer_upper_block_rightSide}>
             <div className={s.footer_upper_block_contactUs_block}>
-              <button className={s.footer_upper_block_contactUs_btn}>
+              <button
+                className={s.footer_upper_block_contactUs_btn}
+                onClick={() => {
+                  location.href = "https://t.me/GKSupportt";
+                }}
+              >
                 <Image src={mailIco} alt="mainbox-ico" />
                 Contact us
               </button>
             </div>
             <div className={s.footer_upper_block_socialMedia_list}>
-              <Image src={inst} alt="instagram" />
-              <Image src={discord} alt="discord" />
-              <Image src={telegram} alt="telegram" />
-              <Image src={twitter} alt="twitter" />
+              <Link href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ==">
+                <Image src={inst} alt="instagram" />
+              </Link>
+              <Link href="https://discord.gg/ReJVd2xJSk">
+                <Image src={discord} alt="discord" />
+              </Link>
+              <Link href="https://t.me/greekkeepers">
+                <Image src={telegram} alt="telegram" />
+              </Link>
+              <Link href="https://twitter.com/GreekKeepers">
+                <Image src={twitter} alt="twitter" />
+              </Link>
             </div>
           </div>
         </div>

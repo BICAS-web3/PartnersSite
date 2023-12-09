@@ -40,7 +40,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
         console.log("chart response", response);
       }
     })();
-  }, [periodFirst]);
+  }, [periodFirst, signature]);
 
   const isMobile = useMediaQuery("(max-width: 650px)");
   const categories = [
