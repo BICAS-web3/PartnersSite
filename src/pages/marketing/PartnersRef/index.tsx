@@ -96,6 +96,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [activeOpts, setActiveOpts] = useState([]);
   const [is700, setIs700] = useState(false);
   const [is650, setIs650] = useState(false);
+  const [is1280, setIs1280] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
 
@@ -114,15 +115,23 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 700 && width > 650) {
+
+      if (width < 1280 && width > 700) {
+        setIs1280(true);
+        setIs650(false);
+        setIs700(false);
+      } else if (width < 700 && width > 650) {
         setIs650(false);
         setIs700(true);
+        setIs1280(false);
       } else if (width < 650) {
         setIs650(true);
         setIs700(false);
+        setIs1280(false);
       } else {
         setIs650(false);
         setIs700(false);
+        setIs1280(false);
       }
     };
 
@@ -353,6 +362,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
           cols={is650 ? mobTableCols : activeOpts}
           is650={is650}
           is700={is700}
+          is1280={is1280}
         />
         <div className={s.table_nav_block}>
           <div className={s.table_records_block}>

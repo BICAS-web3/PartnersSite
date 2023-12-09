@@ -38,7 +38,7 @@ export const PayoutsHistoryTable: FC<PayoutsHistoryTableProps> = ({
         {cols.map((item, ind) => (
           <SwiperSlide
             key={item?.id}
-            className={s.swiper_slide}
+            className={s.swiper_slide_ph}
             data-id={item.id}
           >
             <div className={s.swiper_slide_body}>

@@ -273,16 +273,7 @@
   }
 }
 
-@media screen and (max-width: 700px) {
-  .table_filter_block {
-    grid-template-columns: 1fr 1fr;
-  }
-  .generate_report_btn_wrap {
-    grid-column: 2;
-  }
-  .generate_report_btn {
-    width: 200px;
-  }
+@media screen and (max-width: 1280px) {
   .swiper_slide[data-id="num"] {
     width: 70px !important;
   }
@@ -297,6 +288,18 @@
   }
   .swiper_slide {
     max-width: 200px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .table_filter_block {
+    grid-template-columns: 1fr 1fr;
+  }
+  .generate_report_btn_wrap {
+    grid-column: 2;
+  }
+  .generate_report_btn {
+    width: 200px;
   }
 }
 

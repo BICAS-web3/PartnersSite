@@ -57,6 +57,31 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0.64px;
+  position: relative;
+  transition: all 0.2s;
+  overflow: hidden;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #ffb800;
+    filter: blur(40px);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    bottom: -20px;
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
   @media screen and (max-width: 650px) {
     width: 100%;
   }
