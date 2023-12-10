@@ -496,136 +496,62 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               centeredSlides={false}
               className={s.swiper}
             >
-              {titleArr.includes("№") && (
-                <SwiperSlide className={s.swiper_slide}>
+              {titleArr.map((slide, index) => (
+                <SwiperSlide key={index} className={s.swiper_slide}>
                   <div className={s.swiper_slide_body}>
                     <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>№</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {pageResponseUpdated?.map((_: any, i: number) => (
-                        <span key={i}>{i}</span>
-                      ))}
-                    </div>
-                  </div>
-                </SwiperSlide>
-              )}
-              {titleArr.includes("Сайт") && (
-                <SwiperSlide className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>Сайт</span>
+                      <span className={s.swiper_slide_title}>{slide}</span>
                       <Image src={upDownArrows} alt="sort-ico" />
                     </div>
                     <div className={s.swiper_slide_content}>
                       {pageResponseUpdated?.map(
-                        (el: IChangeResponse, i: number) => (
-                          <a target="_blank" href={el.basic_url} key={i}>
-                            {el.basic_url}
-                          </a>
-                        )
+                        (el: IChangeResponse, i: number) => {
+                          if (slide === "№") {
+                            return <span key={i}>№</span>;
+                          } else if (slide === "Сайт") {
+                            return (
+                              <a target="_blank" href={el.basic_url} key={i}>
+                                {el.basic_url}
+                              </a>
+                            );
+                          } else if (slide === "Состояние") {
+                            return <span key={i}>Активен</span>;
+                          } else if (slide === "Целевая страница") {
+                            return (
+                              <a
+                                href={el.sub_ids_url}
+                                target="_blank"
+                                style={{ cursor: "pointer" }}
+                                key={i}
+                              >
+                                {el.sub_ids_url}
+                              </a>
+                            );
+                          } else if (slide === "SubID") {
+                            return <span key={i}>{el.sub_ids_id}</span>;
+                          } else if (slide === "Готовая ссылка") {
+                            return (
+                              <span
+                                className={s.swiper_text_copy}
+                                onClick={() =>
+                                  navigator.clipboard.writeText(
+                                    `https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                                      el.basic_id
+                                    }&sub_id=${el.sub_ids_id}`
+                                  )
+                                }
+                                key={i}
+                              >{`https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                                el.basic_id
+                              }&sub_id=${el.sub_ids_id}`}</span>
+                            );
+                          }
+                        }
                       )}
                     </div>
                   </div>
                 </SwiperSlide>
-              )}
-              {titleArr.includes("Состояние") && (
-                <SwiperSlide className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>Состояние</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {pageResponseUpdated?.map((_: any, i: number) => (
-                        <span key={i}>Активен</span>
-                      ))}
-                    </div>
-                  </div>
-                </SwiperSlide>
-              )}
-              {titleArr.includes("Целевая страница") && (
-                <SwiperSlide className={s.swiper_slide}>
-                  <SwiperSlide className={s.swiper_slide}>
-                    <div className={s.swiper_slide_body}>
-                      <div
-                        className={clsx(
-                          s.swiper_slide_header,
-                          s.swiper_no_border
-                        )}
-                      >
-                        <span className={s.swiper_slide_title}>
-                          Целевая страница
-                        </span>
-                        <Image src={upDownArrows} alt="sort-ico" />
-                      </div>
-                      <div className={s.swiper_slide_content}>
-                        {pageResponseUpdated?.map(
-                          (el: IChangeResponse, i: number) => (
-                            <a
-                              href={el.sub_ids_url}
-                              target="_blank"
-                              style={{ cursor: "pointer" }}
-                              key={i}
-                            >
-                              {el.sub_ids_url}
-                            </a>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                </SwiperSlide>
-              )}
-              {titleArr.includes("SubID") && (
-                <SwiperSlide className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>SubID</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {pageResponseUpdated?.map(
-                        (el: IChangeResponse, i: number) => (
-                          <span key={i}>{el.sub_ids_id}</span>
-                        )
-                      )}
-                    </div>
-                  </div>
-                </SwiperSlide>
-              )}
-              {titleArr.includes("Готовая ссылка") && (
-                <SwiperSlide className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>
-                        Готовая ссылка
-                      </span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {pageResponseUpdated?.map(
-                        (el: IChangeResponse, i: number) => (
-                          <span
-                            className={s.swiper_text_copy}
-                            onClick={() =>
-                              navigator.clipboard.writeText(
-                                `https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
-                                  el.basic_id
-                                }&sub_id=${el.sub_ids_id}`
-                              )
-                            }
-                            key={i}
-                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
-                            el.basic_id
-                          }&sub_id=${el.sub_ids_id}`}</span>
-                        )
-                      )}
-                    </div>
-                  </div>
-                </SwiperSlide>
-              )}
+              ))}
             </Swiper>
           </div>
         )}
