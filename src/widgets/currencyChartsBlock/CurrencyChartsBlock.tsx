@@ -30,12 +30,14 @@ const timesList = [
     id: "1day",
     timeLine: 24 * 3600 * 1000,
     timeType: "daily",
+    step: 3600,
   },
   {
     title: "7 дней",
     id: "7days",
     timeLine: 7 * 24 * 3600 * 1000,
     timeType: "weekly",
+    step: 24 * 3600 * 1000,
   },
   {
     title: "1 мес",
@@ -48,6 +50,7 @@ const timesList = [
         0
       ).getTime() -
       new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
+    step: 7 * 24 * 3600 * 1000,
   },
   {
     title: "3 мес",
@@ -60,6 +63,13 @@ const timesList = [
         currentDate.getMonth() - 3,
         1
       ).getTime(),
+    step:
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        0
+      ).getTime() -
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
   },
   {
     title: "1 год",
@@ -68,6 +78,13 @@ const timesList = [
     timeLine:
       new Date(currentDate.getFullYear(), 11, 31).getTime() -
       new Date(currentDate.getFullYear(), 0, 1).getTime(),
+    step:
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 3,
+        1
+      ).getTime(),
   },
   {
     title: "Все время",
@@ -76,6 +93,13 @@ const timesList = [
     timeLine:
       new Date(currentDate.getFullYear(), 11, 31).getTime() -
       new Date(currentDate.getFullYear(), 0, 1).getTime(),
+    step:
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 3,
+        1
+      ).getTime(),
   },
 ];
 interface CurrencyChartsBlockProps {}
@@ -159,6 +183,7 @@ interface ITime {
   id: string;
   timeLine: number;
   timeType: string;
+  step: number;
 }
 
 interface ITimeStatsProps {
@@ -181,8 +206,10 @@ const TimeStats: FC<ITimeStatsProps> = (props) => {
           )}
           key={item?.id}
           onClick={() => {
+            alert(item.timeLine);
             setValue(item?.id);
-            setTime(item.timeLine);
+            setTime({ timeline: item.timeLine, period: item.step });
+            item.timeLine;
             setTimePeriod && setTimePeriod(item.timeType);
           }}
         >

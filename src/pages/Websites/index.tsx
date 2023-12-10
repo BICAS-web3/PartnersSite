@@ -150,6 +150,7 @@ const Websites: FC<WebsitesProps> = () => {
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
   const [titleArr, setTitleArr] = useState([]);
 
+  const [addPage, setAddPage] = useState(false);
   const [pageResponseUpdated, setPageResponseUpdated] = useState<
     IPagesResponse[] | any
   >();
@@ -181,7 +182,7 @@ const Websites: FC<WebsitesProps> = () => {
       });
       setPageResponseUpdated(change);
     }
-  }, [pageResponse, pageResponseUpdated, updateGetRequest]);
+  }, [pageResponse, pageResponseUpdated, updateGetRequest, addPage]);
   useEffect(() => {
     if (pageResponseUpdated) {
       setTitleArr(
@@ -269,7 +270,6 @@ const Websites: FC<WebsitesProps> = () => {
   };
 
   const [error, setError] = useState(false);
-  const [addPage, setAddPage] = useState(false);
   const { isConnected, address } = useAccount();
 
   const [pageUrl, setPageUrl] = useState("");
@@ -286,7 +286,7 @@ const Websites: FC<WebsitesProps> = () => {
         readyUpdate &&
         signature
       ) {
-        await api.registerPage({
+        const data = await api.registerPage({
           name: pageType,
           url: pageUrl,
           wallet: address.toLowerCase(),
@@ -296,6 +296,9 @@ const Websites: FC<WebsitesProps> = () => {
         setUpdateGetRequest("OK");
         setAddSubid(true);
         setAddPage(false);
+        if (data.status === "OK" && pageResponseUpdated?.length <= 0) {
+          location.reload();
+        }
       }
     })();
   }, [isConnected, address, addPage, readyUpdate, signature]);
@@ -358,40 +361,40 @@ const Websites: FC<WebsitesProps> = () => {
       //     ];
       //   }
       // });
-      setPageResponseUpdated((prev: any) => {
-        if (prev && Array.isArray(prev)) {
-          return [
-            ...prev,
-            {
-              basic: {
-                internal_id:
-                  prev && prev[prev?.length - 1].basic?.internal_id + 1,
-                id: prev && prev[prev?.length - 1].basic?.id,
-                name: pageType,
-                url: pageUrl,
-                partner_id:
-                  prev && prev[prev?.length - 1].basic?.partner_id + 1,
-              },
-              sub_ids: [],
-            },
-          ];
-        } else {
-          return [
-            {
-              basic: {
-                internal_id:
-                  prev && prev[prev?.length - 1].basic?.internal_id + 1,
-                id: prev && prev[prev?.length - 1].basic?.id,
-                name: pageType,
-                url: pageUrl,
-                partner_id:
-                  prev && prev[prev?.length - 1].basic?.partner_id + 1,
-              },
-              sub_ids: [],
-            },
-          ];
-        }
-      });
+      // setPageResponseUpdated((prev: any) => {
+      //   if (prev && Array.isArray(prev)) {
+      //     return [
+      //       ...prev,
+      //       {
+      //         basic: {
+      //           internal_id:
+      //             prev && prev[prev?.length - 1]?.basic?.internal_id + 1,
+      //           id: prev && prev[prev?.length - 1]?.basic?.id,
+      //           name: pageType,
+      //           url: pageUrl,
+      //           partner_id:
+      //             prev && prev[prev?.length - 1]?.basic?.partner_id + 1,
+      //         },
+      //         sub_ids: [],
+      //       },
+      //     ];
+      //   } else {
+      //     return [
+      //       {
+      //         basic: {
+      //           internal_id:
+      //             (prev && prev[prev?.length - 1]?.basic?.internal_id + 1) || 0,
+      //           id: (prev && prev[prev?.length - 1]?.basic?.id) || 0,
+      //           name: pageType,
+      //           url: pageUrl,
+      //           partner_id:
+      //             (prev && prev[prev?.length - 1]?.basic?.partner_id + 1) || 0,
+      //         },
+      //         sub_ids: [],
+      //       },
+      //     ];
+      //   }
+      // });
 
       setAddPage(true);
     }
@@ -445,6 +448,7 @@ const Websites: FC<WebsitesProps> = () => {
     updateGetRequest,
     readyUpdate,
     signature,
+    addPage,
   ]);
 
   useEffect(() => {
@@ -458,7 +462,6 @@ const Websites: FC<WebsitesProps> = () => {
           url: subidPage.basic.url,
           internal_site_id: subidPage.basic.internal_id,
         });
-        console.log("---response---", response);
       }
     })();
   }, [subidPage, addSubid, readyUpdate, signature]);
@@ -689,21 +692,22 @@ const Websites: FC<WebsitesProps> = () => {
               className={s.swiper}
             >
               {pageResponseUpdated &&
+                pageResponseUpdated?.length > 0 &&
                 Object?.keys(
                   (
                     pageResponseUpdated &&
                     (pageResponseUpdated[0] as IPagesResponse)
                   )?.basic
                 )
-                  .filter((el) => {
-                    if (titleArr?.length > 0) {
-                      if (titleArr.find((str) => str == el)) {
-                        return el;
-                      }
-                    } else {
-                      return el;
-                    }
-                  })
+                  // .filter((el) => {
+                  //   if (titleArr?.length > 0) {
+                  //     if (titleArr.find((str) => str == el)) {
+                  //       return el;
+                  //     }
+                  //   } else {
+                  //     return el;
+                  //   }
+                  // })
                   .map((el: string, i: number) => {
                     return (
                       <SwiperSlide

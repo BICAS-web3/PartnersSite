@@ -32,15 +32,17 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
           auth: signature,
           timestamp,
           wallet: address?.toLowerCase(),
-          endTime: periodFirst,
+          endTime: periodFirst.timeline,
+          step: periodFirst.period,
         });
         if (response.status === "OK") {
           setStartTime(response.body);
+          console.log(228, response.body);
         }
         console.log("chart response", response);
       }
     })();
-  }, [periodFirst, signature]);
+  }, [periodFirst.timeline, signature]);
 
   const isMobile = useMediaQuery("(max-width: 650px)");
   const categories = [
@@ -269,10 +271,12 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
   const series = [
     {
       name: "My Series",
-      data: [
-        { x: Date.now() - periodFirst, y: startTime?.connected_wallets || 1 }, // One hour ago
-        { x: Date.now(), y: startTime?.connected_wallets || 1 }, // Current time
-      ],
+      data: startTime?.amount?.map((el: number, i: number) => {
+        return {
+          x: i === 0 ? periodFirst : periodFirst.timeline * i,
+          y: el || 1,
+        };
+      }),
     },
   ];
 
