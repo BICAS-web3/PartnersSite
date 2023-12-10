@@ -4,9 +4,9 @@ import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
 interface MobileChooseItemProps {
   item: any;
-  setList: any;
-  activeList: any[];
-  allPicked: boolean;
+  setList?: any;
+  activeList?: any[];
+  allPicked?: boolean;
   setAllpicked: any;
   initList?: any[];
   subscribesStyles?: boolean;
@@ -15,7 +15,7 @@ interface MobileChooseItemProps {
   setActiveItems?: any;
   startList?: any[];
   setClick: (el: boolean) => void;
-  click: boolean;
+  click?: boolean;
   setTitleArr?: any;
 }
 

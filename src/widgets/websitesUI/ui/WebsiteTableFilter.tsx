@@ -9,13 +9,14 @@ import s from "./styles.module.scss";
 interface WebsiteTableFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
-  setMobTableOpts: any;
+  setMobTableOpts?: any;
   list?: any[];
   setActiveOptions?: any;
   activeOptions?: any;
   setMobileTableLing?: any;
   setTitleArr?: any;
   titleArr?: string[];
+  isPartnerPage?: boolean;
 }
 
 export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
@@ -27,6 +28,7 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
   setMobileTableLing,
   setTitleArr,
   titleArr,
+  isPartnerPage,
 }) => {
   const [pickedList, setPickedList] = useState([]);
 
@@ -58,6 +60,7 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
           setMobileTableLing={setMobileTableLing}
           setTitleArr={setTitleArr}
           titleArr={titleArr}
+          isPartnerPage={isPartnerPage}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

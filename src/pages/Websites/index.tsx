@@ -745,7 +745,13 @@ const Websites: FC<WebsitesProps> = () => {
                                   );
                                 } else if (el === newArr[3]) {
                                   return (
-                                    <span key={index}>{element.basic.url}</span>
+                                    <a
+                                      href={element.basic.url}
+                                      target="_blank"
+                                      key={index}
+                                    >
+                                      {element.basic.url}
+                                    </a>
                                   );
                                 } else if (el === newArr[4]) {
                                   return (
