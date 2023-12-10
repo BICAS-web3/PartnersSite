@@ -273,7 +273,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
       name: "My Series",
       data: startTime?.amount?.map((el: number, i: number) => {
         return {
-          x: i === 0 ? periodFirst : periodFirst.timeline * i,
+          x: i === 0 ? periodFirst : periodFirst.period * i,
           y: el || 1,
         };
       }),

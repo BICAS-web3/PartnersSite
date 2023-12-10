@@ -34,6 +34,7 @@ import "swiper/scss";
 import s from "./styles.module.scss";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 import { useAccount } from "wagmi";
+import { WebsiteTableFilter } from "@/widgets/websitesUI";
 
 const periodsList = [
   {
@@ -147,13 +148,13 @@ let historyList = [
     id: "pageId",
     text: "-",
   },
+  // {
+  //   title: "Сайт",
+  //   id: "page",
+  //   text: "-",
+  // },
   {
-    title: "Сайт",
-    id: "page",
-    text: "-",
-  },
-  {
-    title: "ID игрока",
+    title: "SubID",
     id: "playerId",
     text: "-",
   },
@@ -162,18 +163,23 @@ let historyList = [
     id: "registrationDate",
     text: "-",
   },
+  // {
+  //   title: "Страна",
+  //   id: "country",
+  //   text: "-",
+  // },
+  // {
+  //   title: "Сумма депозитов",
+  //   id: "deposti_summ",
+  //   text: "-",
+  // },
+  // {
+  //   title: "Доход компаний общий",
+  //   id: "company_income",
+  //   text: "-",
+  // },
   {
-    title: "Страна",
-    id: "country",
-    text: "-",
-  },
-  {
-    title: "Сумма депозитов",
-    id: "deposti_summ",
-    text: "-",
-  },
-  {
-    title: "Доход компаний общий",
+    title: "Адрес игрока",
     id: "company_income",
     text: "-",
   },
@@ -187,7 +193,16 @@ interface IListProps {
 
 interface GamersProps {}
 
+interface IResponse {
+  id: number;
+  address: string;
+  timestamp: number;
+  site_id: number;
+  sub_id: number;
+}
+
 const Gamers: FC<GamersProps> = () => {
+  const [titleArr, setTitleArr] = useState(historyList.map((el) => el.title));
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
 
@@ -215,6 +230,14 @@ const Gamers: FC<GamersProps> = () => {
   const [currentCountry, setCurrentCountry] = useState<IListProps>({});
   const [currentCompany, setCurrentCompany] = useState<IListProps>({});
   const [mobTableOptions, setMobTableOpts] = useState(historyList);
+
+  useEffect(() => {
+    setActivePeriod({
+      title: "Сегодня",
+      id: "todaysPeriod",
+      timeType: "daily",
+    });
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -270,25 +293,26 @@ const Gamers: FC<GamersProps> = () => {
 
   const { address } = useAccount();
 
-  const [answerBody, setAnswerBody] = useState<any>();
+  const [answerBody, setAnswerBody] = useState<IResponse[] | any>();
   const [answerPlayerId, setAnswerPlayerId] = useState<any>();
   const [answerRegistrationDate, setAnswerRegistrationDate] = useState<any>();
   const [answerWebsiteId, setAnswerWebsiteId] = useState<any>();
 
-  useEffect(() => {
-    answerBody && setAnswerPlayerId(answerBody[0].address.slice(0, 5));
-    answerBody && setAnswerWebsiteId(answerBody[0].id);
-    answerBody &&
-      setAnswerRegistrationDate(
-        new Date(answerBody[0].timestamp * 1000).toDateString()
-      );
-  }, answerBody);
+  // useEffect(() => {
+  //   answerBody && setAnswerPlayerId(answerBody[0]?.address?.slice(0, 5));
+  //   answerBody && setAnswerWebsiteId(answerBody[0]?.id);
+  //   answerBody &&
+  //     setAnswerRegistrationDate(
+  //       new Date(answerBody[0]?.timestamp * 1000).toDateString()
+  //     );
+  // }, answerBody);
 
   console.log("DATA");
 
   useEffect(() => {
     (async () => {
       if (activePeriod && address && signature) {
+        console.log(666, activePeriod);
         const response = await api.getConnectedWallets({
           auth: signature,
           timestamp,
@@ -296,6 +320,26 @@ const Gamers: FC<GamersProps> = () => {
           period: activePeriod.timeType,
         });
         if (response.status === "OK") {
+          // if ((response.body as any)?.length <= 0) {
+          //   setAnswerBody([
+          //     {
+          //       id: 233,
+          //       address: "0xcf133a1233470fd50bb710276994e9f3c0e822f6",
+          //       timestamp: 1702218527,
+          //       site_id: 0,
+          //       sub_id: 0,
+          //     },
+          //     {
+          //       id: 233,
+          //       address: "0xcf133a1233470fd50bb710276994e9f3c0e822f6",
+          //       timestamp: 1702218527,
+          //       site_id: 0,
+          //       sub_id: 0,
+          //     },
+          //   ]);
+          // } else {
+          //   setAnswerBody(response.body);
+          // }
           setAnswerBody(response.body);
         }
         console.log("RESPONSESEE", response);
@@ -356,13 +400,25 @@ const Gamers: FC<GamersProps> = () => {
             itemId="directLink"
             activeTitle="websitesCompanyPeriodFilter"
           />
-          <AdaptiveChooser
+          {/* <AdaptiveChooser
             activeTitle="choose"
             list={historyList}
             currentFilterPage={currentFilterPage}
             setCurrentFilterPage={setCurrentFilterPage}
             setMobTableOpts={setMobTableOpts}
             blockTitle=""
+          /> */}
+          <WebsiteTableFilter
+            setCurrentFilterPage={setCurrentFilterPage}
+            currentFilterPage={currentFilterPage}
+            // setMobTableOpts={setMobTableOpts}
+            // activeOptions={mobTableOptions}
+            // setActiveOptions={setMobTableOpts}
+            list={answerBody}
+            // setMobileTableLing={setMobileTableLing}
+            setTitleArr={setTitleArr}
+            titleArr={titleArr}
+            isPartnerPage={true}
           />
           <div
             className={clsx(
@@ -430,12 +486,21 @@ const Gamers: FC<GamersProps> = () => {
               filterTitle="websitesCompanyPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            <AdaptiveFilterItem
+            {/* <AdaptiveFilterItem
               objTitle={`Выбрано ${mobTableOptions?.length} п.`}
               title="Показать"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
-            />
+            /> */}
+            <div
+              className="mobile_filter_item"
+              onClick={() => setCurrentFilterPage("websitesTableFilter")}
+            >
+              <span className="mobile_filter_item_title">Показать</span>
+              <span className="mobile_filter_item_picked_value">
+                Выбранsо {titleArr?.length ? titleArr?.length : 0} п.
+              </span>
+            </div>
             <div
               style={{
                 display: "flex",
@@ -565,18 +630,113 @@ const Gamers: FC<GamersProps> = () => {
         {closed && medium && <GenerateButton className={s.open_btn} />}
         <div className={s.options_container}>
           <div className={s.options_wrapper}>
-            <CustomDropDownChoose
+            {/* <CustomDropDownChoose
               list={historyList}
               allPicked={true}
               setActiveOptions={setActiveOpts}
               activeOptions={activeOpts}
+            /> */}
+            <CustomDropDownChoose
+              list={historyList}
+              setActiveOptions={setActiveOpts}
+              allPicked={true}
+              activeOptions={activeOpts}
+              titleArr={titleArr}
+              setTitleArr={setTitleArr}
+              isRefPage={true}
             />
           </div>
           <div className={s.export_wrapper}>
             <CustomDropdownInput list={exportList} activeItemId="export" />
           </div>
         </div>
-        <div className={s.slider_wrap}>
+
+        {answerBody && answerBody?.length > 0 && (
+          <div className={s.slider_wrap}>
+            <div className="scroll-bar"></div>{" "}
+            <Swiper
+              ref={swiperRef}
+              slidesPerView={"auto"}
+              direction="horizontal"
+              modules={[Scrollbar]}
+              scrollbar={{
+                el: ".scroll-bar",
+                draggable: true,
+              }}
+              spaceBetween={2}
+              centeredSlides={false}
+              className={s.swiper}
+            >
+              {titleArr.map((slide_title, index) => (
+                <SwiperSlide key={index} className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>
+                        {slide_title}
+                      </span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>
+                      {answerBody?.map((el: IResponse, i: number) => {
+                        if (slide_title === "ID сайта") {
+                          return <span key={i}>{el.site_id}</span>;
+                        } else if (slide_title === "SubID") {
+                          return <span key={i}>{el.sub_id}</span>;
+                        } else if (slide_title === "Дата регистрации") {
+                          const data = new Date(el.timestamp * 1000);
+                          return (
+                            <span key={i}>{`${`${data.getDay() + 1}`.padStart(
+                              2,
+                              "0"
+                            )}.${`${data.getMonth() + 1}`.padStart(
+                              2,
+                              "0"
+                            )}.${data.getFullYear()}`}</span>
+                          );
+                        } else if (slide_title === "Адрес игрока") {
+                          return <span key={i}>{el.address}</span>;
+                        }
+                      })}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
+        <div className={s.table_navigation_block}>
+          <div className={s.table_records_block}>
+            <p className={s.table_records_text}>
+              Записи с 1 по 1 (всего 1 записей)
+            </p>
+          </div>
+          <div className={s.table_pages_wrap}>
+            <div className={s.table_pages_block}>
+              <div className={s.table_prev_page_btn}>
+                <Image src={prevArrow} alt="prev-arr" />
+              </div>
+              <div className={s.table_current_page_btn}>1</div>
+              <div className={s.table_next_page_btn}>
+                <Image src={nextArrow} alt="next-arr" />
+              </div>
+            </div>
+            <div className={s.choose_table_rows_block}>
+              <CustomDropdownInput
+                list={tableRowsList}
+                activeItemId="ten"
+                height={30}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </Layout>
+  );
+};
+
+export default Gamers;
+{
+  /* <div className={s.slider_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
@@ -615,35 +775,5 @@ const Gamers: FC<GamersProps> = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-        </div>
-        <div className={s.table_navigation_block}>
-          <div className={s.table_records_block}>
-            <p className={s.table_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
-            </p>
-          </div>
-          <div className={s.table_pages_wrap}>
-            <div className={s.table_pages_block}>
-              <div className={s.table_prev_page_btn}>
-                <Image src={prevArrow} alt="prev-arr" />
-              </div>
-              <div className={s.table_current_page_btn}>1</div>
-              <div className={s.table_next_page_btn}>
-                <Image src={nextArrow} alt="next-arr" />
-              </div>
-            </div>
-            <div className={s.choose_table_rows_block}>
-              <CustomDropdownInput
-                list={tableRowsList}
-                activeItemId="ten"
-                height={30}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-    </Layout>
-  );
-};
-
-export default Gamers;
+        </div> */
+}

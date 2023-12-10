@@ -19,6 +19,7 @@ import leftArr from "@/public/media/common/prevArrow.png";
 import * as RegistrM from "@/widgets/header/model";
 import * as UserDataModel from "./model";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
+import { PreloadDots } from "@/shared/ui/ProloadDots";
 export const siteCategories = [
   {
     title: "Казино",
@@ -240,7 +241,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !selectedMessanger
     ) {
       setError(true);
-    } else {
+    } else if (signFirstMessageData) {
       setUserEmail(email);
       localStorage.setItem(`${address}-mail`, email);
       setUserCountry(selectedCountry);
@@ -525,7 +526,15 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             onClick={handleRegistration}
             className={s.register_submit_btn}
           >
-            {isConnected ? "Зарегистрироваться" : "Подключить кошелек"}
+            {isConnected ? (
+              signFirstMessageData ? (
+                "Зарегистрироваться"
+              ) : (
+                <PreloadDots title="Подождите" />
+              )
+            ) : (
+              "Подключить кошелек"
+            )}
           </button>
           <button
             onClick={() => setLogin(true)}

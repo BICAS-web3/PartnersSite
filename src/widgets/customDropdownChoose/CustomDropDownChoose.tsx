@@ -41,18 +41,16 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
       setStartList(list);
     }
   }, [list, apiGet]);
-  const [isAllPicked, setIsAllPicked] = useState(true);
+  const [isAllPicked, setIsAllPicked] = useState(false);
 
   const [updateList, setUpdateList] = useState<any>([]);
+  const [isUpdated, setIsUpdated] = useState(false);
   useEffect(() => {
-    if (isRefPage) {
+    if (isUpdated === false) {
       setUpdateList(titleArr);
-    } else {
-      if (updateList?.length <= 0 && list) {
-        list && setUpdateList(Object.keys((list && list[0])?.basic || []));
-      }
+      setIsUpdated(true);
     }
-  }, [list, updateList]);
+  }, [list, updateList, isUpdated]);
 
   const [startList, setStartList] = useState<any>();
 
@@ -73,6 +71,12 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
     setDeleteArr(updateList);
   }, [updateList]);
 
+  useEffect(() => {
+    if (titleArr?.length === updateList?.length) {
+      setIsAllPicked(true);
+    }
+  }, [titleArr, updateList]);
+
   return (
     <div
       ref={dropdownRef}
@@ -82,12 +86,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
     >
       <div className={s.active_dropdown_block} onClick={toggle}>
         <div className={s.active_dropdown_title_block}>
-          Выбрано{" "}
-          {titleArr?.length && list?.length > 0
-            ? isRefPage
-              ? titleArr?.length
-              : titleArr?.length - 1
-            : 0}{" "}
+          Выбрано {titleArr?.length && list?.length > 0 ? titleArr?.length : 0}{" "}
           п.
         </div>
         <div className={s.dropdown_ico_block}>
@@ -100,17 +99,9 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
             <span
               className={s.privacyPolicy_text}
               onClick={() => {
+                if (isAllPicked === true) return;
                 setIsAllPicked(!isAllPicked);
-                setTitleArr(
-                  startList
-                    .map((el: any) => el.title)
-                    .reduce((accumulator: string[], currentValue: string) => {
-                      if (!accumulator?.includes(currentValue)) {
-                        accumulator?.push(currentValue);
-                      }
-                      return accumulator;
-                    }, [])
-                );
+                setTitleArr(updateList);
               }}
             >
               <div className={`${s.checkbox} ${isAllPicked && s.checked}`}>
@@ -148,3 +139,11 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 //   setActiveOptions(activeItems);
 // });
 // const [activeItems, setActiveItems] = useState<any[]>([]);
+// startList
+//   .map((el: any) => el.title)
+//   .reduce((accumulator: string[], currentValue: string) => {
+//     if (!accumulator?.includes(currentValue)) {
+//       accumulator?.push(currentValue);
+//     }
+//     return accumulator;
+//   }, [])
