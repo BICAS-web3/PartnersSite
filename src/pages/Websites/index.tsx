@@ -184,7 +184,16 @@ const Websites: FC<WebsitesProps> = () => {
   }, [pageResponse, pageResponseUpdated, updateGetRequest]);
   useEffect(() => {
     if (pageResponseUpdated) {
-      setTitleArr(pageResponseUpdated.map((el: any) => el.title));
+      setTitleArr(
+        pageResponseUpdated
+          .map((el: any) => el.title)
+          .reduce((accumulator: string[], currentValue: string) => {
+            if (!accumulator?.includes(currentValue)) {
+              accumulator?.push(currentValue);
+            }
+            return accumulator;
+          }, [])
+      );
     }
   }, [pageResponseUpdated?.length]);
   const isMobile = useMediaQuery("(max-width:650px)");
@@ -299,51 +308,85 @@ const Websites: FC<WebsitesProps> = () => {
     } else if (!pageUrl || !pageType || validateWebPage(pageUrl) === false) {
       setError(true);
     } else {
-      const getLastId =
-        pageResponseUpdated &&
-        pageResponseUpdated[pageResponseUpdated?.length]?.id;
+      // const getLastId =
+      //   pageResponseUpdated &&
+      //   pageResponseUpdated[pageResponseUpdated?.length]?.id;
+      // setPageResponseUpdated((prev: any) => {
+      //   if (prev) {
+      //     return [
+      //       ...prev,
+      //       {
+      //         title: "ID",
+      //         id: getLastId && getLastId + 1,
+      //         text: getLastId && getLastId + 1,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Сайт",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageUrl,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Состояние",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageType,
+      //         typeFilter: pageType,
+      //       },
+      //     ];
+      //   } else {
+      //     return [
+      //       {
+      //         title: "ID",
+      //         id: getLastId && getLastId + 1,
+      //         text: getLastId && getLastId + 1,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Сайт",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageUrl,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Состояние",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageType,
+      //         typeFilter: pageType,
+      //       },
+      //     ];
+      //   }
+      // });
       setPageResponseUpdated((prev: any) => {
-        if (prev) {
+        if (prev && Array.isArray(prev)) {
           return [
             ...prev,
             {
-              title: "ID",
-              id: getLastId && getLastId + 1,
-              text: getLastId && getLastId + 1,
-              typeFilter: pageType,
-            },
-            {
-              title: "Сайт",
-              id: getLastId && getLastId + 1,
-              text: pageUrl,
-              typeFilter: pageType,
-            },
-            {
-              title: "Состояние",
-              id: getLastId && getLastId + 1,
-              text: pageType,
-              typeFilter: pageType,
+              basic: {
+                internal_id:
+                  prev && prev[prev?.length - 1].basic?.internal_id + 1,
+                id: prev && prev[prev?.length - 1].basic?.id,
+                name: pageType,
+                url: pageUrl,
+                partner_id:
+                  prev && prev[prev?.length - 1].basic?.partner_id + 1,
+              },
+              sub_ids: [],
             },
           ];
         } else {
           return [
             {
-              title: "ID",
-              id: getLastId && getLastId + 1,
-              text: getLastId && getLastId + 1,
-              typeFilter: pageType,
-            },
-            {
-              title: "Сайт",
-              id: getLastId && getLastId + 1,
-              text: pageUrl,
-              typeFilter: pageType,
-            },
-            {
-              title: "Состояние",
-              id: getLastId && getLastId + 1,
-              text: pageType,
-              typeFilter: pageType,
+              basic: {
+                internal_id:
+                  prev && prev[prev?.length - 1].basic?.internal_id + 1,
+                id: prev && prev[prev?.length - 1].basic?.id,
+                name: pageType,
+                url: pageUrl,
+                partner_id:
+                  prev && prev[prev?.length - 1].basic?.partner_id + 1,
+              },
+              sub_ids: [],
             },
           ];
         }
@@ -456,6 +499,9 @@ const Websites: FC<WebsitesProps> = () => {
                 setMobTableOpts={setMobTableOpts}
                 startOptions={pageResponseUpdated}
                 list={pageResponseUpdated}
+                custom={true}
+                categotyFilter={categotyFilter}
+                setCategoryFilter={setCategoryFilter}
               />
               <WebsiteLanguageFilter
                 setCurrentFilterPage={setCurrentFilterPage}
@@ -471,6 +517,7 @@ const Websites: FC<WebsitesProps> = () => {
                 list={pageResponseUpdated}
                 setMobileTableLing={setMobileTableLing}
                 setTitleArr={setTitleArr}
+                titleArr={titleArr}
               />
               <div
                 className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
@@ -520,7 +567,7 @@ const Websites: FC<WebsitesProps> = () => {
                 >
                   <span className="mobile_filter_item_title">Показать</span>
                   <span className="mobile_filter_item_picked_value">
-                    Выбрано {mobileTableLeng} п.
+                    Выбранsо {titleArr?.length ? titleArr?.length - 1 : 0} п.
                   </span>
                 </div>
 
@@ -613,6 +660,7 @@ const Websites: FC<WebsitesProps> = () => {
                 setActiveOptions={setActiveOptions}
                 activeOptions={activeOptions}
                 setTitleArr={setTitleArr}
+                titleArr={titleArr}
               />
             </div>
           </div>
@@ -746,27 +794,3 @@ const Websites: FC<WebsitesProps> = () => {
 };
 
 export default Websites;
-
-//  {
-//    (isMobile ? mobTableOptions : activeOptions)?.map(
-//      (item: IPagesResponse, ind: number) => <></>
-//    );
-//  }
-
-// <SwiperSlide
-//   className={s.swiper_slide}
-//   key={ind}
-//   data-id={item?.basic.}
-// >
-//   <div className={s.swiper_slide_body}>
-//     <div className={s.swiper_slide_header}>
-//       <span className={s.swiper_slide_title}>
-//         {item?.title}
-//       </span>
-//       <Image src={upDownArrows} alt="sort-ico" />
-//     </div>
-//     <div className={s.swiper_slide_content}>
-//       {item?.title === "ID" ? item?.text + 1 : item?.text}
-//     </div>
-//   </div>
-// </SwiperSlide>

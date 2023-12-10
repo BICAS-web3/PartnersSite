@@ -13,6 +13,7 @@ interface CustomDropDownItemProps {
   setDeleteArr: any;
   deleteArr: any;
   setTitleArr?: any;
+  setIsAllPicked?: any;
 }
 
 export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
@@ -23,6 +24,7 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
   setDeleteArr,
   deleteArr,
   setTitleArr,
+  setIsAllPicked,
 }) => {
   const [checked, setChecked] = useState(true);
   const [filterActive, setFilterActive] = useState("");
@@ -90,6 +92,7 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
           setTitleArr((prev: string[]) => {
             if (Array.isArray(prev) && prev && prev?.length > 0) {
               if (prev.includes(item)) {
+                setIsAllPicked(false);
                 return prev.filter((el) => el !== item);
               } else {
                 return [...prev, item];

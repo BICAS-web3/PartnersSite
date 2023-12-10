@@ -13,6 +13,7 @@ interface MobileChooseListProps {
   activeOptions?: any;
   setMobileTableLing?: any;
   setTitleArr?: any;
+  titleArr?: string[];
 }
 
 export const MobileChooseList: FC<MobileChooseListProps> = ({
@@ -25,6 +26,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   activeOptions,
   setMobileTableLing,
   setTitleArr,
+  titleArr,
 }) => {
   const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
   const [activeItems, setActiveItems] = useState<any>([]);
@@ -112,6 +114,17 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             onClick={() => {
               setDeleteArr(updateList);
               setClick(true);
+              setTitleArr(
+                startList
+                  .map((el: any) => el.title)
+                  .reduce((accumulator: string[], currentValue: string) => {
+                    if (!accumulator?.includes(currentValue)) {
+                      accumulator?.push(currentValue);
+                    }
+                    return accumulator;
+                  }, [])
+              );
+              setIsAllPicked((prev) => !prev);
             }}
             style={{
               flexDirection: subscribesStyles ? "row-reverse" : "row",

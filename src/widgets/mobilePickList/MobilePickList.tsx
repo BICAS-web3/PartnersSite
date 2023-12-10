@@ -10,6 +10,9 @@ interface MobilePickListProps {
   setCurrent: any;
   setMobTableOpts?: any;
   startOptions: any;
+  custom?: boolean;
+  categotyFilter?: string;
+  setCategoryFilter?: (el: string) => void;
 }
 
 export const MobilePickList: FC<MobilePickListProps> = ({
@@ -18,6 +21,9 @@ export const MobilePickList: FC<MobilePickListProps> = ({
   setCurrent,
   setMobTableOpts,
   startOptions,
+  custom,
+  categotyFilter,
+  setCategoryFilter,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item?.id === activeItemId)[0] : null
@@ -38,13 +44,17 @@ export const MobilePickList: FC<MobilePickListProps> = ({
           <div
             key={ind}
             className={`${s.mobile_pick_list_item} ${
-              activeItem?.id === item?.id && s.active
+              custom
+                ? categotyFilter === item?.title && s.active
+                : activeItem?.id === item?.id && s.active
             }`}
             onClick={() => {
-              setActiveItem(item);
-              setCurrent(() =>
-                startOptions.filter((el: any) => el.typeFilter === item.title)
-              );
+              custom && setCategoryFilter && setCategoryFilter(item.title);
+              !custom && setActiveItem(item);
+              !custom &&
+                setCurrent(() =>
+                  startOptions.filter((el: any) => el.typeFilter === item.title)
+                );
             }} //
           >
             <div className={s.mob_pick_list_header}>

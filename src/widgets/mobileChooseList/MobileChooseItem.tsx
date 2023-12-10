@@ -105,6 +105,7 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
           setTitleArr((prev: string[]) => {
             if (Array.isArray(prev) && prev && prev?.length > 0) {
               if (prev.includes(item)) {
+                setAllpicked(false);
                 return prev.filter((el) => el !== item);
               } else {
                 return [...prev, item];

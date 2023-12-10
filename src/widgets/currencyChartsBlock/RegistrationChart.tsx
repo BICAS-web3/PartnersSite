@@ -1,9 +1,15 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface RegistrationChartProps {}
 
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/shared/tools";
+import * as PeriodModel from "@/widgets/dashboard/model";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { useUnit } from "effector-react";
+import { useAccount } from "wagmi";
+import * as api from "@/shared/api/";
+import * as TimeTypeM from "./model";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -23,6 +29,46 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
     "00:00",
     "03:00",
   ];
+
+  const [periodSecond, signature, timestamp, timeType] = useUnit([
+    PeriodModel.$periodSecond,
+    ContactModel.$signature,
+    ContactModel.$timestamp,
+    TimeTypeM.$periodType,
+  ]);
+
+  const { address } = useAccount();
+
+  const [registrationsBody, setRegistrationsBody] = useState<any>();
+  const [depositedAccount, setDepositedAccounts] = useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      if (periodSecond && address) {
+        const response = await api.getUsersRegistrationChart({
+          auth: signature,
+          timestamp,
+          wallet: address?.toLowerCase(),
+          endTime: periodSecond,
+        });
+        if (response.status === "OK") {
+          setRegistrationsBody(response.body);
+        }
+        console.log("second chart response", response);
+
+        const response2 = await api.getDepositedUsers({
+          auth: signature,
+          timestamp,
+          wallet: address?.toLowerCase(),
+          period: timeType,
+        });
+        if (response2.status === "OK") {
+          setDepositedAccounts(response2.body);
+        }
+        console.log("deposited back response", response);
+      }
+    })();
+  }, [periodSecond, signature, timeType]);
 
   const options = {
     chart: {
@@ -238,16 +284,11 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
   const series = [
     {
       name: "Регистрация",
-      data: [
-        0, 1.2, 1.4, 1.5, 1.7, 1.8, 1.9, 1.5, 1.3, 1.2, 1.5, 1.7, 1.1, 1.2, 1.4,
-      ],
+      data: [registrationsBody?.connected_wallets || 1],
     },
     {
       name: "Новые аккаунты с депозитами",
-      data: [
-        0.4, 2.5, 2.7, 2.4, 2.5, 2.6, 2.1, 2.7, 2.8, 2.9, 2.4, 2.2, 2.1, 2.5,
-        2.5,
-      ],
+      data: [depositedAccount?.connected_wallets || 2],
     },
     {
       name: "Сумма коммиссий",

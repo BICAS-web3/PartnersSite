@@ -12,6 +12,9 @@ interface WebsiteCategoryFilterProps {
   setMobTableOpts: any;
   startOptions: any;
   list?: any;
+  custom?: boolean;
+  categotyFilter?: string;
+  setCategoryFilter?: (el: string) => void;
 }
 
 export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
@@ -20,6 +23,9 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
   setCurrentSiteCategory,
   setMobTableOpts,
   list,
+  custom,
+  categotyFilter,
+  setCategoryFilter,
 }) => {
   const [startList, setStartList] = useState<any>();
   const [getApi, setGetApi] = useState(true);
@@ -57,6 +63,9 @@ export const WebsiteCategoryFilter: FC<WebsiteCategoryFilterProps> = ({
           activeItemId="sportsForecasts"
           setCurrent={setCurrentSiteCategory}
           startOptions={startList}
+          custom={true}
+          categotyFilter={categotyFilter}
+          setCategoryFilter={setCategoryFilter}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

@@ -14,6 +14,7 @@ interface CustomDropDownChooseProps {
   allPicked?: boolean;
   activeOptions: any[];
   setTitleArr?: any;
+  titleArr?: string[];
 }
 
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
@@ -21,6 +22,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   setActiveOptions,
   activeOptions,
   setTitleArr,
+  titleArr,
 }) => {
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
@@ -73,8 +75,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
     >
       <div className={s.active_dropdown_block} onClick={toggle}>
         <div className={s.active_dropdown_title_block}>
-          Выбрано{" "}
-          {[...new Set(activeOptions?.map((el: any) => el?.title))]?.length} п.
+          Выбрано {titleArr?.length ? titleArr?.length - 1 : 0} п.
         </div>
         <div className={s.dropdown_ico_block}>
           <HeaderDropdownArrow />
@@ -85,7 +86,19 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
           <div className={s.cont}>
             <span
               className={s.privacyPolicy_text}
-              onClick={() => setIsAllPicked(!isAllPicked)}
+              onClick={() => {
+                setIsAllPicked(!isAllPicked);
+                setTitleArr(
+                  startList
+                    .map((el: any) => el.title)
+                    .reduce((accumulator: string[], currentValue: string) => {
+                      if (!accumulator?.includes(currentValue)) {
+                        accumulator?.push(currentValue);
+                      }
+                      return accumulator;
+                    }, [])
+                );
+              }}
             >
               <div className={`${s.checkbox} ${isAllPicked && s.checked}`}>
                 <CheckBoxIco />
@@ -103,6 +116,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               item={item}
               allPicked={isAllPicked}
               setTitleArr={setTitleArr}
+              setIsAllPicked={setIsAllPicked}
             />
           ))}
         </div>

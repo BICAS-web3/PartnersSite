@@ -19,6 +19,7 @@ interface CustomDropdownInputProps {
   setCategoryFilter?: (el: string) => void;
   custom?: boolean;
   categotyFilter?: string;
+  setActiveInner?: any;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -33,12 +34,14 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   setCategoryFilter,
   custom,
   categotyFilter,
+  setActiveInner,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
   );
 
   useEffect(() => {
+    setActiveInner && setActiveInner(activeItem);
     setSelectedValue;
     setSelectedValue && setSelectedValue(activeItem?.title);
   }, [activeItem]);
