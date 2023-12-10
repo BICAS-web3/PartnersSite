@@ -31,12 +31,6 @@ export const Header: FC<HeaderProps> = () => {
     HeaderModel.$readyUpdate,
   ]);
 
-  useEffect(() => {
-    if (isSuccess) {
-      setReadyUpdate(true);
-    }
-  }, [isSuccess]);
-
   const [setIsAuthed, isAuthed] = useUnit([
     AuthModel.setIsAuthed,
     AuthModel.$isAuthed,
@@ -151,13 +145,13 @@ export const Header: FC<HeaderProps> = () => {
     }
   }, [localEmail, localName, localLastName, readyUpdate]);
 
-  useEffect(() => {
-    isConnected && setUpdateSignature(true);
-  }, []);
+  // useEffect(() => {
+  //   isConnected && setUpdateSignature(true);
+  // }, []);
 
   useEffect(() => {
     (async () => {
-      if (callContactReg) {
+      if (callContactReg && signature && timestamp) {
         await api.registerContact({
           wallet: address!.toLowerCase(),
           auth: signature,
@@ -203,7 +197,7 @@ export const Header: FC<HeaderProps> = () => {
         });
       }
     })();
-  }, [callContactReg]);
+  }, [callContactReg, signature]);
 
   useEffect(() => {
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -243,7 +237,8 @@ export const Header: FC<HeaderProps> = () => {
         !responseBody &&
         isAuthed &&
         handleRequest &&
-        readyUpdate
+        readyUpdate &&
+        signature
       ) {
         const respobse = await api.getUserData({
           wallet: address.toLowerCase() as string,
@@ -254,7 +249,7 @@ export const Header: FC<HeaderProps> = () => {
         setHandleRequest(false);
       }
     })();
-  }, [responseBody, isAuthed, handleRequest, readyUpdate]);
+  }, [responseBody, isAuthed, handleRequest, readyUpdate, signature]);
   useEffect(() => {
     if (responseBody && isAuthed) {
       setUserMessangerValue(

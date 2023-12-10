@@ -247,7 +247,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address && readyUpdate) {
+      if (isConnected && isAuthed && address && readyUpdate && signature) {
         const data = await api.getUserSites({
           wallet: address?.toLowerCase(),
           auth: signature,
@@ -258,7 +258,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
         }
       }
     })();
-  }, [address, isConnected, isAuthed, readyUpdate]);
+  }, [address, isConnected, isAuthed, readyUpdate, signature]);
   const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
   return (
     <Layout activePage="partnersRef">

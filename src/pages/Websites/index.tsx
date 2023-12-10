@@ -283,7 +283,8 @@ const Websites: FC<WebsitesProps> = () => {
         addPage &&
         pageType &&
         pageUrl &&
-        readyUpdate
+        readyUpdate &&
+        signature
       ) {
         await api.registerPage({
           name: pageType,
@@ -297,7 +298,7 @@ const Websites: FC<WebsitesProps> = () => {
         setAddPage(false);
       }
     })();
-  }, [isConnected, address, addPage, readyUpdate]);
+  }, [isConnected, address, addPage, readyUpdate, signature]);
 
   const navigation = useRouter();
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
@@ -437,11 +438,18 @@ const Websites: FC<WebsitesProps> = () => {
         }
       }
     })();
-  }, [address, isConnected, isAuthed, updateGetRequest, readyUpdate]);
+  }, [
+    address,
+    isConnected,
+    isAuthed,
+    updateGetRequest,
+    readyUpdate,
+    signature,
+  ]);
 
   useEffect(() => {
     (async () => {
-      if (subidPage && address && addSubid && readyUpdate) {
+      if (subidPage && address && addSubid && readyUpdate && signature) {
         const response = await api.registerSubId({
           timestamp,
           wallet: address?.toLowerCase(),
@@ -453,7 +461,7 @@ const Websites: FC<WebsitesProps> = () => {
         console.log("---response---", response);
       }
     })();
-  }, [subidPage, addSubid, readyUpdate]);
+  }, [subidPage, addSubid, readyUpdate, signature]);
 
   function validateWebPage(webPage: string) {
     const urlRegex =
