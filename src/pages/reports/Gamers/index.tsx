@@ -5,7 +5,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
-
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { Layout } from "@/widgets/layout/Layout";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { $isSidebarOpened } from "@/widgets/sidebar/model";
@@ -20,7 +20,7 @@ import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterI
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import { AdaptiveExportButton } from "@/widgets/adaptiveExportButton/AdaptiveExportButton";
-
+import * as api from "@/shared/api/";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
 import prevArrow from "@/public/media/common/prevArrow.png";
@@ -33,35 +33,28 @@ import { tableRowsList } from "../../Websites";
 import "swiper/scss";
 import s from "./styles.module.scss";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import { useAccount } from "wagmi";
 
 const periodsList = [
   {
-    title: "Произвольный период",
-    id: "arbitraryPeriod",
-  },
-  {
     title: "Сегодня",
     id: "todaysPeriod",
+    timeType: "daily",
   },
   {
-    title: "Вчера",
+    title: "Текущая неделя",
     id: "yesterdaysPeriod",
+    timeType: "weekly",
   },
   {
     title: "Текущий месяц",
     id: "currentMonthPeriod",
+    timeType: "monthly",
   },
   {
-    title: "Прошлый месяц",
+    title: "За все время",
     id: "lastMonthPeriod",
-  },
-  {
-    title: "Текущий год",
-    id: "currentYearPeriod",
-  },
-  {
-    title: "Прошлый год",
-    id: "lastYearPeriod",
+    timeType: "all",
   },
 ];
 
@@ -148,35 +141,25 @@ const companyList = [
   },
 ];
 
-const historyList = [
+let historyList = [
   {
     title: "ID сайта",
-    id: "id_page",
+    id: "pageId",
     text: "-",
   },
   {
-    title: "ID инструмента",
-    id: "id_instrument",
-    text: "-",
-  },
-  {
-    title: "SUBID",
-    id: "subid",
-    text: "-",
-  },
-  {
-    title: "CLICKID",
-    id: "clicked",
+    title: "Сайт",
+    id: "page",
     text: "-",
   },
   {
     title: "ID игрока",
-    id: "id_players",
+    id: "playerId",
     text: "-",
   },
   {
     title: "Дата регистрации",
-    id: "data_registration",
+    id: "registrationDate",
     text: "-",
   },
   {
@@ -192,11 +175,6 @@ const historyList = [
   {
     title: "Доход компаний общий",
     id: "company_income",
-    text: "-",
-  },
-  {
-    title: "Сайт",
-    id: "page",
     text: "-",
   },
 ];
@@ -226,6 +204,9 @@ const Gamers: FC<GamersProps> = () => {
   const [isExport, setIsExport] = useState(false);
   const [checkedPlayers, setCheckedPlayers] = useState(true);
   const [checkedDeposit, setCheckedDeposit] = useState(true);
+  const [activePeriod, setActivePeriod] = useState<any>();
+
+  console.log("ACTIVE PERIOD", activePeriod);
 
   const [currentFilterPage, setCurrentFilterPage] = useState("");
   const [currentCurrency, setCurrentCurrency] = useState<IListProps>({});
@@ -282,6 +263,46 @@ const Gamers: FC<GamersProps> = () => {
     setIsFilter(true);
   };
 
+  const [signature, timestamp] = useUnit([
+    ContactModel.$signature,
+    ContactModel.$timestamp,
+  ]);
+
+  const { address } = useAccount();
+
+  const [answerBody, setAnswerBody] = useState<any>();
+  const [answerPlayerId, setAnswerPlayerId] = useState<any>();
+  const [answerRegistrationDate, setAnswerRegistrationDate] = useState<any>();
+  const [answerWebsiteId, setAnswerWebsiteId] = useState<any>();
+
+  useEffect(() => {
+    answerBody && setAnswerPlayerId(answerBody[0].address.slice(0, 5));
+    answerBody && setAnswerWebsiteId(answerBody[0].id);
+    answerBody &&
+      setAnswerRegistrationDate(
+        new Date(answerBody[0].timestamp * 1000).toDateString()
+      );
+  }, answerBody);
+
+  console.log("DATA");
+
+  useEffect(() => {
+    (async () => {
+      if (activePeriod && address) {
+        const response = await api.getConnectedWallets({
+          auth: signature,
+          timestamp,
+          wallet: address?.toLowerCase(),
+          period: activePeriod.timeType,
+        });
+        if (response.status === "OK") {
+          setAnswerBody(response.body);
+        }
+        console.log("RESPONSESEE", response);
+      }
+    })();
+  }, [activePeriod, signature]);
+
   return (
     <Layout activePage="byGamers">
       <section className={s.gamers_section}>
@@ -313,9 +334,7 @@ const Gamers: FC<GamersProps> = () => {
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
-            list={periodsList.concat([
-              { title: "Выбрать вручную", id: "mobilePeriodManually" },
-            ])}
+            list={periodsList}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
             itemId="currentMonthPeriod"
@@ -379,7 +398,7 @@ const Gamers: FC<GamersProps> = () => {
               <button className="mob_save_btn">Сохранить</button>
             </div>
           </div>
-          <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
+          <BackHead title="Фильтры" setIsOpen={setIsFilter} />
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
               objTitle={currentCurrency}
@@ -491,7 +510,10 @@ const Gamers: FC<GamersProps> = () => {
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Период</span>
-            <CustomDropdownInput list={periodsList} />
+            <CustomDropdownInput
+              list={periodsList}
+              setActiveInner={setActivePeriod}
+            />
           </div>
           <DataSettings
             className={s.data_settings}
@@ -580,7 +602,15 @@ const Gamers: FC<GamersProps> = () => {
                     <span className={s.swiper_slide_title}>{item.title}</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
-                  <div className={s.swiper_slide_content}>{item.text}</div>
+                  <div className={s.swiper_slide_content}>
+                    {item.id === "playerId"
+                      ? answerPlayerId
+                      : item.id === "registrationDate"
+                      ? answerRegistrationDate
+                      : item.id === "pageId"
+                      ? answerWebsiteId
+                      : item.text}
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
