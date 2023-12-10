@@ -239,7 +239,7 @@ export type T_RegisterChart = {
   wallet: string;
   auth: string;
   endTime: number;
-  step: number;
+  step?: number;
 };
 
 export type T_DepositedUsers = {

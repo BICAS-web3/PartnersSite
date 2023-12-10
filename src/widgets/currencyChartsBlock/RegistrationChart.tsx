@@ -49,7 +49,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
           auth: signature,
           timestamp,
           wallet: address?.toLowerCase(),
-          endTime: periodSecond,
+          endTime: periodSecond.timeline,
         });
         if (response.status === "OK") {
           setRegistrationsBody(response.body);
