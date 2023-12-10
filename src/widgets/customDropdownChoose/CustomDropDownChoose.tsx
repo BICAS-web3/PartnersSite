@@ -43,8 +43,8 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   const [updateList, setUpdateList] = useState<any>([]);
   useEffect(() => {
-    if (updateList?.length <= 0) {
-      list && setUpdateList(Object?.keys((list && list[0])?.basic));
+    if (updateList?.length <= 0 && list) {
+      list && setUpdateList(Object.keys((list && list[0])?.basic || []));
     }
   }, [list, updateList]);
 
@@ -52,8 +52,9 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   useEffect(() => {
     if (
+      startList &&
       list &&
-      Object?.keys(startList[0]?.basic)?.length === updateList?.length
+      Object.keys(startList[0]?.basic || [])?.length === updateList?.length
     ) {
       setIsAllPicked(true);
     } else {
