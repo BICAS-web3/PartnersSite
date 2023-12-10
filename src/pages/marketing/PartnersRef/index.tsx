@@ -521,7 +521,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                     <div className={s.swiper_slide_content}>
                       {pageResponseUpdated?.map(
                         (el: IChangeResponse, i: number) => (
-                          <span key={i}>{el.basic_url}</span>
+                          <a target="_blank" href={el.basic_url} key={i}>
+                            {el.basic_url}
+                          </a>
                         )
                       )}
                     </div>
@@ -561,7 +563,14 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                       <div className={s.swiper_slide_content}>
                         {pageResponseUpdated?.map(
                           (el: IChangeResponse, i: number) => (
-                            <span key={i}>{el.sub_ids_url}</span>
+                            <a
+                              href={el.sub_ids_url}
+                              target="_blank"
+                              style={{ cursor: "pointer" }}
+                              key={i}
+                            >
+                              {el.sub_ids_url}
+                            </a>
                           )
                         )}
                       </div>
