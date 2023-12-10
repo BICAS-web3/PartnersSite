@@ -19,6 +19,16 @@ import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterI
 import { AdaptiveInput } from "@/widgets/adaptiveInput/AdaptiveInput";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { PartnerfRefTable } from "../../../widgets/partnersRefTable/Table";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import * as HeaderModel from "@/widgets/header/model";
+
+import * as api from "@/shared/api";
+import { useMediaQuery } from "@/shared/tools";
+import { useUnit } from "effector-react";
+import { useAccount } from "wagmi";
+import * as AuthModel from "@/widgets/welcomePageInitial/model";
+import { WebsiteTableFilter } from "@/widgets/websitesUI";
+import clsx from "clsx";
 
 export const sitesList = [
   {
@@ -81,14 +91,45 @@ const options = [
     id: "redRef",
     text: "-",
   },
-  {
-    title: "Валюта",
-    id: "PartnersPageCurrency",
-    text: "-",
-  },
+  // {
+  //   title: "Валюта",
+  //   id: "PartnersPageCurrency",
+  //   text: "-",
+  // },
 ];
 
 interface PartnersRefProps {}
+export interface IPagesResponse {
+  title?: string;
+  basic: {
+    internal_id: number;
+    id: number;
+    name: string;
+    url: string;
+    partner_id: string;
+  };
+  sub_ids: {
+    internal_id: number;
+    id: number;
+    name: string;
+    url: string;
+    site_id: number;
+    partner_id: string;
+  }[];
+}
+
+interface IChangeResponse {
+  basic_internal_id: number;
+  basic_id: number;
+  basic_name: string;
+  basic_url: string;
+  basic_partner_id: string;
+  sub_ids_internal_id: string;
+  sub_ids_id: string;
+  sub_ids_name: string;
+  sub_ids_url: string;
+  sub_ids_partner_id: string;
+}
 
 const PartnersRef: FC<PartnersRefProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -111,7 +152,11 @@ const PartnersRef: FC<PartnersRefProps> = () => {
       }
     | any
   >([]);
+  const [pageResponseUpdated, setPageResponseUpdated] = useState<
+    IChangeResponse[] | any
+  >();
 
+  const { isConnected, address } = useAccount();
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -144,10 +189,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   setActiveOpts(mobTableCols);
-  // }, [is650]);
+  const isMobile = useMediaQuery("(max-width:650px)");
 
+  const [isAuthed] = useUnit([AuthModel.$isAuthed]);
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -170,6 +214,52 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
   };
+  const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
+  useEffect(() => {
+    if (
+      (pageResponse && !pageResponseUpdated) ||
+      (pageResponse && pageResponseUpdated && pageResponseUpdated.length >= 1)
+    ) {
+      const change = pageResponse?.map((el, i) => {
+        return el.sub_ids.map((value) => {
+          return {
+            basic_internal_id: el.basic.internal_id,
+            basic_id: el.basic.id,
+            basic_name: el.basic.name,
+            basic_url: el.basic.url,
+            basic_partner_id: el.basic.partner_id,
+            sub_ids_internal_id: value.internal_id,
+            sub_ids_id: value.id,
+            sub_ids_name: value.name,
+            sub_ids_url: value.url,
+            sub_ids_partner_id: value.partner_id,
+          };
+        });
+      });
+      setPageResponseUpdated(change.flat());
+    }
+  }, [pageResponse, pageResponseUpdated]);
+  const [categotyFilter, setCategoryFilter] = useState("");
+  const [timestamp, signature] = useUnit([
+    ContactModel.$timestamp,
+    ContactModel.$signature,
+  ]);
+  const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
+  useEffect(() => {
+    (async () => {
+      if (isConnected && isAuthed && address && readyUpdate) {
+        const data = await api.getUserSites({
+          wallet: address?.toLowerCase(),
+          auth: signature,
+          timestamp,
+        });
+        if (data.status === "OK") {
+          setPageResponse(data.body as api.T_UserSitesResp);
+        }
+      }
+    })();
+  }, [address, isConnected, isAuthed, readyUpdate]);
+  const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
   return (
     <Layout activePage="partnersRef">
       <section className={s.partners_ref_page}>
@@ -228,13 +318,28 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 setValue={setMobCPageInputValue}
                 value={mobCPageInputValue}
               />
-              <AdaptiveChooser
+              {/* <AdaptiveChooser
                 currentFilterPage={currentFilterPage}
                 activeTitle="partnersRefTableFilter"
                 blockTitle="Сортировка таблицы"
                 setCurrentFilterPage={setCurrentFilterPage}
                 setMobTableOpts={setMobTableCols}
                 list={options}
+                isPartnerRef={true}
+                titleArr={titleArr}
+                setTitleArr={setTitleArr}
+              /> */}
+              <WebsiteTableFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                // setMobTableOpts={setMobTableOpts}
+                // activeOptions={mobTableOptions}
+                // setActiveOptions={setMobTableOpts}
+                list={pageResponseUpdated}
+                // setMobileTableLing={setMobileTableLing}
+                setTitleArr={setTitleArr}
+                titleArr={titleArr}
+                isPartnerPage={true}
               />
               <div
                 className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
@@ -281,12 +386,25 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                   filterTitle="partnersRefCPageFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
-                <AdaptiveFilterItem
-                  objTitle={`Выбрано ${mobTableCols.length} п.`}
+                {/* <AdaptiveFilterItem
+                  objTitle={`Выбрано ${titleArr.length} п.`}
                   title="Показать"
                   filterTitle="partnersRefTableFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
-                />
+                  setTitleArr={setTitleArr}
+                  titleArr={titleArr}
+                  setActiveOptions={setPageResponseUpdated}
+                  list={pageResponseUpdated}
+                /> */}
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesTableFilter")}
+                >
+                  <span className="mobile_filter_item_title">Показать</span>
+                  <span className="mobile_filter_item_picked_value">
+                    Выбранsо {titleArr?.length ? titleArr?.length : 0} п.
+                  </span>
+                </div>
                 <div className={s.mob_subid_filter_input_wrap}>
                   <input
                     type="text"
@@ -356,14 +474,152 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             setActiveOptions={setActiveOpts}
             allPicked={true}
             activeOptions={activeOpts}
+            titleArr={titleArr}
+            setTitleArr={setTitleArr}
+            isRefPage={true}
           />
         </div>
-        <PartnerfRefTable
-          cols={is650 ? mobTableCols : activeOpts}
-          is650={is650}
-          is700={is700}
-          is1280={is1280}
-        />
+
+        {pageResponseUpdated && (
+          <div className={s.table_wrap}>
+            <div className="scroll-bar"></div>{" "}
+            <Swiper
+              ref={swiperRef}
+              slidesPerView={isMobile ? 2.5 : "auto"}
+              direction="horizontal"
+              modules={[Scrollbar]}
+              scrollbar={{
+                el: ".scroll-bar",
+                draggable: true,
+              }}
+              spaceBetween={2}
+              centeredSlides={false}
+              className={s.swiper}
+            >
+              {titleArr.includes("№") && (
+                <SwiperSlide className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>№</span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>
+                      {pageResponseUpdated?.map((_: any, i: number) => (
+                        <span key={i}>{i}</span>
+                      ))}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )}
+              {titleArr.includes("Сайт") && (
+                <SwiperSlide className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>Сайт</span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>
+                      {pageResponseUpdated?.map(
+                        (el: IChangeResponse, i: number) => (
+                          <span key={i}>{el.basic_url}</span>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )}
+              {titleArr.includes("Состояние") && (
+                <SwiperSlide className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>Состояние</span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>
+                      {pageResponseUpdated?.map((_: any, i: number) => (
+                        <span key={i}>Активен</span>
+                      ))}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )}
+              {titleArr.includes("Целевая страница") && (
+                <SwiperSlide className={s.swiper_slide}>
+                  <SwiperSlide className={s.swiper_slide}>
+                    <div className={s.swiper_slide_body}>
+                      <div
+                        className={clsx(
+                          s.swiper_slide_header,
+                          s.swiper_no_border
+                        )}
+                      >
+                        <span className={s.swiper_slide_title}>
+                          Целевая страница
+                        </span>
+                        <Image src={upDownArrows} alt="sort-ico" />
+                      </div>
+                      <div className={s.swiper_slide_content}>
+                        {pageResponseUpdated?.map(
+                          (el: IChangeResponse, i: number) => (
+                            <span key={i}>{el.sub_ids_url}</span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                </SwiperSlide>
+              )}
+              {titleArr.includes("SubID") && (
+                <SwiperSlide className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>SubID</span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>
+                      {pageResponseUpdated?.map(
+                        (el: IChangeResponse, i: number) => (
+                          <span key={i}>{el.sub_ids_id}</span>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )}
+              {titleArr.includes("Готовая ссылка") && (
+                <SwiperSlide className={s.swiper_slide}>
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>
+                        Готовая ссылка
+                      </span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>
+                      {pageResponseUpdated?.map(
+                        (el: IChangeResponse, i: number) => (
+                          <span
+                            className={s.swiper_text_copy}
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                `https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                                  el.basic_id
+                                }&sub_id=${el.sub_ids_id}`
+                              )
+                            }
+                            key={i}
+                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                            el.basic_id
+                          }&sub_id=${el.sub_ids_id}`}</span>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )}
+            </Swiper>
+          </div>
+        )}
         <div className={s.table_nav_block}>
           <div className={s.table_records_block}>
             <p className={s.table_records_text}>

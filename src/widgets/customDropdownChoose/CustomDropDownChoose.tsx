@@ -15,6 +15,7 @@ interface CustomDropDownChooseProps {
   activeOptions: any[];
   setTitleArr?: any;
   titleArr?: string[];
+  isRefPage?: boolean;
 }
 
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
@@ -23,6 +24,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   activeOptions,
   setTitleArr,
   titleArr,
+  isRefPage,
 }) => {
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
@@ -43,8 +45,12 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   const [updateList, setUpdateList] = useState<any>([]);
   useEffect(() => {
-    if (updateList?.length <= 0 && list) {
-      list && setUpdateList(Object.keys((list && list[0])?.basic || []));
+    if (isRefPage) {
+      setUpdateList(titleArr);
+    } else {
+      if (updateList?.length <= 0 && list) {
+        list && setUpdateList(Object.keys((list && list[0])?.basic || []));
+      }
     }
   }, [list, updateList]);
 
@@ -76,7 +82,13 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
     >
       <div className={s.active_dropdown_block} onClick={toggle}>
         <div className={s.active_dropdown_title_block}>
-          Выбрано {titleArr?.length ? titleArr?.length - 1 : 0} п.
+          Выбрано{" "}
+          {titleArr?.length && list?.length > 0
+            ? isRefPage
+              ? titleArr?.length
+              : titleArr?.length - 1
+            : 0}{" "}
+          п.
         </div>
         <div className={s.dropdown_ico_block}>
           <HeaderDropdownArrow />

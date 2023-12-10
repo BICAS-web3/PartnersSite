@@ -5,7 +5,7 @@ import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
 interface MobileChooseListProps {
   list?: any[];
-  setPickedList: any;
+  setPickedList?: any;
   pickedList: any[];
   evrPicked?: boolean;
   subscribesStyles?: boolean;
@@ -14,6 +14,7 @@ interface MobileChooseListProps {
   setMobileTableLing?: any;
   setTitleArr?: any;
   titleArr?: string[];
+  isPartnerPage?: boolean;
 }
 
 export const MobileChooseList: FC<MobileChooseListProps> = ({
@@ -27,6 +28,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   setMobileTableLing,
   setTitleArr,
   titleArr,
+  isPartnerPage,
 }) => {
   const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
   const [activeItems, setActiveItems] = useState<any>([]);
@@ -70,14 +72,20 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   const [isAllPicked, setIsAllPicked] = useState(true);
 
   const [updateList, setUpdateList] = useState<any>([]);
+  const [isUpdated, setIsUpdated] = useState(false);
   useEffect(() => {
-    if (
-      updateList?.length <= 0 &&
-      list &&
-      Array.isArray(list) &&
-      list[0]?.basic
-    ) {
-      setUpdateList(Object?.keys((list && list[0])?.basic));
+    if (isPartnerPage && isUpdated === false) {
+      setUpdateList(titleArr);
+      setIsUpdated(true);
+    } else {
+      if (
+        updateList?.length <= 0 &&
+        list &&
+        Array.isArray(list) &&
+        list[0]?.basic
+      ) {
+        setUpdateList(Object?.keys((list && list[0])?.basic));
+      }
     }
   }, [list, updateList]);
 
@@ -114,16 +122,21 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             onClick={() => {
               setDeleteArr(updateList);
               setClick(true);
-              setTitleArr(
-                startList
-                  .map((el: any) => el.title)
-                  .reduce((accumulator: string[], currentValue: string) => {
-                    if (!accumulator?.includes(currentValue)) {
-                      accumulator?.push(currentValue);
-                    }
-                    return accumulator;
-                  }, [])
-              );
+              if (isPartnerPage) {
+                setTitleArr(updateList);
+              } else {
+                setTitleArr(
+                  startList
+                    .map((el: any) => el.title)
+                    .reduce((accumulator: string[], currentValue: string) => {
+                      if (!accumulator?.includes(currentValue)) {
+                        accumulator?.push(currentValue);
+                      }
+                      return accumulator;
+                    }, [])
+                );
+              }
+
               setIsAllPicked((prev) => !prev);
             }}
             style={{

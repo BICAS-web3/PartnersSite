@@ -16,6 +16,9 @@ interface AdaptiveChooserProps {
   blockTitle: string;
   isInput?: boolean;
   inpPlaceholder?: string;
+  titleArr?: string[];
+  setTitleArr?: any;
+  isPartnerRef?: boolean;
 }
 
 export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
@@ -27,6 +30,9 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
   blockTitle,
   isInput,
   inpPlaceholder,
+  isPartnerRef,
+  titleArr,
+  setTitleArr,
 }) => {
   const [pickedList, setPickedList] = useState([]);
 
@@ -71,6 +77,9 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
           list={list}
           setPickedList={setPickedList}
           pickedList={pickedList}
+          titleArr={titleArr}
+          setTitleArr={setTitleArr}
+          isPartnerPage={isPartnerRef}
         />
       </div>
       <div className="mobile_filter_item_page_footer">
