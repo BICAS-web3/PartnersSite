@@ -16,6 +16,7 @@ interface MobileChooseItemProps {
   startList?: any[];
   setClick: (el: boolean) => void;
   click: boolean;
+  setTitleArr?: any;
 }
 
 export const MobileChooseItem: FC<MobileChooseItemProps> = ({
@@ -32,6 +33,7 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
   startList,
   setClick,
   click,
+  setTitleArr,
 }) => {
   const [checked, setChecked] = useState(true);
   const [filterActive, setFilterActive] = useState("");
@@ -43,48 +45,48 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
     }
   }, [allPicked]);
 
-  useEffect(() => {
-    if (click) {
-      if (!checked) {
-        setDeleteArr((prev: any) =>
-          prev.filter((el: any) => el !== filterActive)
-        );
-      } else {
-        setDeleteArr((prev: any) => [...prev, filterActive]);
-      }
-    }
-  }, [checked]);
+  // useEffect(() => {
+  //   if (click) {
+  //     if (!checked) {
+  //       setDeleteArr((prev: any) =>
+  //         prev.filter((el: any) => el !== filterActive)
+  //       );
+  //     } else {
+  //       setDeleteArr((prev: any) => [...prev, filterActive]);
+  //     }
+  //   }
+  // }, [checked]);
 
-  useEffect(() => {
-    if (click) {
-      if (checked === false) {
-        setAllpicked(false);
-        setActiveItems((prev: { title: string; id: number | string }[]) => {
-          return prev.filter((el) => {
-            if (deleteArr.includes(el.title)) {
-              return el;
-            } else {
-              return;
-            }
-          });
-        });
-      } else {
-        setActiveItems(() => {
-          return (
-            startList &&
-            startList.filter((el) => {
-              if (deleteArr.includes(el.title)) {
-                return el;
-              } else {
-                return;
-              }
-            })
-          );
-        });
-      }
-    }
-    setClick(false);
-  }, [deleteArr]);
+  // useEffect(() => {
+  //   if (click) {
+  //     if (checked === false) {
+  //       setAllpicked(false);
+  //       setActiveItems((prev: { title: string; id: number | string }[]) => {
+  //         return prev.filter((el) => {
+  //           if (deleteArr.includes(el.title)) {
+  //             return el;
+  //           } else {
+  //             return;
+  //           }
+  //         });
+  //       });
+  //     } else {
+  //       setActiveItems(() => {
+  //         return (
+  //           startList &&
+  //           startList.filter((el) => {
+  //             if (deleteArr.includes(el.title)) {
+  //               return el;
+  //             } else {
+  //               return;
+  //             }
+  //           })
+  //         );
+  //       });
+  //     }
+  //   }
+  //   setClick(false);
+  // }, [deleteArr]);
 
   return (
     <div
@@ -100,6 +102,18 @@ export const MobileChooseItem: FC<MobileChooseItemProps> = ({
           setFilterActive(item);
           setChecked((prev) => !prev);
           setClick(true);
+          setTitleArr((prev: string[]) => {
+            if (Array.isArray(prev) && prev && prev?.length > 0) {
+              if (prev.includes(item)) {
+                setAllpicked(false);
+                return prev.filter((el) => el !== item);
+              } else {
+                return [...prev, item];
+              }
+            } else {
+              return [item];
+            }
+          });
         }}
         style={{
           flexDirection: subscribesStyles ? "row-reverse" : "row",

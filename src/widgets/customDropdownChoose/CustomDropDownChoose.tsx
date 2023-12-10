@@ -13,12 +13,16 @@ interface CustomDropDownChooseProps {
   setActiveOptions?: (el: any) => void;
   allPicked?: boolean;
   activeOptions: any[];
+  setTitleArr?: any;
+  titleArr?: string[];
 }
 
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   list,
   setActiveOptions,
   activeOptions,
+  setTitleArr,
+  titleArr,
 }) => {
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
@@ -39,8 +43,8 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   const [updateList, setUpdateList] = useState<any>([]);
   useEffect(() => {
-    if (updateList?.length <= 0) {
-      setUpdateList([...new Set(list?.map((el) => el?.title))]);
+    if (updateList?.length <= 0 && list) {
+      list && setUpdateList(Object.keys((list && list[0])?.basic || []));
     }
   }, [list, updateList]);
 
@@ -48,8 +52,9 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   useEffect(() => {
     if (
-      [...new Set(activeOptions?.map((el: any) => el?.title))]?.length ===
-      updateList?.length
+      startList &&
+      list &&
+      Object.keys(startList[0]?.basic || [])?.length === updateList?.length
     ) {
       setIsAllPicked(true);
     } else {
@@ -61,9 +66,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   useEffect(() => {
     setDeleteArr(updateList);
   }, [updateList]);
-  useEffect(() => {
-    console.log(activeOptions);
-  }, [activeOptions]);
+
   return (
     <div
       ref={dropdownRef}
@@ -73,8 +76,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
     >
       <div className={s.active_dropdown_block} onClick={toggle}>
         <div className={s.active_dropdown_title_block}>
-          Выбрано{" "}
-          {[...new Set(activeOptions?.map((el: any) => el?.title))]?.length} п.
+          Выбрано {titleArr?.length ? titleArr?.length - 1 : 0} п.
         </div>
         <div className={s.dropdown_ico_block}>
           <HeaderDropdownArrow />
@@ -85,7 +87,19 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
           <div className={s.cont}>
             <span
               className={s.privacyPolicy_text}
-              onClick={() => setIsAllPicked(!isAllPicked)}
+              onClick={() => {
+                setIsAllPicked(!isAllPicked);
+                setTitleArr(
+                  startList
+                    .map((el: any) => el.title)
+                    .reduce((accumulator: string[], currentValue: string) => {
+                      if (!accumulator?.includes(currentValue)) {
+                        accumulator?.push(currentValue);
+                      }
+                      return accumulator;
+                    }, [])
+                );
+              }}
             >
               <div className={`${s.checkbox} ${isAllPicked && s.checked}`}>
                 <CheckBoxIco />
@@ -102,6 +116,8 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               key={ind}
               item={item}
               allPicked={isAllPicked}
+              setTitleArr={setTitleArr}
+              setIsAllPicked={setIsAllPicked}
             />
           ))}
         </div>

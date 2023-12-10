@@ -12,6 +12,8 @@ interface MobileChooseListProps {
   setActiveOptions?: any;
   activeOptions?: any;
   setMobileTableLing?: any;
+  setTitleArr?: any;
+  titleArr?: string[];
 }
 
 export const MobileChooseList: FC<MobileChooseListProps> = ({
@@ -23,6 +25,8 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   setActiveOptions,
   activeOptions,
   setMobileTableLing,
+  setTitleArr,
+  titleArr,
 }) => {
   const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
   const [activeItems, setActiveItems] = useState<any>([]);
@@ -67,8 +71,13 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
 
   const [updateList, setUpdateList] = useState<any>([]);
   useEffect(() => {
-    if (updateList?.length <= 0) {
-      setUpdateList([...new Set(list?.map((el) => el?.title))]);
+    if (
+      updateList?.length <= 0 &&
+      list &&
+      Array.isArray(list) &&
+      list[0]?.basic
+    ) {
+      setUpdateList(Object?.keys((list && list[0])?.basic));
     }
   }, [list, updateList]);
 
@@ -105,6 +114,17 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             onClick={() => {
               setDeleteArr(updateList);
               setClick(true);
+              setTitleArr(
+                startList
+                  .map((el: any) => el.title)
+                  .reduce((accumulator: string[], currentValue: string) => {
+                    if (!accumulator?.includes(currentValue)) {
+                      accumulator?.push(currentValue);
+                    }
+                    return accumulator;
+                  }, [])
+              );
+              setIsAllPicked((prev) => !prev);
             }}
             style={{
               flexDirection: subscribesStyles ? "row-reverse" : "row",
@@ -135,6 +155,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
             setActiveItems={setActiveOptions}
             click={click}
             setClick={setClick}
+            setTitleArr={setTitleArr}
           />
         ))}
       </div>

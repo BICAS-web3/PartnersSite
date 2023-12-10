@@ -14,6 +14,8 @@ interface WebsiteTableFilterProps {
   setActiveOptions?: any;
   activeOptions?: any;
   setMobileTableLing?: any;
+  setTitleArr?: any;
+  titleArr?: string[];
 }
 
 export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
@@ -23,6 +25,8 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
   setActiveOptions,
   activeOptions,
   setMobileTableLing,
+  setTitleArr,
+  titleArr,
 }) => {
   const [pickedList, setPickedList] = useState([]);
 
@@ -52,6 +56,8 @@ export const WebsiteTableFilter: FC<WebsiteTableFilterProps> = ({
           activeOptions={activeOptions}
           setActiveOptions={setActiveOptions}
           setMobileTableLing={setMobileTableLing}
+          setTitleArr={setTitleArr}
+          titleArr={titleArr}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

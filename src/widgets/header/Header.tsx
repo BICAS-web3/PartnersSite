@@ -9,6 +9,7 @@ import mobLogo from "@/public/media/common/headerMobLogo.png";
 
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
+import * as HeaderModel from "./model";
 
 import * as api from "@/shared/api";
 
@@ -19,8 +20,19 @@ interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
   const { isConnected, address } = useAccount();
-  const { signMessage, data: signMessageData } = useSignMessage();
+  const { signMessage, data: signMessageData, isSuccess } = useSignMessage();
   const [updateSignature, setUpdateSignature] = useState(false);
+
+  const [setReadyUpdate, readyUpdate] = useUnit([
+    HeaderModel.setReadyUpdate,
+    HeaderModel.$readyUpdate,
+  ]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setReadyUpdate(true);
+    }
+  }, [isSuccess]);
 
   const [setIsAuthed, isAuthed] = useUnit([
     AuthModel.setIsAuthed,
@@ -111,7 +123,8 @@ export const Header: FC<HeaderProps> = () => {
         localLastName ||
         localSignature ||
         localTimestamp) &&
-      isConnected
+      isConnected &&
+      readyUpdate
     ) {
       const currentTime = Date.now();
       const timeDifference = currentTime - localTimestamp;
@@ -128,7 +141,7 @@ export const Header: FC<HeaderProps> = () => {
       setUserPhone(localPhone);
       setIsAuthed(true);
     }
-  }, [localEmail, localName, localLastName]);
+  }, [localEmail, localName, localLastName, readyUpdate]);
 
   useEffect(() => {
     isConnected && setUpdateSignature(true);
@@ -202,13 +215,13 @@ export const Header: FC<HeaderProps> = () => {
   }, [isConnected, updateSignature]);
 
   useEffect(() => {
-    if (updateSignature && signMessageData) {
+    if (updateSignature && signMessageData && readyUpdate) {
       setSignature(signMessageData.slice(2));
       localStorage.setItem(`${address}-signature`, signMessageData.slice(2));
       setLocalSignature(signMessageData.slice(2));
       setUpdateSignature(false);
     }
-  }, [updateSignature, signMessageData]);
+  }, [updateSignature, signMessageData, readyUpdate]);
 
   //!-----------
   const [handleRequest, setHandleRequest] = useState(true);
@@ -216,7 +229,13 @@ export const Header: FC<HeaderProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (address && !responseBody && isAuthed && handleRequest) {
+      if (
+        address &&
+        !responseBody &&
+        isAuthed &&
+        handleRequest &&
+        readyUpdate
+      ) {
         const respobse = await api.getUserData({
           wallet: address.toLowerCase() as string,
           auth: signature,
@@ -226,7 +245,7 @@ export const Header: FC<HeaderProps> = () => {
         setHandleRequest(false);
       }
     })();
-  }, [responseBody, isAuthed, handleRequest]);
+  }, [responseBody, isAuthed, handleRequest, readyUpdate]);
   useEffect(() => {
     if (responseBody && isAuthed) {
       setUserMessangerValue(

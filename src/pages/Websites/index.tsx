@@ -17,6 +17,7 @@ import { WebsiteLanguageFilter } from "@/widgets/websitesUI/";
 import { WebsiteTableFilter } from "@/widgets/websitesUI/";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import * as HeaderModel from "@/widgets/header/model";
 
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
@@ -125,16 +126,32 @@ export const tableRowsList = [
 
 interface WebsitesProps {}
 
+export interface IPagesResponse {
+  title?: string;
+  basic: {
+    internal_id: number;
+    id: number;
+    name: string;
+    url: string;
+    partner_id: string;
+  };
+  sub_ids: {
+    internal_id: number;
+    id: number;
+    name: string;
+    url: string;
+    site_id: number;
+    partner_id: string;
+  }[];
+}
+
 const Websites: FC<WebsitesProps> = () => {
+  const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
+  const [titleArr, setTitleArr] = useState([]);
+
   const [pageResponseUpdated, setPageResponseUpdated] = useState<
-    | {
-        title: string;
-        id: number;
-        text: string | number;
-        typeFilter: string;
-      }[]
-    | any
+    IPagesResponse[] | any
   >();
 
   const [subidPage, setSubidPage] = useState<{
@@ -156,33 +173,29 @@ const Websites: FC<WebsitesProps> = () => {
       (pageResponse && !pageResponseUpdated) ||
       (pageResponse && pageResponseUpdated && pageResponseUpdated.length >= 1)
     ) {
-      const change = pageResponse?.map((el) => {
-        return [
-          {
-            title: "ID",
-            id: el.basic.id,
-            text: el.basic.id,
-            typeFilter: el.basic.name,
-          },
-          {
-            title: "Сайт",
-            id: el.basic.id,
-            text: el.basic.url,
-            typeFilter: el.basic.name,
-          },
-          {
-            title: "Состояние",
-            id: el.basic.id,
-            text: el.basic.name,
-            typeFilter: el.basic.name,
-          },
-        ];
+      const change = pageResponse?.map((el, i) => {
+        return {
+          ...el,
+          title: Object.keys(el.basic)[i],
+        };
       });
-      setPageResponseUpdated(change.flat());
+      setPageResponseUpdated(change);
     }
   }, [pageResponse, pageResponseUpdated, updateGetRequest]);
-
-  useState<api.T_UserSitesResp>();
+  useEffect(() => {
+    if (pageResponseUpdated) {
+      setTitleArr(
+        pageResponseUpdated
+          .map((el: any) => el.title)
+          .reduce((accumulator: string[], currentValue: string) => {
+            if (!accumulator?.includes(currentValue)) {
+              accumulator?.push(currentValue);
+            }
+            return accumulator;
+          }, [])
+      );
+    }
+  }, [pageResponseUpdated?.length]);
   const isMobile = useMediaQuery("(max-width:650px)");
   const [timestamp, signature] = useUnit([
     ContactModel.$timestamp,
@@ -264,7 +277,14 @@ const Websites: FC<WebsitesProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (isConnected && address && addPage && pageType && pageUrl) {
+      if (
+        isConnected &&
+        address &&
+        addPage &&
+        pageType &&
+        pageUrl &&
+        readyUpdate
+      ) {
         await api.registerPage({
           name: pageType,
           url: pageUrl,
@@ -277,7 +297,7 @@ const Websites: FC<WebsitesProps> = () => {
         setAddPage(false);
       }
     })();
-  }, [isConnected, address, addPage]);
+  }, [isConnected, address, addPage, readyUpdate]);
 
   const navigation = useRouter();
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
@@ -288,51 +308,85 @@ const Websites: FC<WebsitesProps> = () => {
     } else if (!pageUrl || !pageType || validateWebPage(pageUrl) === false) {
       setError(true);
     } else {
-      const getLastId =
-        pageResponseUpdated &&
-        pageResponseUpdated[pageResponseUpdated?.length]?.id;
+      // const getLastId =
+      //   pageResponseUpdated &&
+      //   pageResponseUpdated[pageResponseUpdated?.length]?.id;
+      // setPageResponseUpdated((prev: any) => {
+      //   if (prev) {
+      //     return [
+      //       ...prev,
+      //       {
+      //         title: "ID",
+      //         id: getLastId && getLastId + 1,
+      //         text: getLastId && getLastId + 1,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Сайт",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageUrl,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Состояние",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageType,
+      //         typeFilter: pageType,
+      //       },
+      //     ];
+      //   } else {
+      //     return [
+      //       {
+      //         title: "ID",
+      //         id: getLastId && getLastId + 1,
+      //         text: getLastId && getLastId + 1,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Сайт",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageUrl,
+      //         typeFilter: pageType,
+      //       },
+      //       {
+      //         title: "Состояние",
+      //         id: getLastId && getLastId + 1,
+      //         text: pageType,
+      //         typeFilter: pageType,
+      //       },
+      //     ];
+      //   }
+      // });
       setPageResponseUpdated((prev: any) => {
-        if (prev) {
+        if (prev && Array.isArray(prev)) {
           return [
             ...prev,
             {
-              title: "ID",
-              id: getLastId && getLastId + 1,
-              text: getLastId && getLastId + 1,
-              typeFilter: pageType,
-            },
-            {
-              title: "Сайт",
-              id: getLastId && getLastId + 1,
-              text: pageUrl,
-              typeFilter: pageType,
-            },
-            {
-              title: "Состояние",
-              id: getLastId && getLastId + 1,
-              text: pageType,
-              typeFilter: pageType,
+              basic: {
+                internal_id:
+                  prev && prev[prev?.length - 1].basic?.internal_id + 1,
+                id: prev && prev[prev?.length - 1].basic?.id,
+                name: pageType,
+                url: pageUrl,
+                partner_id:
+                  prev && prev[prev?.length - 1].basic?.partner_id + 1,
+              },
+              sub_ids: [],
             },
           ];
         } else {
           return [
             {
-              title: "ID",
-              id: getLastId && getLastId + 1,
-              text: getLastId && getLastId + 1,
-              typeFilter: pageType,
-            },
-            {
-              title: "Сайт",
-              id: getLastId && getLastId + 1,
-              text: pageUrl,
-              typeFilter: pageType,
-            },
-            {
-              title: "Состояние",
-              id: getLastId && getLastId + 1,
-              text: pageType,
-              typeFilter: pageType,
+              basic: {
+                internal_id:
+                  prev && prev[prev?.length - 1].basic?.internal_id + 1,
+                id: prev && prev[prev?.length - 1].basic?.id,
+                name: pageType,
+                url: pageUrl,
+                partner_id:
+                  prev && prev[prev?.length - 1].basic?.partner_id + 1,
+              },
+              sub_ids: [],
             },
           ];
         }
@@ -352,7 +406,7 @@ const Websites: FC<WebsitesProps> = () => {
   const [addSubid, setAddSubid] = useState(false);
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address) {
+      if (isConnected && isAuthed && address && readyUpdate) {
         const data = await api.getUserSites({
           wallet: address?.toLowerCase(),
           auth: signature,
@@ -383,11 +437,11 @@ const Websites: FC<WebsitesProps> = () => {
         }
       }
     })();
-  }, [address, isConnected, isAuthed, updateGetRequest]);
+  }, [address, isConnected, isAuthed, updateGetRequest, readyUpdate]);
 
   useEffect(() => {
     (async () => {
-      if (subidPage && address && addSubid) {
+      if (subidPage && address && addSubid && readyUpdate) {
         const response = await api.registerSubId({
           timestamp,
           wallet: address?.toLowerCase(),
@@ -399,7 +453,7 @@ const Websites: FC<WebsitesProps> = () => {
         console.log("---response---", response);
       }
     })();
-  }, [subidPage, addSubid]);
+  }, [subidPage, addSubid, readyUpdate]);
 
   function validateWebPage(webPage: string) {
     const urlRegex =
@@ -409,9 +463,7 @@ const Websites: FC<WebsitesProps> = () => {
 
   const [mobileTableLeng, setMobileTableLing] = useState<number>();
 
-  useEffect(() => {
-    console.log(mobTableOptions);
-  }, [mobTableOptions?.length]);
+  const [categotyFilter, setCategoryFilter] = useState("");
 
   return (
     <Layout activePage="websites">
@@ -447,6 +499,9 @@ const Websites: FC<WebsitesProps> = () => {
                 setMobTableOpts={setMobTableOpts}
                 startOptions={pageResponseUpdated}
                 list={pageResponseUpdated}
+                custom={true}
+                categotyFilter={categotyFilter}
+                setCategoryFilter={setCategoryFilter}
               />
               <WebsiteLanguageFilter
                 setCurrentFilterPage={setCurrentFilterPage}
@@ -461,6 +516,8 @@ const Websites: FC<WebsitesProps> = () => {
                 setActiveOptions={setMobTableOpts}
                 list={pageResponseUpdated}
                 setMobileTableLing={setMobileTableLing}
+                setTitleArr={setTitleArr}
+                titleArr={titleArr}
               />
               <div
                 className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
@@ -510,7 +567,7 @@ const Websites: FC<WebsitesProps> = () => {
                 >
                   <span className="mobile_filter_item_title">Показать</span>
                   <span className="mobile_filter_item_picked_value">
-                    Выбрано {mobileTableLeng} п.
+                    Выбранsо {titleArr?.length ? titleArr?.length - 1 : 0} п.
                   </span>
                 </div>
 
@@ -550,14 +607,20 @@ const Websites: FC<WebsitesProps> = () => {
               <div className={s.adding_website_block_item}>
                 <span className={s.adding_website_block_item_title}>
                   Категория сайта
+                  {/* //?ewfwefewewf */}
                 </span>
                 <CustomDropdownInput
+                  setCategoryFilter={setCategoryFilter}
                   setSelectedValue={setPageType}
-                  list={siteCategories}
+                  list={siteCategories.filter(
+                    (el) => el.title !== categotyFilter
+                  )}
                   activeItemId="sportsForecasts"
                   className={clsx(error && !pageType && "error_input")}
                   startList={pageResponseUpdated}
                   setActiveOptions={setActiveOptions}
+                  custom={true}
+                  categotyFilter={categotyFilter}
                 />
               </div>
               <div className={s.adding_website_block_item}>
@@ -596,12 +659,14 @@ const Websites: FC<WebsitesProps> = () => {
                 list={pageResponseUpdated}
                 setActiveOptions={setActiveOptions}
                 activeOptions={activeOptions}
+                setTitleArr={setTitleArr}
+                titleArr={titleArr}
               />
             </div>
           </div>
 
           <div className={s.table_wrap}>
-            <div className="scroll-bar"></div>
+            <div className="scroll-bar"></div>{" "}
             <Swiper
               ref={swiperRef}
               slidesPerView={isMobile ? 2.5 : "auto"}
@@ -615,36 +680,86 @@ const Websites: FC<WebsitesProps> = () => {
               centeredSlides={false}
               className={s.swiper}
             >
-              {(isMobile ? mobTableOptions : activeOptions)?.map(
-                (
-                  item: {
-                    title: string;
-                    id: string;
-                    text: string;
-                    url?: string;
-                    name?: string;
-                  },
-                  ind: number
-                ) => (
-                  <SwiperSlide
-                    className={s.swiper_slide}
-                    key={ind}
-                    data-id={item?.id}
-                  >
-                    <div className={s.swiper_slide_body}>
-                      <div className={s.swiper_slide_header}>
-                        <span className={s.swiper_slide_title}>
-                          {item?.title}
-                        </span>
-                        <Image src={upDownArrows} alt="sort-ico" />
-                      </div>
-                      <div className={s.swiper_slide_content}>
-                        {item?.title === "ID" ? item?.text + 1 : item?.text}
-                      </div>
-                    </div>
-                  </SwiperSlide>
+              {pageResponseUpdated &&
+                Object?.keys(
+                  (
+                    pageResponseUpdated &&
+                    (pageResponseUpdated[0] as IPagesResponse)
+                  )?.basic
                 )
-              )}
+                  .filter((el) => {
+                    if (titleArr?.length > 0) {
+                      if (titleArr.find((str) => str == el)) {
+                        return el;
+                      }
+                    } else {
+                      return el;
+                    }
+                  })
+                  .map((el: string, i: number) => {
+                    return (
+                      <SwiperSlide
+                        className={s.swiper_slide}
+                        key={el}
+                        data-id={el}
+                      >
+                        <div className={s.swiper_slide_body}>
+                          <div className={s.swiper_slide_header}>
+                            <span className={s.swiper_slide_title}>{el}</span>
+                            <Image src={upDownArrows} alt="sort-ico" />
+                          </div>
+                          <div className={s.swiper_slide_content}>
+                            {(isMobile ? mobTableOptions : activeOptions)
+                              ?.filter((eld: IPagesResponse) => {
+                                if (categotyFilter?.length <= 0) {
+                                  return eld;
+                                } else {
+                                  if (
+                                    eld.basic.name.toLowerCase() ===
+                                    categotyFilter.toLowerCase()
+                                  )
+                                    return eld;
+                                }
+                              })
+                              ?.map((element: IPagesResponse, index) => {
+                                const newArr = Object?.keys(
+                                  pageResponseUpdated &&
+                                    (pageResponseUpdated[0] as IPagesResponse)
+                                      ?.basic
+                                );
+                                if (el === newArr[0]) {
+                                  return (
+                                    <span key={index}>
+                                      {element.basic.internal_id}
+                                    </span>
+                                  );
+                                } else if (el === newArr[1]) {
+                                  return (
+                                    <span key={index}>{element.basic.id}</span>
+                                  );
+                                } else if (el === newArr[2]) {
+                                  return (
+                                    <span key={index}>
+                                      {element.basic.name}
+                                    </span>
+                                  );
+                                } else if (el === newArr[3]) {
+                                  return (
+                                    <span key={index}>{element.basic.url}</span>
+                                  );
+                                } else if (el === newArr[4]) {
+                                  return (
+                                    <span key={index}>
+                                      {element.basic.partner_id}
+                                    </span>
+                                  );
+                                }
+                              })}
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    );
+                  })}{" "}
             </Swiper>
           </div>
           <div className={s.table_navigation_block}>
