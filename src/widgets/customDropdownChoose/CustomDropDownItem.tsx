@@ -12,6 +12,7 @@ interface CustomDropDownItemProps {
   startList: any[];
   setDeleteArr: any;
   deleteArr: any;
+  setTitleArr?: any;
 }
 
 export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
@@ -21,22 +22,23 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
   startList,
   setDeleteArr,
   deleteArr,
+  setTitleArr,
 }) => {
   const [checked, setChecked] = useState(true);
   const [filterActive, setFilterActive] = useState("");
 
   const [click, setClick] = useState(false);
-  useEffect(() => {
-    if (click) {
-      if (!checked) {
-        setDeleteArr((prev: any) =>
-          prev.filter((el: any) => el !== filterActive)
-        );
-      } else {
-        setDeleteArr((prev: any) => [...prev, filterActive]);
-      }
-    }
-  }, [checked]);
+  // useEffect(() => {
+  //   if (click) {
+  //     if (!checked) {
+  //       setDeleteArr((prev: any) =>
+  //         prev.filter((el: any) => el !== filterActive)
+  //       );
+  //     } else {
+  //       setDeleteArr((prev: any) => [...prev, filterActive]);
+  //     }
+  //   }
+  // }, [checked]);
 
   useEffect(() => {
     if (allPicked) {
@@ -45,37 +47,37 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
     }
   }, [allPicked]);
 
-  useEffect(() => {
-    if (click) {
-      if (checked === false) {
-        setActiveItems &&
-          setActiveItems((prev: { title: string; id: number | string }[]) => {
-            return prev.filter((el) => {
-              if (deleteArr.includes(el.title)) {
-                return el;
-              } else {
-                return;
-              }
-            });
-          });
-      } else {
-        setActiveItems &&
-          setActiveItems(() => {
-            return (
-              startList &&
-              startList.filter((el) => {
-                if (deleteArr.includes(el.title)) {
-                  return el;
-                } else {
-                  return;
-                }
-              })
-            );
-          });
-      }
-    }
-    setClick(false);
-  }, [deleteArr]);
+  // useEffect(() => {
+  //   if (click) {
+  //     if (checked === false) {
+  //       setActiveItems &&
+  //         setActiveItems((prev: { title: string; id: number | string }[]) => {
+  //           return prev.filter((el) => {
+  //             if (deleteArr.includes(el.title)) {
+  //               return el;
+  //             } else {
+  //               return;
+  //             }
+  //           });
+  //         });
+  //     } else {
+  //       setActiveItems &&
+  //         setActiveItems(() => {
+  //           return (
+  //             startList &&
+  //             startList.filter((el) => {
+  //               if (deleteArr.includes(el.title)) {
+  //                 return el;
+  //               } else {
+  //                 return;
+  //               }
+  //             })
+  //           );
+  //         });
+  //     }
+  //   }
+  //   setClick(false);
+  // }, [deleteArr]);
 
   return (
     <div className={s.dropdown_items_list_item}>
@@ -85,6 +87,17 @@ export const CustomDropDownItem: FC<CustomDropDownItemProps> = ({
           setFilterActive(item);
           setChecked((prev) => !prev);
           setClick(true);
+          setTitleArr((prev: string[]) => {
+            if (Array.isArray(prev) && prev && prev?.length > 0) {
+              if (prev.includes(item)) {
+                return prev.filter((el) => el !== item);
+              } else {
+                return [...prev, item];
+              }
+            } else {
+              return [item];
+            }
+          });
         }}
       >
         <div className={clsx(s.checkbox, checked && s.checked)}>

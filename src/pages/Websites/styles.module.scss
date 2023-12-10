@@ -274,8 +274,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+  // display: grid;
+  // grid-template-rows: 1fr 1fr;
 }
 
 .swiper_slide_header {
@@ -304,7 +304,6 @@
 }
 
 .swiper_slide_content {
-  padding: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -314,6 +313,17 @@
   font-style: normal;
   font-weight: 600;
   line-height: 110%;
+  display: flex;
+  flex-direction: column;
+  span {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #979797;
+  }
 }
 
 // .swiper_slide {
@@ -341,4 +351,5 @@
   // min-width: 200px !important;
   width: max-content !important;
   max-width: max-content !important;
+  min-width: 200px;
 }

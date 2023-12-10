@@ -13,12 +13,14 @@ interface CustomDropDownChooseProps {
   setActiveOptions?: (el: any) => void;
   allPicked?: boolean;
   activeOptions: any[];
+  setTitleArr?: any;
 }
 
 export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   list,
   setActiveOptions,
   activeOptions,
+  setTitleArr,
 }) => {
   const { dropdownRef, toggle, isOpen } = useDropdown();
 
@@ -40,7 +42,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   const [updateList, setUpdateList] = useState<any>([]);
   useEffect(() => {
     if (updateList?.length <= 0) {
-      setUpdateList([...new Set(list?.map((el) => el?.title))]);
+      list && setUpdateList(Object?.keys((list && list[0])?.basic));
     }
   }, [list, updateList]);
 
@@ -48,8 +50,8 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
 
   useEffect(() => {
     if (
-      [...new Set(activeOptions?.map((el: any) => el?.title))]?.length ===
-      updateList?.length
+      list &&
+      Object?.keys(startList[0]?.basic)?.length === updateList?.length
     ) {
       setIsAllPicked(true);
     } else {
@@ -61,9 +63,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   useEffect(() => {
     setDeleteArr(updateList);
   }, [updateList]);
-  useEffect(() => {
-    console.log(activeOptions);
-  }, [activeOptions]);
+
   return (
     <div
       ref={dropdownRef}
@@ -102,6 +102,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               key={ind}
               item={item}
               allPicked={isAllPicked}
+              setTitleArr={setTitleArr}
             />
           ))}
         </div>

@@ -16,6 +16,9 @@ interface CustomDropdownInputProps {
   className?: string;
   startList?: any[];
   setActiveOptions?: any;
+  setCategoryFilter?: (el: string) => void;
+  custom?: boolean;
+  categotyFilter?: string;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -27,6 +30,9 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   className,
   startList,
   setActiveOptions,
+  setCategoryFilter,
+  custom,
+  categotyFilter,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -63,7 +69,9 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           style={{ height: height }}
         >
           <span>
-            {activeItem
+            {categotyFilter
+              ? categotyFilter
+              : activeItem
               ? activeItem.title
               : !activeItem && isExportSelect
               ? "Экспорт"
@@ -75,13 +83,15 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
         </div>
       </div>
       <div className={s.dropdown_items_list}>
-        {avaibleItems.map((item, ind) => (
+        {(custom ? list : avaibleItems).map((item, ind) => (
           <div
             className={s.dropdown_items_list_item}
             key={ind}
             onClick={() => {
-              handleActiveItemSetting(item.id);
-              setActiveOptions &&
+              custom && setCategoryFilter && setCategoryFilter(item.title);
+              !custom && handleActiveItemSetting(item.id);
+              !custom &&
+                setActiveOptions &&
                 setActiveOptions(
                   startList?.filter(
                     (el: any) => el.typeFilter === item.title
