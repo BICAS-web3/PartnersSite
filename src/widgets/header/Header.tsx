@@ -147,9 +147,9 @@ export const Header: FC<HeaderProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (callContactReg && signature && timestamp) {
+      if (callContactReg && signature && timestamp && address) {
         await api.registerContact({
-          wallet: address!.toLowerCase(),
+          wallet: address.toLowerCase(),
           auth: signature,
           timestamp,
           contact: [

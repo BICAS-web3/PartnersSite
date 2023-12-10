@@ -30,7 +30,7 @@ const timesList = [
     id: "1day",
     timeLine: 24 * 3600 * 1000,
     timeType: "daily",
-    step: 3600,
+    step: 900000,
   },
   {
     title: "7 дней",
