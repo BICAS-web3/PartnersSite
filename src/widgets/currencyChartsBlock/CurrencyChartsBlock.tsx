@@ -206,7 +206,7 @@ const TimeStats: FC<ITimeStatsProps> = (props) => {
           )}
           key={item?.id}
           onClick={() => {
-            alert(item.timeLine);
+            // alert(item.timeLine);
             setValue(item?.id);
             setTime({ timeline: item.timeLine, period: item.step });
             item.timeLine;
