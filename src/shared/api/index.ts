@@ -543,7 +543,7 @@ export const getUsersRegistrationChart = createEffect<
   const startTime = Date.now();
 
   return fetch(
-    `${BaseApiUrl}/partner/connected/${startTime + form.endTime}/${startTime}/${
+    `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${
       form.step
     }`,
     {
