@@ -239,6 +239,7 @@ export type T_RegisterChart = {
   wallet: string;
   auth: string;
   endTime: number;
+  step?: number;
 };
 
 export type T_DepositedUsers = {
@@ -540,16 +541,22 @@ export const getUsersRegistrationChart = createEffect<
   string
 >(async (form) => {
   const startTime = Date.now();
-  return fetch(`${BaseApiUrl}/partner/connected/${startTime}/${form.endTime}`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
-    },
-  })
+
+  return fetch(
+    `${BaseApiUrl}/partner/connected/${startTime + form.endTime}/${startTime}/${
+      form.step
+    }`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        timestamp: form.timestamp.toString(),
+        wallet: form.wallet,
+        auth: form.auth,
+      },
+    }
+  )
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
