@@ -27,7 +27,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
   const [startTime, setStartTime] = useState<any>();
   useEffect(() => {
     (async () => {
-      if (periodFirst && address) {
+      if (periodFirst && address && signature) {
         const response = await api.getUsersRegistrationChart({
           auth: signature,
           timestamp,

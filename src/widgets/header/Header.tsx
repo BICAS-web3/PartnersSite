@@ -23,16 +23,13 @@ export const Header: FC<HeaderProps> = () => {
   const { signMessage, data: signMessageData, isSuccess } = useSignMessage();
   const [updateSignature, setUpdateSignature] = useState(false);
 
+  // useEffect(() => {
+  //   alert(updateSignature);
+  // }, [updateSignature]);
   const [setReadyUpdate, readyUpdate] = useUnit([
     HeaderModel.setReadyUpdate,
     HeaderModel.$readyUpdate,
   ]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      setReadyUpdate(true);
-    }
-  }, [isSuccess]);
 
   const [setIsAuthed, isAuthed] = useUnit([
     AuthModel.setIsAuthed,
@@ -117,21 +114,26 @@ export const Header: FC<HeaderProps> = () => {
   }, []);
 
   useEffect(() => {
+    if (isSuccess) {
+      setReadyUpdate(true);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (
       (localEmail ||
         localName ||
         localLastName ||
         localSignature ||
         localTimestamp) &&
-      isConnected &&
-      readyUpdate
+      isConnected
     ) {
       const currentTime = Date.now();
       const timeDifference = currentTime - localTimestamp;
-
       if (timeDifference > 60000 * 10) {
         setUpdateSignature(true);
       } else {
+        setReadyUpdate(true);
         setTimestamp(localTimestamp);
         setSignature(localSignature);
       }
@@ -143,13 +145,13 @@ export const Header: FC<HeaderProps> = () => {
     }
   }, [localEmail, localName, localLastName, readyUpdate]);
 
-  useEffect(() => {
-    isConnected && setUpdateSignature(true);
-  }, []);
+  // useEffect(() => {
+  //   isConnected && setUpdateSignature(true);
+  // }, []);
 
   useEffect(() => {
     (async () => {
-      if (callContactReg) {
+      if (callContactReg && signature && timestamp) {
         await api.registerContact({
           wallet: address!.toLowerCase(),
           auth: signature,
@@ -195,20 +197,21 @@ export const Header: FC<HeaderProps> = () => {
         });
       }
     })();
-  }, [callContactReg]);
+  }, [callContactReg, signature]);
 
   useEffect(() => {
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const run = async () => {
       if (isConnected && updateSignature) {
         const now = Date.now();
-        setTimestamp(now);
-        setLocalTimestamp(now);
+
         localStorage.setItem(`${address}-timestamp`, `${now}`);
         await sleep(2000);
         signMessage({
           message: `PARTNER AUTH ${address!.toLowerCase()} ${now}`,
         });
+        setTimestamp(now);
+        setLocalTimestamp(now);
       }
     };
     run();
@@ -234,7 +237,8 @@ export const Header: FC<HeaderProps> = () => {
         !responseBody &&
         isAuthed &&
         handleRequest &&
-        readyUpdate
+        readyUpdate &&
+        signature
       ) {
         const respobse = await api.getUserData({
           wallet: address.toLowerCase() as string,
@@ -245,7 +249,7 @@ export const Header: FC<HeaderProps> = () => {
         setHandleRequest(false);
       }
     })();
-  }, [responseBody, isAuthed, handleRequest, readyUpdate]);
+  }, [responseBody, isAuthed, handleRequest, readyUpdate, signature]);
   useEffect(() => {
     if (responseBody && isAuthed) {
       setUserMessangerValue(

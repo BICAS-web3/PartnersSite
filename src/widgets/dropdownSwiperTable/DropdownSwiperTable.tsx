@@ -56,15 +56,7 @@ export const DropdownSwiperTable: FC<DropdownSwiperTableProps> = ({
       <div className="scroll-bar"></div>
       <Swiper
         ref={swiperRef}
-        slidesPerView={
-          isOn700Cols && is700
-            ? 2.5
-            : !isOn700Cols && is650
-            ? 1.5
-            : isOn700Cols && is650
-            ? 2.5
-            : cols?.length
-        }
+        slidesPerView={"auto"}
         direction="horizontal"
         modules={[Scrollbar]}
         scrollbar={{

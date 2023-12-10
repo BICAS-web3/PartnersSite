@@ -44,7 +44,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (periodSecond && address) {
+      if (periodSecond && address && signature) {
         const response = await api.getUsersRegistrationChart({
           auth: signature,
           timestamp,

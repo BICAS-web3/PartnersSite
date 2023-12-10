@@ -288,7 +288,7 @@ const Gamers: FC<GamersProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (activePeriod && address) {
+      if (activePeriod && address && signature) {
         const response = await api.getConnectedWallets({
           auth: signature,
           timestamp,
@@ -580,7 +580,7 @@ const Gamers: FC<GamersProps> = () => {
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
-            slidesPerView={is700 ? 2.5 : "auto"}
+            slidesPerView={"auto"}
             direction="horizontal"
             modules={[Scrollbar]}
             scrollbar={{

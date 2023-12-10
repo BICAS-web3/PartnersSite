@@ -462,7 +462,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
-            slidesPerView={is700 ? 2.5 : "auto"}
+            slidesPerView={"auto"}
             direction="horizontal"
             modules={[Scrollbar]}
             scrollbar={{

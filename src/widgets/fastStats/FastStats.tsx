@@ -182,7 +182,7 @@ export const FastStats: FC<FastStatsProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (tablePeriod && address) {
+      if (tablePeriod && address && signature) {
         const response = await api.getUsersRegistrationChart({
           auth: signature,
           timestamp,
