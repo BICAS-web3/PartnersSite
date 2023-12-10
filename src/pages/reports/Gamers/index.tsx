@@ -217,6 +217,14 @@ const Gamers: FC<GamersProps> = () => {
   const [mobTableOptions, setMobTableOpts] = useState(historyList);
 
   useEffect(() => {
+    setActivePeriod({
+      title: "Сегодня",
+      id: "todaysPeriod",
+      timeType: "daily",
+    });
+  }, []);
+
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
@@ -276,11 +284,11 @@ const Gamers: FC<GamersProps> = () => {
   const [answerWebsiteId, setAnswerWebsiteId] = useState<any>();
 
   useEffect(() => {
-    answerBody && setAnswerPlayerId(answerBody[0].address.slice(0, 5));
-    answerBody && setAnswerWebsiteId(answerBody[0].id);
+    answerBody && setAnswerPlayerId(answerBody[0]?.address?.slice(0, 5));
+    answerBody && setAnswerWebsiteId(answerBody[0]?.id);
     answerBody &&
       setAnswerRegistrationDate(
-        new Date(answerBody[0].timestamp * 1000).toDateString()
+        new Date(answerBody[0]?.timestamp * 1000).toDateString()
       );
   }, answerBody);
 
@@ -289,6 +297,7 @@ const Gamers: FC<GamersProps> = () => {
   useEffect(() => {
     (async () => {
       if (activePeriod && address && signature) {
+        console.log(666, activePeriod);
         const response = await api.getConnectedWallets({
           auth: signature,
           timestamp,
