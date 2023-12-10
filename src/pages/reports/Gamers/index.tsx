@@ -651,7 +651,7 @@ const Gamers: FC<GamersProps> = () => {
           </div>
         </div>
 
-        {answerBody && (
+        {answerBody && answerBody?.length > 0 && (
           <div className={s.slider_wrap}>
             <div className="scroll-bar"></div>{" "}
             <Swiper

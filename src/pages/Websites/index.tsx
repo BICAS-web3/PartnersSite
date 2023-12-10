@@ -128,27 +128,27 @@ interface WebsitesProps {}
 
 export interface IPagesResponse {
   title?: string;
-  basic: {
-    internal_id: number;
-    id: number;
-    name: string;
-    url: string;
-    partner_id: string;
-  };
-  sub_ids: {
-    internal_id: number;
-    id: number;
-    name: string;
-    url: string;
-    site_id: number;
-    partner_id: string;
-  }[];
+  basic_internal_id: number;
+  basic_id: number;
+  basic_name: string;
+  basic_url: string;
+  basic_partner_id: string;
 }
 
 const Websites: FC<WebsitesProps> = () => {
   const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
-  const [titleArr, setTitleArr] = useState([]);
+  const [titleArr, setTitleArr] = useState<string[]>([
+    "internal_id",
+    "id",
+    "name",
+    "url",
+    "partner_id",
+  ]);
+
+  useEffect(() => {
+    console.log(444, titleArr);
+  }, [titleArr]);
 
   const [addPage, setAddPage] = useState(false);
   const [pageResponseUpdated, setPageResponseUpdated] = useState<
@@ -176,7 +176,11 @@ const Websites: FC<WebsitesProps> = () => {
     ) {
       const change = pageResponse?.map((el, i) => {
         return {
-          ...el,
+          basic_internal_id: el.basic.internal_id,
+          basic_id: el.basic.id,
+          basic_name: el.basic.name,
+          basic_url: el.basic.url,
+          basic_partner_id: el.basic.partner_id,
           title: Object.keys(el.basic)[i],
         };
       });
@@ -184,17 +188,11 @@ const Websites: FC<WebsitesProps> = () => {
     }
   }, [pageResponse, pageResponseUpdated, updateGetRequest, addPage]);
   useEffect(() => {
-    if (pageResponseUpdated) {
-      setTitleArr(
-        pageResponseUpdated
-          .map((el: any) => el.title)
-          .reduce((accumulator: string[], currentValue: string) => {
-            if (!accumulator?.includes(currentValue)) {
-              accumulator?.push(currentValue);
-            }
-            return accumulator;
-          }, [])
-      );
+    if (
+      pageResponseUpdated &&
+      Array.isArray(pageResponseUpdated && pageResponseUpdated[0]?.basic)
+    ) {
+      setTitleArr(Object.keys(pageResponseUpdated[0]?.basic));
     }
   }, [pageResponseUpdated?.length]);
   const isMobile = useMediaQuery("(max-width:650px)");
@@ -287,7 +285,7 @@ const Websites: FC<WebsitesProps> = () => {
         signature
       ) {
         const data = await api.registerPage({
-          name: pageType,
+          name: categotyFilter || "Прогнозы на спорт",
           url: pageUrl,
           wallet: address.toLowerCase(),
           auth: signature,
@@ -305,97 +303,12 @@ const Websites: FC<WebsitesProps> = () => {
 
   const navigation = useRouter();
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
-  // const []
   function handleAddPage() {
     if (!isAuthed) {
       navigation.push("/");
     } else if (!pageUrl || !pageType || validateWebPage(pageUrl) === false) {
       setError(true);
     } else {
-      // const getLastId =
-      //   pageResponseUpdated &&
-      //   pageResponseUpdated[pageResponseUpdated?.length]?.id;
-      // setPageResponseUpdated((prev: any) => {
-      //   if (prev) {
-      //     return [
-      //       ...prev,
-      //       {
-      //         title: "ID",
-      //         id: getLastId && getLastId + 1,
-      //         text: getLastId && getLastId + 1,
-      //         typeFilter: pageType,
-      //       },
-      //       {
-      //         title: "Сайт",
-      //         id: getLastId && getLastId + 1,
-      //         text: pageUrl,
-      //         typeFilter: pageType,
-      //       },
-      //       {
-      //         title: "Состояние",
-      //         id: getLastId && getLastId + 1,
-      //         text: pageType,
-      //         typeFilter: pageType,
-      //       },
-      //     ];
-      //   } else {
-      //     return [
-      //       {
-      //         title: "ID",
-      //         id: getLastId && getLastId + 1,
-      //         text: getLastId && getLastId + 1,
-      //         typeFilter: pageType,
-      //       },
-      //       {
-      //         title: "Сайт",
-      //         id: getLastId && getLastId + 1,
-      //         text: pageUrl,
-      //         typeFilter: pageType,
-      //       },
-      //       {
-      //         title: "Состояние",
-      //         id: getLastId && getLastId + 1,
-      //         text: pageType,
-      //         typeFilter: pageType,
-      //       },
-      //     ];
-      //   }
-      // });
-      // setPageResponseUpdated((prev: any) => {
-      //   if (prev && Array.isArray(prev)) {
-      //     return [
-      //       ...prev,
-      //       {
-      //         basic: {
-      //           internal_id:
-      //             prev && prev[prev?.length - 1]?.basic?.internal_id + 1,
-      //           id: prev && prev[prev?.length - 1]?.basic?.id,
-      //           name: pageType,
-      //           url: pageUrl,
-      //           partner_id:
-      //             prev && prev[prev?.length - 1]?.basic?.partner_id + 1,
-      //         },
-      //         sub_ids: [],
-      //       },
-      //     ];
-      //   } else {
-      //     return [
-      //       {
-      //         basic: {
-      //           internal_id:
-      //             (prev && prev[prev?.length - 1]?.basic?.internal_id + 1) || 0,
-      //           id: (prev && prev[prev?.length - 1]?.basic?.id) || 0,
-      //           name: pageType,
-      //           url: pageUrl,
-      //           partner_id:
-      //             (prev && prev[prev?.length - 1]?.basic?.partner_id + 1) || 0,
-      //         },
-      //         sub_ids: [],
-      //       },
-      //     ];
-      //   }
-      // });
-
       setAddPage(true);
     }
   }
@@ -529,6 +442,7 @@ const Websites: FC<WebsitesProps> = () => {
                 setMobileTableLing={setMobileTableLing}
                 setTitleArr={setTitleArr}
                 titleArr={titleArr}
+                isPartnerPage={true}
               />
               <div
                 className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
@@ -578,7 +492,7 @@ const Websites: FC<WebsitesProps> = () => {
                 >
                   <span className="mobile_filter_item_title">Показать</span>
                   <span className="mobile_filter_item_picked_value">
-                    Выбранsо {titleArr?.length ? titleArr?.length - 1 : 0} п.
+                    Выбрано {titleArr?.length ? titleArr?.length : 0} п.
                   </span>
                 </div>
 
@@ -672,114 +586,91 @@ const Websites: FC<WebsitesProps> = () => {
                 activeOptions={activeOptions}
                 setTitleArr={setTitleArr}
                 titleArr={titleArr}
+                isRefPage={true}
               />
             </div>
           </div>
 
-          <div className={s.table_wrap}>
-            <div className="scroll-bar"></div>{" "}
-            <Swiper
-              ref={swiperRef}
-              slidesPerView={"auto"}
-              direction="horizontal"
-              modules={[Scrollbar]}
-              scrollbar={{
-                el: ".scroll-bar",
-                draggable: true,
-              }}
-              spaceBetween={2}
-              centeredSlides={false}
-              className={s.swiper}
-            >
-              {pageResponseUpdated &&
-                pageResponseUpdated?.length > 0 &&
-                Object?.keys(
-                  (
-                    pageResponseUpdated &&
-                    (pageResponseUpdated[0] as IPagesResponse)
-                  )?.basic
-                )
-                  // .filter((el) => {
-                  //   if (titleArr?.length > 0) {
-                  //     if (titleArr.find((str) => str == el)) {
-                  //       return el;
-                  //     }
-                  //   } else {
-                  //     return el;
-                  //   }
-                  // })
-                  .map((el: string, i: number) => {
-                    return (
-                      <SwiperSlide
-                        className={s.swiper_slide}
-                        key={el}
-                        data-id={el}
-                      >
-                        <div className={s.swiper_slide_body}>
-                          <div className={s.swiper_slide_header}>
-                            <span className={s.swiper_slide_title}>{el}</span>
-                            <Image src={upDownArrows} alt="sort-ico" />
-                          </div>
-                          <div className={s.swiper_slide_content}>
-                            {(isMobile ? mobTableOptions : activeOptions)
-                              ?.filter((eld: IPagesResponse) => {
-                                if (categotyFilter?.length <= 0) {
-                                  return eld;
-                                } else {
-                                  if (
-                                    eld.basic.name.toLowerCase() ===
-                                    categotyFilter.toLowerCase()
-                                  )
-                                    return eld;
-                                }
-                              })
-                              ?.map((element: IPagesResponse, index) => {
-                                const newArr = Object?.keys(
-                                  pageResponseUpdated &&
-                                    (pageResponseUpdated[0] as IPagesResponse)
-                                      ?.basic
-                                );
-                                if (el === newArr[0]) {
-                                  return (
-                                    <span key={index}>
-                                      {element.basic.internal_id}
-                                    </span>
-                                  );
-                                } else if (el === newArr[1]) {
-                                  return (
-                                    <span key={index}>{element.basic.id}</span>
-                                  );
-                                } else if (el === newArr[2]) {
-                                  return (
-                                    <span key={index}>
-                                      {element.basic.name}
-                                    </span>
-                                  );
-                                } else if (el === newArr[3]) {
-                                  return (
-                                    <a
-                                      href={element.basic.url}
-                                      target="_blank"
-                                      key={index}
-                                    >
-                                      {element.basic.url}
-                                    </a>
-                                  );
-                                } else if (el === newArr[4]) {
-                                  return (
-                                    <span key={index}>
-                                      {element.basic.partner_id}
-                                    </span>
-                                  );
-                                }
-                              })}
-                          </div>
-                        </div>
-                      </SwiperSlide>
-                    );
-                  })}{" "}
-            </Swiper>
-          </div>
+          {pageResponseUpdated && pageResponseUpdated?.length > 0 && (
+            <div className={s.table_wrap}>
+              <div className="scroll-bar"></div>{" "}
+              <Swiper
+                ref={swiperRef}
+                slidesPerView={"auto"}
+                direction="horizontal"
+                modules={[Scrollbar]}
+                scrollbar={{
+                  el: ".scroll-bar",
+                  draggable: true,
+                }}
+                spaceBetween={2}
+                centeredSlides={false}
+                className={s.swiper}
+              >
+                {titleArr?.map((el, index) => (
+                  <SwiperSlide
+                    className={s.swiper_slide}
+                    key={index}
+                    data-id={el}
+                  >
+                    <div className={s.swiper_slide_body}>
+                      <div className={s.swiper_slide_header}>
+                        <span className={s.swiper_slide_title}>{el}</span>
+                        <Image src={upDownArrows} alt="sort-ico" />
+                      </div>
+                      <div className={s.swiper_slide_content}>
+                        {(isMobile ? mobTableOptions : activeOptions)
+                          ?.filter((eld: IPagesResponse) => {
+                            if (categotyFilter?.length <= 0) {
+                              return eld;
+                            } else {
+                              if (
+                                eld.basic_name.toLowerCase() ===
+                                categotyFilter.toLowerCase()
+                              )
+                                return eld;
+                            }
+                          })
+                          ?.map((element: IPagesResponse, index) => {
+                            if (el === "internal_id") {
+                              return (
+                                <span key={index}>
+                                  {element.basic_internal_id}
+                                </span>
+                              );
+                            } else if (el === "id") {
+                              return (
+                                <span key={index}>{element.basic_id}</span>
+                              );
+                            } else if (el === "name") {
+                              return (
+                                <span key={index}>{element.basic_name}</span>
+                              );
+                            } else if (el === "url") {
+                              return (
+                                <a
+                                  href={element.basic_url}
+                                  target="_blank"
+                                  key={index}
+                                >
+                                  {element.basic_url}
+                                </a>
+                              );
+                            } else if (el === "partner_id") {
+                              return (
+                                <span key={index}>
+                                  {element?.basic_partner_id}
+                                </span>
+                              );
+                            }
+                          })}
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )}
           <div className={s.table_navigation_block}>
             <div className={s.table_records_block}>
               <p className={s.table_records_text}>

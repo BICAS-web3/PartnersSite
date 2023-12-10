@@ -480,7 +480,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
           />
         </div>
 
-        {pageResponseUpdated && (
+        {pageResponseUpdated && pageResponseUpdated?.length > 0 && (
           <div className={s.table_wrap}>
             <div className="scroll-bar"></div>{" "}
             <Swiper

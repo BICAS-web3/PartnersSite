@@ -126,14 +126,15 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
                 setTitleArr(updateList);
               } else {
                 setTitleArr(
-                  startList
-                    .map((el: any) => el.title)
-                    .reduce((accumulator: string[], currentValue: string) => {
-                      if (!accumulator?.includes(currentValue)) {
-                        accumulator?.push(currentValue);
-                      }
-                      return accumulator;
-                    }, [])
+                  // startList
+                  //   .map((el: any) => el.title)
+                  //   .reduce((accumulator: string[], currentValue: string) => {
+                  //     if (!accumulator?.includes(currentValue)) {
+                  //       accumulator?.push(currentValue);
+                  //     }
+                  //     return accumulator;
+                  //   }, [])
+                  Object.keys(startList[0]?.basic)
                 );
               }
 
