@@ -485,7 +485,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             <div className="scroll-bar"></div>{" "}
             <Swiper
               ref={swiperRef}
-              slidesPerView={isMobile ? 2.5 : "auto"}
+              slidesPerView={"auto"}
               direction="horizontal"
               modules={[Scrollbar]}
               scrollbar={{

@@ -669,7 +669,7 @@ const Websites: FC<WebsitesProps> = () => {
             <div className="scroll-bar"></div>{" "}
             <Swiper
               ref={swiperRef}
-              slidesPerView={isMobile ? 2.5 : "auto"}
+              slidesPerView={"auto"}
               direction="horizontal"
               modules={[Scrollbar]}
               scrollbar={{

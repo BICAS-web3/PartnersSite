@@ -26,9 +26,7 @@ export const PromocodesTable: FC<PromocodesTableProps> = ({
       <div className="scroll-bar"></div>
       <Swiper
         ref={swiperRef}
-        slidesPerView={
-          is1280 ? "auto" : is700 ? "auto" : is650 ? "auto" : cols.length
-        }
+        slidesPerView={"auto"}
         direction="horizontal"
         modules={[Scrollbar]}
         scrollbar={{

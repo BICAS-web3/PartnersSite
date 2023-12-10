@@ -368,7 +368,7 @@ const Total: FC<TotalProps> = () => {
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
-            slidesPerView={is650 ? 2.5 : "auto"}
+            slidesPerView={"auto"}
             direction="horizontal"
             modules={[Scrollbar]}
             scrollbar={{

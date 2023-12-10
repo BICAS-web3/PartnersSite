@@ -23,6 +23,9 @@ export const Header: FC<HeaderProps> = () => {
   const { signMessage, data: signMessageData, isSuccess } = useSignMessage();
   const [updateSignature, setUpdateSignature] = useState(false);
 
+  // useEffect(() => {
+  //   alert(updateSignature);
+  // }, [updateSignature]);
   const [setReadyUpdate, readyUpdate] = useUnit([
     HeaderModel.setReadyUpdate,
     HeaderModel.$readyUpdate,
@@ -117,21 +120,26 @@ export const Header: FC<HeaderProps> = () => {
   }, []);
 
   useEffect(() => {
+    if (isSuccess) {
+      setReadyUpdate(true);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (
       (localEmail ||
         localName ||
         localLastName ||
         localSignature ||
         localTimestamp) &&
-      isConnected &&
-      readyUpdate
+      isConnected
     ) {
       const currentTime = Date.now();
       const timeDifference = currentTime - localTimestamp;
-
       if (timeDifference > 60000 * 10) {
         setUpdateSignature(true);
       } else {
+        setReadyUpdate(true);
         setTimestamp(localTimestamp);
         setSignature(localSignature);
       }
@@ -202,13 +210,14 @@ export const Header: FC<HeaderProps> = () => {
     const run = async () => {
       if (isConnected && updateSignature) {
         const now = Date.now();
-        setTimestamp(now);
-        setLocalTimestamp(now);
+
         localStorage.setItem(`${address}-timestamp`, `${now}`);
         await sleep(2000);
         signMessage({
           message: `PARTNER AUTH ${address!.toLowerCase()} ${now}`,
         });
+        setTimestamp(now);
+        setLocalTimestamp(now);
       }
     };
     run();
