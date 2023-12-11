@@ -7,6 +7,7 @@
 }
 
 .export_back_btn {
+  height: 40px;
   border-radius: 5px;
   border: 1px solid var(--outline-3-e, #3e3e3e);
   background: var(--gray-3125, #252525);
@@ -17,5 +18,5 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
+  line-height: 20px;
 }

@@ -22,6 +22,8 @@ import { languagesList } from "@/widgets/header/RightMenu";
 import planet1280Img from "@/public/media/initPageImages/1280Tablet.png";
 import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
 import planetMobImg from "@/public/media/initPageImages/mobPlanetImg.png";
+import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 
 interface WelcomePageProps {}
 
@@ -80,6 +82,13 @@ const WelcomePage: FC<WelcomePageProps> = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  const router = useRouter();
+  const { isConnected } = useAccount();
+
+  useEffect(() => {
+    isConnected && router.push("/home");
   }, []);
 
   useEffect(() => {

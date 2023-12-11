@@ -122,3 +122,31 @@
   display: flex;
   align-items: center;
 }
+
+.full_width {
+  span {
+    max-width: fit-content;
+  }
+}
+
+.title_custom {
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.custom_picked_circle {
+  margin-right: 12px;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #252525;
+  background: #181818;
+}
+
+.active_circle {
+  color: red;
+}
