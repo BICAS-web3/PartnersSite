@@ -631,6 +631,7 @@ const Websites: FC<WebsitesProps> = () => {
                                 return eld;
                             }
                           })
+                          ?.slice(0, 10)
                           ?.map((element: IPagesResponse, index) => {
                             if (el === "internal_id") {
                               return (

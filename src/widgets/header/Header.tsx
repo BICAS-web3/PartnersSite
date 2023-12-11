@@ -241,6 +241,16 @@ export const Header: FC<HeaderProps> = () => {
           auth: signature,
           timestamp,
         });
+
+        if (
+          respobse.status === "Err" &&
+          ((respobse.body as any)?.error as string).includes(
+            "Bad signature provided address"
+          )
+        ) {
+          setUpdateSignature(true);
+        }
+
         setResponseBody(respobse.body as api.R_getUser);
         setHandleRequest(false);
       }
