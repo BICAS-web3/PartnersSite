@@ -20,17 +20,17 @@ import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import * as HeaderModel from "@/widgets/header/model";
 
 import prevArrow from "@/public/media/common/prevArrow.png";
-import nextArrow from "@/public/media/common/nextArrow.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
 import * as api from "@/shared/api";
 
-import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+import { SwiperRef, SwiperSlide } from "swiper/react";
 import { useMediaQuery } from "@/shared/tools";
-import { Scrollbar } from "swiper/modules";
 
 import s from "./styles.module.scss";
+import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
+import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
 
 export const siteCategories = [
   {
@@ -97,33 +97,6 @@ export const tableColumnsList = [
   },
 ];
 
-export const tableRowsList = [
-  {
-    title: 5,
-    id: "five",
-  },
-  {
-    title: 10,
-    id: "ten",
-  },
-  {
-    title: 20,
-    id: "twenty",
-  },
-  {
-    title: 25,
-    id: "twentyFive",
-  },
-  {
-    title: 50,
-    id: "fifty",
-  },
-  {
-    title: 100,
-    id: "hundred",
-  },
-];
-
 interface WebsitesProps {}
 
 export interface IPagesResponse {
@@ -145,10 +118,6 @@ const Websites: FC<WebsitesProps> = () => {
     "url",
     "partner_id",
   ]);
-
-  useEffect(() => {
-    console.log(444, titleArr);
-  }, [titleArr]);
 
   const [addPage, setAddPage] = useState(false);
   const [pageResponseUpdated, setPageResponseUpdated] = useState<
@@ -218,6 +187,7 @@ const Websites: FC<WebsitesProps> = () => {
     id?: string;
   }>({});
 
+  const [recordCount, setRecordCount] = useState(10);
   const [mobTableOptions, setMobTableOpts] = useState([]);
 
   useEffect(() => {
@@ -300,6 +270,7 @@ const Websites: FC<WebsitesProps> = () => {
       }
     })();
   }, [isConnected, address, addPage, readyUpdate, signature]);
+  const [numberPage, setNumberPage] = useState<number>(1);
 
   const navigation = useRouter();
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
@@ -330,8 +301,6 @@ const Websites: FC<WebsitesProps> = () => {
           timestamp,
         });
         if (data.status === "OK") {
-          console.log("-----------", data.body);
-
           if (data?.body && Array.isArray(data?.body)) {
             setSubidPage(
               data.body[data.body?.length - 1] as {
@@ -388,6 +357,10 @@ const Websites: FC<WebsitesProps> = () => {
   const [mobileTableLeng, setMobileTableLing] = useState<number>();
 
   const [categotyFilter, setCategoryFilter] = useState("");
+
+  useEffect(() => {
+    setNumberPage(1);
+  }, [recordCount]);
 
   return (
     <Layout activePage="websites">
@@ -590,113 +563,72 @@ const Websites: FC<WebsitesProps> = () => {
               />
             </div>
           </div>
-
-          {pageResponseUpdated && pageResponseUpdated?.length > 0 && (
-            <div className={s.table_wrap}>
-              <div className="scroll-bar"></div>{" "}
-              <Swiper
-                ref={swiperRef}
-                slidesPerView={"auto"}
-                direction="horizontal"
-                modules={[Scrollbar]}
-                scrollbar={{
-                  el: ".scroll-bar",
-                  draggable: true,
-                }}
-                spaceBetween={2}
-                centeredSlides={false}
-                className={s.swiper}
-              >
-                {titleArr?.map((el, index) => (
-                  <SwiperSlide
-                    className={s.swiper_slide}
-                    key={index}
-                    data-id={el}
-                  >
-                    <div className={s.swiper_slide_body}>
-                      <div className={s.swiper_slide_header}>
-                        <span className={s.swiper_slide_title}>{el}</span>
-                        <Image src={upDownArrows} alt="sort-ico" />
-                      </div>
-                      <div className={s.swiper_slide_content}>
-                        {(isMobile ? mobTableOptions : activeOptions)
-                          ?.filter((eld: IPagesResponse) => {
-                            if (categotyFilter?.length <= 0) {
-                              return eld;
-                            } else {
-                              if (
-                                eld.basic_name.toLowerCase() ===
-                                categotyFilter.toLowerCase()
-                              )
-                                return eld;
-                            }
-                          })
-                          ?.slice(0, 10)
-                          ?.map((element: IPagesResponse, index) => {
-                            if (el === "internal_id") {
-                              return (
-                                <span key={index}>
-                                  {element.basic_internal_id}
-                                </span>
-                              );
-                            } else if (el === "id") {
-                              return (
-                                <span key={index}>{element.basic_id}</span>
-                              );
-                            } else if (el === "name") {
-                              return (
-                                <span key={index}>{element.basic_name}</span>
-                              );
-                            } else if (el === "url") {
-                              return (
-                                <a
-                                  href={element.basic_url}
-                                  target="_blank"
-                                  key={index}
-                                >
-                                  {element.basic_url}
-                                </a>
-                              );
-                            } else if (el === "partner_id") {
-                              return (
-                                <span key={index}>
-                                  {element?.basic_partner_id}
-                                </span>
-                              );
-                            }
-                          })}
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          )}
-          <div className={s.table_navigation_block}>
-            <div className={s.table_records_block}>
-              <p className={s.table_records_text}>
-                Записи с 1 по 1 (всего 1 записей)
-              </p>
-            </div>
-            <div className={s.table_pages_wrap}>
-              <div className={s.table_pages_block}>
-                <div className={s.table_prev_page_btn}>
-                  <Image src={prevArrow} alt="prev-arr" />
+          <SwiperWrap data={pageResponseUpdated} swiperRef={swiperRef}>
+            {titleArr?.map((el, index) => (
+              <SwiperSlide className={s.swiper_slide} key={index} data-id={el}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>{el}</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    {(isMobile ? mobTableOptions : activeOptions)
+                      ?.filter((eld: IPagesResponse) => {
+                        if (categotyFilter?.length <= 0) {
+                          return eld;
+                        } else {
+                          if (
+                            eld.basic_name.toLowerCase() ===
+                            categotyFilter.toLowerCase()
+                          )
+                            return eld;
+                        }
+                      })
+                      ?.slice(
+                        numberPage === 1
+                          ? 0
+                          : numberPage * Number(recordCount) - recordCount,
+                        numberPage === 1
+                          ? Number(recordCount)
+                          : numberPage * Number(recordCount)
+                      )
+                      ?.map((element: IPagesResponse, index) => {
+                        if (el === "internal_id") {
+                          return (
+                            <span key={index}>{element.basic_internal_id}</span>
+                          );
+                        } else if (el === "id") {
+                          return <span key={index}>{element.basic_id}</span>;
+                        } else if (el === "name") {
+                          return <span key={index}>{element.basic_name}</span>;
+                        } else if (el === "url") {
+                          return (
+                            <a
+                              href={element.basic_url}
+                              target="_blank"
+                              key={index}
+                            >
+                              {element.basic_url}
+                            </a>
+                          );
+                        } else if (el === "partner_id") {
+                          return (
+                            <span key={index}>{element?.basic_partner_id}</span>
+                          );
+                        }
+                      })}
+                  </div>
                 </div>
-                <div className={s.table_current_page_btn}>1</div>
-                <div className={s.table_next_page_btn}>
-                  <Image src={nextArrow} alt="next-arr" />
-                </div>
-              </div>
-              <div className={s.choose_table_rows_block}>
-                <CustomDropdownInput
-                  list={tableRowsList}
-                  activeItemId="ten"
-                  height={30}
-                />
-              </div>
-            </div>
-          </div>
+              </SwiperSlide>
+            ))}
+          </SwiperWrap>
+          <SwiperNavigation
+            numberPage={numberPage}
+            data={pageResponseUpdated}
+            recordCount={recordCount}
+            setNumberPage={setNumberPage}
+            setRecordCount={setRecordCount}
+          />
         </div>
       </section>
     </Layout>

@@ -157,7 +157,8 @@
   justify-content: space-between;
   padding: 8px 14px;
   background: #202020;
-  flex: 1 1 auto;
+  // flex: 1 1 auto;
+  height: 53px;
   img {
     cursor: pointer;
   }
@@ -203,7 +204,7 @@
 }
 
 .swiper_slide {
-  max-width: 206px;
+  // max-width: 206px;
   &:first-child {
     border-radius: 12px 0px 0px 12px;
     overflow: hidden;
@@ -212,35 +213,12 @@
     border-radius: 0 12px 12px 0;
     overflow: hidden;
   }
-  // @media (max-width: 1600px) {
-  //   &[data-id="id_page"] {
-  //     max-width: 116px;
-  //   }
-  //   &[data-id="country"] {
-  //     max-width: 140px;
-  //   }
-  //   &[data-id="id_players"] {
-  //     max-width: 150px;
-  //   }
-  //   &[data-id="deposti_summ"] {
-  //     max-width: 191px;
-  //   }
-  //   &[data-id="data_registration"] {
-  //     max-width: 153px;
-  //   }
-  //   &[data-id="data_registration"] {
-  //     max-width: 153px;
-  //   }
-  //   &[data-id="page"] {
-  //     max-width: 185px;
-  //   }
-  //   &[data-id="subid"] {
-  //     max-width: 114px;
-  //   }
-  // }
   width: max-content !important;
-  max-width: max-content !important;
-  min-width: 200px;
+  min-width: max-content;
+  @media (max-width: 1200px) {
+    min-width: 200px;
+  }
+  flex: 1 0 auto;
 }
 
 .table_navigation_block {

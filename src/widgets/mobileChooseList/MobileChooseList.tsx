@@ -33,32 +33,32 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
   const [activeItems, setActiveItems] = useState<any>([]);
 
-  // useEffect(() => {
-  //   setPickedList(activeItems);
-  // });
+  useEffect(() => {
+    setPickedList(activeItems);
+  });
 
-  // useEffect(() => {
-  //   if (allPicked) {
-  //     setActiveItems(list);
-  //   }
-  // });
+  useEffect(() => {
+    if (allPicked) {
+      setActiveItems(list);
+    }
+  });
 
-  // console.log(activeItems);
+  console.log(activeItems);
 
-  // useEffect(() => {
-  //   if (allPicked) {
-  //     setActiveItems(list);
-  //   }
-  // });
+  useEffect(() => {
+    if (allPicked) {
+      setActiveItems(list);
+    }
+  });
 
-  // console.log(activeItems);
+  console.log(activeItems);
 
-  // useEffect(() => {
-  //   if (allPicked) {
-  //     setActiveItems(list);
-  //   }
+  useEffect(() => {
+    if (allPicked) {
+      setActiveItems(list);
+    }
+  });
   const [click, setClick] = useState(false);
-  // });
   const [startList, setStartList] = useState<any>();
   const [getApi, setGetApi] = useState(true);
   useEffect(() => {

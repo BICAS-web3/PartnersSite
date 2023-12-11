@@ -28,13 +28,13 @@ import nextArrow from "@/public/media/common/nextArrow.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
-import { tableRowsList } from "../../Websites";
-
 import "swiper/scss";
 import s from "./styles.module.scss";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 import { useAccount } from "wagmi";
 import { WebsiteTableFilter } from "@/widgets/websitesUI";
+import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
+import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 
 const periodsList = [
   {
@@ -294,25 +294,10 @@ const Gamers: FC<GamersProps> = () => {
   const { address } = useAccount();
 
   const [answerBody, setAnswerBody] = useState<IResponse[] | any>();
-  const [answerPlayerId, setAnswerPlayerId] = useState<any>();
-  const [answerRegistrationDate, setAnswerRegistrationDate] = useState<any>();
-  const [answerWebsiteId, setAnswerWebsiteId] = useState<any>();
-
-  // useEffect(() => {
-  //   answerBody && setAnswerPlayerId(answerBody[0]?.address?.slice(0, 5));
-  //   answerBody && setAnswerWebsiteId(answerBody[0]?.id);
-  //   answerBody &&
-  //     setAnswerRegistrationDate(
-  //       new Date(answerBody[0]?.timestamp * 1000).toDateString()
-  //     );
-  // }, answerBody);
-
-  console.log("DATA");
 
   useEffect(() => {
     (async () => {
       if (activePeriod && address && signature) {
-        console.log(666, activePeriod);
         const response = await api.getConnectedWallets({
           auth: signature,
           timestamp,
@@ -322,13 +307,6 @@ const Gamers: FC<GamersProps> = () => {
         if (response.status === "OK") {
           // if ((response.body as any)?.length <= 0) {
           //   setAnswerBody([
-          //     {
-          //       id: 233,
-          //       address: "0xcf133a1233470fd50bb710276994e9f3c0e822f6",
-          //       timestamp: 1702218527,
-          //       site_id: 0,
-          //       sub_id: 0,
-          //     },
           //     {
           //       id: 233,
           //       address: "0xcf133a1233470fd50bb710276994e9f3c0e822f6",
@@ -346,6 +324,12 @@ const Gamers: FC<GamersProps> = () => {
       }
     })();
   }, [activePeriod, signature]);
+
+  const [numberPage, setNumberPage] = useState<number>(1);
+  const [recordCount, setRecordCount] = useState(10);
+  useEffect(() => {
+    setNumberPage(1);
+  }, [recordCount]);
 
   return (
     <Layout activePage="byGamers">
@@ -650,130 +634,59 @@ const Gamers: FC<GamersProps> = () => {
             <CustomDropdownInput list={exportList} activeItemId="export" />
           </div>
         </div>
-
-        {answerBody && answerBody?.length > 0 && (
-          <div className={s.slider_wrap}>
-            <div className="scroll-bar"></div>{" "}
-            <Swiper
-              ref={swiperRef}
-              slidesPerView={"auto"}
-              direction="horizontal"
-              modules={[Scrollbar]}
-              scrollbar={{
-                el: ".scroll-bar",
-                draggable: true,
-              }}
-              spaceBetween={2}
-              centeredSlides={false}
-              className={s.swiper}
-            >
-              {titleArr.map((slide_title, index) => (
-                <SwiperSlide key={index} className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>
-                        {slide_title}
-                      </span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {answerBody?.map((el: IResponse, i: number) => {
-                        if (slide_title === "ID сайта") {
-                          return <span key={i}>{el.site_id}</span>;
-                        } else if (slide_title === "SubID") {
-                          return <span key={i}>{el.sub_id}</span>;
-                        } else if (slide_title === "Дата регистрации") {
-                          const data = new Date(el.timestamp * 1000);
-                          return (
-                            <span key={i}>{`${`${data.getDay() + 1}`.padStart(
-                              2,
-                              "0"
-                            )}.${`${data.getMonth() + 1}`.padStart(
-                              2,
-                              "0"
-                            )}.${data.getFullYear()}`}</span>
-                          );
-                        } else if (slide_title === "Адрес игрока") {
-                          return <span key={i}>{el.address}</span>;
-                        }
-                      })}
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-        <div className={s.table_navigation_block}>
-          <div className={s.table_records_block}>
-            <p className={s.table_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
-            </p>
-          </div>
-          <div className={s.table_pages_wrap}>
-            <div className={s.table_pages_block}>
-              <div className={s.table_prev_page_btn}>
-                <Image src={prevArrow} alt="prev-arr" />
+        <SwiperWrap data={answerBody} swiperRef={swiperRef}>
+          {titleArr.map((slide_title, index) => (
+            <SwiperSlide key={index} className={s.swiper_slide}>
+              <div className={s.swiper_slide_body}>
+                <div className={s.swiper_slide_header}>
+                  <span className={s.swiper_slide_title}>{slide_title}</span>
+                  <Image src={upDownArrows} alt="sort-ico" />
+                </div>
+                <div className={s.swiper_slide_content}>
+                  {answerBody
+                    ?.slice(
+                      numberPage === 1
+                        ? 0
+                        : numberPage * Number(recordCount) - recordCount,
+                      numberPage === 1
+                        ? Number(recordCount)
+                        : numberPage * Number(recordCount)
+                    )
+                    ?.map((el: IResponse, i: number) => {
+                      if (slide_title === "ID сайта") {
+                        return <span key={i}>{el.site_id}</span>;
+                      } else if (slide_title === "SubID") {
+                        return <span key={i}>{el.sub_id}</span>;
+                      } else if (slide_title === "Дата регистрации") {
+                        const data = new Date(el.timestamp * 1000);
+                        return (
+                          <span key={i}>{`${`${data.getDay() + 1}`.padStart(
+                            2,
+                            "0"
+                          )}.${`${data.getMonth() + 1}`.padStart(
+                            2,
+                            "0"
+                          )}.${data.getFullYear()}`}</span>
+                        );
+                      } else if (slide_title === "Адрес игрока") {
+                        return <span key={i}>{el.address}</span>;
+                      }
+                    })}
+                </div>
               </div>
-              <div className={s.table_current_page_btn}>1</div>
-              <div className={s.table_next_page_btn}>
-                <Image src={nextArrow} alt="next-arr" />
-              </div>
-            </div>
-            <div className={s.choose_table_rows_block}>
-              <CustomDropdownInput
-                list={tableRowsList}
-                activeItemId="ten"
-                height={30}
-              />
-            </div>
-          </div>
-        </div>
+            </SwiperSlide>
+          ))}
+        </SwiperWrap>
+        <SwiperNavigation
+          data={answerBody}
+          numberPage={numberPage}
+          recordCount={recordCount}
+          setNumberPage={setNumberPage}
+          setRecordCount={setRecordCount}
+        />
       </section>
     </Layout>
   );
 };
 
 export default Gamers;
-{
-  /* <div className={s.slider_wrap}>
-          <div className="scroll-bar"></div>
-          <Swiper
-            ref={swiperRef}
-            slidesPerView={"auto"}
-            direction="horizontal"
-            modules={[Scrollbar]}
-            scrollbar={{
-              el: ".scroll-bar",
-              draggable: true,
-            }}
-            spaceBetween={2}
-            centeredSlides={false}
-            className={s.swiper}
-          >
-            {(isMobile ? mobTableOptions : activeOpts).map((item, ind) => (
-              <SwiperSlide
-                className={s.swiper_slide}
-                key={ind}
-                data-id={item.id}
-              >
-                <div className={s.swiper_slide_body}>
-                  <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>{item.title}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
-                  </div>
-                  <div className={s.swiper_slide_content}>
-                    {item.id === "playerId"
-                      ? answerPlayerId
-                      : item.id === "registrationDate"
-                      ? answerRegistrationDate
-                      : item.id === "pageId"
-                      ? answerWebsiteId
-                      : item.text}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div> */
-}

@@ -1,9 +1,14 @@
 .websites_page {
   padding: 10px 20px 20px 20px;
+  flex: 1 1 auto;
 }
 
 .websites_block {
   width: 100%;
+  flex: 1 1 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .adding_website_block {
@@ -131,6 +136,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  // margin-top: auto;
 }
 
 .table_pages_block {
@@ -260,6 +266,24 @@
 .table_wrap {
   display: grid;
   margin-top: 6px;
+  max-height: 470px;
+  overflow-y: scroll;
+  scrollbar-width: 6px;
+  padding-right: 5px;
+  overflow-x: hidden;
+  scrollbar-color: var(--gray-436, #363636) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: var(--gray-436, #363636);
+    border-radius: 3px;
+  }
+
+  -ms-overflow-style: -ms-autohiding-scrollbar;
   @media (max-width: 650px) {
     margin-top: 14px;
   }
@@ -267,6 +291,9 @@
 
 .swiper {
   width: 100%;
+  margin-bottom: auto;
+  // height: 550px;
+  // overflow-y: scroll;
 }
 
 .swiper_slide_body {
@@ -285,7 +312,8 @@
   justify-content: space-between;
   padding: 8px 14px;
   background: #202020;
-  flex: 1 1 auto;
+  // flex: 1 1 auto;
+  height: 53px;
   img {
     cursor: pointer;
   }
@@ -329,10 +357,6 @@
   }
 }
 
-// .swiper_slide {
-//   max-width: 206px;
-// }
-
 .swiper_slide {
   &:first-child {
     .swiper_slide_body {
@@ -350,9 +374,10 @@
       border-radius: 0 8px 0 0;
     }
   }
-  // flex: 1 0 200px;
-  // min-width: 200px !important;
   width: max-content !important;
-  max-width: max-content !important;
-  min-width: 200px;
+  min-width: max-content;
+  @media (max-width: 1200px) {
+    min-width: 200px;
+  }
+  flex: 1 0 auto;
 }

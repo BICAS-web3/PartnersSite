@@ -55,6 +55,7 @@ export const optsList = [
 interface CommissionStructureProps {}
 
 const CommissionStructure: FC<CommissionStructureProps> = () => {
+  const [titleArr, setTitleArr] = useState(optsList.map((el) => el.title));
   const [activeOps, setActiveOpts] = useState<
     | {
         title?: string;
@@ -187,6 +188,9 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
                   list={optsList}
                   allPicked={true}
                   setActiveOptions={setActiveOpts}
+                  titleArr={titleArr}
+                  setTitleArr={setTitleArr}
+                  isRefPage={true}
                 />
               </div>
             </div>
