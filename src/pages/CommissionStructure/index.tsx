@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import Image from "next/image";
 import { CustomDropDownItem } from "@/widgets/customDropdownChoose/CustomDropDownItem";
-import { tableRowsList } from "../Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
@@ -55,6 +55,7 @@ export const optsList = [
 interface CommissionStructureProps {}
 
 const CommissionStructure: FC<CommissionStructureProps> = () => {
+  const [titleArr, setTitleArr] = useState(optsList.map((el) => el.title));
   const [activeOps, setActiveOpts] = useState<
     | {
         title?: string;
@@ -187,6 +188,9 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
                   list={optsList}
                   allPicked={true}
                   setActiveOptions={setActiveOpts}
+                  titleArr={titleArr}
+                  setTitleArr={setTitleArr}
+                  isRefPage={true}
                 />
               </div>
             </div>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Scrollbar } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 
-import { tableRowsList } from "@/pages/Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
 
 import prevArrow from "@/public/media/common/prevArrow.png";

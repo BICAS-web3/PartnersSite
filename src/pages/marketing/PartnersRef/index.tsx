@@ -7,18 +7,14 @@ import { currenciesList } from "@/pages/PayoutsHistory";
 import Image from "next/image";
 import filterIco from "@/public/media/common/filterImg.png";
 import "swiper/scss";
-import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
-import { Scrollbar } from "swiper/modules";
+import { SwiperSlide, SwiperRef } from "swiper/react";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
-import { tableRowsList } from "@/pages/Websites";
 import prevArrow from "@/public/media/common/prevArrow.png";
-import nextArrow from "@/public/media/common/nextArrow.png";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptiveInput } from "@/widgets/adaptiveInput/AdaptiveInput";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
-import { PartnerfRefTable } from "../../../widgets/partnersRefTable/Table";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import * as HeaderModel from "@/widgets/header/model";
 
@@ -28,7 +24,8 @@ import { useUnit } from "effector-react";
 import { useAccount } from "wagmi";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import { WebsiteTableFilter } from "@/widgets/websitesUI";
-import clsx from "clsx";
+import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
+import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 
 export const sitesList = [
   {
@@ -144,7 +141,6 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [mobCurrency, setMobCurrency] = useState<any>({});
   const [mobCampaign, setMobCampaign] = useState<any>({});
   const [mobCPageInputValue, setMobCPageInputValue] = useState("/live/");
-  const [mobTableCols, setMobTableCols] = useState([]);
   const [mobPickedSite, setMobPickedSite] = useState<
     | {
         title?: string;
@@ -188,8 +184,6 @@ const PartnersRef: FC<PartnersRefProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const isMobile = useMediaQuery("(max-width:650px)");
 
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
   useEffect(() => {
@@ -239,7 +233,6 @@ const PartnersRef: FC<PartnersRefProps> = () => {
       setPageResponseUpdated(change.flat());
     }
   }, [pageResponse, pageResponseUpdated]);
-  const [categotyFilter, setCategoryFilter] = useState("");
   const [timestamp, signature] = useUnit([
     ContactModel.$timestamp,
     ContactModel.$signature,
@@ -260,6 +253,12 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     })();
   }, [address, isConnected, isAuthed, readyUpdate, signature]);
   const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
+
+  const [numberPage, setNumberPage] = useState<number>(1);
+  const [recordCount, setRecordCount] = useState(10);
+  useEffect(() => {
+    setNumberPage(1);
+  }, [recordCount]);
   return (
     <Layout activePage="partnersRef">
       <section className={s.partners_ref_page}>
@@ -479,107 +478,78 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             isRefPage={true}
           />
         </div>
-
-        {pageResponseUpdated && pageResponseUpdated?.length > 0 && (
-          <div className={s.table_wrap}>
-            <div className="scroll-bar"></div>{" "}
-            <Swiper
-              ref={swiperRef}
-              slidesPerView={"auto"}
-              direction="horizontal"
-              modules={[Scrollbar]}
-              scrollbar={{
-                el: ".scroll-bar",
-                draggable: true,
-              }}
-              spaceBetween={2}
-              centeredSlides={false}
-              className={s.swiper}
-            >
-              {titleArr.map((slide, index) => (
-                <SwiperSlide key={index} className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{slide}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {pageResponseUpdated?.map(
-                        (el: IChangeResponse, i: number) => {
-                          if (slide === "№") {
-                            return <span key={i}>№</span>;
-                          } else if (slide === "Сайт") {
-                            return (
-                              <a target="_blank" href={el.basic_url} key={i}>
-                                {el.basic_url}
-                              </a>
-                            );
-                          } else if (slide === "Состояние") {
-                            return <span key={i}>Активен</span>;
-                          } else if (slide === "Целевая страница") {
-                            return (
-                              <a
-                                href={el.sub_ids_url}
-                                target="_blank"
-                                style={{ cursor: "pointer" }}
-                                key={i}
-                              >
-                                {el.sub_ids_url}
-                              </a>
-                            );
-                          } else if (slide === "SubID") {
-                            return <span key={i}>{el.sub_ids_id}</span>;
-                          } else if (slide === "Готовая ссылка") {
-                            return (
-                              <span
-                                className={s.swiper_text_copy}
-                                onClick={() =>
-                                  navigator.clipboard.writeText(
-                                    `https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
-                                      el.basic_id
-                                    }&sub_id=${el.sub_ids_id}`
-                                  )
-                                }
-                                key={i}
-                              >{`https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
-                                el.basic_id
-                              }&sub_id=${el.sub_ids_id}`}</span>
-                            );
-                          }
-                        }
-                      )}
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-        <div className={s.table_nav_block}>
-          <div className={s.table_records_block}>
-            <p className={s.table_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
-            </p>
-          </div>
-          <div className={s.table_pages_wrap}>
-            <div className={s.table_pages_block}>
-              <div className={s.table_prev_page_btn}>
-                <Image src={prevArrow} alt="prev-arr" />
+        <SwiperWrap data={pageResponseUpdated} swiperRef={swiperRef}>
+          {titleArr.map((slide, index) => (
+            <SwiperSlide key={index} className={s.swiper_slide}>
+              <div className={s.swiper_slide_body}>
+                <div className={s.swiper_slide_header}>
+                  <span className={s.swiper_slide_title}>{slide}</span>
+                  <Image src={upDownArrows} alt="sort-ico" />
+                </div>
+                <div className={s.swiper_slide_content}>
+                  {pageResponseUpdated
+                    ?.slice(
+                      numberPage === 1
+                        ? 0
+                        : numberPage * Number(recordCount) - recordCount,
+                      numberPage === 1
+                        ? Number(recordCount)
+                        : numberPage * Number(recordCount)
+                    )
+                    ?.map((el: IChangeResponse, i: number) => {
+                      if (slide === "№") {
+                        return <span key={i}>№ {el?.basic_id + 1}</span>;
+                      } else if (slide === "Сайт") {
+                        return (
+                          <a target="_blank" href={el.basic_url} key={i}>
+                            {el.basic_url}
+                          </a>
+                        );
+                      } else if (slide === "Состояние") {
+                        return <span key={i}>Активен</span>;
+                      } else if (slide === "Целевая страница") {
+                        return (
+                          <a
+                            href={el.sub_ids_url}
+                            target="_blank"
+                            style={{ cursor: "pointer" }}
+                            key={i}
+                          >
+                            {el.sub_ids_url}
+                          </a>
+                        );
+                      } else if (slide === "SubID") {
+                        return <span key={i}>{el.sub_ids_id}</span>;
+                      } else if (slide === "Готовая ссылка") {
+                        return (
+                          <span
+                            className={s.swiper_text_copy}
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                `https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                                  el.basic_id
+                                }&sub_id=${el.sub_ids_id}`
+                              )
+                            }
+                            key={i}
+                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                            el.basic_id
+                          }&sub_id=${el.sub_ids_id}`}</span>
+                        );
+                      }
+                    })}
+                </div>
               </div>
-              <div className={s.table_current_page_btn}>1</div>
-              <div className={s.table_next_page_btn}>
-                <Image src={nextArrow} alt="next-arr" />
-              </div>
-            </div>
-            <div className={s.choose_table_rows_block}>
-              <CustomDropdownInput
-                list={tableRowsList}
-                activeItemId="ten"
-                height={30}
-              />
-            </div>
-          </div>
-        </div>
+            </SwiperSlide>
+          ))}
+        </SwiperWrap>
+        <SwiperNavigation
+          numberPage={numberPage}
+          data={pageResponseUpdated}
+          recordCount={recordCount}
+          setNumberPage={setNumberPage}
+          setRecordCount={setRecordCount}
+        />
       </section>
     </Layout>
   );

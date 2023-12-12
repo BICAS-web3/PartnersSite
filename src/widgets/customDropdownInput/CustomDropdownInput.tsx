@@ -16,9 +16,9 @@ interface CustomDropdownInputProps {
   className?: string;
   startList?: any[];
   setActiveOptions?: any;
-  setCategoryFilter?: (el: string) => void;
+  setCategoryFilter?: any;
   custom?: boolean;
-  categotyFilter?: string;
+  categotyFilter?: string | number;
   setActiveInner?: any;
 }
 

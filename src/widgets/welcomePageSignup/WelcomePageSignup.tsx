@@ -288,6 +288,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     run();
   }, [isConnected, startRegistration]);
 
+  const [responseStatus, setResponseStatus] = useState(false);
   useEffect(() => {
     (async () => {
       if (variables?.message && signMessageData && isConnected && address) {
@@ -303,7 +304,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setCallContactReg(true);
           setSignup(true);
           setIsAuthed(true);
-          navigation.push("/home");
+          setResponseStatus(true);
+          window.open("/home", "_self");
         }
       }
     })();

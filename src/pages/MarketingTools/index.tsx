@@ -14,7 +14,7 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 
-import { tableRowsList } from "../Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 
 import "swiper/scss";
 import s from "./styles.module.scss";
