@@ -80,13 +80,13 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
   const config = createConfig({
     autoConnect: true,
     connectors: [
-      new MetaMaskConnector({ chains }),
-      new CoinbaseWalletConnector({
-        chains,
-        options: {
-          appName: "Bicas Casino",
-        },
-      }),
+      // new MetaMaskConnector({ chains }),
+      // new CoinbaseWalletConnector({
+      //   chains,
+      //   options: {
+      //     appName: "Bicas Casino",
+      //   },
+      // }),
       new WalletConnectConnector({
         chains,
         options: {
