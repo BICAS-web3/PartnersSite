@@ -231,7 +231,9 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   function handleRegistration() {
     if (!isConnected) {
-      connect({ connector: connectors[0] });
+      connect({
+        connector: connectors[0].ready ? connectors[0] : connectors[1],
+      });
     } else if (
       !name ||
       !lastName ||

@@ -157,7 +157,9 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
 
   function startAuth() {
     if (!isConnected) {
-      connect({ connector: connectors[0] });
+      connect({
+        connector: connectors[0].ready ? connectors[0] : connectors[1],
+      });
     } else {
       if (signMessageData && newDate) {
         setGetData(true);
