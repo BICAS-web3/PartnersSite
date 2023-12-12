@@ -15,7 +15,7 @@ import * as SidebarM from "@/widgets/sidebar/model";
 import { Table } from "../../../widgets/mediaTable/mediaTable";
 import filterIco from "@/public/media/common/filterImg.png";
 import Image from "next/image";
-import { tableRowsList } from "@/pages/Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import { BackHead } from "@/widgets/backHead/BackHead";

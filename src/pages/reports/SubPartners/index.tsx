@@ -24,7 +24,7 @@ import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
-import { tableRowsList } from "@/pages/Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 
 const periodsList = [
   {

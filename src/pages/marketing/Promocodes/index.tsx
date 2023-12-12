@@ -14,7 +14,7 @@ import { Scrollbar } from "swiper/modules";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
-import { tableRowsList } from "@/pages/Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 import { PromocodesTable } from "../../../widgets/promocodesTable/Table";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";

@@ -1,6 +1,6 @@
 import { FC, useRef, useState, useEffect } from "react";
 import s from "./styles.module.scss";
-import { tableRowsList } from "@/pages/Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import { Scrollbar } from "swiper/modules";
