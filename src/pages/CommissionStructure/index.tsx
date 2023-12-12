@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import Image from "next/image";
 import { CustomDropDownItem } from "@/widgets/customDropdownChoose/CustomDropDownItem";
-import { tableRowsList } from "../Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";

@@ -148,7 +148,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
     if (signMessageData && address && variables?.message && startLogin) {
       setIsAuthed(true);
       setLoginSignature(signMessageData.slice(2));
-      navigation.push("/home");
+      window.open("/home", "_self");
       setLogin(false);
       setSignup(false);
       setStartLogin((prev) => !prev);

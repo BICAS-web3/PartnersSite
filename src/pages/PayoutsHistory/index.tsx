@@ -11,7 +11,7 @@ import Image from "next/image";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
-import { tableRowsList } from "../Websites";
+import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import range from "lodash/range";

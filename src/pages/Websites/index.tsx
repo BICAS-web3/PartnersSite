@@ -29,6 +29,7 @@ import { SwiperRef, SwiperSlide } from "swiper/react";
 import { useMediaQuery } from "@/shared/tools";
 
 import s from "./styles.module.scss";
+import { DropdownPick } from "@/widgets/dropdownPick/DropdownPick";
 import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
 
@@ -94,6 +95,25 @@ export const tableColumnsList = [
   {
     title: "Состояние",
     id: "state",
+  },
+];
+
+const addedSitesTitles = [
+  {
+    title: "Добавленные сайты",
+    id: "addedSites",
+  },
+  {
+    title: "Скрытые сайты",
+    id: "hiddenSites",
+  },
+  {
+    title: "Добавленные Sub ID",
+    id: "addedSubids",
+  },
+  {
+    title: "Скрытые Sub ID",
+    id: "hiddenSubids",
   },
 ];
 
@@ -175,6 +195,7 @@ const Websites: FC<WebsitesProps> = () => {
   const [isTablet, setIsTablet] = useState(false);
 
   const [is650, setIs650] = useState(false);
+  const [is1280, setIs1280] = useState(false);
 
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
@@ -193,14 +214,21 @@ const Websites: FC<WebsitesProps> = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 700 && width > 650) {
+      if (width < 1280 && width > 700) {
+        setIs1280(true);
+        setIs650(false);
+        setIsTablet(false);
+      } else if (width < 700 && width > 650) {
         setIs650(false);
         setIsTablet(true);
+        setIs1280(false);
       } else if (width < 650) {
         setIs650(true);
         setIsTablet(false);
+        setIs1280(false);
       } else {
         setIs650(false);
+        setIs1280(false);
         setIsTablet(false);
       }
     };
@@ -242,6 +270,7 @@ const Websites: FC<WebsitesProps> = () => {
 
   const [pageUrl, setPageUrl] = useState("");
   const [pageType, setPageType] = useState<string>("");
+  const [tableType, setTableType] = useState<string>("");
 
   useEffect(() => {
     (async () => {
@@ -333,6 +362,13 @@ const Websites: FC<WebsitesProps> = () => {
     addPage,
   ]);
 
+  const [websiteMobPlaceholder, setWebsiteMobPlaceholder] =
+    useState("Example.com");
+
+  const [subidMobPlaceholder, setSubidMobPlaceholder] = useState("sub id");
+  const [subidWebsitePlaceholder, setSubidWebsitePlaceholder] =
+    useState("Example.com");
+
   useEffect(() => {
     (async () => {
       if (subidPage && address && addSubid && readyUpdate && signature) {
@@ -356,7 +392,10 @@ const Websites: FC<WebsitesProps> = () => {
 
   const [mobileTableLeng, setMobileTableLing] = useState<number>();
 
+  console.log("VALUE-", websiteMobPlaceholder);
+
   const [categotyFilter, setCategoryFilter] = useState("");
+  const [activeTableType, setActiveTableType] = useState();
 
   useEffect(() => {
     setNumberPage(1);
@@ -388,6 +427,8 @@ const Websites: FC<WebsitesProps> = () => {
               <WebsitesFilter
                 setCurrentFilterPage={setCurrentFilterPage}
                 currentFilterPage={currentFilterPage}
+                subBlock="websitesFilterPage"
+                setTitle={setWebsiteMobPlaceholder}
               />
               <WebsiteCategoryFilter
                 setCurrentFilterPage={setCurrentFilterPage}
@@ -417,6 +458,18 @@ const Websites: FC<WebsitesProps> = () => {
                 titleArr={titleArr}
                 isPartnerPage={true}
               />
+              {/* <WebsitesFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                subBlock="subidInputPage"
+                setTitle={setSubidMobPlaceholder}
+              />
+              <WebsitesFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                subBlock="subIdWebsiteInputPage"
+                setTitle={setSubidWebsitePlaceholder}
+              /> */}
               <div
                 className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
               >
@@ -436,7 +489,7 @@ const Websites: FC<WebsitesProps> = () => {
                 >
                   <span className="mobile_filter_item_title">Веб-сайт</span>
                   <span className="mobile_filter_item_picked_value">
-                    Example.com
+                    {websiteMobPlaceholder}
                   </span>
                 </div>
                 <div
@@ -468,11 +521,44 @@ const Websites: FC<WebsitesProps> = () => {
                     Выбрано {titleArr?.length ? titleArr?.length : 0} п.
                   </span>
                 </div>
-
-                <ListButtons
+                <div className="mobile_filter_item">
+                  <button className={s.add_website_mob_btn}>
+                    Добавить сайт
+                  </button>
+                </div>
+                {/* <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("subidInputPage")}
+                >
+                  <span className="mobile_filter_item_title">Sub ID</span>
+                  <span className="mobile_filter_item_picked_value">
+                    {subidMobPlaceholder}
+                  </span>
+                </div>
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("subIdWebsiteInputPage")}
+                >
+                  <span className="mobile_filter_item_title">Веб-сайт</span>
+                  <span className="mobile_filter_item_picked_value">
+                    {subidWebsitePlaceholder}
+                  </span>
+                </div>
+                <div className={`mobile_filter_item ${s.mob_add_subid_block}`}>
+                  <button className={s.add_subid_mob_btn}>
+                    Добавить Sub ID
+                  </button>
+                </div> */}
+                <button
+                  className={s.mobile_filter_back_btn}
+                  onClick={() => setIsFilter(false)}
+                >
+                  Назад
+                </button>
+                {/* <ListButtons
                   setIsBack={setIsFilter}
                   title="Сгенерировать отчет"
-                />
+                /> */}
               </div>
             </div>
           ) : (
@@ -505,7 +591,6 @@ const Websites: FC<WebsitesProps> = () => {
               <div className={s.adding_website_block_item}>
                 <span className={s.adding_website_block_item_title}>
                   Категория сайта
-                  {/* //?ewfwefewewf */}
                 </span>
                 <CustomDropdownInput
                   setCategoryFilter={setCategoryFilter}
@@ -533,24 +618,38 @@ const Websites: FC<WebsitesProps> = () => {
               </button>
             </div>
           )}
+          {/* <div className={s.add_subid_wrap}>
+            <div className={s.add_subid_body}>
+              <div className={s.subid_input_block}>
+                <span className={s.subid_input_title}>Sub ID</span>
+                <input
+                  type="text"
+                  className={`${s.subid_input} default_input`}
+                  placeholder=""
+                />
+              </div>
+              <div className={s.website_input_block}>
+                <span className={s.website_input_title}>Веб-сайт</span>
+                <input
+                  type="text"
+                  className={`${s.website_input} default_input`}
+                  placeholder={
+                    isTablet
+                      ? "Например: mysite.com"
+                      : "Введите свой сайт. Например: mysite.com"
+                  }
+                />
+              </div>
+              <button className={s.add_subid_btn}>Добавить Sub ID</button>
+            </div>
+          </div> */}
           <div className={s.website_downTable_filter_block}>
             <div className={s.websites_hiddenAdded_block}>
-              <button
-                className={`${s.websites_hiddenAdded_block_item} ${
-                  websitesFilterBtn === "addedSites" && s.active_btn
-                }`}
-                onClick={() => setWebsitesFilterBtn("addedSites")}
-              >
-                Добавленные сайты
-              </button>
-              <button
-                className={`${s.websites_hiddenAdded_block_item} ${
-                  websitesFilterBtn === "hiddenSites" && s.active_btn
-                }`}
-                onClick={() => setWebsitesFilterBtn("hiddenSites")}
-              >
-                Скрытые сайты
-              </button>
+              <DropdownPick
+                list={addedSitesTitles}
+                activeId="addedSites"
+                setActive={setActiveTableType}
+              />
             </div>
             <div className={s.choose_table_cols}>
               <CustomDropDownChoose

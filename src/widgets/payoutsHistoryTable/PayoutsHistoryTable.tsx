@@ -24,7 +24,7 @@ export const PayoutsHistoryTable: FC<PayoutsHistoryTableProps> = ({
       <div className="scroll-bar"></div>
       <Swiper
         ref={swiperRef}
-        slidesPerView={"auto"}
+        slidesPerView={is700 ? "auto" : is650 ? "auto" : cols.length + 0.0001}
         direction="horizontal"
         modules={[Scrollbar]}
         scrollbar={{

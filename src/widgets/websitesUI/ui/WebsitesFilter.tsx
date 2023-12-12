@@ -1,21 +1,42 @@
 import s from "./styles.module.scss";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import prevArrow from "@/public/media/common/prevArrow.png";
 
 interface WebsitesFilterProps {
   currentFilterPage: string;
   setCurrentFilterPage: (page: string) => void;
+  setTitle: any;
+  subBlock: string;
 }
 
 export const WebsitesFilter: FC<WebsitesFilterProps> = ({
   currentFilterPage,
   setCurrentFilterPage,
+  setTitle,
+  subBlock,
 }) => {
+  const [inpValue, setInpValue] = useState<string>();
+
+  const handleInputChange = (e: any) => {
+    setInpValue(e.target.value);
+    setTitle(inpValue);
+  };
+
+  useEffect(() => {
+    console.log("CHANGED STATE-", inpValue?.toString());
+    inpValue && setTitle(inpValue.toString());
+    // console.log('PLACEHOLDER-', inpValue)
+  }, [inpValue]);
+
+  // useEffect(() => {
+  //   setTitle(inpValue || "text");
+  // }, [inpValue]);
+
   return (
     <div
       className={`filter_item_page ${
-        currentFilterPage === "websitesFilterPage" && "active"
+        currentFilterPage === subBlock && "active"
       }`}
     >
       <div
@@ -33,6 +54,8 @@ export const WebsitesFilter: FC<WebsitesFilterProps> = ({
       <div className="mobile_filter_body">
         <div className="mobile_filter_item" style={{ borderBottom: "none" }}>
           <input
+            value={inpValue}
+            onChange={handleInputChange}
             type="text"
             placeholder="Example.com"
             className="default_input"

@@ -305,7 +305,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setSignup(true);
           setIsAuthed(true);
           setResponseStatus(true);
-          navigation.push("/home");
+          window.open("/home", "_self");
         }
       }
     })();

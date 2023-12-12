@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 
 import { useDropdown, useMediaQuery } from "@/shared/tools";
@@ -101,9 +101,9 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
               onClick={() => {
                 setLogin(true);
                 setRegistr(true);
-                disconnect();
                 setIsAuthed(false);
-                navigation.push("/");
+                disconnect();
+                window.open("/", "_self");
               }}
               className={s.profile_logout}
             >
