@@ -215,6 +215,8 @@ const Gamers: FC<GamersProps> = () => {
   const [isMobile, setIsMobile] = useState<boolean>();
   const [medium, setMedium] = useState(false);
   const [is700, setIs700] = useState(false);
+  const [is650, setIs650] = useState(false);
+  const [is1280, setIs1280] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [isExport, setIsExport] = useState(false);
   const [checkedPlayers, setCheckedPlayers] = useState(true);
@@ -245,12 +247,20 @@ const Gamers: FC<GamersProps> = () => {
       const width = window.innerWidth;
       if (width < 1280 && width > 700) {
         setIs700(false);
+        setIs1280(true);
+        setIs650(false);
       } else if (width < 700 && width > 650) {
         setIs700(true);
+        setIs1280(false);
+        setIs650(false);
       } else if (width < 650) {
         setIs700(false);
+        setIs1280(false);
+        setIs650(true);
       } else {
         setIs700(false);
+        setIs1280(false);
+        setIs650(true);
       }
       setMedium(1600 > window.innerWidth && window.innerWidth > 1280);
     };
@@ -545,7 +555,20 @@ const Gamers: FC<GamersProps> = () => {
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Страна</span>
-            <CustomDropdownInput list={countriesList} />
+            <CustomDropdownInput
+              list={countriesList}
+              maxW={
+                !is1280 && !is650 && !is700
+                  ? 100
+                  : is1280
+                  ? 100
+                  : is700
+                  ? 100
+                  : is650
+                  ? 100
+                  : 130
+              }
+            />
           </div>
           <div className={clsx(s.games_table_item, s.games_table_item_grow)}>
             <span className={s.games_table_title}>
@@ -555,13 +578,37 @@ const Gamers: FC<GamersProps> = () => {
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Сайт</span>
-            <CustomDropdownInput list={wepPagesList} />
+            <CustomDropdownInput
+              list={wepPagesList}
+              maxW={
+                !is1280 && !is650 && !is700
+                  ? 160
+                  : is1280
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 160
+              }
+            />
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Период</span>
             <CustomDropdownInput
               list={periodsList}
               setActiveInner={setActivePeriod}
+              maxW={
+                !is1280 && !is650 && !is700
+                  ? 160
+                  : is1280
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 160
+              }
             />
           </div>
           <DataSettings

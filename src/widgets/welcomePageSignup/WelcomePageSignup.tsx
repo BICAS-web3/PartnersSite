@@ -163,7 +163,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     let inputValue = e.target.value;
     inputValue = inputValue.replace(/\D/g, "");
     inputValue = "+" + inputValue;
-    if (inputValue.length <= 12) {
+    if (inputValue.length <= 18) {
       setPhoneValue(inputValue);
     }
   };
@@ -313,6 +313,41 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     })();
   }, [signMessageData, variables?.message]);
 
+  const [is650, setIs650] = useState(false);
+  const [is700, setIs700] = useState(false);
+  const [is1280, setIs1280] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 1280 && width > 700) {
+        setIs1280(true);
+        setIs700(false);
+        setIs650(false);
+      } else if (width < 700 && width > 650) {
+        setIs1280(false);
+        setIs700(true);
+        setIs650(false);
+      } else if (width < 650) {
+        setIs1280(false);
+        setIs700(false);
+        setIs650(true);
+      } else {
+        setIs1280(false);
+        setIs700(false);
+        setIs650(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className={s.welcome_page_signup_content}>
       <div className={s.desk_hidden_nav}>
@@ -377,6 +412,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   setSelectedValue={setSelectedSourse}
                   list={fromWhereList}
                   activeItemId="advert"
+                  maxW={
+                    !is1280 && !is650 && !is700
+                      ? 160
+                      : is1280
+                      ? 110
+                      : is700
+                      ? 160
+                      : is650
+                      ? 160
+                      : 160
+                  }
                 />
               </div>
             </div>
@@ -463,6 +509,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   setSelectedValue={setSelectedCountry}
                   list={countriesList}
                   activeItemId="UA"
+                  maxW={
+                    !is1280 && !is650 && !is700
+                      ? 160
+                      : is1280
+                      ? 110
+                      : is700
+                      ? 160
+                      : is650
+                      ? 160
+                      : 160
+                  }
                 />
               </div>
               <div className={s.welcome_page_input_block}>

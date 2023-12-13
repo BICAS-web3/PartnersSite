@@ -18,6 +18,7 @@ interface CustomDropdownInputProps {
   setActiveOptions?: any;
   setCategoryFilter?: any;
   custom?: boolean;
+  maxW?: number;
   categotyFilter?: string | number;
   setActiveInner?: any;
 }
@@ -35,6 +36,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   custom,
   categotyFilter,
   setActiveInner,
+  maxW,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -71,7 +73,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           className={s.active_dropdown_title_block}
           style={{ height: height }}
         >
-          <span>
+          <span style={{ maxWidth: maxW ? `${maxW}px` : "90px" }}>
             {categotyFilter
               ? categotyFilter
               : activeItem

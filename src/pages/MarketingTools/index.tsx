@@ -394,7 +394,20 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
         <div className={s.marketing_table_container}>
           <div className={s.marketing_table_item}>
             <span className={s.marketing_table_title}>Сайт</span>
-            <CustomDropdownInput list={wepPagesList} />
+            <CustomDropdownInput
+              list={wepPagesList}
+              maxW={
+                !is1280 && !is650 && !is700
+                  ? 160
+                  : is1280
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 130
+              }
+            />
           </div>
           <div
             className={clsx(
@@ -407,7 +420,20 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           </div>
           <div className={s.marketing_table_item}>
             <span className={s.marketing_table_title}>Период</span>
-            <CustomDropdownInput list={periodsList} />
+            <CustomDropdownInput
+              list={periodsList}
+              maxW={
+                !is1280 && !is650 && !is700
+                  ? 160
+                  : is1280
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 130
+              }
+            />
           </div>
           <DataSettings
             className={s.data_settings}

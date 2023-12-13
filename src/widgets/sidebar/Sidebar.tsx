@@ -117,6 +117,7 @@ const sidebarItems = [
         title: "Маркетинговые инструменты",
         icon: <MarketingTools />,
         pageActive: "marketTools",
+        link: "/MarketingTools",
       },
       {
         title: "По игрокам",

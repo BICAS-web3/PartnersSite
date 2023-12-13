@@ -88,6 +88,7 @@ const Media: FC<MediaProps> = () => {
   const [activeOpts, setActiveOpts] = useState([]);
   const [is700, setIs700] = useState(false);
   const [is650, setIs650] = useState(false);
+  const [is1280, setIs1280] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
 
@@ -105,15 +106,22 @@ const Media: FC<MediaProps> = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 700 && width > 650) {
+      if (width < 1280 && width > 700) {
         setIs650(false);
+        setIs1280(true);
+        setIs700(false);
+      } else if (width < 700 && width > 650) {
+        setIs650(false);
+        setIs1280(false);
         setIs700(true);
       } else if (width < 650) {
         setIs650(true);
         setIs700(false);
+        setIs1280(false);
       } else {
         setIs650(false);
         setIs700(false);
+        setIs1280(false);
       }
     };
 
@@ -345,7 +353,21 @@ const Media: FC<MediaProps> = () => {
             </div>
             <div className={s.table_filter_block_item}>
               <span className={s.table_filter_block_item_title}>Кампания</span>
-              <CustomDropdownInput list={campgaignList} activeItemId="dlink" />
+              <CustomDropdownInput
+                list={campgaignList}
+                activeItemId="dlink"
+                maxW={
+                  !is1280 && !is650 && !is700
+                    ? 160
+                    : is1280
+                    ? 100
+                    : is700
+                    ? 110
+                    : is650
+                    ? 160
+                    : 130
+                }
+              />
             </div>
             <div className={s.table_filter_btn_wrap}>
               <button className={s.search_table_btn}>Поиск</button>
