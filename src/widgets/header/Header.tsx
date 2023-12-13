@@ -89,6 +89,7 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setUserSelectedSource,
   ]);
 
+  const [localAuth, setLocaAuth] = useState("");
   const [localName, setLocalName] = useState("");
   const [localPhone, setLocalPhone] = useState("");
   const [localEmail, setLocalEmail] = useState("");
@@ -110,8 +111,18 @@ export const Header: FC<HeaderProps> = () => {
       getTimestamp && setLocalTimestamp(Number(getTimestamp));
       const getSignature = localStorage.getItem(`${address}-signature`);
       getSignature && setLocalSignature(getSignature);
+      const getLocalAuth = localStorage.getItem(
+        `${address?.toLowerCase()}-auth`
+      );
+      getLocalAuth && setLocaAuth(getLocalAuth);
     }
   }, []);
+
+  useEffect(() => {
+    if (localAuth === address?.toLowerCase()) {
+      setIsAuthed(true);
+    }
+  }, [localAuth]);
 
   useEffect(() => {
     if (isSuccess) {

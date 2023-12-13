@@ -43,7 +43,7 @@ interface RightMenuProps {}
 
 export const RightMenu: FC<RightMenuProps> = () => {
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const isMobile = useMediaQuery("(max-width: 650px)");
 
   const [activeLanguage, setActiveLanguage] = useState(
@@ -92,9 +92,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
       document.body.style.overflow = "auto";
     }
   };
-
-  const isRegistered = true; // temp
-
+  console.log(isConnected);
   return (
     <div className={s.right_menu_body}>
       <div className={s.language_switcher}>
@@ -135,7 +133,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
           ))}
         </div>
       </div>
-      {isConnected && isAuthed ? (
+      {isAuthed && isConnected ? (
         <>
           {isMobile && <ChainList />}
           <div

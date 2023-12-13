@@ -11,15 +11,28 @@ import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import s from "./styles.module.scss";
 import * as api from "@/shared/api";
 import { PreloadDots } from "@/shared/ui/ProloadDots";
+import { useMediaQuery } from "@/shared/tools";
 
 interface WelcomePageLoginProps {}
 
 export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const { address, isConnected } = useAccount();
   const navigation = useRouter();
-  const { signMessage, variables, data: signMessageData } = useSignMessage();
+  const {
+    signMessage,
+    variables,
+    data: signMessageData,
+    isLoading,
+  } = useSignMessage();
   const { connectors, connect } = useConnect();
-
+  const isMobile = useMediaQuery("(max-width:650px)");
+  const [proveSign, setProveSign] = useState(false);
+  useEffect(() => {
+    if (isLoading && isMobile && proveSign === false) {
+      alert("Подтвердите сигнатуру в кошельке");
+      setProveSign(true);
+    }
+  }, [isLoading]);
   const [newDate, setNewDate] = useState<number>();
   const [startLogin, setStartLogin] = useState(false);
 
@@ -148,6 +161,11 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
     if (signMessageData && address && variables?.message && startLogin) {
       setIsAuthed(true);
       setLoginSignature(signMessageData.slice(2));
+      localStorage.setItem(
+        `${address?.toLowerCase()}-auth`,
+        address?.toLowerCase()
+      );
+      // window.open("/home", "_self");
       window.open("/home", "_self");
       setLogin(false);
       setSignup(false);
