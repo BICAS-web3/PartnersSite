@@ -357,6 +357,17 @@ const SubPartners: FC<SubPartnersProps> = () => {
             <CustomDropdownInput
               list={periodsList}
               activeItemId="arbitraryPeriod"
+              maxW={
+                !is1280 && !is650 && !is700
+                  ? 160
+                  : is1280
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 160
+              }
             />
           </div>
           <DataSettings

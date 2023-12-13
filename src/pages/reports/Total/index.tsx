@@ -98,6 +98,7 @@ const Total: FC<TotalProps> = () => {
 
   const [isFilter, setIsFilter] = useState(false);
   const [is650, setIs650] = useState(false);
+  const [is760, setIs760] = useState(false);
 
   const [currentFilterPage, setCurrentFilterPage] = useState("");
 
@@ -112,11 +113,17 @@ const Total: FC<TotalProps> = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
-      if (width < 700 && width > 650) {
+      if (width < 760 && width > 700) {
         setIs650(false);
+        setIs760(true);
+      } else if (width < 700 && width > 650) {
+        setIs650(false);
+        setIs760(false);
       } else if (width < 650) {
         setIs650(true);
+        setIs760(false);
       } else {
+        setIs760(false);
         setIs650(false);
       }
     };
@@ -312,6 +319,7 @@ const Total: FC<TotalProps> = () => {
               <CustomDropdownInput
                 list={periodsList}
                 activeItemId="arbitraryPeriod"
+                maxW={is760 ? 160 : 90}
               />
             </div>
             <DataSettings

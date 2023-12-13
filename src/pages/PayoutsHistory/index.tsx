@@ -168,6 +168,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
   const [is700, setIs700] = useState(false);
   const [is650, setIs650] = useState(false);
+  const [is1280, setIs1280] = useState(false);
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
   const years = range(1990, 2025);
@@ -191,15 +192,22 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 700 && width > 650) {
+      if (width < 1280 && width > 700) {
+        setIs700(false);
+        setIs1280(true);
+        setIs650(false);
+      } else if (width < 700 && width > 650) {
         setIs700(true);
         setIs650(false);
+        setIs1280(false);
       } else if (width < 650) {
         setIs700(false);
         setIs650(true);
+        setIs1280(false);
       } else {
         setIs700(false);
         setIs650(false);
+        setIs1280(false);
       }
     };
 
@@ -369,6 +377,17 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                 <CustomDropdownInput
                   list={periodsList}
                   activeItemId="arbitraryPeriod"
+                  maxW={
+                    !is1280 && !is650 && !is700
+                      ? 130
+                      : is1280
+                      ? 90
+                      : is700
+                      ? 130
+                      : is650
+                      ? 130
+                      : 130
+                  }
                 />
               </div>
               <div className={s.period_datepicker_block}>
@@ -542,7 +561,10 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             </button>
           </div>
           {!is650 && (
-            <div className={s.choose_table_block}>
+            <div
+              className={s.choose_table_block}
+              style={{ zIndex: 9, position: "relative" }}
+            >
               <div className={s.choose_options_block}>
                 <CustomDropDownChoose
                   list={optionsList}

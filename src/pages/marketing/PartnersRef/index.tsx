@@ -422,11 +422,39 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             </div>
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Сайт</span>
-              <CustomDropdownInput list={sitesList} activeItemId="gkio" />
+              <CustomDropdownInput
+                list={sitesList}
+                activeItemId="gkio"
+                maxW={
+                  !is1280 && !is650 && !is700
+                    ? 160
+                    : is1280
+                    ? 100
+                    : is700
+                    ? 160
+                    : is650
+                    ? 160
+                    : 130
+                }
+              />
             </div>
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Кампания</span>
-              <CustomDropdownInput list={campgaignList} activeItemId="dlink" />
+              <CustomDropdownInput
+                list={campgaignList}
+                activeItemId="dlink"
+                maxW={
+                  !is1280 && !is650 && !is700
+                    ? 160
+                    : is1280
+                    ? 100
+                    : is700
+                    ? 160
+                    : is650
+                    ? 160
+                    : 130
+                }
+              />
             </div>
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>

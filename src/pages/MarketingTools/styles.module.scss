@@ -408,7 +408,8 @@
 
 .marketing_tab_btn {
   background: var(--gray-218, #181818);
-  padding: 9px 22px;
+  padding: 0px 22px;
+  height: 40px;
   border: none;
   outline: none;
   border-radius: 8px;
@@ -417,7 +418,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: normal;
+  line-height: 15px;
   transition: all 0.5s;
   cursor: pointer;
   @media (max-width: 650px) {

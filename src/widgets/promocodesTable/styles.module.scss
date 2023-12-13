@@ -261,31 +261,29 @@ li.promo_info_text {
   opacity: 1;
 }
 
-@media screen and (max-width: 1280px) {
+.table_filter_block {
+  grid-template-columns: minmax(150px, 230px) minmax(150px, 230px) minmax(
+      150px,
+      230px
+    );
+}
+.generate_report_btn {
+  width: 100%;
+}
+.swiper_slide {
+  width: 100% !important;
+  flex-shrink: 100 !important;
+  &[data-id="promoID"] {
+    max-width: 80px;
+  }
+  &[data-id="promoCurrency"] {
+    max-width: 141px;
+  }
   .table_filter_block {
-    grid-template-columns: minmax(150px, 230px) minmax(150px, 230px) minmax(
-        150px,
-        230px
-      );
+    grid-template-columns: 1fr 1fr;
   }
   .generate_report_btn {
-    width: 100%;
-  }
-  .swiper_slide {
-    width: 100% !important;
-    flex-shrink: 100 !important;
-    &[data-id="promoID"] {
-      max-width: 80px;
-    }
-    &[data-id="promoCurrency"] {
-      max-width: 141px;
-    }
-    .table_filter_block {
-      grid-template-columns: 1fr 1fr;
-    }
-    .generate_report_btn {
-      width: 200px;
-    }
+    width: 200px;
   }
 }
 

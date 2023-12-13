@@ -604,6 +604,17 @@ const Websites: FC<WebsitesProps> = () => {
                   setActiveOptions={setActiveOptions}
                   custom={true}
                   categotyFilter={categotyFilter}
+                  maxW={
+                    !is1280 && !is650 && !isTablet
+                      ? 160
+                      : is1280
+                      ? 135
+                      : isTablet
+                      ? 160
+                      : is650
+                      ? 160
+                      : 160
+                  }
                 />
               </div>
               <div className={s.adding_website_block_item}>

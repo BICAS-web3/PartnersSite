@@ -1,7 +1,7 @@
 import { CustomDropDownItem } from "../customDropdownChoose/CustomDropDownItem";
 import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
 import s from "./styles.module.scss";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { countries } from "countries-list";
 import { languagesList } from "../welcomePageSignup/WelcomePageSignup";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
@@ -47,6 +47,41 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
     UserDataModel.$userCountry,
     UserDataModel.$userLanguage,
   ]);
+
+  const [is650, setIs650] = useState(false);
+  const [is700, setIs700] = useState(false);
+  const [is1280, setIs1280] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 1280 && width > 700) {
+        setIs1280(true);
+        setIs700(false);
+        setIs650(false);
+      } else if (width < 700 && width > 650) {
+        setIs1280(false);
+        setIs700(true);
+        setIs650(false);
+      } else if (width < 650) {
+        setIs1280(false);
+        setIs700(false);
+        setIs650(true);
+      } else {
+        setIs1280(false);
+        setIs700(false);
+        setIs650(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={s.contact_info_settings_block}>
@@ -110,6 +145,17 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
               countriesList.find((el) => el.title === userCountry)?.id
             }
             list={countriesList}
+            maxW={
+              !is1280 && !is650 && !is700
+                ? 140
+                : is1280
+                ? 90
+                : is700
+                ? 160
+                : is650
+                ? 70
+                : 130
+            }
           />
         </div>
         <div className={s.input_block}>
