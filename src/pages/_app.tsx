@@ -16,7 +16,7 @@ const config = createConfig({
     new WalletConnectConnector({
       chains,
       options: {
-        projectId: "...",
+        projectId: "01e7a60839e8572c2da88e40b1db4893",
       },
     }),
   ],
