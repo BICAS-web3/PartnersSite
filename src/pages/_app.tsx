@@ -4,7 +4,13 @@ import type { AppProps } from "next/app";
 import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
+import {
+  WagmiConfig,
+  configureChains,
+  createConfig,
+  createStorage,
+  mainnet,
+} from "wagmi";
 
 import { Fonts } from "@/shared/fonts/Fonts";
 import "@/shared/styles/index.scss";
@@ -20,6 +26,7 @@ const config = createConfig({
       },
     }),
   ],
+  autoConnect: true,
   publicClient,
 });
 export default function App({ Component, pageProps }: AppProps) {

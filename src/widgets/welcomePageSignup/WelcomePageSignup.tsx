@@ -20,6 +20,7 @@ import * as RegistrM from "@/widgets/header/model";
 import * as UserDataModel from "./model";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import { PreloadDots } from "@/shared/ui/ProloadDots";
+import { useMediaQuery } from "@/shared/tools";
 export const siteCategories = [
   {
     title: "Казино",
@@ -153,11 +154,25 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     UserDataModel.setCallContactReg,
   ]);
 
-  const { signMessage, variables, data: signMessageData } = useSignMessage();
+  const {
+    signMessage,
+    variables,
+    data: signMessageData,
+    isLoading: autoLoading,
+  } = useSignMessage();
   const [phoneValue, setPhoneValue] = useState("");
   const [isPPchecked, setIsPPchecked] = useState(false);
 
   const { isConnected, address } = useAccount();
+
+  const [proveAuth, setProveAuth] = useState(false);
+
+  useEffect(() => {
+    if (isMobile && autoLoading && proveAuth === false) {
+      alert("Подтвердите регистрацию в кошельке");
+      setProveAuth(true);
+    }
+  }, [autoLoading]);
 
   const handlePhoneChange = (e: { target: { value: string } }) => {
     let inputValue = e.target.value;
@@ -190,8 +205,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [pageName, setPageName] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState<any>();
 
-  const { signMessage: fitstSignMessage, data: signFirstMessageData } =
-    useSignMessage();
+  const {
+    signMessage: fitstSignMessage,
+    data: signFirstMessageData,
+    isLoading,
+  } = useSignMessage();
 
   const [newDate, setNewDate] = useState<any>();
 
@@ -210,6 +228,15 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
     run();
   }, [address, isConnected]);
+
+  const isMobile = useMediaQuery("(max-width:650px)");
+  const [proveSign, setProveSign] = useState(false);
+  useEffect(() => {
+    if (isLoading && isMobile && proveSign === false) {
+      alert("Подтвердите сигнатуру в кошельке");
+      setProveSign(true);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (newDate) {
@@ -305,8 +332,13 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         if (response.status === "OK") {
           setCallContactReg(true);
           setSignup(true);
+          localStorage.setItem(
+            `${address?.toLowerCase()}-auth`,
+            address?.toLowerCase()
+          );
           setIsAuthed(true);
           setResponseStatus(true);
+
           window.open("/home", "_self");
         }
       }
@@ -493,8 +525,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>E-mail</span>
                 <input
-                  // value={email}
-                  // onChange={(el) => setEmail(el.target.value)}
                   type="email"
                   className={`${s.welcome_page_input} default_input`}
                   placeholder="e-mail"
@@ -526,7 +556,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         <div className={s.btns_container}>
           {" "}
           <button
-            disabled={!isPPchecked}
+            disabled={!isPPchecked && isConnected}
             onClick={handleRegistration}
             className={s.register_submit_btn}
           >
