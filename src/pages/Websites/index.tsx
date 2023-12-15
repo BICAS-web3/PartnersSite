@@ -129,7 +129,10 @@ export interface IPagesResponse {
 }
 
 const Websites: FC<WebsitesProps> = () => {
-  const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
+  const [readyUpdate, barerToken] = useUnit([
+    HeaderModel.$readyUpdate,
+    ContactModel.$barerToken,
+  ]);
   const [pageResponse, setPageResponse] = useState<api.T_UserSitesResp>();
   const [titleArr, setTitleArr] = useState<string[]>([
     "internal_id",
@@ -185,10 +188,7 @@ const Websites: FC<WebsitesProps> = () => {
     }
   }, [pageResponseUpdated?.length]);
   const isMobile = useMediaQuery("(max-width:650px)");
-  const [timestamp, signature] = useUnit([
-    ContactModel.$timestamp,
-    ContactModel.$signature,
-  ]);
+
   const swiperRef = useRef<SwiperRef>(null);
   const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
   const [activeOptions, setActiveOptions] = useState([]);
@@ -279,16 +279,14 @@ const Websites: FC<WebsitesProps> = () => {
         address &&
         addPage &&
         pageType &&
-        pageUrl &&
-        readyUpdate &&
-        signature
+        pageUrl
+        //  &&
+        // readyUpdate
       ) {
         const data = await api.registerPage({
           name: categotyFilter || "Прогнозы на спорт",
           url: pageUrl,
-          wallet: address.toLowerCase(),
-          auth: signature,
-          timestamp,
+          bareer: barerToken,
         });
         setUpdateGetRequest("OK");
         setAddSubid(true);
@@ -298,7 +296,7 @@ const Websites: FC<WebsitesProps> = () => {
         }
       }
     })();
-  }, [isConnected, address, addPage, readyUpdate, signature]);
+  }, [isConnected, address, addPage]);
   const [numberPage, setNumberPage] = useState<number>(1);
 
   const navigation = useRouter();
@@ -323,11 +321,14 @@ const Websites: FC<WebsitesProps> = () => {
   const [addSubid, setAddSubid] = useState(false);
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address && readyUpdate) {
+      if (
+        isConnected &&
+        isAuthed &&
+        address
+        //  && readyUpdate
+      ) {
         const data = await api.getUserSites({
-          wallet: address?.toLowerCase(),
-          auth: signature,
-          timestamp,
+          bareer: barerToken,
         });
         if (data.status === "OK") {
           if (data?.body && Array.isArray(data?.body)) {
@@ -352,15 +353,7 @@ const Websites: FC<WebsitesProps> = () => {
         }
       }
     })();
-  }, [
-    address,
-    isConnected,
-    isAuthed,
-    updateGetRequest,
-    readyUpdate,
-    signature,
-    addPage,
-  ]);
+  }, [address, isConnected, isAuthed, updateGetRequest, readyUpdate, addPage]);
 
   const [websiteMobPlaceholder, setWebsiteMobPlaceholder] =
     useState("Example.com");
@@ -371,18 +364,21 @@ const Websites: FC<WebsitesProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (subidPage && address && addSubid && readyUpdate && signature) {
+      if (
+        subidPage &&
+        address &&
+        addSubid
+        // && readyUpdate
+      ) {
         const response = await api.registerSubId({
-          timestamp,
-          wallet: address?.toLowerCase(),
-          auth: signature,
+          bareer: barerToken,
           name: subidPage.basic.name,
           url: subidPage.basic.url,
           internal_site_id: subidPage.basic.internal_id,
         });
       }
     })();
-  }, [subidPage, addSubid, readyUpdate, signature]);
+  }, [subidPage, addSubid, readyUpdate]);
 
   function validateWebPage(webPage: string) {
     const urlRegex =

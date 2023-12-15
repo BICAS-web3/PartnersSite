@@ -21,7 +21,6 @@ interface HeaderProps {}
 export const Header: FC<HeaderProps> = () => {
   const { isConnected, address } = useAccount();
   const { signMessage, data: signMessageData, isSuccess } = useSignMessage();
-  const [updateSignature, setUpdateSignature] = useState(false);
 
   // useEffect(() => {
   //   alert(updateSignature);
@@ -42,8 +41,7 @@ export const Header: FC<HeaderProps> = () => {
     userPageName,
     userMessanger,
     userMessangerValue,
-    signature,
-    timestamp,
+    barerToken,
     userLanguage,
     callContactReg,
     userPhone,
@@ -51,8 +49,7 @@ export const Header: FC<HeaderProps> = () => {
     setUserEmail,
     setUserName,
     setUserLastName,
-    setSignature,
-    setTimestamp,
+    setBarerToken,
     setUserPhone,
     setUserLanguage,
     setUserCountry,
@@ -68,8 +65,7 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.$userPageName,
     ContactModel.$userMessanger,
     ContactModel.$userMessangerValue,
-    ContactModel.$signature,
-    ContactModel.$timestamp,
+    ContactModel.$barerToken,
     ContactModel.$userLanguage,
     ContactModel.$callContactReg,
     ContactModel.$userPhone,
@@ -77,8 +73,7 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setUserEmail,
     ContactModel.setUserName,
     ContactModel.setUserLastName,
-    ContactModel.setSignature,
-    ContactModel.setTimestamp,
+    ContactModel.setBarerToken,
     ContactModel.setUserPhone,
     ContactModel.setUserLanguage,
     ContactModel.setUserCountry,
@@ -94,8 +89,9 @@ export const Header: FC<HeaderProps> = () => {
   const [localPhone, setLocalPhone] = useState("");
   const [localEmail, setLocalEmail] = useState("");
   const [localLastName, setLocalLastName] = useState("");
-  const [localTimestamp, setLocalTimestamp] = useState(0);
-  const [localSignature, setLocalSignature] = useState("");
+  const [localToken, setLocalToken] = useState("");
+  // const [localTimestamp, setLocalTimestamp] = useState(0);
+  // const [localSignature, setLocalSignature] = useState("");
 
   useEffect(() => {
     if (isConnected) {
@@ -107,13 +103,15 @@ export const Header: FC<HeaderProps> = () => {
       getPhone && setLocalPhone(getPhone);
       const getLastName = localStorage.getItem(`${address}-last_name`);
       getLastName && setLocalLastName(getLastName);
-      const getTimestamp = localStorage.getItem(`${address}-timestamp`);
-      getTimestamp && setLocalTimestamp(Number(getTimestamp));
-      const getSignature = localStorage.getItem(`${address}-signature`);
-      getSignature && setLocalSignature(getSignature);
+      // const getTimestamp = localStorage.getItem(`${address}-timestamp`);
+      // getTimestamp && setLocalTimestamp(Number(getTimestamp));
+      // const getSignature = localStorage.getItem(`${address}-signature`);
+      // getSignature && setLocalSignature(getSignature);
       const getLocalAuth = localStorage.getItem(
         `${address?.toLowerCase()}-auth`
       );
+      const getToken = localStorage.getItem(`${address?.toLowerCase()}-barer`);
+      getToken && setLocalToken(getToken);
       getLocalAuth && setLocaAuth(getLocalAuth);
     }
   }, []);
@@ -124,45 +122,40 @@ export const Header: FC<HeaderProps> = () => {
     }
   }, [localAuth]);
 
-  useEffect(() => {
-    if (isSuccess) {
-      setReadyUpdate(true);
-    }
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setReadyUpdate(true);
+  //   }
+  // }, [isSuccess]);
 
   useEffect(() => {
     if (
-      (localEmail ||
-        localName ||
-        localLastName ||
-        localSignature ||
-        localTimestamp) &&
+      (localEmail || localName || localLastName || localToken) &&
       isConnected
     ) {
-      const currentTime = Date.now();
-      const timeDifference = currentTime - localTimestamp;
-      if (timeDifference > 60000 * 10) {
-        setUpdateSignature(true);
-      } else {
-        setReadyUpdate(true);
-        setTimestamp(localTimestamp);
-        setSignature(localSignature);
-      }
+      // const currentTime = Date.now();
+      // const timeDifference = currentTime - localTimestamp;
+      // if (timeDifference > 60000 * 10) {
+      //   setUpdateSignature(true);
+      // } else {
+      //   setReadyUpdate(true);
+      //   setTimestamp(localTimestamp);
+      //   setSignature(localSignature);
+      // }
       setUserEmail(localEmail);
       setUserName(localName);
       setUserLastName(localLastName);
       setUserPhone(localPhone);
       setIsAuthed(true);
+      setBarerToken(localToken);
     }
   }, [localEmail, localName, localLastName, readyUpdate]);
 
   useEffect(() => {
     (async () => {
-      if (callContactReg && signature && timestamp && address) {
+      if (callContactReg && address) {
         await api.registerContact({
-          wallet: address.toLowerCase(),
-          auth: signature,
-          timestamp,
+          bareer: barerToken,
           contact: [
             {
               name: "messenger_login",
@@ -204,34 +197,34 @@ export const Header: FC<HeaderProps> = () => {
         });
       }
     })();
-  }, [callContactReg, signature]);
+  }, [callContactReg]);
 
-  useEffect(() => {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const run = async () => {
-      if (isConnected && updateSignature) {
-        const now = Date.now();
+  // useEffect(() => {
+  //   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  //   const run = async () => {
+  //     if (isConnected && updateSignature) {
+  //       const now = Date.now();
 
-        localStorage.setItem(`${address}-timestamp`, `${now}`);
-        await sleep(2000);
-        signMessage({
-          message: `PARTNER AUTH ${address!.toLowerCase()} ${now}`,
-        });
-        setTimestamp(now);
-        setLocalTimestamp(now);
-      }
-    };
-    run();
-  }, [isConnected, updateSignature]);
+  //       localStorage.setItem(`${address}-timestamp`, `${now}`);
+  //       await sleep(2000);
+  //       signMessage({
+  //         message: `PARTNER AUTH ${address!.toLowerCase()} ${now}`,
+  //       });
+  //       setTimestamp(now);
+  //       setLocalTimestamp(now);
+  //     }
+  //   };
+  //   run();
+  // }, [isConnected, updateSignature]);
 
-  useEffect(() => {
-    if (updateSignature && signMessageData && readyUpdate) {
-      setSignature(signMessageData.slice(2));
-      localStorage.setItem(`${address}-signature`, signMessageData.slice(2));
-      setLocalSignature(signMessageData.slice(2));
-      setUpdateSignature(false);
-    }
-  }, [updateSignature, signMessageData, readyUpdate]);
+  // useEffect(() => {
+  //   if (updateSignature && signMessageData && readyUpdate) {
+  //     setSignature(signMessageData.slice(2));
+  //     localStorage.setItem(`${address}-signature`, signMessageData.slice(2));
+  //     setLocalSignature(signMessageData.slice(2));
+  //     setUpdateSignature(false);
+  //   }
+  // }, [updateSignature, signMessageData, readyUpdate]);
 
   //!-----------
   const [handleRequest, setHandleRequest] = useState(true);
@@ -239,34 +232,25 @@ export const Header: FC<HeaderProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (
-        address &&
-        !responseBody &&
-        isAuthed &&
-        handleRequest &&
-        readyUpdate &&
-        signature
-      ) {
+      if (address && !responseBody && isAuthed && handleRequest) {
         const respobse = await api.getUserData({
-          wallet: address.toLowerCase() as string,
-          auth: signature,
-          timestamp,
+          bareer: barerToken,
         });
 
-        if (
-          respobse.status === "Err" &&
-          ((respobse.body as any)?.error as string).includes(
-            "Bad signature provided address"
-          )
-        ) {
-          setUpdateSignature(true);
-        }
+        // if (
+        //   respobse.status === "Err" &&
+        //   ((respobse.body as any)?.error as string).includes(
+        //     "Bad signature provided address"
+        //   )
+        // ) {
+        //   setUpdateSignature(true);
+        // }
 
         setResponseBody(respobse.body as api.R_getUser);
         setHandleRequest(false);
       }
     })();
-  }, [responseBody, isAuthed, handleRequest, readyUpdate, signature]);
+  }, [responseBody, isAuthed, handleRequest, readyUpdate]);
   useEffect(() => {
     if (responseBody && isAuthed) {
       setUserMessangerValue(

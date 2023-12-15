@@ -185,7 +185,10 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     };
   }, []);
 
-  const [isAuthed] = useUnit([AuthModel.$isAuthed]);
+  const [isAuthed, barerToken] = useUnit([
+    AuthModel.$isAuthed,
+    ContactModel.$barerToken,
+  ]);
   useEffect(() => {
     if (isFilter) {
       document.documentElement.style.overflow = "hidden";
@@ -233,25 +236,20 @@ const PartnersRef: FC<PartnersRefProps> = () => {
       setPageResponseUpdated(change.flat());
     }
   }, [pageResponse, pageResponseUpdated]);
-  const [timestamp, signature] = useUnit([
-    ContactModel.$timestamp,
-    ContactModel.$signature,
-  ]);
+
   const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address && readyUpdate && signature) {
+      if (isConnected && isAuthed && address && barerToken) {
         const data = await api.getUserSites({
-          wallet: address?.toLowerCase(),
-          auth: signature,
-          timestamp,
+          bareer: barerToken,
         });
         if (data.status === "OK") {
           setPageResponse(data.body as api.T_UserSitesResp);
         }
       }
     })();
-  }, [address, isConnected, isAuthed, readyUpdate, signature]);
+  }, [address, isConnected, isAuthed, readyUpdate]);
   const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
 
   const [numberPage, setNumberPage] = useState<number>(1);

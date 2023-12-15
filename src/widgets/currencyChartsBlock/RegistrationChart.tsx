@@ -30,11 +30,10 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
     "03:00",
   ];
 
-  const [periodSecond, signature, timestamp, timeType] = useUnit([
+  const [periodSecond, timeType, barerToken] = useUnit([
     PeriodModel.$periodSecond,
-    ContactModel.$signature,
-    ContactModel.$timestamp,
     TimeTypeM.$periodType,
+    ContactModel.$barerToken,
   ]);
 
   const { address } = useAccount();
@@ -44,12 +43,11 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (periodSecond && address && signature) {
+      if (periodSecond && address && barerToken) {
         const response = await api.getUsersRegistrationChart({
-          auth: signature,
-          timestamp,
-          wallet: address?.toLowerCase(),
+          bareer: barerToken,
           endTime: periodSecond.timeline,
+          step: periodSecond.period,
         });
         if (response.status === "OK") {
           setRegistrationsBody(response.body);
@@ -57,9 +55,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
         console.log("second chart response", response);
 
         const response2 = await api.getDepositedUsers({
-          auth: signature,
-          timestamp,
-          wallet: address?.toLowerCase(),
+          bareer: barerToken,
           period: timeType,
         });
         if (response2.status === "OK") {
@@ -68,7 +64,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
         console.log("deposited back response", response);
       }
     })();
-  }, [periodSecond, signature, timeType]);
+  }, [periodSecond, timeType, barerToken]);
 
   const options = {
     chart: {
