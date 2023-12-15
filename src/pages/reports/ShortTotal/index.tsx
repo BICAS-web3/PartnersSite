@@ -145,10 +145,9 @@ interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
   const { address, isConnected } = useAccount();
-  const [isAuthed] = useUnit([AuthModel.$isAuthed]);
-  const [timestamp, signature] = useUnit([
-    ContactModel.$timestamp,
-    ContactModel.$signature,
+  const [isAuthed, barerToken] = useUnit([
+    AuthModel.$isAuthed,
+    ContactModel.$barerToken,
   ]);
 
   const [clicks, setClicks] = useState<
@@ -166,9 +165,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
       if (isConnected && isAuthed && address) {
         const data = await api.getFullClicks({
           //! -------------------------------------------------
-          wallet: address?.toLowerCase(),
-          auth: signature,
-          timestamp,
+          bareer: barerToken,
         });
         data.status === "OK" && setClicks(data.body as api.T_ClicksResponse);
       }
@@ -181,9 +178,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
       if (isConnected && isAuthed && address) {
         const data = await api.getUsersRegistration({
           //! -------------------------------------------------
-          wallet: address?.toLowerCase(),
-          auth: signature,
-          timestamp,
+          bareer: barerToken,
           period: "all",
         });
         data.status === "OK" && setUsersRegistration(data.body);

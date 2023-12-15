@@ -232,7 +232,7 @@ const Gamers: FC<GamersProps> = () => {
   const [currentCountry, setCurrentCountry] = useState<IListProps>({});
   const [currentCompany, setCurrentCompany] = useState<IListProps>({});
   const [mobTableOptions, setMobTableOpts] = useState(historyList);
-
+  const [barerToken] = useUnit([ContactModel.$barerToken]);
   useEffect(() => {
     setActivePeriod({
       title: "Сегодня",
@@ -296,22 +296,15 @@ const Gamers: FC<GamersProps> = () => {
     setIsFilter(true);
   };
 
-  const [signature, timestamp] = useUnit([
-    ContactModel.$signature,
-    ContactModel.$timestamp,
-  ]);
-
   const { address } = useAccount();
 
   const [answerBody, setAnswerBody] = useState<IResponse[] | any>();
 
   useEffect(() => {
     (async () => {
-      if (activePeriod && address && signature) {
+      if (activePeriod && address) {
         const response = await api.getConnectedWallets({
-          auth: signature,
-          timestamp,
-          wallet: address?.toLowerCase(),
+          bareer: barerToken,
           period: activePeriod.timeType,
         });
         if (response.status === "OK") {
@@ -333,7 +326,7 @@ const Gamers: FC<GamersProps> = () => {
         console.log("RESPONSESEE", response);
       }
     })();
-  }, [activePeriod, signature]);
+  }, [activePeriod]);
 
   const [numberPage, setNumberPage] = useState<number>(1);
   const [recordCount, setRecordCount] = useState(10);

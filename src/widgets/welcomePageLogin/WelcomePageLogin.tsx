@@ -17,26 +17,33 @@ interface WelcomePageLoginProps {}
 
 export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const { address, isConnected } = useAccount();
-  const navigation = useRouter();
-  const {
-    signMessage,
-    variables,
-    data: signMessageData,
-    isLoading,
-  } = useSignMessage();
   const { connectors, connect } = useConnect();
-  const isMobile = useMediaQuery("(max-width:650px)");
-  const [proveSign, setProveSign] = useState(false);
-  useEffect(() => {
-    if (isLoading && isMobile && proveSign === false) {
-      alert("Подтвердите сигнатуру в кошельке");
-      setProveSign(true);
-    }
-  }, [isLoading]);
-  const [newDate, setNewDate] = useState<number>();
   const [startLogin, setStartLogin] = useState(false);
-
   const [responseBody, setResponseBody] = useState<api.R_getUser>();
+  const [password, setPassword] = useState("");
+  const [getLogin, setGetLogin] = useState(false);
+  const [loginEnter, setLoginEnter] = useState("");
+  const [getToken, setGetToken] = useState("");
+  const [setBarerToken] = useUnit([ContactModel.setBarerToken]);
+  useEffect(() => {
+    (async () => {
+      if (getLogin) {
+        const response = await api.loginUser({
+          password,
+          login: loginEnter,
+        });
+        if (response.status === "OK") {
+          setGetToken((response.body as any).access_token as string);
+          setBarerToken((response.body as any).access_token as string);
+          localStorage.setItem(
+            `${address?.toLowerCase()}-barer`,
+            (response.body as any).access_token
+          );
+          setGetData(true);
+        }
+      }
+    })();
+  }, [getLogin]);
 
   const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
   const [
@@ -71,33 +78,12 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
     LoginModel.setTimestamp,
   ]);
 
-  const [setLoginSignature] = useUnit([LoginModel.setLoginStore]);
-
-  useEffect(() => {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const run = async () => {
-      if (isConnected && !signMessageData) {
-        const now = Date.now();
-        setTimestamp(now);
-        setNewDate(now);
-        await sleep(2000);
-        signMessage({
-          message: `PARTNER AUTH ${address!.toLowerCase()} ${now}`,
-        });
-      }
-    };
-
-    run();
-  }, [isConnected]);
-
   const [getData, setGetData] = useState(false);
   useEffect(() => {
     (async () => {
-      if (getData && address && signMessageData && newDate && !responseBody) {
+      if (getData && address && !responseBody) {
         const respobse = await api.getUserData({
-          wallet: address.toLowerCase() as string,
-          auth: signMessageData?.slice(2),
-          timestamp: newDate,
+          bareer: getToken,
         });
         setResponseBody(respobse.body as api.R_getUser);
       }
@@ -134,11 +120,8 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
       setUserSelectedSource(
         responseBody.contacts.find((el) => el.name === "source_from")?.url || ""
       );
-      localStorage.setItem(`${address}-timestamp`, `${newDate}`);
-      localStorage.setItem(
-        `${address}-signature`,
-        signMessageData?.slice(2) as string
-      );
+      // localStorage.setItem(`${address}-timestamp`, `${newDate}`);
+
       localStorage.setItem(
         `${address}-name`,
         responseBody.basic.name.split(" ")[0]
@@ -158,46 +141,48 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   }, [responseBody]);
 
   useEffect(() => {
-    if (signMessageData && address && variables?.message && startLogin) {
+    if (startLogin && address) {
       setIsAuthed(true);
-      setLoginSignature(signMessageData.slice(2));
       localStorage.setItem(
         `${address?.toLowerCase()}-auth`,
         address?.toLowerCase()
       );
-      // window.open("/home", "_self");
       window.open("/home", "_self");
       setLogin(false);
       setSignup(false);
       setStartLogin((prev) => !prev);
     }
-  }, [signMessageData, address, startLogin]);
+  }, [address, startLogin]);
 
-  function startAuth() {
+  const handleLoginUser = () => {
     if (!isConnected) {
       connect({
         connector: connectors[0].ready ? connectors[0] : connectors[1],
       });
-    } else {
-      if (signMessageData && newDate) {
-        setGetData(true);
-      }
+    } else if (password.length > 0 && loginEnter.length > 0) {
+      setGetLogin(true);
     }
-  }
-
+  };
   return (
     <div className={s.welcome_page_login_content}>
       <div className={s.welcome_page_login_form}>
-        <button onClick={startAuth} className={s.submit_btn}>
-          {isConnected ? (
-            signMessageData ? (
-              "Вход"
-            ) : (
-              <PreloadDots title="Подождите" />
-            )
-          ) : (
-            "Подключить кошелек"
-          )}
+        {/* <a className={s.lower_support_btns_item}>Забыли пароль?</a> */}
+        <input
+          onChange={(el) => setLoginEnter(el.target.value)}
+          value={loginEnter}
+          type="text"
+          className={`${s.welcome_page_login_form_input} default_input`}
+          placeholder="Логин пользователя"
+        />
+        <input
+          onChange={(el) => setPassword(el.target.value)}
+          value={password}
+          type="password"
+          className={`${s.welcome_page_login_form_input} default_input`}
+          placeholder="Пароль"
+        />
+        <button onClick={handleLoginUser} className={s.submit_btn}>
+          {isConnected ? "Вход" : "Подключить кошелек"}
         </button>
       </div>
       <div className={s.lower_support_btns}>
@@ -214,21 +199,3 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
     </div>
   );
 };
-{
-  /* <a className={s.lower_support_btns_item}></a> */
-}
-{
-  /* Забыли пароль? */
-}
-{
-  /* <input
-          type="text"
-          className={`${s.welcome_page_login_form_input} default_input`}
-          placeholder="Имя пользователя"
-        />
-        <input
-          type="password"
-          className={`${s.welcome_page_login_form_input} default_input`}
-          placeholder="Пароль"
-        /> */
-}

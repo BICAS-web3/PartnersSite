@@ -87,9 +87,9 @@ const WelcomePage: FC<WelcomePageProps> = () => {
   const router = useRouter();
   const { isConnected } = useAccount();
 
-  useEffect(() => {
-    isConnected && router.push("/home");
-  }, []);
+  // useEffect(() => {
+  //   isConnected && router.push("/home");
+  // }, []);
 
   useEffect(() => {
     if (is1280) {

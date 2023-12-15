@@ -1,9 +1,8 @@
 "use client";
 
-import { useAccount, useConnect, useSignMessage } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { FC, useState, useEffect } from "react";
 import { useUnit } from "effector-react";
-import { useRouter } from "next/router";
 import { countries } from "countries-list";
 import Image from "next/image";
 import clsx from "clsx";
@@ -19,8 +18,7 @@ import leftArr from "@/public/media/common/prevArrow.png";
 import * as RegistrM from "@/widgets/header/model";
 import * as UserDataModel from "./model";
 import * as AuthModel from "@/widgets/welcomePageInitial/model";
-import { PreloadDots } from "@/shared/ui/ProloadDots";
-import { useMediaQuery } from "@/shared/tools";
+
 export const siteCategories = [
   {
     title: "Казино",
@@ -133,10 +131,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     setUserPhone,
     setUserSelectedSource,
     setUserMessangerValue,
-    setSignature,
-    setTimestamp,
+    // setTimestamp,
     setUserLanguage,
     setCallContactReg,
+    setUserLogin,
+    setUserPassword,
+    setBarerToken,
   ] = useUnit([
     UserDataModel.setUserCountry,
     UserDataModel.setUserEmail,
@@ -148,31 +148,18 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     UserDataModel.setUserPhone,
     UserDataModel.setUserSelectedSource,
     UserDataModel.setUserMessangerValue,
-    UserDataModel.setSignature,
-    UserDataModel.setTimestamp,
+    // UserDataModel.setTimestamp,
     UserDataModel.setUserLanguage,
     UserDataModel.setCallContactReg,
+    UserDataModel.setUserLogin,
+    UserDataModel.setUserPassword,
+    UserDataModel.setBarerToken,
   ]);
 
-  const {
-    signMessage,
-    variables,
-    data: signMessageData,
-    isLoading: autoLoading,
-  } = useSignMessage();
   const [phoneValue, setPhoneValue] = useState("");
   const [isPPchecked, setIsPPchecked] = useState(false);
 
   const { isConnected, address } = useAccount();
-
-  const [proveAuth, setProveAuth] = useState(false);
-
-  useEffect(() => {
-    if (isMobile && autoLoading && proveAuth === false) {
-      alert("Подтвердите регистрацию в кошельке");
-      setProveAuth(true);
-    }
-  }, [autoLoading]);
 
   const handlePhoneChange = (e: { target: { value: string } }) => {
     let inputValue = e.target.value;
@@ -187,8 +174,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     RegistrM.setLogin,
     RegistrM.setSignup,
   ]);
-
-  const navigation = useRouter();
   const { connectors, connect } = useConnect();
 
   const [startRegistration, setStartRegistration] = useState(false);
@@ -204,51 +189,9 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [categoryPage, setCategotyPage] = useState<any>("");
   const [pageName, setPageName] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState<any>();
-
-  const {
-    signMessage: fitstSignMessage,
-    data: signFirstMessageData,
-    isLoading,
-  } = useSignMessage();
-
-  const [newDate, setNewDate] = useState<any>();
-
-  useEffect(() => {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const run = async () => {
-      if (address && isConnected) {
-        const now = Date.now();
-        setNewDate(now);
-        await sleep(2000);
-        fitstSignMessage({
-          message: `PARTNER AUTH ${address.toLowerCase()} ${now}`,
-        });
-      }
-    };
-
-    run();
-  }, [address, isConnected]);
-
-  const isMobile = useMediaQuery("(max-width:650px)");
-  const [proveSign, setProveSign] = useState(false);
-  useEffect(() => {
-    if (isLoading && isMobile && proveSign === false) {
-      alert("Подтвердите сигнатуру в кошельке");
-      setProveSign(true);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (newDate) {
-      setTimestamp(newDate);
-    }
-  }, [newDate]);
-
-  useEffect(() => {
-    if (signFirstMessageData) {
-      setSignature(signFirstMessageData.slice(2));
-    }
-  }, [signFirstMessageData]);
+  const [loginAuth, setLoginAuth] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
 
   useEffect(() => {
     setFullName(`${name} ${lastName}`);
@@ -256,6 +199,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   useEffect(() => {}, [selectedSourse]);
 
+  const [errorPsaaword, setErrorPsaaword] = useState(false);
   function handleRegistration() {
     if (!isConnected) {
       connect({
@@ -270,29 +214,32 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !selectedMessanger
     ) {
       setError(true);
-    } else if (signFirstMessageData) {
-      setUserEmail(email);
-      localStorage.setItem(`${address}-mail`, email);
-      setUserCountry(selectedCountry);
-      setUserLastName(lastName);
-      localStorage.setItem(`${address}-last_name`, lastName);
-      setUserName(name);
-      localStorage.setItem(`${address}-name`, name);
-      localStorage.setItem(`${address}-timestamp`, `${newDate}`);
-      localStorage.setItem(
-        `${address}-signature`,
-        (signFirstMessageData?.slice(2) as string) || ""
-      );
-      setUserMessanger(selectedMessanger);
-      setUserPageCategory(categoryPage);
-      setUserPageName(pageName);
-      setUserPhone(phoneValue);
-      setUserSelectedSource(selectedSourse);
-      setUserMessangerValue(messangerValue);
-      setUserLanguage(selectedLanguage);
-      setStartRegistration(true);
+    } else {
+      if (password !== passwordRepeat) {
+        setErrorPsaaword(true);
+      } else {
+        setUserEmail(email);
+        localStorage.setItem(`${address}-mail`, email);
+        setUserCountry(selectedCountry);
+        setUserLastName(lastName);
+        localStorage.setItem(`${address}-last_name`, lastName);
+        setUserName(name);
+        localStorage.setItem(`${address}-name`, name);
+        setUserMessanger(selectedMessanger);
+        setUserPageCategory(categoryPage);
+        setUserPageName(pageName);
+        setUserPhone(phoneValue);
+        setUserSelectedSource(selectedSourse);
+        setUserMessangerValue(messangerValue);
+        setUserLanguage(selectedLanguage);
+        setStartRegistration(true);
+      }
     }
   }
+
+  useEffect(() => {
+    setErrorPsaaword(false);
+  }, [password, passwordRepeat]);
 
   const [error, setError] = useState(false);
 
@@ -304,46 +251,45 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     }
   }, [error]);
 
-  useEffect(() => {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const run = async () => {
-      if (isConnected && address && startRegistration) {
-        await sleep(2000);
-        signMessage({
-          message: `${fullname.toLowerCase()} ${selectedCountry.toLowerCase()} ${selectedSourse.toLowerCase()} ${1} ${address.toLowerCase()}`,
-        });
-      }
-    };
-    run();
-  }, [isConnected, startRegistration]);
-
-  const [responseStatus, setResponseStatus] = useState(false);
+  const [startLogin, setStartLogin] = useState(false);
   useEffect(() => {
     (async () => {
-      if (variables?.message && signMessageData && isConnected && address) {
+      if (address && startRegistration) {
         const response = await api.registerUser({
           country: selectedCountry.toLowerCase(),
           main_wallet: address.toLowerCase() as `0x${string}`,
           name: fullname.toLowerCase(),
-          signature: signMessageData.slice(2),
           traffic_source: selectedSourse.toLowerCase(),
           users_amount_a_month: 1,
+          login: loginAuth,
+          password: password,
         });
         if (response.status === "OK") {
-          setCallContactReg(true);
-          setSignup(true);
-          localStorage.setItem(
-            `${address?.toLowerCase()}-auth`,
-            address?.toLowerCase()
-          );
-          setIsAuthed(true);
-          setResponseStatus(true);
+          setStartLogin(true);
+          console.log(response.body);
+        }
+      }
+    })();
+  }, [startRegistration, isConnected]);
 
+  useEffect(() => {
+    (async () => {
+      if (startLogin) {
+        const response = await api.loginUser({
+          password: password,
+          login: loginAuth,
+        });
+        if (response.status === "OK") {
+          setBarerToken((response.body as any).access_token as string);
+          localStorage.setItem(
+            `${address?.toLowerCase()}-barer`,
+            (response.body as any).access_token
+          );
           window.open("/home", "_self");
         }
       }
     })();
-  }, [signMessageData, variables?.message]);
+  }, [startLogin]);
 
   const [is650, setIs650] = useState(false);
   const [is700, setIs700] = useState(false);
@@ -397,6 +343,49 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       </div>
       <div className={s.welcome_page_signup_form}>
         <div className={s.welcome_page_signup_leftBlock}>
+          <div className={s.welcome_page_paslog_block}>
+            <span className={s.welcome_page_paslog_block_title}>
+              Логин и пароль
+            </span>
+            <div className={s.welcome_page_input_block}>
+              <span className={s.welcome_page_input_title}>Логин*</span>
+              <input
+                value={loginAuth}
+                onChange={(el) => {
+                  if (loginAuth.length > 10) {
+                    return;
+                  } else {
+                    setLoginAuth(el.target.value);
+                  }
+                }}
+                type="text"
+                className={`${s.welcome_page_input} default_input`}
+                placeholder="login"
+              />
+            </div>
+            <div className={s.welcome_page_input_block}>
+              <span className={s.welcome_page_input_title}>Пароль*</span>
+              <input
+                value={password}
+                onChange={(el) => setPassword(el.target.value)}
+                type="text"
+                className={`${s.welcome_page_input} default_input`}
+                placeholder="password"
+              />
+            </div>
+            <div className={s.welcome_page_input_block}>
+              <span className={s.welcome_page_input_title}>
+                Повторите пароль*
+              </span>
+              <input
+                value={passwordRepeat}
+                onChange={(el) => setPasswordRepeat(el.target.value)}
+                type="text"
+                className={`${s.welcome_page_input} default_input`}
+                placeholder="password"
+              />
+            </div>
+          </div>
           <div className={s.welcome_page_additionalInfo_block}>
             <span className={s.welcome_page_additionalInfo_block_title}>
               Дополнительная информация
@@ -617,15 +606,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             onClick={handleRegistration}
             className={s.register_submit_btn}
           >
-            {isConnected ? (
-              signFirstMessageData ? (
-                "Зарегистрироваться"
-              ) : (
-                <PreloadDots title="Подождите" />
-              )
-            ) : (
-              "Подключить кошелек"
-            )}
+            {isConnected ? "Зарегистрироваться" : "Подключить кошелек"}
           </button>
           <button
             onClick={() => setLogin(true)}
@@ -638,40 +619,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     </div>
   );
 };
-
-{
-  /* <div className={s.welcome_page_paslog_block}>
-            <span className={s.welcome_page_paslog_block_title}>
-              Логин и пароль
-            </span>
-            <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Логин*</span>
-              <input
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="login"
-              />
-            </div>
-            <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Пароль*</span>
-              <input
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="password"
-              />
-            </div>
-            <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>
-                Повторите пароль*
-              </span>
-              <input
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="password"
-              />
-            </div>
-          </div> */
-}
 
 // useEffect(() => {
 //   (async () => {

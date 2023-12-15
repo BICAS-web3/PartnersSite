@@ -16,10 +16,9 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 interface FollowsChartProps {}
 
 export const FollowsChart: FC<FollowsChartProps> = () => {
-  const [periodFirst, signature, timestamp] = useUnit([
+  const [periodFirst, barerToken] = useUnit([
     PeriodModel.$periodFirst,
-    ContactModel.$signature,
-    ContactModel.$timestamp,
+    ContactModel.$barerToken,
   ]);
 
   const { address } = useAccount();
@@ -27,11 +26,9 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
   const [startTime, setStartTime] = useState<any>();
   useEffect(() => {
     (async () => {
-      if (periodFirst && address && signature) {
+      if (periodFirst && address && barerToken) {
         const response = await api.getUsersRegistrationChart({
-          auth: signature,
-          timestamp,
-          wallet: address?.toLowerCase(),
+          bareer: barerToken,
           endTime: periodFirst.timeline,
           step: periodFirst.period,
         });
@@ -42,7 +39,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
         console.log("chart response", response);
       }
     })();
-  }, [periodFirst.timeline, signature]);
+  }, [periodFirst.timeline, barerToken]);
 
   const isMobile = useMediaQuery("(max-width: 650px)");
   const categories = [

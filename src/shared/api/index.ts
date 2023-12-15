@@ -71,20 +71,22 @@ export type T_UserSitesResp = {
 }[];
 
 export type T_RegisterPage = {
-  timestamp: number | string;
-  wallet: string;
-  auth: string;
+  // timestamp: number | string;
+  // wallet: string;
+  // auth: string;
   name: string;
   url: string;
+  bareer: string;
 };
 
 export type T_RegisterSubId = {
-  timestamp: number | string;
-  wallet: string;
-  auth: string;
+  // timestamp: number | string;
+  // wallet: string;
+  // auth: string;
   name: string;
   url: string;
   internal_site_id: number;
+  bareer: string;
 };
 
 export type T_ClicksResponse = {
@@ -197,14 +199,36 @@ export const getTokens = createEffect<T_GetTokens, T_ApiResponse, string>(
   }
 );
 
+export type T_LoginUser = {
+  login: string;
+  password: string;
+};
+
 export type T_RegisterUser = {
   country: string;
+  login: string;
+  main_wallet: string;
   name: string;
-  main_wallet: `0x${string}`;
-  signature: string;
+  password: string;
   traffic_source: string;
   users_amount_a_month: number;
 };
+
+export const loginUser = createEffect<T_LoginUser, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
 export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
   async (form) => {
     return fetch(`${BaseApiUrl}/partner/register`, {
@@ -221,38 +245,34 @@ export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
 );
 
 export type T_RegisterContact = {
-  timestamp: number | string;
-  wallet: string;
-  auth: string;
+  bareer: string;
   contact: { name: string; url: string }[];
 };
 
 export type T_RegisterWallets = {
-  timestamp: number | string;
-  wallet: string;
-  auth: string;
+  timestamp?: number | string;
+  wallet?: string;
+  auth?: string;
+  bareer: string;
   period: "daily" | "weekly" | "monthly" | "all";
 };
 
 export type T_RegisterChart = {
-  timestamp: number | string;
-  wallet: string;
-  auth: string;
+  bareer: string;
   endTime: number;
   step?: number;
 };
 
 export type T_DepositedUsers = {
-  timestamp: number | string;
-  wallet: string;
-  auth: string;
+  bareer: string;
   period: "daily" | "weekly" | "monthly" | "all";
 };
 
 export type T_WalletsRegistered = {
-  timestamp: number | string;
-  wallet: string;
-  auth: string;
+  timestamp?: number | string;
+  wallet?: string;
+  auth?: string;
+  bareer: string;
   period: "daily" | "weekly" | "monthly" | "all";
 };
 
@@ -266,9 +286,7 @@ export const registerContact = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
     body: JSON.stringify({
       contacts: form.contact.map((el) => {
@@ -282,15 +300,11 @@ export const registerContact = createEffect<
 
 //?-------
 export type T_GetEserData = {
-  timestamp: number;
-  wallet: string;
-  auth: string;
+  bareer: string;
 };
 
 export type T_GetSiteClicks = {
-  timestamp: number;
-  wallet: string;
-  auth: string;
+  bareer: string;
   id: number | string;
 };
 
@@ -301,9 +315,7 @@ export const getUserData = createEffect<T_GetEserData, T_ApiResponse, string>(
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        timestamp: form.timestamp.toString(),
-        wallet: form.wallet,
-        auth: form.auth,
+        Authorization: `Bearer ${form.bareer}`,
       },
     })
       .then(async (res) => await res.json())
@@ -318,9 +330,7 @@ export const getUserSites = createEffect<T_GetEserData, T_ApiResponse, string>(
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        timestamp: form.timestamp.toString(),
-        wallet: form.wallet,
-        auth: form.auth,
+        Authorization: `Bearer ${form.bareer}`,
       },
     })
       .then(async (res) => await res.json())
@@ -335,9 +345,7 @@ export const registerPage = createEffect<T_RegisterPage, T_ApiResponse, string>(
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        timestamp: form.timestamp.toString(),
-        wallet: form.wallet,
-        auth: form.auth,
+        Authorization: `Bearer ${form.bareer}`,
       },
       body: JSON.stringify({ url: form.url, name: form.name }),
     })
@@ -347,9 +355,7 @@ export const registerPage = createEffect<T_RegisterPage, T_ApiResponse, string>(
 );
 
 export type T_GetSubIdClicks = {
-  timestamp: number;
-  wallet: string;
-  auth: string;
+  bareer: string;
   site_id: string;
   sub_id: string;
 };
@@ -366,9 +372,7 @@ export const getSubIdClicks = createEffect<
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        timestamp: form.timestamp.toString(),
-        wallet: form.wallet,
-        auth: form.auth,
+        Authorization: `Bearer ${form.bareer}`,
       },
     }
   )
@@ -383,9 +387,7 @@ export const getFullClicks = createEffect<T_GetEserData, T_ApiResponse, string>(
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        timestamp: form.timestamp.toString(),
-        wallet: form.wallet,
-        auth: form.auth,
+        Authorization: `Bearer ${form.bareer}`,
       },
     })
       .then(async (res) => await res.json())
@@ -403,9 +405,7 @@ export const getSiteClicks = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
   })
     .then(async (res) => await res.json())
@@ -429,9 +429,7 @@ export const getUserContact = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
   })
     .then(async (res) => await res.json())
@@ -448,9 +446,7 @@ export const registerSubId = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
     body: JSON.stringify({
       url: form.url,
@@ -464,8 +460,7 @@ export const registerSubId = createEffect<
 
 export type T_RegisterSubIdConnect = {
   timestamp: number | string;
-  wallet: string;
-  auth: string;
+  bareer: string;
   partner_wallet: string;
   signature: string;
   site_id: number;
@@ -483,9 +478,7 @@ export const registerSubIdConnect = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
     body: JSON.stringify({
       partner_wallet: form.partner_wallet,
@@ -506,9 +499,7 @@ export const deleteContact = createEffect<T_GetEserData, T_ApiResponse, string>(
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        timestamp: form.timestamp.toString(),
-        wallet: form.wallet,
-        auth: form.auth,
+        Authorization: `Bearer ${form.bareer}`,
       },
     })
       .then(async (res) => await res.json())
@@ -526,9 +517,7 @@ export const getUsersRegistration = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
   })
     .then(async (res) => await res.json())
@@ -551,9 +540,7 @@ export const getUsersRegistrationChart = createEffect<
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        timestamp: form.timestamp.toString(),
-        wallet: form.wallet,
-        auth: form.auth,
+        Authorization: `Bearer ${form.bareer}`,
       },
     }
   )
@@ -572,9 +559,7 @@ export const getDepositedUsers = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
   })
     .then(async (res) => await res.json())
@@ -592,9 +577,7 @@ export const getConnectedWallets = createEffect<
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      timestamp: form.timestamp.toString(),
-      wallet: form.wallet,
-      auth: form.auth,
+      Authorization: `Bearer ${form.bareer}`,
     },
   })
     .then(async (res) => await res.json())

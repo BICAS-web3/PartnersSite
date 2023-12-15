@@ -156,11 +156,10 @@ export const FastStats: FC<FastStatsProps> = () => {
     };
   }, []);
 
-  const [setPeriod, tablePeriod, signature, timestamp] = useUnit([
+  const [setPeriod, tablePeriod, barerToken] = useUnit([
     TimeModel.setTablePeriod,
     TimeModel.$tablePeriod,
-    ContactModel.$signature,
-    ContactModel.$timestamp,
+    ContactModel.$barerToken,
   ]);
 
   const [isFilter, setIsFilter] = useState(false);
@@ -182,11 +181,9 @@ export const FastStats: FC<FastStatsProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (tablePeriod && address && signature) {
+      if (tablePeriod && address) {
         const response = await api.getUsersRegistrationChart({
-          auth: signature,
-          timestamp,
-          wallet: address?.toLowerCase(),
+          bareer: barerToken,
           endTime: tablePeriod,
         });
         if (response.status === "OK") {
@@ -194,9 +191,7 @@ export const FastStats: FC<FastStatsProps> = () => {
         }
 
         const response2 = await api.getDepositedUsers({
-          auth: signature,
-          timestamp,
-          wallet: address?.toLowerCase(),
+          bareer: barerToken,
           period: "daily",
         });
 
@@ -205,7 +200,7 @@ export const FastStats: FC<FastStatsProps> = () => {
         }
       }
     })();
-  }, [signature, tablePeriod]);
+  }, [, tablePeriod]);
 
   console.log(conversionBody?.connected_wallets);
   console.log("TEST", depositedUsersBody?.connected_wallets);
