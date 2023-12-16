@@ -416,7 +416,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     return messangerValue.includes("@") && messangerValue.length > 1;
   }
   function validateAddress(wallet: string) {
-    const pattern = /^0x/i;
+    const pattern = /^(0x)?[0-9a-fA-F]{40}$/;
     return pattern.test(wallet);
   }
 

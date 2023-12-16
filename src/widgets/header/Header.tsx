@@ -94,13 +94,13 @@ export const Header: FC<HeaderProps> = () => {
   }, []);
 
   useEffect(() => {
-    if (localEmail || localName || localLastName || localToken) {
+    if (localToken) {
       setUserEmail(localEmail);
       setUserName(localName);
       setUserLastName(localLastName);
       setUserPhone(localPhone);
-      setIsAuthed(true);
       setBarerToken(localToken);
+      setIsAuthed(true);
     }
   }, [localEmail, localName, localLastName, readyUpdate]);
 
@@ -157,12 +157,15 @@ export const Header: FC<HeaderProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (!responseBody && isAuthed && handleRequest && barerToken) {
-        const respobse = await api.getUserData({
-          bareer: barerToken,
+      if (!responseBody && isAuthed && handleRequest && localToken) {
+        const response = await api.getUserData({
+          bareer: localToken,
         });
-        setResponseBody(respobse.body as api.R_getUser);
-        setHandleRequest(false);
+        if (response.status === "OK") {
+          setResponseBody(response.body as api.R_getUser);
+          setHandleRequest(false);
+        } else {
+        }
       }
     })();
   }, [responseBody, isAuthed, handleRequest, barerToken]);
