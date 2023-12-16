@@ -275,6 +275,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
           <div
             onClick={() => {
               localStorage.removeItem("barer-token");
+              localStorage.removeItem("mail");
               window.open("/", "_self");
             }}
             className={s.profile_options_list_item}
