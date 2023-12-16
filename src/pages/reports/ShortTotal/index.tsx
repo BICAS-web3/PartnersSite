@@ -163,7 +163,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     (async () => {
       if (isAuthed) {
         const data = await api.getFullClicks({
-          //! -------------------------------------------------
           bareer: barerToken,
         });
         data.status === "OK" && setClicks(data.body as api.T_ClicksResponse);
@@ -176,7 +175,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     (async () => {
       if (isAuthed) {
         const data = await api.getUsersRegistration({
-          //! -------------------------------------------------
           bareer: barerToken,
           period: "all",
         });
