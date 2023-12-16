@@ -134,10 +134,12 @@
 }
 
 .checkbox {
+  box-sizing: border-box;
   width: 24px;
   height: 24px;
   border-radius: 3px;
   border: 1px solid #252525;
+  border: 1px solid white;
   top: 2px;
   position: absolute;
   left: -40px;

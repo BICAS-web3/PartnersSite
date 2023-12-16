@@ -9,7 +9,6 @@ import "swiper/scss";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { ListButtons } from "@/widgets/listButtons/ListExport";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import { WebsitesFilter } from "@/widgets/websitesUI/";
 import { WebsiteCategoryFilter } from "@/widgets/websitesUI/";
@@ -190,7 +189,6 @@ const Websites: FC<WebsitesProps> = () => {
   const isMobile = useMediaQuery("(max-width:650px)");
 
   const swiperRef = useRef<SwiperRef>(null);
-  const [websitesFilterBtn, setWebsitesFilterBtn] = useState("addedSites");
   const [activeOptions, setActiveOptions] = useState([]);
   const [isTablet, setIsTablet] = useState(false);
 
@@ -266,23 +264,13 @@ const Websites: FC<WebsitesProps> = () => {
   };
 
   const [error, setError] = useState(false);
-  const { isConnected, address } = useAccount();
 
   const [pageUrl, setPageUrl] = useState("");
   const [pageType, setPageType] = useState<string>("");
-  const [tableType, setTableType] = useState<string>("");
 
   useEffect(() => {
     (async () => {
-      if (
-        isConnected &&
-        address &&
-        addPage &&
-        pageType &&
-        pageUrl
-        //  &&
-        // readyUpdate
-      ) {
+      if (addPage && pageType && pageUrl) {
         const data = await api.registerPage({
           name: categotyFilter || "Прогнозы на спорт",
           url: pageUrl,
@@ -296,7 +284,7 @@ const Websites: FC<WebsitesProps> = () => {
         }
       }
     })();
-  }, [isConnected, address, addPage]);
+  }, [addPage]);
   const [numberPage, setNumberPage] = useState<number>(1);
 
   const navigation = useRouter();
@@ -321,12 +309,7 @@ const Websites: FC<WebsitesProps> = () => {
   const [addSubid, setAddSubid] = useState(false);
   useEffect(() => {
     (async () => {
-      if (
-        isConnected &&
-        isAuthed &&
-        address
-        //  && readyUpdate
-      ) {
+      if (isAuthed) {
         const data = await api.getUserSites({
           bareer: barerToken,
         });
@@ -353,23 +336,14 @@ const Websites: FC<WebsitesProps> = () => {
         }
       }
     })();
-  }, [address, isConnected, isAuthed, updateGetRequest, readyUpdate, addPage]);
+  }, [isAuthed, updateGetRequest, readyUpdate, addPage]);
 
   const [websiteMobPlaceholder, setWebsiteMobPlaceholder] =
     useState("Example.com");
 
-  const [subidMobPlaceholder, setSubidMobPlaceholder] = useState("sub id");
-  const [subidWebsitePlaceholder, setSubidWebsitePlaceholder] =
-    useState("Example.com");
-
   useEffect(() => {
     (async () => {
-      if (
-        subidPage &&
-        address &&
-        addSubid
-        // && readyUpdate
-      ) {
+      if (subidPage && addSubid) {
         const response = await api.registerSubId({
           bareer: barerToken,
           name: subidPage.basic.name,
@@ -454,18 +428,6 @@ const Websites: FC<WebsitesProps> = () => {
                 titleArr={titleArr}
                 isPartnerPage={true}
               />
-              {/* <WebsitesFilter
-                setCurrentFilterPage={setCurrentFilterPage}
-                currentFilterPage={currentFilterPage}
-                subBlock="subidInputPage"
-                setTitle={setSubidMobPlaceholder}
-              />
-              <WebsitesFilter
-                setCurrentFilterPage={setCurrentFilterPage}
-                currentFilterPage={currentFilterPage}
-                subBlock="subIdWebsiteInputPage"
-                setTitle={setSubidWebsitePlaceholder}
-              /> */}
               <div
                 className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
               >
@@ -522,29 +484,7 @@ const Websites: FC<WebsitesProps> = () => {
                     Добавить сайт
                   </button>
                 </div>
-                {/* <div
-                  className="mobile_filter_item"
-                  onClick={() => setCurrentFilterPage("subidInputPage")}
-                >
-                  <span className="mobile_filter_item_title">Sub ID</span>
-                  <span className="mobile_filter_item_picked_value">
-                    {subidMobPlaceholder}
-                  </span>
-                </div>
-                <div
-                  className="mobile_filter_item"
-                  onClick={() => setCurrentFilterPage("subIdWebsiteInputPage")}
-                >
-                  <span className="mobile_filter_item_title">Веб-сайт</span>
-                  <span className="mobile_filter_item_picked_value">
-                    {subidWebsitePlaceholder}
-                  </span>
-                </div>
-                <div className={`mobile_filter_item ${s.mob_add_subid_block}`}>
-                  <button className={s.add_subid_mob_btn}>
-                    Добавить Sub ID
-                  </button>
-                </div> */}
+
                 <button
                   className={s.mobile_filter_back_btn}
                   onClick={() => setIsFilter(false)}
@@ -625,31 +565,6 @@ const Websites: FC<WebsitesProps> = () => {
               </button>
             </div>
           )}
-          {/* <div className={s.add_subid_wrap}>
-            <div className={s.add_subid_body}>
-              <div className={s.subid_input_block}>
-                <span className={s.subid_input_title}>Sub ID</span>
-                <input
-                  type="text"
-                  className={`${s.subid_input} default_input`}
-                  placeholder=""
-                />
-              </div>
-              <div className={s.website_input_block}>
-                <span className={s.website_input_title}>Веб-сайт</span>
-                <input
-                  type="text"
-                  className={`${s.website_input} default_input`}
-                  placeholder={
-                    isTablet
-                      ? "Например: mysite.com"
-                      : "Введите свой сайт. Например: mysite.com"
-                  }
-                />
-              </div>
-              <button className={s.add_subid_btn}>Добавить Sub ID</button>
-            </div>
-          </div> */}
           <div className={s.website_downTable_filter_block}>
             <div className={s.websites_hiddenAdded_block}>
               <DropdownPick
@@ -742,3 +657,56 @@ const Websites: FC<WebsitesProps> = () => {
 };
 
 export default Websites;
+{
+  /* <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("subidInputPage")}
+                >
+                  <span className="mobile_filter_item_title">Sub ID</span>
+                  <span className="mobile_filter_item_picked_value">
+                    {subidMobPlaceholder}
+                  </span>
+                </div>
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("subIdWebsiteInputPage")}
+                >
+                  <span className="mobile_filter_item_title">Веб-сайт</span>
+                  <span className="mobile_filter_item_picked_value">
+                    {subidWebsitePlaceholder}
+                  </span>
+                </div>
+                <div className={`mobile_filter_item ${s.mob_add_subid_block}`}>
+                  <button className={s.add_subid_mob_btn}>
+                    Добавить Sub ID
+                  </button>
+                </div> */
+}
+
+{
+  /* <div className={s.add_subid_wrap}>
+            <div className={s.add_subid_body}>
+              <div className={s.subid_input_block}>
+                <span className={s.subid_input_title}>Sub ID</span>
+                <input
+                  type="text"
+                  className={`${s.subid_input} default_input`}
+                  placeholder=""
+                />
+              </div>
+              <div className={s.website_input_block}>
+                <span className={s.website_input_title}>Веб-сайт</span>
+                <input
+                  type="text"
+                  className={`${s.website_input} default_input`}
+                  placeholder={
+                    isTablet
+                      ? "Например: mysite.com"
+                      : "Введите свой сайт. Например: mysite.com"
+                  }
+                />
+              </div>
+              <button className={s.add_subid_btn}>Добавить Sub ID</button>
+            </div>
+          </div> */
+}

@@ -1,6 +1,4 @@
 "use client";
-
-import { useAccount, useConnect } from "wagmi";
 import { FC, useState, useEffect } from "react";
 import { useUnit } from "effector-react";
 import { countries } from "countries-list";
@@ -17,7 +15,8 @@ import leftArr from "@/public/media/common/prevArrow.png";
 
 import * as RegistrM from "@/widgets/header/model";
 import * as UserDataModel from "./model";
-import * as AuthModel from "@/widgets/welcomePageInitial/model";
+
+import { PreloadDots } from "@/shared/ui/ProloadDots";
 
 export const siteCategories = [
   {
@@ -119,7 +118,6 @@ const countriesList = Object.keys(countries).map((code) => ({
 interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
-  const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
   const [
     setUserCountry,
     setUserEmail,
@@ -131,7 +129,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     setUserPhone,
     setUserSelectedSource,
     setUserMessangerValue,
-    // setTimestamp,
     setUserLanguage,
     setCallContactReg,
     setUserLogin,
@@ -159,8 +156,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [isPPchecked, setIsPPchecked] = useState(false);
 
-  const { isConnected, address } = useAccount();
-
   const handlePhoneChange = (e: { target: { value: string } }) => {
     let inputValue = e.target.value;
     inputValue = inputValue.replace(/\D/g, "");
@@ -174,7 +169,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     RegistrM.setLogin,
     RegistrM.setSignup,
   ]);
-  const { connectors, connect } = useConnect();
 
   const [startRegistration, setStartRegistration] = useState(false);
 
@@ -197,34 +191,41 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     setFullName(`${name} ${lastName}`);
   }, [name, lastName]);
 
-  useEffect(() => {}, [selectedSourse]);
-
   const [errorPsaaword, setErrorPsaaword] = useState(false);
+
+  useEffect(() => {
+    if (errorPsaaword) {
+      setTimeout(() => {
+        setErrorPsaaword(false);
+      }, 2000);
+    }
+  }, [errorPsaaword]);
+
   function handleRegistration() {
-    if (!isConnected) {
-      connect({
-        connector: connectors[0].ready ? connectors[0] : connectors[1],
-      });
-    } else if (
+    if (
       !name ||
       !lastName ||
       !email ||
       !pageName ||
       !messangerValue ||
-      !selectedMessanger
+      !selectedMessanger ||
+      !password ||
+      !passwordRepeat
     ) {
       setError(true);
     } else {
       if (password !== passwordRepeat) {
         setErrorPsaaword(true);
+        setPassword("");
+        setPasswordRepeat("");
       } else {
         setUserEmail(email);
-        localStorage.setItem(`${address}-mail`, email);
+        localStorage.setItem(`mail`, email);
         setUserCountry(selectedCountry);
         setUserLastName(lastName);
-        localStorage.setItem(`${address}-last_name`, lastName);
+        localStorage.setItem(`last_name`, lastName);
         setUserName(name);
-        localStorage.setItem(`${address}-name`, name);
+        localStorage.setItem(`name`, name);
         setUserMessanger(selectedMessanger);
         setUserPageCategory(categoryPage);
         setUserPageName(pageName);
@@ -237,10 +238,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     }
   }
 
-  useEffect(() => {
-    setErrorPsaaword(false);
-  }, [password, passwordRepeat]);
-
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -252,12 +249,13 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   }, [error]);
 
   const [startLogin, setStartLogin] = useState(false);
+
   useEffect(() => {
     (async () => {
-      if (address && startRegistration) {
+      if (startRegistration) {
         const response = await api.registerUser({
           country: selectedCountry.toLowerCase(),
-          main_wallet: address.toLowerCase() as `0x${string}`,
+          main_wallet: "",
           name: fullname.toLowerCase(),
           traffic_source: selectedSourse.toLowerCase(),
           users_amount_a_month: 1,
@@ -266,11 +264,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         });
         if (response.status === "OK") {
           setStartLogin(true);
-          console.log(response.body);
         }
       }
     })();
-  }, [startRegistration, isConnected]);
+  }, [startRegistration]);
 
   useEffect(() => {
     (async () => {
@@ -282,7 +279,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         if (response.status === "OK") {
           setBarerToken((response.body as any).access_token as string);
           localStorage.setItem(
-            `${address?.toLowerCase()}-barer`,
+            `barer-token`,
             (response.body as any).access_token
           );
           window.open("/home", "_self");
@@ -368,9 +365,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <input
                 value={password}
                 onChange={(el) => setPassword(el.target.value)}
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="password"
+                type="password"
+                className={clsx(
+                  s.welcome_page_input,
+                  errorPsaaword && s.error_input,
+                  !password && error && s.error_input,
+                  "default_input"
+                )}
+                placeholder={
+                  errorPsaaword === true ? "пароли не совпадают" : "password"
+                }
               />
             </div>
             <div className={s.welcome_page_input_block}>
@@ -380,9 +384,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <input
                 value={passwordRepeat}
                 onChange={(el) => setPasswordRepeat(el.target.value)}
-                type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="password"
+                type="password"
+                className={clsx(
+                  s.welcome_page_input,
+                  errorPsaaword && s.error_input,
+                  !passwordRepeat && error && s.error_input,
+                  "default_input"
+                )}
+                placeholder={errorPsaaword === true ? "" : "repeat password"}
               />
             </div>
           </div>
@@ -600,13 +609,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           </span>
         </div>
         <div className={s.btns_container}>
-          {" "}
           <button
-            disabled={!isPPchecked && isConnected}
+            disabled={!isPPchecked}
             onClick={handleRegistration}
             className={s.register_submit_btn}
           >
-            {isConnected ? "Зарегистрироваться" : "Подключить кошелек"}
+            {startRegistration ? (
+              <PreloadDots title="Подождите" />
+            ) : (
+              "Зарегистрироваться"
+            )}
           </button>
           <button
             onClick={() => setLogin(true)}

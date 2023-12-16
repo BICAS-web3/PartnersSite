@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import { useAccount, useSignMessage } from "wagmi";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,16 +18,7 @@ import s from "./styles.module.scss";
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
-  const { isConnected, address } = useAccount();
-  const { signMessage, data: signMessageData, isSuccess } = useSignMessage();
-
-  // useEffect(() => {
-  //   alert(updateSignature);
-  // }, [updateSignature]);
-  const [setReadyUpdate, readyUpdate] = useUnit([
-    HeaderModel.setReadyUpdate,
-    HeaderModel.$readyUpdate,
-  ]);
+  const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
 
   const [setIsAuthed, isAuthed] = useUnit([
     AuthModel.setIsAuthed,
@@ -84,64 +74,27 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setUserSelectedSource,
   ]);
 
-  const [localAuth, setLocaAuth] = useState("");
   const [localName, setLocalName] = useState("");
   const [localPhone, setLocalPhone] = useState("");
   const [localEmail, setLocalEmail] = useState("");
   const [localLastName, setLocalLastName] = useState("");
   const [localToken, setLocalToken] = useState("");
-  // const [localTimestamp, setLocalTimestamp] = useState(0);
-  // const [localSignature, setLocalSignature] = useState("");
 
   useEffect(() => {
-    if (isConnected) {
-      const getEmail = localStorage.getItem(`${address}-mail`);
-      getEmail && setLocalEmail(getEmail);
-      const getName = localStorage.getItem(`${address}-name`);
-      getName && setLocalName(getName);
-      const getPhone = localStorage.getItem(`${address}-phone`);
-      getPhone && setLocalPhone(getPhone);
-      const getLastName = localStorage.getItem(`${address}-last_name`);
-      getLastName && setLocalLastName(getLastName);
-      // const getTimestamp = localStorage.getItem(`${address}-timestamp`);
-      // getTimestamp && setLocalTimestamp(Number(getTimestamp));
-      // const getSignature = localStorage.getItem(`${address}-signature`);
-      // getSignature && setLocalSignature(getSignature);
-      const getLocalAuth = localStorage.getItem(
-        `${address?.toLowerCase()}-auth`
-      );
-      const getToken = localStorage.getItem(`${address?.toLowerCase()}-barer`);
-      getToken && setLocalToken(getToken);
-      getLocalAuth && setLocaAuth(getLocalAuth);
-    }
+    const getEmail = localStorage.getItem(`mail`);
+    getEmail && setLocalEmail(getEmail);
+    const getName = localStorage.getItem(`name`);
+    getName && setLocalName(getName);
+    const getPhone = localStorage.getItem(`phone`);
+    getPhone && setLocalPhone(getPhone);
+    const getLastName = localStorage.getItem(`last_name`);
+    getLastName && setLocalLastName(getLastName);
+    const getToken = localStorage.getItem(`barer-token`);
+    getToken && setLocalToken(getToken);
   }, []);
 
   useEffect(() => {
-    if (localAuth === address?.toLowerCase()) {
-      setIsAuthed(true);
-    }
-  }, [localAuth]);
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setReadyUpdate(true);
-  //   }
-  // }, [isSuccess]);
-
-  useEffect(() => {
-    if (
-      (localEmail || localName || localLastName || localToken) &&
-      isConnected
-    ) {
-      // const currentTime = Date.now();
-      // const timeDifference = currentTime - localTimestamp;
-      // if (timeDifference > 60000 * 10) {
-      //   setUpdateSignature(true);
-      // } else {
-      //   setReadyUpdate(true);
-      //   setTimestamp(localTimestamp);
-      //   setSignature(localSignature);
-      // }
+    if (localEmail || localName || localLastName || localToken) {
       setUserEmail(localEmail);
       setUserName(localName);
       setUserLastName(localLastName);
@@ -153,7 +106,7 @@ export const Header: FC<HeaderProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (callContactReg && address) {
+      if (callContactReg) {
         await api.registerContact({
           bareer: barerToken,
           contact: [
@@ -199,53 +152,15 @@ export const Header: FC<HeaderProps> = () => {
     })();
   }, [callContactReg]);
 
-  // useEffect(() => {
-  //   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-  //   const run = async () => {
-  //     if (isConnected && updateSignature) {
-  //       const now = Date.now();
-
-  //       localStorage.setItem(`${address}-timestamp`, `${now}`);
-  //       await sleep(2000);
-  //       signMessage({
-  //         message: `PARTNER AUTH ${address!.toLowerCase()} ${now}`,
-  //       });
-  //       setTimestamp(now);
-  //       setLocalTimestamp(now);
-  //     }
-  //   };
-  //   run();
-  // }, [isConnected, updateSignature]);
-
-  // useEffect(() => {
-  //   if (updateSignature && signMessageData && readyUpdate) {
-  //     setSignature(signMessageData.slice(2));
-  //     localStorage.setItem(`${address}-signature`, signMessageData.slice(2));
-  //     setLocalSignature(signMessageData.slice(2));
-  //     setUpdateSignature(false);
-  //   }
-  // }, [updateSignature, signMessageData, readyUpdate]);
-
-  //!-----------
   const [handleRequest, setHandleRequest] = useState(true);
   const [responseBody, setResponseBody] = useState<api.R_getUser>();
 
   useEffect(() => {
     (async () => {
-      if (address && !responseBody && isAuthed && handleRequest) {
+      if (!responseBody && isAuthed && handleRequest) {
         const respobse = await api.getUserData({
           bareer: barerToken,
         });
-
-        // if (
-        //   respobse.status === "Err" &&
-        //   ((respobse.body as any)?.error as string).includes(
-        //     "Bad signature provided address"
-        //   )
-        // ) {
-        //   setUpdateSignature(true);
-        // }
-
         setResponseBody(respobse.body as api.R_getUser);
         setHandleRequest(false);
       }
