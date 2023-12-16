@@ -80,7 +80,53 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-    };
+    }; // useEffect(() => {
+    //   (async () => {
+    //     if (callContactReg) {
+    //       await api.registerContact({
+    //         bareer: barerToken,
+    //         contact: [
+    //           {
+    //             name: "messenger_login",
+    //             url: userMessangerValue,
+    //           },
+    //           {
+    //             name: "email",
+    //             url: userEmail,
+    //           },
+    //           {
+    //             name: "messenger_type",
+    //             url: userMessanger,
+    //           },
+    //           {
+    //             name: "page_name",
+    //             url: userPageName,
+    //           },
+    //           {
+    //             name: "country",
+    //             url: userCountry,
+    //           },
+    //           {
+    //             name: "page_type",
+    //             url: userPageCategory,
+    //           },
+    //           {
+    //             name: "language",
+    //             url: userLanguage,
+    //           },
+    //           {
+    //             name: "phone",
+    //             url: userPhone,
+    //           },
+    //           {
+    //             name: "source_from",
+    //             url: userSelectedSource,
+    //           },
+    //         ],
+    //       });
+    //     }
+    //   })();
+    // }, [callContactReg]);
   }, []);
 
   return (

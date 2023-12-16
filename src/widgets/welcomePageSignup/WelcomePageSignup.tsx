@@ -118,6 +118,7 @@ const countriesList = Object.keys(countries).map((code) => ({
 interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
+  const [token, setToken] = useState("");
   const [notValidMail, setNotValidMail] = useState(false);
   const [notValidMessanger, setNotValidMessanger] = useState(false);
   const [notValidPage, setNotValidPage] = useState(false);
@@ -351,6 +352,57 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   useEffect(() => {
     (async () => {
+      if (token) {
+        const response = await api.registerContact({
+          bareer: token,
+          contact: [
+            {
+              name: "messenger_login",
+              url: messangerValue,
+            },
+            {
+              name: "email",
+              url: email,
+            },
+            {
+              name: "messenger_type",
+              url: selectedMessanger,
+            },
+            {
+              name: "page_name",
+              url: pageName,
+            },
+            {
+              name: "country",
+              url: selectedCountry,
+            },
+            {
+              name: "page_type",
+              url: categoryPage,
+            },
+            {
+              name: "language",
+              url: selectedLanguage,
+            },
+            {
+              name: "phone",
+              url: phoneValue,
+            },
+            {
+              name: "source_from",
+              url: selectedSourse,
+            },
+          ],
+        });
+        if (response.status === "OK") {
+          window.open("/home", "_self");
+        }
+      }
+    })();
+  }, [token]);
+
+  useEffect(() => {
+    (async () => {
       if (startLogin) {
         const response = await api.loginUser({
           password: password,
@@ -358,11 +410,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         });
         if (response.status === "OK") {
           setBarerToken((response.body as any).access_token as string);
+          setToken((response.body as any).access_token as string);
           localStorage.setItem(
             `barer-token`,
             (response.body as any).access_token
           );
-          window.open("/home", "_self");
         }
       }
     })();
@@ -445,13 +497,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <span className={s.welcome_page_input_title}>Логин*</span>
               <input
                 value={loginAuth}
-                onChange={(el) => {
-                  if (loginAuth.length > 10) {
-                    return;
-                  } else {
-                    setLoginAuth(el.target.value);
-                  }
-                }}
+                onChange={(el) => setLoginAuth(el.target.value)}
                 type="text"
                 className={`${s.welcome_page_input} default_input`}
                 placeholder="login"
