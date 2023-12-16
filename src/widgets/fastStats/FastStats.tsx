@@ -174,14 +174,12 @@ export const FastStats: FC<FastStatsProps> = () => {
     }
   }, [isFilter]);
 
-  const { address } = useAccount();
-
   const [conversionBody, setConversionBody] = useState<any>();
   const [depositedUsersBody, setDepositedUsersBody] = useState<any>();
 
   useEffect(() => {
     (async () => {
-      if (tablePeriod && address) {
+      if (tablePeriod && barerToken) {
         const response = await api.getUsersRegistrationChart({
           bareer: barerToken,
           endTime: tablePeriod,

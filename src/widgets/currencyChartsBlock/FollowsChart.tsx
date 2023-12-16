@@ -21,8 +21,6 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
     ContactModel.$barerToken,
   ]);
 
-  const { address } = useAccount();
-
   const [startTime, setStartTime] = useState<any>();
   useEffect(() => {
     (async () => {
