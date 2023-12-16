@@ -43,7 +43,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (periodSecond && address && barerToken) {
+      if (periodSecond && barerToken) {
         const response = await api.getUsersRegistrationChart({
           bareer: barerToken,
           endTime: periodSecond.timeline,

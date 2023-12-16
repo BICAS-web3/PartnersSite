@@ -162,7 +162,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address) {
+      if (isConnected && isAuthed) {
         const data = await api.getFullClicks({
           //! -------------------------------------------------
           bareer: barerToken,
@@ -175,7 +175,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
   const [usersRegistration, setUsersRegistration] = useState<any>();
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address) {
+      if (isConnected && isAuthed) {
         const data = await api.getUsersRegistration({
           //! -------------------------------------------------
           bareer: barerToken,

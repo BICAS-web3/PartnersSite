@@ -92,7 +92,13 @@ export const RightMenu: FC<RightMenuProps> = () => {
       document.body.style.overflow = "auto";
     }
   };
-  console.log(isConnected);
+
+  const [localToken, setLocalToken] = useState("");
+
+  useEffect(() => {
+    const getLocalToken = localStorage.getItem("barer-token");
+    if (getLocalToken) setLocalToken(getLocalToken);
+  }, []);
   return (
     <div className={s.right_menu_body}>
       <div className={s.language_switcher}>
@@ -133,7 +139,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
           ))}
         </div>
       </div>
-      {isAuthed && isConnected ? (
+      {localToken ? (
         <>
           {isMobile && <ChainList />}
           <div

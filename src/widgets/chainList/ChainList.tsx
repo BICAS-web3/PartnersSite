@@ -129,7 +129,6 @@ export const ChainList: FC<ChainListProps> = () => {
             <div
               className={s.chain_item}
               onClick={() => {
-                // setActiveChain(el);
                 close();
                 switchNetwork?.(el.id);
               }}

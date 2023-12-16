@@ -1,6 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import { useAccount, useConnect, useSignMessage } from "wagmi";
-import { useRouter } from "next/router";
 import { useUnit } from "effector-react";
 
 import * as LoginModel from "./model";
@@ -16,8 +14,6 @@ import { useMediaQuery } from "@/shared/tools";
 interface WelcomePageLoginProps {}
 
 export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
-  const { address, isConnected } = useAccount();
-  const { connectors, connect } = useConnect();
   const [startLogin, setStartLogin] = useState(false);
   const [responseBody, setResponseBody] = useState<api.R_getUser>();
   const [password, setPassword] = useState("");
@@ -36,7 +32,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
           setGetToken((response.body as any).access_token as string);
           setBarerToken((response.body as any).access_token as string);
           localStorage.setItem(
-            `${address?.toLowerCase()}-barer`,
+            `barer-token`,
             (response.body as any).access_token
           );
           setGetData(true);
@@ -81,7 +77,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const [getData, setGetData] = useState(false);
   useEffect(() => {
     (async () => {
-      if (getData && address && !responseBody) {
+      if (getData && !responseBody) {
         const respobse = await api.getUserData({
           bareer: getToken,
         });
@@ -92,74 +88,60 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   useEffect(() => {
     if (responseBody) {
       setUserMessangerValue(
-        responseBody.contacts.find((el) => el.name === "messenger_login")
+        responseBody.contacts?.find((el) => el?.name === "messenger_login")
           ?.url || ""
       );
       setUserEmail(
-        responseBody.contacts.find((el) => el.name === "email")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "email")?.url || ""
       );
       setUserMessanger(
-        responseBody.contacts.find((el) => el.name === "messenger_type")?.url ||
-          ""
+        responseBody.contacts?.find((el) => el?.name === "messenger_type")
+          ?.url || ""
       );
       setUserPageName(
-        responseBody.contacts.find((el) => el.name === "page_name")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "page_name")?.url || ""
       );
       setUserCountry(
-        responseBody.contacts.find((el) => el.name === "country")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "country")?.url || ""
       );
       setUserPageCategory(
-        responseBody.contacts.find((el) => el.name === "page_type")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "page_type")?.url || ""
       );
       setUserLanguage(
-        responseBody.contacts.find((el) => el.name === "language")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "language")?.url || ""
       );
       setUserPhone(
-        responseBody.contacts.find((el) => el.name === "phone")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "phone")?.url || ""
       );
       setUserSelectedSource(
-        responseBody.contacts.find((el) => el.name === "source_from")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "source_from")?.url ||
+          ""
       );
-      // localStorage.setItem(`${address}-timestamp`, `${newDate}`);
-
+      localStorage.setItem(`name`, responseBody.basic?.name.split(" ")[0]);
+      localStorage.setItem(`last_name`, responseBody.basic?.name.split(" ")[1]);
       localStorage.setItem(
-        `${address}-name`,
-        responseBody.basic.name.split(" ")[0]
+        `mail`,
+        responseBody.contacts?.find((el) => el?.name === "email")?.url || ""
       );
-      localStorage.setItem(
-        `${address}-last_name`,
-        responseBody.basic.name.split(" ")[1]
-      );
-      localStorage.setItem(
-        `${address}-mail`,
-        responseBody.contacts.find((el) => el.name === "email")?.url || ""
-      );
-      setUserName(responseBody.basic.name.split(" ")[0]);
-      setUserLastName(responseBody.basic.name.split(" ")[1]);
+      setUserName(responseBody.basic?.name.split(" ")[0]);
+      setUserLastName(responseBody.basic?.name.split(" ")[1]);
       setStartLogin(true);
     }
   }, [responseBody]);
 
   useEffect(() => {
-    if (startLogin && address) {
+    if (startLogin) {
       setIsAuthed(true);
-      localStorage.setItem(
-        `${address?.toLowerCase()}-auth`,
-        address?.toLowerCase()
-      );
+
       window.open("/home", "_self");
       setLogin(false);
       setSignup(false);
       setStartLogin((prev) => !prev);
     }
-  }, [address, startLogin]);
+  }, [startLogin]);
 
   const handleLoginUser = () => {
-    if (!isConnected) {
-      connect({
-        connector: connectors[0].ready ? connectors[0] : connectors[1],
-      });
-    } else if (password.length > 0 && loginEnter.length > 0) {
+    if (password.length > 0 && loginEnter.length > 0) {
       setGetLogin(true);
     }
   };
@@ -182,7 +164,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
           placeholder="Пароль"
         />
         <button onClick={handleLoginUser} className={s.submit_btn}>
-          {isConnected ? "Вход" : "Подключить кошелек"}
+          {getLogin ? <PreloadDots title="Подождите" /> : "Вход"}
         </button>
       </div>
       <div className={s.lower_support_btns}>

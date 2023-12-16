@@ -103,6 +103,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
                 setRegistr(true);
                 setIsAuthed(false);
                 disconnect();
+                localStorage.removeItem("barer-token");
                 window.open("/", "_self");
               }}
               className={s.profile_logout}
