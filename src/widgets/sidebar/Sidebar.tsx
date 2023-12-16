@@ -272,14 +272,14 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
             <Image src={nextArr} alt="next-arr" />
           </div>
-          <div className={s.profile_options_list_item}>
-            <div
-              onClick={() => {
-                localStorage.removeItem("barer-token");
-                window.open("/", "_self");
-              }}
-              className={s.profile_options_list_item_title_block}
-            >
+          <div
+            onClick={() => {
+              localStorage.removeItem("barer-token");
+              window.open("/", "_self");
+            }}
+            className={s.profile_options_list_item}
+          >
+            <div className={s.profile_options_list_item_title_block}>
               <Image src={logoutIco} alt="wallet-ico" />
               <span className={s.profile_options_list_item_title}>Logout</span>
             </div>
