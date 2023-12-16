@@ -66,7 +66,11 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
       <div className={clsx(s.profile_body, isOpen && s.profile_body_open)}>
         {!isTablet && <span className={s.profile_name}>{userName[0]}</span>}
         <span className={s.profile_gmail}>{userEmail}</span>
-        <GenerateButton className={s.profile_btn} title="Manage account" />
+        <GenerateButton
+          onClick={() => window.open("/home", "_self")}
+          className={s.profile_btn}
+          title="Manage account"
+        />
         <div className={s.detail_container} ref={accountRef}>
           <button
             onClick={accountToggle}
