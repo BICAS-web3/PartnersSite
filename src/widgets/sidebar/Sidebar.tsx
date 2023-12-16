@@ -138,6 +138,7 @@ const sidebarItems = [
 interface SidebarProps {
   activeSubBlock: string;
 }
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
@@ -170,7 +171,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const handleSidebarVisibility = () => {
     !isOpened ? setOpen() : setClosed();
   };
-
+  const [userEmail, userName] = useUnit([
+    ContactModel.$userEmail,
+    ContactModel.$userName,
+  ]);
   useEffect(() => {
     if (isMobSidebarOpened) {
       const elem = document.getElementById("mob_sidebar");
@@ -269,7 +273,13 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             <Image src={nextArr} alt="next-arr" />
           </div>
           <div className={s.profile_options_list_item}>
-            <div className={s.profile_options_list_item_title_block}>
+            <div
+              onClick={() => {
+                localStorage.removeItem("barer-token");
+                window.open("/", "_self");
+              }}
+              className={s.profile_options_list_item_title_block}
+            >
               <Image src={logoutIco} alt="wallet-ico" />
               <span className={s.profile_options_list_item_title}>Logout</span>
             </div>
@@ -281,7 +291,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
         onClick={() => setIsMobSidebarOpened(true)}
       >
         <span className={s.desk_hidden_profile_block_title}>
-          examle@email.com
+          {userEmail ? userEmail : "examle@email.com"}
         </span>
         <Image src={nextArr} alt="right-arrow" />
       </div>

@@ -296,13 +296,11 @@ const Gamers: FC<GamersProps> = () => {
     setIsFilter(true);
   };
 
-  const { address } = useAccount();
-
   const [answerBody, setAnswerBody] = useState<IResponse[] | any>();
 
   useEffect(() => {
     (async () => {
-      if (activePeriod && address) {
+      if (activePeriod && barerToken) {
         const response = await api.getConnectedWallets({
           bareer: barerToken,
           period: activePeriod.timeType,
