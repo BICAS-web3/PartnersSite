@@ -22,6 +22,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
     ContactModel.$userEmail,
     ContactModel.$userName,
   ]);
+
   const isTablet = useMediaQuery("(max-width: 1200px)");
   const { disconnect } = useDisconnect();
   const [setLogin, setRegistr] = useUnit([
@@ -41,6 +42,10 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
     isOpen && accountOpen();
   }, [isOpen]);
 
+  // useEffect(() => {
+  //   alert(userEmail);
+  // }, [userEmail]);
+
   return (
     <article ref={dropdownRef} className={s.profile}>
       {isTablet ? (
@@ -52,7 +57,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
           className={clsx(s.profile_button, isOpen && s.profile_button_open)}
           onClick={toggle}
         >
-          {userEmail}
+          {userEmail || localStorage.getItem("mail")}
           <span className={clsx(s.dropdown_ico_block, isOpen && s.activ_icon)}>
             <HeaderDropdownArrow />
           </span>
@@ -104,6 +109,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
                 setIsAuthed(false);
                 disconnect();
                 localStorage.removeItem("barer-token");
+                localStorage.removeItem("mail");
                 window.open("/", "_self");
               }}
               className={s.profile_logout}
