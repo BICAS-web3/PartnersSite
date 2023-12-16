@@ -261,6 +261,14 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
     setIsFilter(true);
   };
 
+  const [marktId, setMarktId] = useState("");
+  const [subid, setSubid] = useState("");
+
+  const dataReset = () => {
+    setMarktId("");
+    setSubid("");
+  };
+
   return (
     <Layout activePage="marketTools">
       <section className={s.marketing_section}>
@@ -416,7 +424,11 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             )}
           >
             <span className={s.marketing_table_title}>Sub ID</span>
-            <input className={s.marketing_table_input} />
+            <input
+              className={s.marketing_table_input}
+              value={subid && subid}
+              onChange={(e) => setSubid(e.target.value)}
+            />
           </div>
           <div className={s.marketing_table_item}>
             <span className={s.marketing_table_title}>Период</span>
@@ -455,13 +467,20 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             <span className={s.marketing_table_title}>
               ID Маркетингового инструмента
             </span>
-            <input className={s.marketing_table_input} />
+            <input
+              className={s.marketing_table_input}
+              value={marktId && marktId}
+              onChange={(e) => setMarktId(e.target.value)}
+            />
           </div>
           <div className={s.marketing_table_item}>
             <span className={s.marketing_table_title}>Валюта</span>
             <CustomDropdownInput list={currenciesList} />
           </div>
-          <GenerateButton className={clsx(s.generate_button)} />
+          <GenerateButton
+            className={clsx(s.generate_button)}
+            onClick={dataReset}
+          />
         </div>
         <div className={s.marketing_options_container}>
           <div className={s.marketing_options_wrapper}>
