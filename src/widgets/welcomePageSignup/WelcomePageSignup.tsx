@@ -394,7 +394,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             },
           ],
         });
-        if (response.status === "OK") {
+        const addPage = await api.registerPage({
+          name: categoryPage || "Прогнозы на спорт",
+          url: pageName,
+          bareer: token,
+        });
+        if (response.status === "OK" && addPage.status === "OK") {
           window.open("/home", "_self");
         }
       }
