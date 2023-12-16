@@ -239,6 +239,12 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     setIsFilter(true);
   };
 
+  const [marktId, setMarktId] = useState("");
+
+  const dataReset = () => {
+    setMarktId("");
+  };
+
   return (
     <Layout activePage="shortTotal">
       <section className={s.short_total_section}>
@@ -371,6 +377,8 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                 ID Маркетингового инструмента
               </span>
               <input
+                value={marktId && marktId}
+                onChange={(e) => setMarktId(e.target.value)}
                 type="text"
                 placeholder=""
                 className={`${s.markt_tool_id_input} default_input`}
@@ -392,7 +400,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
               setSecondDataPicker={setSecondDatePickerDate}
             />
             <div className={s.generate_report_btn_wrap}>
-              <button className={s.generate_report_btn}>
+              <button className={s.generate_report_btn} onClick={dataReset}>
                 Сгенерировать отчет
               </button>
             </div>

@@ -153,7 +153,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     UserDataModel.setBarerToken,
   ]);
 
-  const [phoneValue, setPhoneValue] = useState("");
+  const [phoneValue, setPhoneValue] = useState("+");
   const [isPPchecked, setIsPPchecked] = useState(false);
 
   const handlePhoneChange = (e: { target: { value: string } }) => {
@@ -540,7 +540,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 <CustomDropdownInput
                   setSelectedValue={setSelectedCountry}
                   list={countriesList}
-                  activeItemId="UA"
+                  activeItemId="countryInit"
                   maxW={
                     !is1280 && !is650 && !is700
                       ? 160

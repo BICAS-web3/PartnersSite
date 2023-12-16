@@ -242,6 +242,12 @@ const SubPartners: FC<SubPartnersProps> = () => {
     setIsFilter(true);
   };
 
+  const [registrDate, setRegistrDate] = useState("");
+
+  const dataReset = () => {
+    setRegistrDate("");
+  };
+
   return (
     <Layout activePage="bySubPartners">
       <section className={s.sub_partners_section}>
@@ -384,9 +390,14 @@ const SubPartners: FC<SubPartnersProps> = () => {
             <span className={s.table_filter_block_item_title}>
               Дата регистрации суб-партнера
             </span>
-            <input className={s.sub_partners_registration} type="text" />
+            <input
+              className={s.sub_partners_registration}
+              type="text"
+              value={registrDate && registrDate}
+              onChange={(e) => setRegistrDate(e.target.value)}
+            />
           </div>
-          <GenerateButton />
+          <GenerateButton onClick={dataReset} />
         </div>
         {!isMobile && (
           <div className={s.options_container}>

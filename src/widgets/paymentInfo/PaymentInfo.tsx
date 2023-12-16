@@ -1,9 +1,12 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import s from "./styles.module.scss";
 
 interface PaymentInfoProps {}
 
 export const PaymentInfo: FC<PaymentInfoProps> = () => {
+  const [paymentType, setPaymentType] = useState("");
+  const [cardVal, setCardVal] = useState("");
+
   return (
     <div className={s.payment_info_block}>
       <span className={s.payment_info_block_title}>Платежные данные</span>

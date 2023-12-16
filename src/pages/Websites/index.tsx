@@ -331,7 +331,7 @@ const Websites: FC<WebsitesProps> = () => {
           setAddSubid(false);
 
           setPageResponse(data.body as api.T_UserSitesResp);
-
+          setPageUrl("");
           setUpdateGetRequest("");
         }
       }
@@ -361,8 +361,6 @@ const Websites: FC<WebsitesProps> = () => {
   }
 
   const [mobileTableLeng, setMobileTableLing] = useState<number>();
-
-  console.log("VALUE-", websiteMobPlaceholder);
 
   const [categotyFilter, setCategoryFilter] = useState("");
   const [activeTableType, setActiveTableType] = useState();
