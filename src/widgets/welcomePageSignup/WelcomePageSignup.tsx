@@ -186,6 +186,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [loginAuth, setLoginAuth] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [wallet, setWallet] = useState("");
 
   useEffect(() => {
     setFullName(`${name} ${lastName}`);
@@ -210,7 +211,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !messangerValue ||
       !selectedMessanger ||
       !password ||
-      !passwordRepeat
+      !passwordRepeat ||
+      !wallet
     ) {
       setError(true);
     } else {
@@ -255,7 +257,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       if (startRegistration) {
         const response = await api.registerUser({
           country: selectedCountry.toLowerCase(),
-          main_wallet: "",
+          main_wallet: wallet,
           name: fullname.toLowerCase(),
           traffic_source: selectedSourse.toLowerCase(),
           users_amount_a_month: 1,
@@ -494,17 +496,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
             </div>
             <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>E-mail*</span>
+              <span className={s.welcome_page_input_title}>Кошелек*</span>
               <input
-                value={email}
-                onChange={(el) => setEmail(el.target.value)}
+                value={wallet}
+                onChange={(el) => setWallet(el.target.value)}
                 type="text"
                 className={clsx(
                   s.welcome_page_input,
                   "default_input",
-                  !email && error && s.error_input
+                  !wallet && error && s.error_input
                 )}
-                placeholder="e-mail"
+                placeholder="wallet"
               />
             </div>
             <div className={s.welcome_page_contactInfo_otherInfo_block}>
@@ -580,8 +582,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>E-mail</span>
                 <input
+                  value={email}
+                  onChange={(el) => setEmail(el.target.value)}
                   type="email"
-                  className={`${s.welcome_page_input} default_input`}
+                  className={clsx(
+                    !email && error && s.error_input,
+                    s.welcome_page_input,
+                    "default_input"
+                  )}
                   placeholder="e-mail"
                 />
               </div>

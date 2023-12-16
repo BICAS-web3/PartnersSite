@@ -88,42 +88,43 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   useEffect(() => {
     if (responseBody) {
       setUserMessangerValue(
-        responseBody.contacts.find((el) => el.name === "messenger_login")
+        responseBody.contacts?.find((el) => el?.name === "messenger_login")
           ?.url || ""
       );
       setUserEmail(
-        responseBody.contacts.find((el) => el.name === "email")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "email")?.url || ""
       );
       setUserMessanger(
-        responseBody.contacts.find((el) => el.name === "messenger_type")?.url ||
-          ""
+        responseBody.contacts?.find((el) => el?.name === "messenger_type")
+          ?.url || ""
       );
       setUserPageName(
-        responseBody.contacts.find((el) => el.name === "page_name")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "page_name")?.url || ""
       );
       setUserCountry(
-        responseBody.contacts.find((el) => el.name === "country")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "country")?.url || ""
       );
       setUserPageCategory(
-        responseBody.contacts.find((el) => el.name === "page_type")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "page_type")?.url || ""
       );
       setUserLanguage(
-        responseBody.contacts.find((el) => el.name === "language")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "language")?.url || ""
       );
       setUserPhone(
-        responseBody.contacts.find((el) => el.name === "phone")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "phone")?.url || ""
       );
       setUserSelectedSource(
-        responseBody.contacts.find((el) => el.name === "source_from")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "source_from")?.url ||
+          ""
       );
-      localStorage.setItem(`name`, responseBody.basic.name.split(" ")[0]);
-      localStorage.setItem(`last_name`, responseBody.basic.name.split(" ")[1]);
+      localStorage.setItem(`name`, responseBody.basic?.name.split(" ")[0]);
+      localStorage.setItem(`last_name`, responseBody.basic?.name.split(" ")[1]);
       localStorage.setItem(
         `mail`,
-        responseBody.contacts.find((el) => el.name === "email")?.url || ""
+        responseBody.contacts?.find((el) => el?.name === "email")?.url || ""
       );
-      setUserName(responseBody.basic.name.split(" ")[0]);
-      setUserLastName(responseBody.basic.name.split(" ")[1]);
+      setUserName(responseBody.basic?.name.split(" ")[0]);
+      setUserLastName(responseBody.basic?.name.split(" ")[1]);
       setStartLogin(true);
     }
   }, [responseBody]);

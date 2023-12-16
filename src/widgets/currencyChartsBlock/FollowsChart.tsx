@@ -26,7 +26,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
   const [startTime, setStartTime] = useState<any>();
   useEffect(() => {
     (async () => {
-      if (periodFirst && address && barerToken) {
+      if (periodFirst && barerToken) {
         const response = await api.getUsersRegistrationChart({
           bareer: barerToken,
           endTime: periodFirst.timeline,

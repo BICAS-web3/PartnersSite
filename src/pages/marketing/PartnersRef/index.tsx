@@ -237,10 +237,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     }
   }, [pageResponse, pageResponseUpdated]);
 
-  const [readyUpdate] = useUnit([HeaderModel.$readyUpdate]);
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed && address && barerToken) {
+      if (barerToken) {
         const data = await api.getUserSites({
           bareer: barerToken,
         });
@@ -249,7 +248,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
         }
       }
     })();
-  }, [address, isConnected, isAuthed, readyUpdate]);
+  }, [barerToken]);
   const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
 
   const [numberPage, setNumberPage] = useState<number>(1);

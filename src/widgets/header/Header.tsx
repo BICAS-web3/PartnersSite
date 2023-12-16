@@ -157,7 +157,7 @@ export const Header: FC<HeaderProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (!responseBody && isAuthed && handleRequest) {
+      if (!responseBody && isAuthed && handleRequest && barerToken) {
         const respobse = await api.getUserData({
           bareer: barerToken,
         });
@@ -165,7 +165,7 @@ export const Header: FC<HeaderProps> = () => {
         setHandleRequest(false);
       }
     })();
-  }, [responseBody, isAuthed, handleRequest, readyUpdate]);
+  }, [responseBody, isAuthed, handleRequest, barerToken]);
   useEffect(() => {
     if (responseBody && isAuthed) {
       setUserMessangerValue(
