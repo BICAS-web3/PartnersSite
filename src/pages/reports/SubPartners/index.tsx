@@ -401,7 +401,6 @@ const SubPartners: FC<SubPartnersProps> = () => {
         </div>
         {!isMobile && (
           <div className={s.options_container}>
-            {" "}
             <div className={s.options_wrapper}>
               <CustomDropDownChoose
                 list={statisticList}

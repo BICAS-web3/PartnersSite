@@ -28,6 +28,7 @@ import * as api from "@/shared/api";
 import s from "./styles.module.scss";
 
 import clsx from "clsx";
+import { add } from "lodash";
 
 const wepPagesList = [
   {
@@ -173,6 +174,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
   }, [address, isConnected, isAuthed]);
 
   const [usersRegistration, setUsersRegistration] = useState<any>();
+
   useEffect(() => {
     (async () => {
       if (isConnected && isAuthed) {
@@ -184,6 +186,22 @@ const ShortTotal: FC<ShortTotalProps> = () => {
         data.status === "OK" && setUsersRegistration(data.body);
       }
     })();
+  }, [address, isConnected, isAuthed]);
+
+  const [shortTotalResponseBody, setShortTotalResponseBody] = useState<any>();
+
+  useEffect(() => {
+    console.log("TO_GET_LOG", address, isConnected, isAuthed);
+
+    // (async () => {
+    //   if (isConnected && isAuthed) {
+    //     console.log("RESPONSE STARTED");
+    //     const data = await api.getTotalsStats({
+    //       bareer: barerToken,
+    //     });
+    //     data.status === "OK" && console.log("TOTALS_RESPONSE_BODY", data);
+    //   }
+    // })();
   }, [address, isConnected, isAuthed]);
 
   const [isMobile, setIsMobile] = useState<boolean>();
@@ -447,7 +465,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                         ? usersRegistration?.connected_wallets
                         : 0
                       : item.data}
-                    {}
                   </span>
                 </div>
               ))}

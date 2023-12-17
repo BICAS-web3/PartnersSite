@@ -113,6 +113,16 @@ export type T_RegisteredWallets = {
   timestamp: string;
 };
 
+export type T_TotalsStatsResponse = {
+  bets_amount: number;
+  gross_profi: number;
+  highest_win: number;
+  lost_bets: number;
+  net_profit: number;
+  total_wagered_sum: number;
+  won_bets: number;
+};
+
 export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
@@ -124,7 +134,8 @@ export type T_ApiResponse = {
     | T_ClicksResponse
     | T_ChartResponse
     | T_DepositResponse
-    | T_RegisteredWallets;
+    | T_RegisteredWallets
+    | T_TotalsStatsResponse;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -266,6 +277,10 @@ export type T_RegisterChart = {
 export type T_DepositedUsers = {
   bareer: string;
   period: "daily" | "weekly" | "monthly" | "all";
+};
+
+export type T_TotalsStats = {
+  bareer: string;
 };
 
 export type T_WalletsRegistered = {
@@ -573,6 +588,23 @@ export const getConnectedWallets = createEffect<
 >(async (form) => {
   const startTime = Date.now();
   return fetch(`${BaseApiUrl}/partner/wallets/${form.period}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getTotalsStats = createEffect<
+  T_TotalsStats,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/connected/totals`, {
     method: "GET",
     headers: {
       Accept: "application/json",
