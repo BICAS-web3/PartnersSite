@@ -43,24 +43,44 @@ export const siteCategories = [
 
 export const languagesList = [
   {
-    title: "Русский",
-    id: "rus",
-  },
-  {
     title: "Английский",
     id: "eng",
   },
   {
-    title: "Немецкий",
-    id: "deutsch",
+    title: "Русский",
+    id: "rus",
   },
   {
-    title: "Казахский",
-    id: "kz",
+    title: "Украинский",
+    id: "ua",
   },
   {
-    title: "Узбекский",
-    id: "uzb",
+    title: "Испанский",
+    id: "spain",
+  },
+  {
+    title: "Арабский",
+    id: "arabic",
+  },
+  {
+    title: "Китайский",
+    id: "china",
+  },
+  {
+    title: "Французкий",
+    id: "french",
+  },
+  {
+    title: "Корейский",
+    id: "korean",
+  },
+  {
+    title: "Португальский",
+    id: "portugal",
+  },
+  {
+    title: "Другие",
+    id: "other",
   },
 ];
 
@@ -235,12 +255,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !wallet
     ) {
       setError(true);
+      alert("error 1");
     } else {
       if (
         password !== passwordRepeat ||
         validateAddress(wallet) === false ||
         password?.length < 5
       ) {
+        alert("error 2");
         if (password !== passwordRepeat) {
           setErrorPassword(true);
           setPassword("");
@@ -256,6 +278,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setPassword("");
         }
       } else {
+        alert("start");
         setUserEmail(email);
         localStorage.setItem(`mail`, email);
         setUserCountry(selectedCountry);

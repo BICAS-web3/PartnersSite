@@ -108,6 +108,11 @@ export const RightMenu: FC<RightMenuProps> = () => {
           }`}
           // onClick={handleListVisibility}
         >
+<<<<<<< HEAD
+          <Image className={s.active_language_img} src={usaImg} alt={`us`} />
+          <span className={s.active_language_title}>
+            {/* {activeLanguage.title} */}us
+=======
           <Image
             className={s.active_language_img}
             src={usaImg}
@@ -116,6 +121,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
           <span className={s.active_language_title}>
             {/* {activeLanguage.title} */}
             us
+>>>>>>> dce1bb4602f2fe38c37e5eb0188fbdc4fce074d0
           </span>
           {/* <div className={s.header_dd_ico_wrap}>
             <HeaderDropdownArrow />

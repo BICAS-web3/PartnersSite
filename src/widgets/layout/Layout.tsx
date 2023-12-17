@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Header } from "@/widgets/header/Header";
 import s from "./styles.module.scss";
 import { Footer } from "../footer/Footer";
@@ -12,6 +12,15 @@ interface LayoutProps {
 
 export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
   const [isOpened] = useUnit([SidebarM.$isSidebarOpened]);
+  const [windowWidth, setWindowWidth] = useState<any>();
+
+  useEffect(() => {
+    const resizeHandler = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", resizeHandler);
+  }, [isOpened]);
 
   return (
     <div className={`${s.page_container} ${!isOpened && s.sidebar_closed}`}>

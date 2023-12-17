@@ -33,10 +33,6 @@ export const currenciesList = [
     title: "USD",
     id: "usd",
   },
-  {
-    title: "RUB",
-    id: "rub",
-  },
 ];
 
 export const periodsList = [
@@ -187,8 +183,6 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   }>({});
   const [mobExportPicked, setMobExportPicked] = useState({});
 
-  console.log(activeOps);
-
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -297,11 +291,6 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   setMobTableOpts={setMobTableOpts}
                   blockTitle=""
                 />
-                {/* <PhTableFilterBlock
-                  setCurrentFilterPage={setCurrentFilterPage}
-                  currentFilterPage={currentFilterPage}
-                  setMobTableOpts={setMobTableOpts}
-                /> */}
                 <PhExportBlock
                   setCurrentFilterPage={setCurrentFilterPage}
                   currentFilterPage={currentFilterPage}
@@ -321,10 +310,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   <span className="mobile_filter_title">Фильтры</span>
                 </div>
                 <div className="mobile_filter_body">
-                  <div
-                    className="mobile_filter_item"
-                    onClick={() => setCurrentFilterPage("phCurrencyMobBlock")}
-                  >
+                  <div className="mobile_filter_item" onClick={() => null}>
                     <span className="mobile_filter_item_title">Валюта</span>
                     <span className="mobile_filter_item_picked_value">
                       {mobSiteCategory.title}
@@ -367,7 +353,11 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             <div className={s.table_filter_block}>
               <div className={s.table_filter_currency_item}>
                 <span className={s.table_filter_block_item_title}>Валюта</span>
-                <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+                <CustomDropdownInput
+                  list={currenciesList}
+                  activeItemId="usd"
+                  isDisabled={true}
+                />
               </div>
               <div
                 className={s.table_filter_period_item}
