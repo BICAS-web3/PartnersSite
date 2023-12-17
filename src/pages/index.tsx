@@ -123,8 +123,8 @@ const WelcomePage: FC<WelcomePageProps> = () => {
           >
             <Image
               className={s.active_language_img}
-              src={activeLanguage.img}
-              alt={`${activeLanguage.title}-img`}
+              src={usaImg}
+              alt={`usa-img`}
             />
             <span className={s.active_language_title}>
               {activeLanguage.title}
