@@ -297,7 +297,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 blockTitle="Сайт"
                 inpPlaceholder="Example.com"
               />
-              <AdaptivePicker
+              {/* <AdaptivePicker
                 currentFilterPage={currentFilterPage}
                 activeTitle="partnersRefCampaignFilter"
                 blockTitle="Кампания"
@@ -305,7 +305,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 setCurrentFilterPage={setCurrentFilterPage}
                 itemId="dlink"
                 list={campgaignList}
-              />
+              /> */}
               <AdaptiveInput
                 currentFilterPage={currentFilterPage}
                 activeTitle="partnersRefCPageFilter"
@@ -371,12 +371,12 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                   filterTitle="partnersRefSitesFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
-                <AdaptiveFilterItem
+                {/* <AdaptiveFilterItem
                   objTitle={mobCampaign.title}
                   title="Кампания"
                   filterTitle="partnersRefCampaignFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
-                />
+                /> */}
                 <AdaptiveFilterItem
                   objTitle={mobCPageInputValue}
                   title="Целевая страница"
@@ -440,7 +440,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 }
               />
             </div>
-            <div className={s.table_filter_item}>
+            {/* <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Кампания</span>
               <CustomDropdownInput
                 list={campgaignList}
@@ -457,7 +457,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                     : 130
                 }
               />
-            </div>
+            </div> */}
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>
                 Целевая страница
@@ -479,7 +479,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             </div>
           </div>
         )}
-        <div className={s.statusHistory_btns_wrap}>
+        {/* <div className={s.statusHistory_btns_wrap}>
           <button
             className={`${s.statusHistory_btns_item} ${
               activePayoutBtn === "status" && s.active
@@ -496,7 +496,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
           >
             История выплат
           </button>
-        </div>
+        </div> */}
         <div className={s.choose_table_opts_wrap}>
           <CustomDropDownChoose
             list={options}

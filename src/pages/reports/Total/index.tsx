@@ -45,7 +45,7 @@ const options = [
     text: "-",
   },
   {
-    title: "Новые аккаунты с депозитами",
+    title: "Новые активные игрки",
     id: "TotalReportNewAccs",
     text: "-",
   },

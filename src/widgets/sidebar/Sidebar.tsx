@@ -139,12 +139,14 @@ interface SidebarProps {
   activeSubBlock: string;
 }
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { useMediaQuery } from "@/shared/tools";
 
 export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
     languagesList.filter((item) => item.title === "us")[0]
   );
 
+  const isMobile = useMediaQuery("(max-width:650px)");
   const [isMobSidebarOpened, setIsMobSidebarOpened] = useState(false);
   const [accountSubBlock, setAccountSubBlock] = useState("");
 
@@ -167,6 +169,12 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
     SidebarM.Close,
     SidebarM.$isSidebarOpened,
   ]);
+
+  useEffect(() => {
+    if (isMobile) {
+      setClosed();
+    }
+  }, []);
 
   const handleSidebarVisibility = () => {
     !isOpened ? setOpen() : setClosed();
@@ -315,7 +323,8 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                 if (
                   item2?.title === "Промокоды" ||
                   item2?.title === "Медиа" ||
-                  item2.title === "По суб-партнёрам"
+                  item2?.title === "По суб-партнёрам" ||
+                  item2?.title === "Маркетинговые инструменты"
                 ) {
                   return (
                     <div

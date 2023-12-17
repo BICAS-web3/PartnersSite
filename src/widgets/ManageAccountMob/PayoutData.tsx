@@ -38,7 +38,7 @@ export const PayoutData: FC<PayoutDataProps> = ({
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="CARD UAH"
+            placeholder="USDT BEP20, TRC20; MATIC; ARBITRUM."
           />
         </div>
         <div className={s.input_block}>
@@ -46,7 +46,7 @@ export const PayoutData: FC<PayoutDataProps> = ({
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="9999 8888 7777 6666"
+            placeholder="Wallet address"
           />
         </div>
         <div className={s.change_info_details}>
