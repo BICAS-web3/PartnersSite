@@ -261,6 +261,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !wallet
     ) {
       setError(true);
+      alert("error 1");
     } else {
       if (
         password !== passwordRepeat ||
@@ -270,6 +271,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         validateAddress(wallet) === false ||
         password?.length < 5
       ) {
+        alert("error 2");
         if (password !== passwordRepeat) {
           setErrorPassword(true);
           setPassword("");
@@ -300,6 +302,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setPassword("");
         }
       } else {
+        alert("start");
         setUserEmail(email);
         localStorage.setItem(`mail`, email);
         setUserCountry(selectedCountry);
@@ -335,10 +338,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     (async () => {
       if (startRegistration) {
         const response = await api.registerUser({
-          country: selectedCountry.toLowerCase(),
+          country: selectedCountry?.toLowerCase(),
           main_wallet: wallet?.toLowerCase(),
-          name: fullname.toLowerCase(),
-          traffic_source: selectedSourse.toLowerCase(),
+          name: fullname?.toLowerCase(),
+          traffic_source: selectedSourse?.toLowerCase(),
           users_amount_a_month: 1,
           login: loginAuth,
           password: password,

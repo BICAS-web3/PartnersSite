@@ -106,19 +106,15 @@ export const RightMenu: FC<RightMenuProps> = () => {
           className={`${s.active_language_body} ${
             languagesListVisibility && s.languages_list_active
           }`}
-          onClick={handleListVisibility}
+          // onClick={handleListVisibility}
         >
-          <Image
-            className={s.active_language_img}
-            src={activeLanguage.img}
-            alt={`${activeLanguage.title}-img`}
-          />
+          <Image className={s.active_language_img} src={usaImg} alt={`us`} />
           <span className={s.active_language_title}>
-            {activeLanguage.title}
+            {/* {activeLanguage.title} */}us
           </span>
-          <div className={s.header_dd_ico_wrap}>
+          {/* <div className={s.header_dd_ico_wrap}>
             <HeaderDropdownArrow />
-          </div>
+          </div> */}
         </div>
         <div
           className={`${s.avaible_languages_list} ${
@@ -156,7 +152,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
               </>
             )}
           </div>
-          {!isMobile && <ChainList />}
+          {/* {!isMobile && <ChainList />} */}
           <ProfileWindow />
         </>
       ) : (
