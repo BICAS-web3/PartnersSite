@@ -142,7 +142,7 @@ import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
-    languagesList.filter((item) => item.title === "ru")[0]
+    languagesList.filter((item) => item.title === "us")[0]
   );
 
   const [isMobSidebarOpened, setIsMobSidebarOpened] = useState(false);
@@ -345,7 +345,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             className={`${s.active_language_body} ${
               languagesListVisibility && s.languages_list_active
             }`}
-            onClick={handleListVisibility}
+            // onClick={handleListVisibility}
           >
             <Image
               className={s.active_language_img}
@@ -355,9 +355,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             <span className={s.active_language_title}>
               {activeLanguage.title}
             </span>
-            <div className={s.header_dd_ico_wrap}>
+            {/* <div className={s.header_dd_ico_wrap}>
               <HeaderDropdownArrow />
-            </div>
+            </div> */}
           </div>
           <div
             className={`${s.avaible_languages_list} ${

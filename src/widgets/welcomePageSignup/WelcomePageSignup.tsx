@@ -335,10 +335,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     (async () => {
       if (startRegistration) {
         const response = await api.registerUser({
-          country: selectedCountry.toLowerCase(),
+          country: selectedCountry?.toLowerCase(),
           main_wallet: wallet?.toLowerCase(),
-          name: fullname.toLowerCase(),
-          traffic_source: selectedSourse.toLowerCase(),
+          name: fullname?.toLowerCase(),
+          traffic_source: selectedSourse?.toLowerCase(),
           users_amount_a_month: 1,
           login: loginAuth,
           password: password,
