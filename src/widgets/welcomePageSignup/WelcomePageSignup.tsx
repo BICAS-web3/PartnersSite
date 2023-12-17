@@ -256,6 +256,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !pageName ||
       !messangerValue ||
       !selectedMessanger ||
+      !selectedCountry ||
       !password ||
       !passwordRepeat ||
       !wallet
@@ -399,6 +400,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           url: pageName,
           bareer: token,
         });
+        // const getSub = await api.registerSubId({
+        //   bareer: token,
+        //   name: categoryPage,
+        //   url: pageName,
+        //   internal_site_id: 0,
+        // });
         if (response.status === "OK" && addPage.status === "OK") {
           window.open("/home", "_self");
         }
@@ -699,6 +706,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   setSelectedValue={setSelectedCountry}
                   list={countriesList}
                   activeItemId="countryInit"
+                  className={!selectedCountry && error ? s.error_input : ""}
                   maxW={
                     !is1280 && !is650 && !is700
                       ? 160
