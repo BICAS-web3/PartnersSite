@@ -133,8 +133,11 @@
     }
   }
   width: max-content !important;
-  max-width: max-content !important;
-  min-width: 200px;
+  min-width: max-content;
+  @media (max-width: 1200px) {
+    min-width: 200px;
+  }
+  flex: 1 0 auto;
 }
 
 // .swiper_slide {
