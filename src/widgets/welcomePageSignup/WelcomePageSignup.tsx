@@ -395,18 +395,18 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             },
           ],
         });
-        const addPage = await api.registerPage({
-          name: categoryPage || "Прогнозы на спорт",
-          url: pageName,
-          bareer: token,
-        });
+        // const addPage = await api.registerPage({
+        //   name: categoryPage || "Прогнозы на спорт",
+        //   url: pageName,
+        //   bareer: token,
+        // });
         // const getSub = await api.registerSubId({
         //   bareer: token,
         //   name: categoryPage,
         //   url: pageName,
         //   internal_site_id: 0,
         // });
-        if (response.status === "OK" && addPage.status === "OK") {
+        if (response.status === "OK") {
           window.open("/home", "_self");
         }
       }
