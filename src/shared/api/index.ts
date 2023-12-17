@@ -268,6 +268,11 @@ export type T_DepositedUsers = {
   period: "daily" | "weekly" | "monthly" | "all";
 };
 
+export type T_Players = {
+  bareer: string;
+  address: string;
+};
+
 export type T_WalletsRegistered = {
   timestamp?: number | string;
   wallet?: string;
@@ -583,3 +588,18 @@ export const getConnectedWallets = createEffect<
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+
+export const getPlayersData = createEffect<T_Players, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/player/totals/${form.address}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
