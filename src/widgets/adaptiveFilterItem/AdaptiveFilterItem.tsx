@@ -39,7 +39,7 @@ export const AdaptiveFilterItem: FC<AdaptiveFilterItemProps> = ({
     >
       <span className="mobile_filter_item_title">{title}</span>
       <span className="mobile_filter_item_picked_value">
-        {/* {typeof objTitle === "string" ? objTitle : objTitle?.title}555 */}
+        {typeof objTitle === "string" ? objTitle : objTitle?.title}
         {titleArr &&
           titleArr.length > 0 &&
           titleArr?.map((item: string, ind: number) => (
@@ -55,6 +55,7 @@ export const AdaptiveFilterItem: FC<AdaptiveFilterItemProps> = ({
               allPicked={allPicked}
             />
           ))}
+        {/* {typeof objTitle === "string" && objTitle} */}
       </span>
     </div>
   );

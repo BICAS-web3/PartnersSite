@@ -23,9 +23,9 @@ const ProfileSettings: FC<ProfileSettingsProps> = () => {
         <div className={s.profile_settings_block}>
           <ContactInfoSettings />
           <PaymentInfo />
-          <ProfileTwoAuthnt />
+          {/* <ProfileTwoAuthnt /> */}
           <ProfileChangePassword />
-          <ProfileSubscribes />
+          {/* <ProfileSubscribes /> */}
         </div>
       </section>
     </Layout>

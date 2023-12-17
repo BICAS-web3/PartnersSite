@@ -33,7 +33,7 @@ export const optsList = [
   {
     title: "Название комиссионной группы",
     id: "commssGroupName",
-    text: "USD START 20%",
+    text: "USD START 50%",
   },
   {
     title: "Дата начала",

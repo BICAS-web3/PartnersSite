@@ -21,6 +21,7 @@ interface CustomDropdownInputProps {
   maxW?: number;
   categotyFilter?: string | number;
   setActiveInner?: any;
+  isDisabled?: boolean;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -37,6 +38,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   categotyFilter,
   setActiveInner,
   maxW,
+  isDisabled,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -59,6 +61,14 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
     setAvaibleItems(list.filter((item) => item.id !== itemId));
   };
 
+  const handleDropdownChange = () => {
+    if (isDisabled) {
+      return null;
+    } else {
+      toggle();
+    }
+  };
+
   return (
     <div
       ref={dropdownRef}
@@ -67,7 +77,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
       <div
         className={clsx(s.active_dropdown_block, className)}
         style={{ height: height }}
-        onClick={toggle}
+        onClick={handleDropdownChange}
       >
         <div
           className={s.active_dropdown_title_block}
