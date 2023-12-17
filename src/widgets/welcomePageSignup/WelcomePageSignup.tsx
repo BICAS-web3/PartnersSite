@@ -119,9 +119,6 @@ interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [token, setToken] = useState("");
-  const [notValidMail, setNotValidMail] = useState(false);
-  const [notValidMessanger, setNotValidMessanger] = useState(false);
-  const [notValidPage, setNotValidPage] = useState(false);
   const [notValidAddress, setNotValidAddress] = useState(false);
   const [isShortPassword, setIsShortPassword] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
@@ -209,30 +206,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   }, [errorPassword]);
 
   useEffect(() => {
-    if (notValidMail) {
-      setTimeout(() => {
-        setNotValidMail(false);
-      }, 2000);
-    }
-  }, [notValidMail]);
-
-  useEffect(() => {
-    if (notValidMessanger) {
-      setTimeout(() => {
-        setNotValidMessanger(false);
-      }, 2000);
-    }
-  }, [notValidMessanger]);
-
-  useEffect(() => {
-    if (notValidPage) {
-      setTimeout(() => {
-        setNotValidPage(false);
-      }, 2000);
-    }
-  }, [notValidPage]);
-
-  useEffect(() => {
     if (notValidAddress) {
       setTimeout(() => {
         setNotValidAddress(false);
@@ -256,6 +229,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !pageName ||
       !messangerValue ||
       !selectedMessanger ||
+      !selectedCountry ||
       !password ||
       !passwordRepeat ||
       !wallet
@@ -265,9 +239,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     } else {
       if (
         password !== passwordRepeat ||
-        validateEmail(email) === false ||
-        validateWebPage(pageName) === false ||
-        validateMessanger(messangerValue) === false ||
         validateAddress(wallet) === false ||
         password?.length < 5
       ) {
@@ -276,21 +247,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setErrorPassword(true);
           setPassword("");
           setPasswordRepeat("");
-        }
-
-        if (validateEmail(email) === false) {
-          setNotValidMail(true);
-          setEmail("");
-        }
-
-        if (validateWebPage(pageName) === false) {
-          setNotValidPage(true);
-          setPageName("");
-        }
-
-        if (validateMessanger(messangerValue) === false) {
-          setNotValidMessanger(true);
-          setMessangerValue("");
         }
 
         if (validateAddress(wallet) === false) {
@@ -397,12 +353,18 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             },
           ],
         });
-        const addPage = await api.registerPage({
-          name: categoryPage || "Прогнозы на спорт",
-          url: pageName,
-          bareer: token,
-        });
-        if (response.status === "OK" && addPage.status === "OK") {
+        // const addPage = await api.registerPage({
+        //   name: categoryPage || "Прогнозы на спорт",
+        //   url: pageName,
+        //   bareer: token,
+        // });
+        // const getSub = await api.registerSubId({
+        //   bareer: token,
+        //   name: categoryPage,
+        //   url: pageName,
+        //   internal_site_id: 0,
+        // });
+        if (response.status === "OK") {
           window.open("/home", "_self");
         }
       }
@@ -463,18 +425,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     };
   }, []);
 
-  function validateEmail(email: string) {
-    const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return pattern.test(email);
-  }
-  function validateWebPage(webPage: string) {
-    const urlRegex =
-      /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/[a-zA-Z0-9-._?=%&#=]*)?$/;
-    return urlRegex.test(webPage);
-  }
-  function validateMessanger(messangerValue: string) {
-    return messangerValue.includes("@") && messangerValue.length > 1;
-  }
   function validateAddress(wallet: string) {
     const pattern = /^(0x)?[0-9a-fA-F]{40}$/;
     return pattern.test(wallet);
@@ -565,12 +515,9 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   className={clsx(
                     s.welcome_page_input,
                     "default_input",
-                    !pageName && error && s.error_input,
-                    notValidPage && s.error_input
+                    !pageName && error && s.error_input
                   )}
-                  placeholder={
-                    notValidPage ? "Не валидный сайт" : "example.com"
-                  }
+                  placeholder={"example.com"}
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 5 }}>
@@ -688,12 +635,9 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   className={clsx(
                     s.welcome_page_input,
                     "default_input",
-                    !messangerValue && error && s.error_input,
-                    notValidMessanger && s.error_input
+                    !messangerValue && error && s.error_input
                   )}
-                  placeholder={
-                    notValidMessanger ? "Не валидный логин" : "@asdasdasd"
-                  }
+                  placeholder={"@asdasdasd"}
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
@@ -702,6 +646,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   setSelectedValue={setSelectedCountry}
                   list={countriesList}
                   activeItemId="countryInit"
+                  className={!selectedCountry && error ? s.error_input : ""}
                   maxW={
                     !is1280 && !is650 && !is700
                       ? 160
@@ -748,11 +693,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   type="email"
                   className={clsx(
                     !email && error && s.error_input,
-                    notValidMail && s.error_input,
                     s.welcome_page_input,
                     "default_input"
                   )}
-                  placeholder={notValidMail ? "не валидный e-mail" : "e-mail"}
+                  placeholder={"e-mail"}
                 />
               </div>
             </div>

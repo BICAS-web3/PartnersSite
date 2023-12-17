@@ -16,6 +16,7 @@ export const $callContactReg = createStore<boolean>(false);
 export const $userLogin = createStore<string>("");
 export const $userPassword = createStore<string>("");
 export const $barerToken = createStore<string>("");
+export const $userWallet = createStore<string>("");
 
 export const setUserName = createEvent<string>();
 export const setUserLastName = createEvent<string>();
@@ -32,6 +33,7 @@ export const setUserPageName = createEvent<string>();
 export const setCallContactReg = createEvent<boolean>();
 export const setUserLogin = createEvent<string>();
 export const setUserPassword = createEvent<string>();
+export const setUserWallet = createEvent<string>();
 export const setBarerToken = createEvent<string>();
 
 $userName.on(setUserName, (_, state) => state);
@@ -50,3 +52,4 @@ $callContactReg.on(setCallContactReg, (_, state) => state);
 $userPassword.on(setUserPassword, (_, state) => state);
 $userLogin.on(setUserLogin, (_, state) => state);
 $barerToken.on(setBarerToken, (_, state) => state);
+$userWallet.on(setUserWallet, (_, state) => state);

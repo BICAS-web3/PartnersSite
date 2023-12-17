@@ -155,10 +155,10 @@ const Websites: FC<WebsitesProps> = () => {
       partner_id: string;
     };
     sub_ids: any;
-  }>();
+  } | null>();
 
   // useState<any>();
-  const [updateGetRequest, setUpdateGetRequest] = useState("");
+  const [updateGetRequest, setUpdateGetRequest] = useState("yes");
 
   useEffect(() => {
     if (
@@ -267,7 +267,7 @@ const Websites: FC<WebsitesProps> = () => {
 
   const [pageUrl, setPageUrl] = useState("");
   const [pageType, setPageType] = useState<string>("");
-
+  const [handleSub, setHandleSub] = useState(false);
   useEffect(() => {
     (async () => {
       if (addPage && pageType && pageUrl) {
@@ -276,11 +276,10 @@ const Websites: FC<WebsitesProps> = () => {
           url: pageUrl,
           bareer: barerToken,
         });
-        setUpdateGetRequest("OK");
-        setAddSubid(true);
-        setAddPage(false);
-        if (data.status === "OK" && pageResponseUpdated?.length <= 0) {
-          location.reload();
+        if (data.status === "OK") {
+          setUpdateGetRequest("OK");
+          setAddSubid(true);
+          setAddPage(false);
         }
       }
     })();
@@ -309,50 +308,59 @@ const Websites: FC<WebsitesProps> = () => {
   const [addSubid, setAddSubid] = useState(false);
   useEffect(() => {
     (async () => {
-      if (isAuthed) {
+      if (isAuthed && updateGetRequest) {
         const data = await api.getUserSites({
           bareer: barerToken,
         });
-        if (data.status === "OK") {
-          if (data?.body && Array.isArray(data?.body)) {
-            setSubidPage(
-              data.body[data.body?.length - 1] as {
-                basic: {
-                  internal_id: number;
-                  id: number;
-                  name: string;
-                  url: string;
-                  partner_id: string;
-                };
-                sub_ids: any;
-              }
-            );
-          }
-          setAddSubid(false);
-
+        if (data.status === "OK" && Array.isArray(data?.body)) {
+          setSubidPage(
+            data.body[data.body?.length - 1] as {
+              basic: {
+                internal_id: number;
+                id: number;
+                name: string;
+                url: string;
+                partner_id: string;
+              };
+              sub_ids: any;
+            }
+          );
+          addSubid && setHandleSub(true);
           setPageResponse(data.body as api.T_UserSitesResp);
           setPageUrl("");
           setUpdateGetRequest("");
         }
       }
     })();
-  }, [isAuthed, updateGetRequest, readyUpdate, addPage]);
+  }, [isAuthed, updateGetRequest, readyUpdate, addPage, addSubid]);
+
+  useEffect(() => {
+    console.log(22, subidPage);
+  }, [subidPage]);
 
   const [websiteMobPlaceholder, setWebsiteMobPlaceholder] =
     useState("Example.com");
 
   useEffect(() => {
     (async () => {
-      if (subidPage && addSubid) {
+      if (subidPage && handleSub) {
         const response = await api.registerSubId({
           bareer: barerToken,
           name: subidPage.basic.name,
           url: subidPage.basic.url,
           internal_site_id: subidPage.basic.internal_id,
         });
+        setSubidPage(null);
+        setHandleSub(false);
+        setAddSubid(false);
+        if (response.status === "OK") {
+          if (pageResponseUpdated?.length <= 0) {
+            location.reload();
+          }
+        }
       }
     })();
-  }, [subidPage, addSubid, readyUpdate]);
+  }, [subidPage, addSubid, handleSub]);
 
   function validateWebPage(webPage: string) {
     const urlRegex =
@@ -368,6 +376,8 @@ const Websites: FC<WebsitesProps> = () => {
   useEffect(() => {
     setNumberPage(1);
   }, [recordCount]);
+
+  const [startSort, setStartSort] = useState("");
 
   return (
     <Layout activePage="websites">
@@ -588,10 +598,15 @@ const Websites: FC<WebsitesProps> = () => {
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
                     <span className={s.swiper_slide_title}>{el}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
+                    {/* <Image
+                      onClick={() => setStartSort(el)}
+                      src={upDownArrows}
+                      alt="sort-ico"
+                    /> */}
                   </div>
                   <div className={s.swiper_slide_content}>
                     {(isMobile ? mobTableOptions : activeOptions)
+
                       ?.filter((eld: IPagesResponse) => {
                         if (categotyFilter?.length <= 0) {
                           return eld;
@@ -611,6 +626,7 @@ const Websites: FC<WebsitesProps> = () => {
                           ? Number(recordCount)
                           : numberPage * Number(recordCount)
                       )
+
                       ?.map((element: IPagesResponse, index) => {
                         if (el === "internal_id") {
                           return (

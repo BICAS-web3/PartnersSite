@@ -185,9 +185,10 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     };
   }, []);
 
-  const [isAuthed, barerToken] = useUnit([
+  const [isAuthed, barerToken, userWallet] = useUnit([
     AuthModel.$isAuthed,
     ContactModel.$barerToken,
+    ContactModel.$userWallet,
   ]);
   useEffect(() => {
     if (isFilter) {
@@ -551,13 +552,13 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                             className={s.swiper_text_copy}
                             onClick={() =>
                               navigator.clipboard.writeText(
-                                `https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                                `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
                                   el.basic_id
                                 }&sub_id=${el.sub_ids_id}`
                               )
                             }
                             key={i}
-                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${el.basic_partner_id?.toLowerCase()}&site_id=${
+                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
                             el.basic_id
                           }&sub_id=${el.sub_ids_id}`}</span>
                         );

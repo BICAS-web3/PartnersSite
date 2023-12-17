@@ -142,7 +142,7 @@ import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
-    languagesList.filter((item) => item.title === "ru")[0]
+    languagesList.filter((item) => item.title === "us")[0]
   );
 
   const [isMobSidebarOpened, setIsMobSidebarOpened] = useState(false);
@@ -311,30 +311,63 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
               )}
             </div>
             <div className={s.sidebar_page_item_link_block}>
-              {item1.list.map((item2, ind) => (
-                <a
-                  key={item2?.title}
-                  href={`${item2.link}`}
-                  data-href={item2.link}
-                >
-                  <div
-                    className={`${s.sidebar_page_item_link_wrap} ${
-                      item2.pageActive === activeSubBlock && s.active_sub_block
-                    }`}
-                    data-page={item2.title}
-                  >
-                    <div className={s.sidebar_page_item_link_wrap_content}>
-                      <div className={s.sidebar_page_item_ico_block}>
-                        {item2.icon}
+              {item1.list.map((item2, ind) => {
+                if (item2?.title === "Промокоды" || item2?.title === "Медиа") {
+                  return (
+                    <div
+                      key={item2?.title}
+                      // href={`${item2.link}`}
+                      data-href={item2.link}
+                      className={s.not_link}
+                    >
+                      {isOpened && <span className={s.soon}>Скоро</span>}
+                      <div
+                        className={`${s.sidebar_page_item_link_wrap} ${
+                          item2.pageActive === activeSubBlock &&
+                          s.active_sub_block
+                        }`}
+                        data-page={item2.title}
+                      >
+                        <div className={s.sidebar_page_item_link_wrap_content}>
+                          <div className={s.sidebar_page_item_ico_block}>
+                            {item2.icon}
+                          </div>
+                          <span className={s.sidebar_page_item_link}>
+                            {item2.title}
+                          </span>
+                        </div>
+                        <Image src={nextArr} alt="right-arrow" />
                       </div>
-                      <span className={s.sidebar_page_item_link}>
-                        {item2.title}
-                      </span>
                     </div>
-                    <Image src={nextArr} alt="right-arrow" />
-                  </div>
-                </a>
-              ))}
+                  );
+                } else {
+                  return (
+                    <a
+                      key={item2?.title}
+                      href={`${item2.link}`}
+                      data-href={item2.link}
+                    >
+                      <div
+                        className={`${s.sidebar_page_item_link_wrap} ${
+                          item2.pageActive === activeSubBlock &&
+                          s.active_sub_block
+                        }`}
+                        data-page={item2.title}
+                      >
+                        <div className={s.sidebar_page_item_link_wrap_content}>
+                          <div className={s.sidebar_page_item_ico_block}>
+                            {item2.icon}
+                          </div>
+                          <span className={s.sidebar_page_item_link}>
+                            {item2.title}
+                          </span>
+                        </div>
+                        <Image src={nextArr} alt="right-arrow" />
+                      </div>
+                    </a>
+                  );
+                }
+              })}
             </div>
           </div>
         ))}
@@ -345,7 +378,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             className={`${s.active_language_body} ${
               languagesListVisibility && s.languages_list_active
             }`}
-            onClick={handleListVisibility}
+            // onClick={handleListVisibility}
           >
             <Image
               className={s.active_language_img}
@@ -355,9 +388,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             <span className={s.active_language_title}>
               {activeLanguage.title}
             </span>
-            <div className={s.header_dd_ico_wrap}>
+            {/* <div className={s.header_dd_ico_wrap}>
               <HeaderDropdownArrow />
-            </div>
+            </div> */}
           </div>
           <div
             className={`${s.avaible_languages_list} ${
