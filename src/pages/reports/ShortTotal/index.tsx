@@ -188,18 +188,18 @@ const ShortTotal: FC<ShortTotalProps> = () => {
   const [shortTotalResponseBody, setShortTotalResponseBody] = useState<any>();
 
   useEffect(() => {
-    console.log("TO_GET_LOG", address, isConnected, isAuthed);
+    (async () => {
+      if (barerToken) {
+        console.log("RESPONSE STARTED");
+        const data = await api.getTotalsStats({
+          bareer: barerToken,
+        });
+        data.status === "OK" && setShortTotalResponseBody(data.body);
+      }
+    })();
+  }, [isAuthed]);
 
-    // (async () => {
-    //   if (isConnected && isAuthed) {
-    //     console.log("RESPONSE STARTED");
-    //     const data = await api.getTotalsStats({
-    //       bareer: barerToken,
-    //     });
-    //     data.status === "OK" && console.log("TOTALS_RESPONSE_BODY", data);
-    //   }
-    // })();
-  }, [address, isConnected, isAuthed]);
+  console.log(shortTotalResponseBody);
 
   const [isMobile, setIsMobile] = useState<boolean>();
 
@@ -479,7 +479,13 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                   data-even={(ind + 1) % 2 === 0}
                 >
                   <span className={s.table_item_title}>{item.title}</span>
-                  <span className={s.table_item_value}>{item.data}</span>
+                  <span className={s.table_item_value}>
+                    {item.title === "Доход"
+                      ? shortTotalResponseBody
+                        ? shortTotalResponseBody.net_profit || "0"
+                        : "0"
+                      : item.data}
+                  </span>
                 </div>
               ))}
             </div>
