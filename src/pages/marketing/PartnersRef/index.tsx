@@ -352,9 +352,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               </div>
               <div className="mobile_filter_body">
                 <AdaptiveFilterItem
-                  objTitle={mobCurrency.title}
+                  objTitle="USD"
                   title="Валюта"
-                  filterTitle="partnersRefCurrencyFilter"
+                  filterTitle="none"
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
                 <AdaptiveFilterItem
@@ -416,7 +416,11 @@ const PartnersRef: FC<PartnersRefProps> = () => {
           <div className={s.table_filter_block}>
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Валюта</span>
-              <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+              <CustomDropdownInput
+                list={currenciesList}
+                activeItemId="usd"
+                isDisabled={true}
+              />
             </div>
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Сайт</span>

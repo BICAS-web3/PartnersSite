@@ -326,9 +326,9 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
 
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
-              objTitle={currentCurrency}
+              objTitle="USD"
               title="Валюта"
-              filterTitle="websitesCurrencyFilter"
+              filterTitle="none"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
@@ -475,7 +475,11 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           </div>
           <div className={s.marketing_table_item}>
             <span className={s.marketing_table_title}>Валюта</span>
-            <CustomDropdownInput list={currenciesList} />
+            <CustomDropdownInput
+              list={currenciesList}
+              activeItemId="usd"
+              isDisabled={true}
+            />
           </div>
           <GenerateButton
             className={clsx(s.generate_button)}

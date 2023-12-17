@@ -258,9 +258,9 @@ const Total: FC<TotalProps> = () => {
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
-              objTitle={currentCurrency}
+              objTitle="USD"
               title="Валюта"
-              filterTitle="websitesCurrencyFilter"
+              filterTitle="none"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
@@ -310,7 +310,11 @@ const Total: FC<TotalProps> = () => {
           <div className={s.first_table_filter_block}>
             <div className={s.currency_block}>
               <span className={s.table_filter_block_title}>Валюта</span>
-              <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+              <CustomDropdownInput
+                list={currenciesList}
+                activeItemId="usd"
+                isDisabled={true}
+              />
             </div>
             <div className={s.website_block}>
               <span className={s.table_filter_block_title}>Сайт</span>
