@@ -57,7 +57,6 @@ export const Dashboard: FC<DashboardProps> = () => {
                 <span className={s.currency_block_title}>Валюта</span>
                 <CustomDropdownInput list={currenciesList} activeItemId="usd" />
               </div>
-              <button className={s.search_currency_btn}>Поиск</button>
             </div>
           ) : (
             <CurrentBalance />

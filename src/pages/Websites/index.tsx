@@ -73,12 +73,32 @@ export const languagesList = [
     id: "ua",
   },
   {
-    title: "Китайский",
-    id: "ch",
+    title: "Испанский",
+    id: "spain",
   },
   {
-    title: "Индийский",
-    id: "ind",
+    title: "Арабский",
+    id: "arabic",
+  },
+  {
+    title: "Китайский",
+    id: "china",
+  },
+  {
+    title: "Французкий",
+    id: "french",
+  },
+  {
+    title: "Корейский",
+    id: "korean",
+  },
+  {
+    title: "Португальский",
+    id: "portugal",
+  },
+  {
+    title: "Другие",
+    id: "other",
   },
 ];
 

@@ -283,7 +283,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
       data: [registrationsBody?.connected_wallets || 1],
     },
     {
-      name: "Новые аккаунты с депозитами",
+      name: "Новые игроки с депозитами",
       data: [depositedAccount?.connected_wallets || 2],
     },
     {

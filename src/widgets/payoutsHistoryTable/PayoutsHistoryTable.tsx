@@ -28,7 +28,7 @@ export const PayoutsHistoryTable: FC<PayoutsHistoryTableProps> = ({
         direction="horizontal"
         modules={[Scrollbar]}
         scrollbar={{
-          el: ".scroll-bar",
+          el: `${is700 ? ".scroll-bar" : null}`,
           draggable: true,
         }}
         spaceBetween={2}

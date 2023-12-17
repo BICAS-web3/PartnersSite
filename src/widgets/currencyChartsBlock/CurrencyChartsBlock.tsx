@@ -16,10 +16,6 @@ const currenciesList = [
     title: "USD",
     id: "usd",
   },
-  {
-    title: "UAH",
-    id: "uah",
-  },
 ];
 
 const currentDate = new Date();
@@ -138,14 +134,16 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
             <span className={s.currency_block_title}>Валюта</span>
             <div className={s.choose_currency_block}>
               <div className={s.choose_currency_wrap}>
-                <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+                <CustomDropdownInput
+                  list={currenciesList}
+                  activeItemId="usd"
+                  isDisabled={true}
+                />
               </div>
-              <button className={s.search_currency_btn}>Поиск</button>
             </div>
           </>
         )}
         <div
-          //?-----------------------------
           className={clsx(
             s.currency_charts_wrap,
             isOpen

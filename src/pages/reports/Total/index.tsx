@@ -99,6 +99,7 @@ const Total: FC<TotalProps> = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [is650, setIs650] = useState(false);
   const [is760, setIs760] = useState(false);
+  const [is1280, setIs1280] = useState(false);
 
   const [currentFilterPage, setCurrentFilterPage] = useState("");
 
@@ -113,18 +114,27 @@ const Total: FC<TotalProps> = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
       const width = window.innerWidth;
-      if (width < 760 && width > 700) {
+
+      if (width < 1280 && width > 760) {
+        setIs650(false);
+        setIs760(false);
+        setIs1280(true);
+      } else if (width < 760 && width > 700) {
         setIs650(false);
         setIs760(true);
+        setIs1280(false);
       } else if (width < 700 && width > 650) {
         setIs650(false);
         setIs760(false);
+        setIs1280(false);
       } else if (width < 650) {
         setIs650(true);
         setIs760(false);
+        setIs1280(false);
       } else {
         setIs760(false);
         setIs650(false);
+        setIs1280(false);
       }
     };
 
@@ -248,9 +258,9 @@ const Total: FC<TotalProps> = () => {
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
-              objTitle={currentCurrency}
+              objTitle="USD"
               title="Валюта"
-              filterTitle="websitesCurrencyFilter"
+              filterTitle="none"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
@@ -300,7 +310,11 @@ const Total: FC<TotalProps> = () => {
           <div className={s.first_table_filter_block}>
             <div className={s.currency_block}>
               <span className={s.table_filter_block_title}>Валюта</span>
-              <CustomDropdownInput list={currenciesList} activeItemId="usd" />
+              <CustomDropdownInput
+                list={currenciesList}
+                activeItemId="usd"
+                isDisabled={true}
+              />
             </div>
             <div className={s.website_block}>
               <span className={s.table_filter_block_title}>Сайт</span>
@@ -387,15 +401,14 @@ const Total: FC<TotalProps> = () => {
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
-            slidesPerView={"auto"}
+            slidesPerView={is1280 ? "auto" : activeOpts.length}
             direction="horizontal"
             modules={[Scrollbar]}
             scrollbar={{
-              el: ".scroll-bar",
-              draggable: true,
+              el: `${is1280 ? ".scroll-bar" : null}`,
+              draggable: is1280 ? true : false,
             }}
             spaceBetween={2}
-            centeredSlides={false}
             className={s.swiper}
           >
             {(isMobile ? mobTableOptions : activeOpts).map((item, ind) => (

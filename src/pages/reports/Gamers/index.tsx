@@ -490,9 +490,9 @@ const Gamers: FC<GamersProps> = () => {
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
-              objTitle={currentCurrency}
+              objTitle="USD"
               title="Валюта"
-              filterTitle="websitesCurrencyFilter"
+              filterTitle="none"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
@@ -590,7 +590,11 @@ const Gamers: FC<GamersProps> = () => {
         <div className={s.games_table_container}>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Валюта</span>
-            <CustomDropdownInput list={currenciesList} />
+            <CustomDropdownInput
+              list={currenciesList}
+              activeItemId="usd"
+              isDisabled={true}
+            />
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Страна</span>

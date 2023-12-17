@@ -1,7 +1,7 @@
 import { createEvent, createStore } from "effector";
 
 // variables
-export const $isSidebarOpened = createStore<boolean>(false);
+export const $isSidebarOpened = createStore<boolean>(true);
 
 // events
 export const Open = createEvent<void>();

@@ -27,21 +27,11 @@ const optionsList = [
   {
     title: "Валюта",
     id: "currency",
-    bodyValue: 1,
-  },
-  {
-    title: "Показы",
-    id: "shows",
-    bodyValue: 1,
+    bodyValue: "USD",
   },
   {
     title: "Клики",
     id: "clicks",
-    bodyValue: 1,
-  },
-  {
-    title: "Прямые ссылки",
-    id: "links",
     bodyValue: 1,
   },
   {
@@ -50,23 +40,13 @@ const optionsList = [
     bodyValue: 1,
   },
   {
-    title: "Новые Аккаунты с депозитами",
+    title: "Новые Игроки с депозитами",
     id: "newAccs",
     bodyValue: 1,
   },
   {
     title: "Доход компании (общий)",
     id: "companyIncome",
-    bodyValue: 1,
-  },
-  {
-    title: "RS",
-    id: "rs",
-    bodyValue: 1,
-  },
-  {
-    title: "CPA",
-    id: "cpa",
     bodyValue: 1,
   },
   {
@@ -179,7 +159,7 @@ export const FastStats: FC<FastStatsProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (tablePeriod && barerToken) {
+      if (barerToken) {
         const response = await api.getUsersRegistrationChart({
           bareer: barerToken,
           endTime: tablePeriod,
@@ -198,7 +178,7 @@ export const FastStats: FC<FastStatsProps> = () => {
         }
       }
     })();
-  }, [, tablePeriod]);
+  }, [tablePeriod]);
 
   console.log(conversionBody?.connected_wallets);
   console.log("TEST", depositedUsersBody?.connected_wallets);

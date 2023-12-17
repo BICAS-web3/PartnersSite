@@ -312,7 +312,11 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
             <div className={s.sidebar_page_item_link_block}>
               {item1.list.map((item2, ind) => {
-                if (item2?.title === "Промокоды" || item2?.title === "Медиа") {
+                if (
+                  item2?.title === "Промокоды" ||
+                  item2?.title === "Медиа" ||
+                  item2.title === "По суб-партнёрам"
+                ) {
                   return (
                     <div
                       key={item2?.title}
