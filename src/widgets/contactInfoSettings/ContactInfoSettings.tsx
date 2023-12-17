@@ -32,16 +32,22 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
 
   const [
     userName,
+    setUserName,
     userLastName,
+    setUserLastName,
     userPhone,
+    setUserPhone,
     userMessanger,
     userMessangerValue,
     userCountry,
     userLanguage,
   ] = useUnit([
     UserDataModel.$userName,
+    UserDataModel.setUserName,
     UserDataModel.$userLastName,
+    UserDataModel.setUserLastName,
     UserDataModel.$userPhone,
+    UserDataModel.setUserPhone,
     UserDataModel.$userMessanger,
     UserDataModel.$userMessangerValue,
     UserDataModel.$userCountry,
@@ -129,6 +135,12 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
     // }, [callContactReg]);
   }, []);
 
+  const dataReset = () => {
+    setUserName("");
+    setUserLastName("");
+    setUserPhone("");
+  };
+
   return (
     <div className={s.contact_info_settings_block}>
       <span className={s.contact_info_settings_block_title}>
@@ -139,6 +151,8 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <span className={s.input_block_title}>Имя*</span>
           <input
             type="text"
+            value={userName && userName}
+            onChange={(e) => setUserName(e.target.value)}
             className={`${s.name_input} default_input`}
             placeholder={userName ? userName : "Иван"}
           />
@@ -147,6 +161,8 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <span className={s.input_block_title}>Фамилия*</span>
           <input
             type="text"
+            value={userLastName && userLastName}
+            onChange={(e) => setUserLastName(e.target.value)}
             className={`${s.name_input} default_input`}
             placeholder={userLastName ? userLastName : "Иванов"}
           />
@@ -157,6 +173,8 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <span className={s.input_block_title}>Номер телефона</span>
           <input
             type="text"
+            value={userPhone && userPhone}
+            onChange={(e) => setUserPhone(e.target.value)}
             className={`${s.name_input} default_input`}
             placeholder={userPhone ? userPhone : "+1234567890"}
           />
@@ -229,7 +247,9 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
         </div>
       </div>
       <div className={s.save_changes_btn_wrap}>
-        <button className={s.save_changes_btn}>Сохранить изменения</button>
+        <button className={s.save_changes_btn} onClick={dataReset}>
+          Сохранить изменения
+        </button>
       </div>
     </div>
   );

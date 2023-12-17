@@ -159,6 +159,13 @@ const Total: FC<TotalProps> = () => {
     setIsFilter(true);
   };
 
+  const [marktId, setMarktId] = useState("");
+
+  const dataReset = () => {
+    setMarktId("");
+    console.log("clicked");
+  };
+
   return (
     <Layout activePage="total">
       <section className={s.total_page}>
@@ -307,6 +314,8 @@ const Total: FC<TotalProps> = () => {
                 ID Маркетингового инструмента
               </span>
               <input
+                value={marktId && marktId}
+                onChange={(e) => setMarktId(e.target.value)}
                 type="text"
                 placeholder=""
                 className={clsx(s.markt_tool_id_input, "default_input")}
@@ -329,7 +338,7 @@ const Total: FC<TotalProps> = () => {
               setSecondDataPicker={setSecondDatePickerDate}
             />
             <div className={s.generate_report_btn_wrap}>
-              <button className={s.generate_report_btn}>
+              <button className={s.generate_report_btn} onClick={dataReset}>
                 Сгенерировать отчет
               </button>
             </div>
@@ -345,6 +354,8 @@ const Total: FC<TotalProps> = () => {
                 ID Маркетингового инструмента
               </span>
               <input
+                value={marktId && marktId}
+                onChange={(e) => setMarktId(e.target.value)}
                 type="text"
                 placeholder=""
                 className={clsx(s.markt_tool_id_input, "default_input")}
@@ -356,7 +367,7 @@ const Total: FC<TotalProps> = () => {
                 s.desk_hidden_report_btn_wrap
               )}
             >
-              <button className={s.generate_report_btn}>
+              <button className={s.generate_report_btn} onClick={dataReset}>
                 Сгенерировать отчет
               </button>
             </div>

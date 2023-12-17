@@ -103,6 +103,10 @@ const Media: FC<MediaProps> = () => {
   const [mobInputHeight, setMobInputHeight] = useState([]);
   const [mobInputWidth, setMobInputWidth] = useState([]);
 
+  const [mediaName, setMediaName] = useState("");
+  const [mediaWidth, setMediaWidth] = useState("");
+  const [mediaHeight, setMediaHeight] = useState("");
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -154,6 +158,12 @@ const Media: FC<MediaProps> = () => {
   const handleFilterClick = () => {
     document.body.scrollTop = 0;
     setIsFilter(true);
+  };
+
+  const dataReset = () => {
+    setMediaHeight("");
+    setMediaName("");
+    setMediaWidth("");
   };
 
   return (
@@ -327,6 +337,8 @@ const Media: FC<MediaProps> = () => {
             <div className={s.table_filter_block_item}>
               <span className={s.table_filter_block_item_title}>Имя медиа</span>
               <input
+                value={mediaName && mediaName}
+                onChange={(e) => setMediaName(e.target.value)}
                 type="text"
                 className={`${s.media_name_input} default_input`}
               />
@@ -338,6 +350,8 @@ const Media: FC<MediaProps> = () => {
             <div className={s.table_filter_block_item}>
               <span className={s.table_filter_block_item_title}>Ширина</span>
               <input
+                value={mediaWidth && mediaWidth}
+                onChange={(e) => setMediaWidth(e.target.value)}
                 type="text"
                 className={`${s.media_width_input} default_input`}
                 placeholder="100"
@@ -346,6 +360,8 @@ const Media: FC<MediaProps> = () => {
             <div className={s.table_filter_block_item}>
               <span className={s.table_filter_block_item_title}>Высота</span>
               <input
+                value={mediaHeight && mediaHeight}
+                onChange={(e) => setMediaHeight(e.target.value)}
                 type="text"
                 className={`${s.media_height_input} default_input`}
                 placeholder="100"
@@ -370,7 +386,9 @@ const Media: FC<MediaProps> = () => {
               />
             </div>
             <div className={s.table_filter_btn_wrap}>
-              <button className={s.search_table_btn}>Поиск</button>
+              <button className={s.search_table_btn} onClick={dataReset}>
+                Поиск
+              </button>
             </div>
           </div>
         )}

@@ -332,6 +332,17 @@ const Gamers: FC<GamersProps> = () => {
     setNumberPage(1);
   }, [recordCount]);
 
+  const [marktId, setMarktId] = useState("");
+  const [playerId, setPlayerId] = useState("");
+  const [subid, setSubid] = useState("");
+
+  const dataReset = () => {
+    setMarktId("");
+    setPlayerId("");
+    setSubid("");
+    console.log("clicked");
+  };
+
   return (
     <Layout activePage="byGamers">
       <section className={s.gamers_section}>
@@ -565,7 +576,11 @@ const Gamers: FC<GamersProps> = () => {
             <span className={s.games_table_title}>
               ID Маркетингового инструмента
             </span>
-            <input className={s.games_table_input} />
+            <input
+              className={s.games_table_input}
+              value={marktId && marktId}
+              onChange={(e) => setMarktId(e.target.value)}
+            />
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Сайт</span>
@@ -611,18 +626,29 @@ const Gamers: FC<GamersProps> = () => {
           />
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>ID игрока</span>
-            <input className={s.games_table_input} />
+            <input
+              className={s.games_table_input}
+              value={playerId && playerId}
+              onChange={(e) => setPlayerId(e.target.value)}
+            />
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Sub ID</span>
-            <input className={s.games_table_input} />
+            <input
+              className={s.games_table_input}
+              value={subid && subid}
+              onChange={(e) => setSubid(e.target.value)}
+            />
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Кампания</span>
             <CustomDropdownInput list={companyList} />
           </div>
           {(!closed || !medium) && (
-            <GenerateButton className={clsx(s.generate_button)} />
+            <GenerateButton
+              className={clsx(s.generate_button)}
+              onClick={dataReset}
+            />
           )}
         </div>
         <div className={s.game_label_container}>
