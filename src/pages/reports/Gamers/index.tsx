@@ -232,7 +232,10 @@ const Gamers: FC<GamersProps> = () => {
   const [currentCountry, setCurrentCountry] = useState<IListProps>({});
   const [currentCompany, setCurrentCompany] = useState<IListProps>({});
   const [mobTableOptions, setMobTableOpts] = useState(historyList);
-  const [barerToken] = useUnit([ContactModel.$barerToken]);
+  const [barerToken, userWallet] = useUnit([
+    ContactModel.$barerToken,
+    ContactModel.$userWallet,
+  ]);
   useEffect(() => {
     setActivePeriod({
       title: "Сегодня",
@@ -342,6 +345,40 @@ const Gamers: FC<GamersProps> = () => {
     setSubid("");
     console.log("clicked");
   };
+
+  const [playersData, setPlayersData] = useState<
+    | {
+        bets_amount: number;
+        lost_bets: number;
+        won_bets: number;
+        total_wagered_sum: any;
+        gross_profit: any;
+        net_profit: any;
+        highest_win: any;
+      }
+    | any
+  >();
+
+  useEffect(() => {
+    (async () => {
+      if (barerToken && userWallet) {
+        const response = await api.getPlayersData({
+          bareer: barerToken,
+          address: userWallet.toLowerCase(),
+        });
+
+        if (response.status === "OK") {
+          setPlayersData(response.body);
+        }
+      }
+    })();
+  }, [barerToken, userWallet]);
+
+  useEffect(() => {
+    if (playersData) {
+      console.log(playersData);
+    }
+  }, [playersData]);
 
   return (
     <Layout activePage="byGamers">

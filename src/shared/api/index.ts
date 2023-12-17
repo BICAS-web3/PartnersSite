@@ -281,6 +281,11 @@ export type T_DepositedUsers = {
 
 export type T_TotalsStats = {
   bareer: string;
+}
+
+export type T_Players = {
+  bareer: string;
+  address: string;
 };
 
 export type T_WalletsRegistered = {
@@ -615,3 +620,19 @@ export const getTotalsStats = createEffect<
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+
+export const getPlayersData = createEffect<T_Players, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/player/totals/${form.address}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
