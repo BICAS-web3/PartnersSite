@@ -48,6 +48,7 @@ export const Header: FC<HeaderProps> = () => {
     setUserPageName,
     setUserPageCategory,
     setUserSelectedSource,
+    setUserWallet,
   ] = useUnit([
     ContactModel.$userEmail,
     ContactModel.$userCountry,
@@ -72,6 +73,7 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setUserPageName,
     ContactModel.setUserPageCategory,
     ContactModel.setUserSelectedSource,
+    ContactModel.setUserWallet,
   ]);
 
   const [localName, setLocalName] = useState("");
@@ -94,79 +96,36 @@ export const Header: FC<HeaderProps> = () => {
   }, []);
 
   useEffect(() => {
-    if (localEmail || localName || localLastName || localToken) {
+    if (localToken) {
       setUserEmail(localEmail);
       setUserName(localName);
       setUserLastName(localLastName);
       setUserPhone(localPhone);
-      setIsAuthed(true);
       setBarerToken(localToken);
+      setIsAuthed(true);
     }
   }, [localEmail, localName, localLastName, readyUpdate]);
-
-  useEffect(() => {
-    (async () => {
-      if (callContactReg) {
-        await api.registerContact({
-          bareer: barerToken,
-          contact: [
-            {
-              name: "messenger_login",
-              url: userMessangerValue,
-            },
-            {
-              name: "email",
-              url: userEmail,
-            },
-            {
-              name: "messenger_type",
-              url: userMessanger,
-            },
-            {
-              name: "page_name",
-              url: userPageName,
-            },
-            {
-              name: "country",
-              url: userCountry,
-            },
-            {
-              name: "page_type",
-              url: userPageCategory,
-            },
-            {
-              name: "language",
-              url: userLanguage,
-            },
-            {
-              name: "phone",
-              url: userPhone,
-            },
-            {
-              name: "source_from",
-              url: userSelectedSource,
-            },
-          ],
-        });
-      }
-    })();
-  }, [callContactReg]);
 
   const [handleRequest, setHandleRequest] = useState(true);
   const [responseBody, setResponseBody] = useState<api.R_getUser>();
 
   useEffect(() => {
     (async () => {
-      if (!responseBody && isAuthed && handleRequest && barerToken) {
-        const respobse = await api.getUserData({
-          bareer: barerToken,
+      if (!responseBody && isAuthed && handleRequest && localToken) {
+        const response = await api.getUserData({
+          bareer: localToken,
         });
-        setResponseBody(respobse.body as api.R_getUser);
-        setHandleRequest(false);
+        if (response.status === "OK") {
+          setResponseBody(response.body as api.R_getUser);
+          setHandleRequest(false);
+        } else {
+        }
       }
     })();
   }, [responseBody, isAuthed, handleRequest, barerToken]);
+
   useEffect(() => {
+    console.log(1212, responseBody, isAuthed);
     if (responseBody && isAuthed) {
       setUserMessangerValue(
         responseBody?.contacts?.find((el) => el.name === "messenger_login")
@@ -198,7 +157,7 @@ export const Header: FC<HeaderProps> = () => {
         responseBody?.contacts?.find((el) => el.name === "source_from")?.url ||
           ""
       );
-
+      setUserWallet(responseBody?.basic?.main_wallet);
       setUserName(responseBody?.basic?.name?.split(" ")[0]);
       setUserLastName(responseBody?.basic?.name?.split(" ")[1]);
     }

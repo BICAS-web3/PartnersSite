@@ -145,7 +145,6 @@ interface IListProps {
 interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
-  const { address, isConnected } = useAccount();
   const [isAuthed, barerToken] = useUnit([
     AuthModel.$isAuthed,
     ContactModel.$barerToken,
@@ -163,30 +162,28 @@ const ShortTotal: FC<ShortTotalProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed) {
+      if (isAuthed) {
         const data = await api.getFullClicks({
-          //! -------------------------------------------------
           bareer: barerToken,
         });
         data.status === "OK" && setClicks(data.body as api.T_ClicksResponse);
       }
     })();
-  }, [address, isConnected, isAuthed]);
+  }, [isAuthed]);
 
   const [usersRegistration, setUsersRegistration] = useState<any>();
 
   useEffect(() => {
     (async () => {
-      if (isConnected && isAuthed) {
+      if (isAuthed) {
         const data = await api.getUsersRegistration({
-          //! -------------------------------------------------
           bareer: barerToken,
           period: "all",
         });
         data.status === "OK" && setUsersRegistration(data.body);
       }
     })();
-  }, [address, isConnected, isAuthed]);
+  }, [isAuthed]);
 
   const [shortTotalResponseBody, setShortTotalResponseBody] = useState<any>();
 

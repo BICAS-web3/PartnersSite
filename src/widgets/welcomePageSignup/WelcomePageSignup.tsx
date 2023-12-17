@@ -118,6 +118,14 @@ const countriesList = Object.keys(countries).map((code) => ({
 interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
+  const [token, setToken] = useState("");
+  const [notValidMail, setNotValidMail] = useState(false);
+  const [notValidMessanger, setNotValidMessanger] = useState(false);
+  const [notValidPage, setNotValidPage] = useState(false);
+  const [notValidAddress, setNotValidAddress] = useState(false);
+  const [isShortPassword, setIsShortPassword] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+
   const [
     setUserCountry,
     setUserEmail,
@@ -192,15 +200,53 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     setFullName(`${name} ${lastName}`);
   }, [name, lastName]);
 
-  const [errorPsaaword, setErrorPsaaword] = useState(false);
-
   useEffect(() => {
-    if (errorPsaaword) {
+    if (errorPassword) {
       setTimeout(() => {
-        setErrorPsaaword(false);
+        setErrorPassword(false);
       }, 2000);
     }
-  }, [errorPsaaword]);
+  }, [errorPassword]);
+
+  useEffect(() => {
+    if (notValidMail) {
+      setTimeout(() => {
+        setNotValidMail(false);
+      }, 2000);
+    }
+  }, [notValidMail]);
+
+  useEffect(() => {
+    if (notValidMessanger) {
+      setTimeout(() => {
+        setNotValidMessanger(false);
+      }, 2000);
+    }
+  }, [notValidMessanger]);
+
+  useEffect(() => {
+    if (notValidPage) {
+      setTimeout(() => {
+        setNotValidPage(false);
+      }, 2000);
+    }
+  }, [notValidPage]);
+
+  useEffect(() => {
+    if (notValidAddress) {
+      setTimeout(() => {
+        setNotValidAddress(false);
+      }, 2000);
+    }
+  }, [notValidAddress]);
+
+  useEffect(() => {
+    if (isShortPassword) {
+      setTimeout(() => {
+        setIsShortPassword(false);
+      }, 2000);
+    }
+  }, [isShortPassword]);
 
   function handleRegistration() {
     if (
@@ -210,16 +256,50 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !pageName ||
       !messangerValue ||
       !selectedMessanger ||
+      !selectedCountry ||
       !password ||
       !passwordRepeat ||
       !wallet
     ) {
       setError(true);
     } else {
-      if (password !== passwordRepeat) {
-        setErrorPsaaword(true);
-        setPassword("");
-        setPasswordRepeat("");
+      if (
+        password !== passwordRepeat ||
+        validateEmail(email) === false ||
+        validateWebPage(pageName) === false ||
+        validateMessanger(messangerValue) === false ||
+        validateAddress(wallet) === false ||
+        password?.length < 5
+      ) {
+        if (password !== passwordRepeat) {
+          setErrorPassword(true);
+          setPassword("");
+          setPasswordRepeat("");
+        }
+
+        if (validateEmail(email) === false) {
+          setNotValidMail(true);
+          setEmail("");
+        }
+
+        if (validateWebPage(pageName) === false) {
+          setNotValidPage(true);
+          setPageName("");
+        }
+
+        if (validateMessanger(messangerValue) === false) {
+          setNotValidMessanger(true);
+          setMessangerValue("");
+        }
+
+        if (validateAddress(wallet) === false) {
+          setNotValidAddress(true);
+          setWallet("");
+        }
+        if (password?.length < 5) {
+          setIsShortPassword(true);
+          setPassword("");
+        }
       } else {
         setUserEmail(email);
         localStorage.setItem(`mail`, email);
@@ -256,10 +336,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     (async () => {
       if (startRegistration) {
         const response = await api.registerUser({
-          country: selectedCountry.toLowerCase(),
+          country: selectedCountry?.toLowerCase(),
           main_wallet: wallet?.toLowerCase(),
-          name: fullname.toLowerCase(),
-          traffic_source: selectedSourse.toLowerCase(),
+          name: fullname?.toLowerCase(),
+          traffic_source: selectedSourse?.toLowerCase(),
           users_amount_a_month: 1,
           login: loginAuth,
           password: password,
@@ -273,6 +353,68 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   useEffect(() => {
     (async () => {
+      if (token) {
+        const response = await api.registerContact({
+          bareer: token,
+          contact: [
+            {
+              name: "messenger_login",
+              url: messangerValue,
+            },
+            {
+              name: "email",
+              url: email,
+            },
+            {
+              name: "messenger_type",
+              url: selectedMessanger,
+            },
+            {
+              name: "page_name",
+              url: pageName,
+            },
+            {
+              name: "country",
+              url: selectedCountry,
+            },
+            {
+              name: "page_type",
+              url: categoryPage,
+            },
+            {
+              name: "language",
+              url: selectedLanguage,
+            },
+            {
+              name: "phone",
+              url: phoneValue,
+            },
+            {
+              name: "source_from",
+              url: selectedSourse,
+            },
+          ],
+        });
+        // const addPage = await api.registerPage({
+        //   name: categoryPage || "Прогнозы на спорт",
+        //   url: pageName,
+        //   bareer: token,
+        // });
+        // const getSub = await api.registerSubId({
+        //   bareer: token,
+        //   name: categoryPage,
+        //   url: pageName,
+        //   internal_site_id: 0,
+        // });
+        if (response.status === "OK") {
+          window.open("/home", "_self");
+        }
+      }
+    })();
+  }, [token]);
+
+  useEffect(() => {
+    (async () => {
       if (startLogin) {
         const response = await api.loginUser({
           password: password,
@@ -280,11 +422,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         });
         if (response.status === "OK") {
           setBarerToken((response.body as any).access_token as string);
+          setToken((response.body as any).access_token as string);
           localStorage.setItem(
             `barer-token`,
             (response.body as any).access_token
           );
-          window.open("/home", "_self");
         }
       }
     })();
@@ -325,6 +467,23 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
     };
   }, []);
 
+  function validateEmail(email: string) {
+    const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return pattern.test(email);
+  }
+  function validateWebPage(webPage: string) {
+    const urlRegex =
+      /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/[a-zA-Z0-9-._?=%&#=]*)?$/;
+    return urlRegex.test(webPage);
+  }
+  function validateMessanger(messangerValue: string) {
+    return messangerValue.includes("@") && messangerValue.length > 1;
+  }
+  function validateAddress(wallet: string) {
+    const pattern = /^(0x)?[0-9a-fA-F]{40}$/;
+    return pattern.test(wallet);
+  }
+
   return (
     <div className={s.welcome_page_signup_content}>
       <div className={s.desk_hidden_nav}>
@@ -350,13 +509,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <span className={s.welcome_page_input_title}>Логин*</span>
               <input
                 value={loginAuth}
-                onChange={(el) => {
-                  if (loginAuth.length > 10) {
-                    return;
-                  } else {
-                    setLoginAuth(el.target.value);
-                  }
-                }}
+                onChange={(el) => setLoginAuth(el.target.value)}
                 type="text"
                 className={`${s.welcome_page_input} default_input`}
                 placeholder="login"
@@ -370,12 +523,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 type="password"
                 className={clsx(
                   s.welcome_page_input,
-                  errorPsaaword && s.error_input,
+                  errorPassword && s.error_input,
                   !password && error && s.error_input,
+                  isShortPassword && s.error_input,
                   "default_input"
                 )}
                 placeholder={
-                  errorPsaaword === true ? "пароли не совпадают" : "password"
+                  isShortPassword
+                    ? "слишком короткий"
+                    : errorPassword === true
+                    ? "пароли не совпадают"
+                    : "password"
                 }
               />
             </div>
@@ -389,11 +547,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 type="password"
                 className={clsx(
                   s.welcome_page_input,
-                  errorPsaaword && s.error_input,
+                  errorPassword && s.error_input,
                   !passwordRepeat && error && s.error_input,
                   "default_input"
                 )}
-                placeholder={errorPsaaword === true ? "" : "repeat password"}
+                placeholder={errorPassword === true ? "" : "repeat password"}
               />
             </div>
           </div>
@@ -411,9 +569,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   className={clsx(
                     s.welcome_page_input,
                     "default_input",
-                    !pageName && error && s.error_input
+                    !pageName && error && s.error_input,
+                    notValidPage && s.error_input
                   )}
-                  placeholder="example.com"
+                  placeholder={
+                    notValidPage ? "Не валидный сайт" : "example.com"
+                  }
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 5 }}>
@@ -504,9 +665,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 className={clsx(
                   s.welcome_page_input,
                   "default_input",
-                  !wallet && error && s.error_input
+                  !wallet && error && s.error_input,
+                  notValidAddress && s.error_input
                 )}
-                placeholder="wallet"
+                placeholder={notValidAddress ? "Не валидный адрес" : "wallet"}
               />
             </div>
             <div className={s.welcome_page_contactInfo_otherInfo_block}>
@@ -530,9 +692,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   className={clsx(
                     s.welcome_page_input,
                     "default_input",
-                    !messangerValue && error && s.error_input
+                    !messangerValue && error && s.error_input,
+                    notValidMessanger && s.error_input
                   )}
-                  placeholder="@asdasdasd"
+                  placeholder={
+                    notValidMessanger ? "Не валидный логин" : "@asdasdasd"
+                  }
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
@@ -541,6 +706,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   setSelectedValue={setSelectedCountry}
                   list={countriesList}
                   activeItemId="countryInit"
+                  className={!selectedCountry && error ? s.error_input : ""}
                   maxW={
                     !is1280 && !is650 && !is700
                       ? 160
@@ -587,10 +753,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   type="email"
                   className={clsx(
                     !email && error && s.error_input,
+                    notValidMail && s.error_input,
                     s.welcome_page_input,
                     "default_input"
                   )}
-                  placeholder="e-mail"
+                  placeholder={notValidMail ? "не валидный e-mail" : "e-mail"}
                 />
               </div>
             </div>
