@@ -369,6 +369,8 @@ const Websites: FC<WebsitesProps> = () => {
     setNumberPage(1);
   }, [recordCount]);
 
+  const [startSort, setStartSort] = useState("");
+
   return (
     <Layout activePage="websites">
       <section className={s.websites_page}>
@@ -588,10 +590,15 @@ const Websites: FC<WebsitesProps> = () => {
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
                     <span className={s.swiper_slide_title}>{el}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
+                    <Image
+                      onClick={() => setStartSort(el)}
+                      src={upDownArrows}
+                      alt="sort-ico"
+                    />
                   </div>
                   <div className={s.swiper_slide_content}>
                     {(isMobile ? mobTableOptions : activeOptions)
+
                       ?.filter((eld: IPagesResponse) => {
                         if (categotyFilter?.length <= 0) {
                           return eld;
@@ -611,6 +618,7 @@ const Websites: FC<WebsitesProps> = () => {
                           ? Number(recordCount)
                           : numberPage * Number(recordCount)
                       )
+
                       ?.map((element: IPagesResponse, index) => {
                         if (el === "internal_id") {
                           return (

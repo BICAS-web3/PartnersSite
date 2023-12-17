@@ -48,6 +48,7 @@ export const Header: FC<HeaderProps> = () => {
     setUserPageName,
     setUserPageCategory,
     setUserSelectedSource,
+    setUserWallet,
   ] = useUnit([
     ContactModel.$userEmail,
     ContactModel.$userCountry,
@@ -72,6 +73,7 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setUserPageName,
     ContactModel.setUserPageCategory,
     ContactModel.setUserSelectedSource,
+    ContactModel.setUserWallet,
   ]);
 
   const [localName, setLocalName] = useState("");
@@ -155,7 +157,7 @@ export const Header: FC<HeaderProps> = () => {
         responseBody?.contacts?.find((el) => el.name === "source_from")?.url ||
           ""
       );
-
+      setUserWallet(responseBody?.basic?.main_wallet);
       setUserName(responseBody?.basic?.name?.split(" ")[0]);
       setUserLastName(responseBody?.basic?.name?.split(" ")[1]);
     }
