@@ -777,6 +777,55 @@ const Gamers: FC<GamersProps> = () => {
               </div>
             </SwiperSlide>
           ))}
+
+          {/* {
+        bets_amount: number;
+        lost_bets: number;
+        won_bets: number;
+        total_wagered_sum: any;
+        gross_profit: any;
+        net_profit: any;
+        highest_win: any;
+      } */}
+          {answerBody && playersData && (
+            <>
+              <SwiperSlide className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>bets_amount</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    <span>{playersData?.bets_amount}</span>
+                  </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>lost_bets</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    <span>{playersData?.lost_bets}</span>
+                  </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>
+                      total_wagered_sum
+                    </span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    <span>{playersData?.total_wagered_sum}</span>
+                  </div>
+                </div>
+              </SwiperSlide>
+            </>
+          )}
         </SwiperWrap>
         <SwiperNavigation
           data={answerBody}
