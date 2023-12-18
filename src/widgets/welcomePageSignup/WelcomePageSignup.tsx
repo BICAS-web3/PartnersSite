@@ -99,14 +99,34 @@ const fromWhereList = [
   },
 ];
 
-const messangersList = [
+export const messangersList = [
   {
-    title: "Skype",
-    id: "skype",
+    title: "Instagram", //
+    id: "inst",
+  },
+  {
+    title: "Twitter",
+    id: "Twitter",
+  },
+  {
+    title: "Facebook",
+    id: "Facebook",
+  },
+  {
+    title: "Discord",
+    id: "Discord",
+  },
+  {
+    title: "Instagram",
+    id: "Instagram",
   },
   {
     title: "Telegram",
-    id: "tg",
+    id: "Telegram",
+  },
+  {
+    title: "WhatsApp",
+    id: "WhatsApp",
   },
 ];
 
