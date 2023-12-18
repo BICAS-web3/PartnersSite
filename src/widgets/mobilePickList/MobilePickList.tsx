@@ -14,8 +14,6 @@ interface MobilePickListProps {
   categotyFilter?: string;
   setCategoryFilter?: (el: string) => void;
   site?: boolean;
-  currentFilter?: string;
-  setCurrentFilter?: (el: string) => void;
 }
 
 export const MobilePickList: FC<MobilePickListProps> = ({
@@ -28,8 +26,6 @@ export const MobilePickList: FC<MobilePickListProps> = ({
   categotyFilter,
   setCategoryFilter,
   site,
-  currentFilter,
-  setCurrentFilter,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId
@@ -43,10 +39,6 @@ export const MobilePickList: FC<MobilePickListProps> = ({
     setCurrent(activeItem);
   }, [activeItem]);
 
-  useEffect(() => {
-    console.log(555, startOptions);
-  }, [startOptions]);
-
   return (
     <div className={s.mobile_pick_list_wrap}>
       <div className={s.mobile_pick_list}>
@@ -56,7 +48,7 @@ export const MobilePickList: FC<MobilePickListProps> = ({
             className={`${s.mobile_pick_list_item} ${
               custom
                 ? site
-                  ? categotyFilter === item
+                  ? categotyFilter === item && s.active
                   : categotyFilter === item?.title && s.active
                 : activeItem?.id === item?.id && s.active
             }`}

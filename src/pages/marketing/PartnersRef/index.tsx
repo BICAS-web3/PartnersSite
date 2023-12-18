@@ -306,7 +306,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 itemId="usd"
                 blockTitle="Валюта"
               />
-              <AdaptiveChooser
+              {/* <AdaptiveChooser
                 isInput={true}
                 list={siteList}
                 site={true}
@@ -316,6 +316,18 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 setMobTableOpts={setMobPickedSite}
                 blockTitle="Сайт"
                 inpPlaceholder="Example.com"
+              /> */}
+              <AdaptivePicker
+                currentFilter={siteCurrent}
+                setCurrentFilter={setSiteCurrent}
+                currentFilterPage={currentFilterPage}
+                list={siteList}
+                site={true}
+                setCurrentFilterPage={setCurrentFilterPage}
+                setCurrentLanguage={() => {}}
+                itemId={siteList[0]}
+                activeTitle="partnersRefSitesFilter"
+                custom={true}
               />
               {/* <AdaptivePicker
                 currentFilterPage={currentFilterPage}
@@ -378,15 +390,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
                 <AdaptiveFilterItem
-                  objTitle={
-                    mobPickedSite.length > 1
-                      ? `${mobPickedSite[0].title} и ещё ${
-                          mobPickedSite.length - 1
-                        }`
-                      : mobPickedSite.length == 1
-                      ? mobPickedSite[0].title
-                      : "none"
-                  }
+                  objTitle={siteCurrent || "Выберите"}
                   title="Сайт"
                   filterTitle="partnersRefSitesFilter"
                   setCurrentFilterPage={setCurrentFilterPage}

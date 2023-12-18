@@ -178,7 +178,7 @@ const Total: FC<TotalProps> = () => {
     setMarktId("");
   };
 
-  const [siteCurrent, setSiteCurrent] = useState("Выберите");
+  const [siteCurrent, setSiteCurrent] = useState("");
   const [siteList, setSiteList] = useState([]);
 
   useEffect(() => {
@@ -227,6 +227,7 @@ const Total: FC<TotalProps> = () => {
             setCurrentLanguage={setCurrentWebpages}
             itemId={siteList[0]}
             activeTitle="webPagesCategoryFilter"
+            custom={true}
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
@@ -288,7 +289,7 @@ const Total: FC<TotalProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={siteCurrent}
+              objTitle={siteCurrent || "Выберите"}
               title="Сайт"
               filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}

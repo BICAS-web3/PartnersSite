@@ -18,6 +18,7 @@ interface AdaptivePickerProps {
   site?: boolean;
   currentFilter?: string;
   setCurrentFilter?: (el: string) => void;
+  custom?: boolean;
 }
 
 export const AdaptivePicker: FC<AdaptivePickerProps> = ({
@@ -31,6 +32,7 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
   site,
   currentFilter,
   setCurrentFilter,
+  custom,
 }) => {
   return (
     <div
@@ -63,6 +65,7 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
           startOptions={list}
           categotyFilter={currentFilter}
           setCategoryFilter={setCurrentFilter}
+          custom={custom}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

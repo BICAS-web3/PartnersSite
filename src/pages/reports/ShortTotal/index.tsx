@@ -300,12 +300,16 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             activeTitle="websitesCurrencyFilter"
           />
           <AdaptivePicker
+            currentFilter={siteCurrent}
+            setCurrentFilter={setSiteCurrent}
             currentFilterPage={currentFilterPage}
-            list={wepPagesList}
+            list={siteList}
+            site={true}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentWebpages}
-            itemId="greekkeepers"
+            itemId={siteList[0]}
             activeTitle="webPagesCategoryFilter"
+            custom={true}
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
@@ -358,7 +362,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={currentWebpages}
+              objTitle={siteCurrent || "Выберите"}
               title="Сайт"
               filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}
