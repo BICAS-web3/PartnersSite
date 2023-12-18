@@ -27,6 +27,7 @@ import exportIco from "@/public/media/common/exportIco.png";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
+import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 export const currenciesList = [
   {
@@ -353,11 +354,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             <div className={s.table_filter_block}>
               <div className={s.table_filter_currency_item}>
                 <span className={s.table_filter_block_item_title}>Валюта</span>
-                <CustomDropdownInput
-                  list={currenciesList}
-                  activeItemId="usd"
-                  isDisabled={true}
-                />
+                <UsdCurrencyBlock />
               </div>
               <div
                 className={s.table_filter_period_item}

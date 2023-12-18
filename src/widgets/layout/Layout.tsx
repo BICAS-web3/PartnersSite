@@ -11,7 +11,11 @@ interface LayoutProps {
 }
 
 export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
-  const [isOpened] = useUnit([SidebarM.$isSidebarOpened]);
+  const [isOpened, close, open] = useUnit([
+    SidebarM.$isSidebarOpened,
+    SidebarM.Close,
+    SidebarM.Open,
+  ]);
   const [windowWidth, setWindowWidth] = useState<any>();
 
   useEffect(() => {
@@ -21,6 +25,10 @@ export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
 
     window.addEventListener("resize", resizeHandler);
   }, [isOpened]);
+
+  useEffect(() => {
+    if (window.innerWidth >= 650) open();
+  }, []);
 
   return (
     <div className={`${s.page_container} ${!isOpened && s.sidebar_closed}`}>

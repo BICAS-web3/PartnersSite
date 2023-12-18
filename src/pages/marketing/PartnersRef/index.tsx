@@ -26,6 +26,7 @@ import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import { WebsiteTableFilter } from "@/widgets/websitesUI";
 import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
 import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
+import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 export const sitesList = [
   {
@@ -440,11 +441,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
           <div className={s.table_filter_block}>
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Валюта</span>
-              <CustomDropdownInput
-                list={currenciesList}
-                activeItemId="usd"
-                isDisabled={true}
-              />
+              <UsdCurrencyBlock />
             </div>
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Сайт</span>

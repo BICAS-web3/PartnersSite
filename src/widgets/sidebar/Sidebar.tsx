@@ -170,12 +170,6 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
     SidebarM.$isSidebarOpened,
   ]);
 
-  useEffect(() => {
-    if (isMobile) {
-      setClosed();
-    }
-  }, []);
-
   const handleSidebarVisibility = () => {
     !isOpened ? setOpen() : setClosed();
   };
