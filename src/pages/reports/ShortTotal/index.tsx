@@ -346,9 +346,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
               </span>
               <span className="mobile_filter_title">Фильтры</span>
             </div>
-            <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-            </div>
             <div className="mobile_filter_item_page_footer">
               <button className="mob_cancel_btn">Отменить</button>
               <button className="mob_save_btn">Сохранить</button>
@@ -374,17 +371,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
               filterTitle="websitesPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-              className={clsx("mobile_filter_item", s.inputWrapper)}
-              onClick={() => setCurrentFilterPage("input")}
-            >
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-            </div>
             <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
         </div>
@@ -415,18 +401,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                 activeItemId="casino"
               />
             </div>
-            <div className={s.markt_tool_id_block}>
-              <span className={s.table_filter_block_title}>
-                ID Маркетингового инструмента
-              </span>
-              <input
-                value={marktId && marktId}
-                onChange={(e) => setMarktId(e.target.value)}
-                type="text"
-                placeholder=""
-                className={`${s.markt_tool_id_input} default_input`}
-              />
-            </div>
           </div>
           <div className={s.second_table_filter_block}>
             <div className={s.period_block}>
@@ -449,18 +423,6 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             </div>
           </div>
           <div className={s.desk_hidden_filter_block_items}>
-            <div
-              className={`${s.markt_tool_id_block} ${s.desk_hidden_markt_tool_id_input}`}
-            >
-              <span className={s.table_filter_block_title}>
-                ID Маркетингового инструмента
-              </span>
-              <input
-                type="text"
-                placeholder=""
-                className={`${s.markt_tool_id_input} default_input`}
-              />
-            </div>
             <div
               className={`${s.generate_report_btn_wrap} ${s.desk_hidden_report_btn_wrap}`}
             >

@@ -583,10 +583,7 @@ const Websites: FC<WebsitesProps> = () => {
               </div> */}
               <div className={s.adding_website_block_item}>
                 <span className={s.adding_website_block_item_title}>Язык</span>
-                <CustomDropdownInput
-                  list={languagesList}
-                  activeItemId="sportsForecasts"
-                />
+                <CustomDropdownInput list={languagesList} activeItemId="eng" />
               </div>
               <button onClick={handleAddPage} className={s.add_website_btn}>
                 {isAuthed ? "Добавить сайт" : "Войти"}

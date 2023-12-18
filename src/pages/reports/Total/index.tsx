@@ -273,9 +273,6 @@ const Total: FC<TotalProps> = () => {
               </span>
               <span className="mobile_filter_title">Фильтры</span>
             </div>
-            <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-            </div>
             <div className="mobile_filter_item_page_footer">
               <button className="mob_cancel_btn">Отменить</button>
               <button className="mob_save_btn">Сохранить</button>
@@ -308,16 +305,6 @@ const Total: FC<TotalProps> = () => {
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-              className={clsx("mobile_filter_item", s.inputWrapper)}
-              onClick={() => setCurrentFilterPage("input")}
-            >
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-            </div>
 
             <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
@@ -347,18 +334,6 @@ const Total: FC<TotalProps> = () => {
                 custom={true}
                 list={siteList}
                 activeItemId="casino"
-              />
-            </div>
-            <div className={s.markt_tool_id_block}>
-              <span className={s.table_filter_block_title}>
-                ID Маркетингового инструмента
-              </span>
-              <input
-                value={marktId && marktId}
-                onChange={(e) => setMarktId(e.target.value)}
-                type="text"
-                placeholder=""
-                className={clsx(s.markt_tool_id_input, "default_input")}
               />
             </div>
           </div>

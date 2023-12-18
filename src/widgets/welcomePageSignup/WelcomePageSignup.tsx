@@ -574,7 +574,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 <CustomDropdownInput
                   setSelectedValue={setSelectedLanguage}
                   list={languagesList}
-                  activeItemId="rus"
+                  activeItemId="eng"
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>

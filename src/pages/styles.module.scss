@@ -13,6 +13,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  &[data-preland="true"] {
+    justify-content: start;
+    align-items: start;
+  }
 }
 
 .welcomePage_content_wrap {
@@ -24,6 +29,11 @@
   padding: 20px;
   &.isSignup_container {
     padding: 0;
+  }
+
+  &[data-preland="true"] {
+    padding: 0 !important;
+    width: 100%;
   }
 }
 
