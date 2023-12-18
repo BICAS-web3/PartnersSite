@@ -108,6 +108,9 @@ export const RightMenu: FC<RightMenuProps> = () => {
           }`}
           // onClick={handleListVisibility}
         >
+          {/* <Image className={s.active_language_img} src={usaImg} alt={`us`} />
+          <span className={s.active_language_title}></span> */}
+          {/* {activeLanguage.title} */}
           <Image
             className={s.active_language_img}
             src={usaImg}

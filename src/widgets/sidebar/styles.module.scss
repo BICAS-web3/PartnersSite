@@ -53,7 +53,7 @@
   padding: 11px 15px;
   display: flex;
   align-items: center;
-  cursor: pointer;
+  // cursor: pointer;
   svg {
     margin-right: 15px;
   }
@@ -625,6 +625,7 @@
 
 .not_link {
   position: relative;
+  cursor: auto;
 }
 
 .soon {

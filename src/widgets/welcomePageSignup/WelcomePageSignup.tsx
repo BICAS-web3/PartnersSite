@@ -255,12 +255,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !wallet
     ) {
       setError(true);
+      alert("error 1");
     } else {
       if (
         password !== passwordRepeat ||
         validateAddress(wallet) === false ||
         password?.length < 5
       ) {
+        alert("error 2");
         if (password !== passwordRepeat) {
           setErrorPassword(true);
           setPassword("");
@@ -276,6 +278,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setPassword("");
         }
       } else {
+        alert("start");
         setUserEmail(email);
         localStorage.setItem(`mail`, email);
         setUserCountry(selectedCountry);

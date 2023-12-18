@@ -11,9 +11,7 @@ export const CurrentBalance: FC<CurrentBalanceProps> = () => {
     <div className={s.current_balance_block}>
       <div className={s.current_balance_header}>
         <span className={s.current_balance_title}>Текущий баланс</span>
-        <a href="#" className={s.my_wallet_link}>
-          Мой кошелёк
-        </a>
+        <span className={s.my_wallet_link}>Мой кошелёк</span>
       </div>
       <div className={s.current_balance_list}>
         <div className={s.current_btc_balance_block}>

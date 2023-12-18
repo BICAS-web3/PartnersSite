@@ -18,7 +18,7 @@ export const PaymentInfo: FC<PaymentInfoProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="CARD UAH"
+            placeholder="USDT BEP20, TRC20; MATIC; ARBITRUM."
           />
         </div>
       </div>
@@ -28,7 +28,7 @@ export const PaymentInfo: FC<PaymentInfoProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="9999 8888 7777 6666"
+            placeholder="Wallet address"
           />
         </div>
       </div>

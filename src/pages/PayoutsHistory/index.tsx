@@ -101,7 +101,7 @@ export const optionsList = [
   {
     title: "Валюта",
     id: "currency",
-    text: "-",
+    text: "USD",
   },
   {
     title: "Дата",
@@ -532,7 +532,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
               </button>
             </div>
           )}
-          <div className={s.payouts_status_block}>
+          {/* <div className={s.payouts_status_block}>
             <button
               className={`${s.payouts_status_block_btn} ${
                 activePayoutBtn === "status" && s.active_btn
@@ -549,7 +549,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             >
               История выплат
             </button>
-          </div>
+          </div> */}
           {!is650 && (
             <div
               className={s.choose_table_block}

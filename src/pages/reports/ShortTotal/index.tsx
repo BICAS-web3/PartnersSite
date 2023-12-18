@@ -56,18 +56,18 @@ const months = [
 ];
 
 const tableItemsList = [
-  {
-    title: "Показы",
-    data: "0",
-  },
+  // {
+  //   title: "Показы",
+  //   data: "0",
+  // },
   {
     title: "Клики",
     data: "0",
   },
-  {
-    title: "Прямые ссылки",
-    data: "0",
-  },
+  // {
+  //   title: "Прямые ссылки",
+  //   data: "0",
+  // },
   {
     title: "Регистрации",
     data: "0",
@@ -120,22 +120,22 @@ const tableItemsList = [
     title: "Сумма бонусов",
     data: "0,00 ₽",
   },
-  {
-    title: "Сумма комиссий RS",
-    data: "0,00 ₽",
-  },
-  {
-    title: "CPA",
-    data: "0,00 ₽",
-  },
+  // {
+  //   title: "Сумма комиссий RS",
+  //   data: "0,00 ₽",
+  // },
+  // {
+  //   title: "CPA",
+  //   data: "0,00 ₽",
+  // },
   {
     title: "Реферальная комиссия",
     data: "0,00 ₽",
   },
-  {
-    title: "Суммарная комиссия",
-    data: "0,00 ₽",
-  },
+  // {
+  //   title: "Суммарная комиссия",
+  //   data: "0,00 ₽",
+  // },
 ];
 interface IListProps {
   id?: string;

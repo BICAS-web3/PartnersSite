@@ -10,12 +10,32 @@ import * as UserDataModel from "@/widgets/welcomePageSignup/model";
 import { useUnit } from "effector-react";
 export const messangersList = [
   {
-    title: "Instagram",
+    title: "Instagram", //
     id: "inst",
   },
   {
-    title: "Other",
-    id: "other",
+    title: "Twitter",
+    id: "Twitter",
+  },
+  {
+    title: "Facebook",
+    id: "Facebook",
+  },
+  {
+    title: "Discord",
+    id: "Discord",
+  },
+  {
+    title: "Instagram",
+    id: "Instagram",
+  },
+  {
+    title: "Telegram",
+    id: "Telegram",
+  },
+  {
+    title: "WhatsApp",
+    id: "WhatsApp",
   },
 ];
 
@@ -170,7 +190,9 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
       </div>
       <div className={s.phone_block}>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Номер телефона</span>
+          <span className={s.input_block_title}>
+            Номер телефона (не обязательный)
+          </span>
           <input
             type="text"
             value={userPhone && userPhone}

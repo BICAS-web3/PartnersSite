@@ -478,7 +478,7 @@ const Websites: FC<WebsitesProps> = () => {
                     {websiteMobPlaceholder}
                   </span>
                 </div>
-                <div
+                {/* <div
                   className="mobile_filter_item"
                   onClick={() => setCurrentFilterPage("websitesCategoryFilter")}
                 >
@@ -488,7 +488,7 @@ const Websites: FC<WebsitesProps> = () => {
                   <span className="mobile_filter_item_picked_value">
                     {currentSiteCategory.title}
                   </span>
-                </div>
+                </div> */}
                 <div
                   className="mobile_filter_item"
                   onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
@@ -552,7 +552,7 @@ const Websites: FC<WebsitesProps> = () => {
                   )}
                 />
               </div>
-              <div className={s.adding_website_block_item}>
+              {/* <div className={s.adding_website_block_item}>
                 <span className={s.adding_website_block_item_title}>
                   Категория сайта
                 </span>
@@ -580,7 +580,7 @@ const Websites: FC<WebsitesProps> = () => {
                       : 160
                   }
                 />
-              </div>
+              </div> */}
               <div className={s.adding_website_block_item}>
                 <span className={s.adding_website_block_item_title}>Язык</span>
                 <CustomDropdownInput
