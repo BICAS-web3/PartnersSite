@@ -89,6 +89,10 @@
       visibility: visible;
     }
   }
+
+  @media (max-width: 650px) {
+    margin: 0 auto;
+  }
 }
 
 .scroll_disabled {
@@ -257,10 +261,13 @@
   .websites_filter_wrap {
     padding: 0;
   }
-  .adding_website_block,
+  // .adding_website_block,
   .choose_table_cols,
   .table_records_text {
     display: none;
+  }
+  .adding_website_block {
+    grid-template-columns: 1fr;
   }
   .website_downTable_filter_block {
     display: flex;
