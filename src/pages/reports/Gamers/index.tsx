@@ -32,6 +32,7 @@ import { useAccount } from "wagmi";
 import { WebsiteTableFilter } from "@/widgets/websitesUI";
 import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
 import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
+import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 const periodsList = [
   {
@@ -560,11 +561,7 @@ const Gamers: FC<GamersProps> = () => {
         <div className={s.games_table_container}>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Валюта</span>
-            <CustomDropdownInput
-              list={currenciesList}
-              activeItemId="usd"
-              isDisabled={true}
-            />
+            <UsdCurrencyBlock />
           </div>
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Страна</span>
