@@ -22,6 +22,9 @@ interface CustomDropdownInputProps {
   categotyFilter?: string | number;
   setActiveInner?: any;
   isDisabled?: boolean;
+  sites?: boolean;
+  siteCurrent?: string;
+  setSiteCurrent?: (el: string) => void;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -39,6 +42,9 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   setActiveInner,
   maxW,
   isDisabled,
+  sites,
+  siteCurrent,
+  setSiteCurrent,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -103,18 +109,21 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
             className={s.dropdown_items_list_item}
             key={ind}
             onClick={() => {
-              custom && setCategoryFilter && setCategoryFilter(item.title);
+              close();
+              custom &&
+                setCategoryFilter &&
+                setCategoryFilter(sites ? item : item.title);
               !custom && handleActiveItemSetting(item.id);
               !custom &&
                 setActiveOptions &&
                 setActiveOptions(
                   startList?.filter(
-                    (el: any) => el.typeFilter === item.title
+                    (el: any) => el.typeFilter === item?.title
                   ) || []
                 );
             }}
           >
-            {item.title}
+            {sites ? item : item?.title}
           </div>
         ))}
       </div>

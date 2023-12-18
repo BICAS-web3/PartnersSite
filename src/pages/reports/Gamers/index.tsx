@@ -357,6 +357,25 @@ const Gamers: FC<GamersProps> = () => {
     })();
   }, [barerToken, answerBody]);
 
+  const [siteCurrent, setSiteCurrent] = useState("");
+  const [siteList, setSiteList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      if (barerToken) {
+        const data = await api.getUserSites({
+          bareer: barerToken,
+        });
+        if (data.status === "OK" && Array.isArray(data?.body)) {
+          const sites = (data?.body as any)?.map(
+            (item: any) => item?.basic?.url
+          );
+          setSiteList(sites);
+        }
+      }
+    })();
+  }, [barerToken]);
+
   return (
     <Layout activePage="byGamers">
       <section className={s.gamers_section}>
@@ -379,12 +398,16 @@ const Gamers: FC<GamersProps> = () => {
             activeTitle="websitesCurrencyFilter"
           />
           <AdaptivePicker
+            currentFilter={siteCurrent}
+            setCurrentFilter={setSiteCurrent}
             currentFilterPage={currentFilterPage}
-            list={wepPagesList}
+            list={siteList}
+            site={true}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentWebpages}
-            itemId="greekkeepers"
+            itemId={siteList[0]}
             activeTitle="webPagesCategoryFilter"
+            custom={true}
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
@@ -473,7 +496,7 @@ const Gamers: FC<GamersProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={currentWebpages}
+              objTitle={siteCurrent || "Выберите"}
               title="Сайт"
               filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}
@@ -593,7 +616,11 @@ const Gamers: FC<GamersProps> = () => {
           <div className={s.games_table_item}>
             <span className={s.games_table_title}>Сайт</span>
             <CustomDropdownInput
-              list={wepPagesList}
+              setCategoryFilter={setSiteCurrent}
+              categotyFilter={siteCurrent}
+              sites={true}
+              custom={true}
+              list={siteList}
               maxW={
                 !is1280 && !is650 && !is700
                   ? 160
