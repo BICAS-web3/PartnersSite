@@ -5,7 +5,7 @@
 .table_filter_block {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2.15fr;
   gap: 10px;
 }
 
@@ -306,7 +306,7 @@
 }
 
 .desk_hidden_filter_block_items {
-  grid-template-columns: minmax(120px, 300px) 200px;
+  grid-template-columns: 200px;
   gap: 10px;
 }
 
