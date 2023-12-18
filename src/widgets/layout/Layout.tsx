@@ -11,9 +11,10 @@ interface LayoutProps {
 }
 
 export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
-  const [isOpened, close] = useUnit([
+  const [isOpened, close, open] = useUnit([
     SidebarM.$isSidebarOpened,
     SidebarM.Close,
+    SidebarM.Open,
   ]);
   const [windowWidth, setWindowWidth] = useState<any>();
 
@@ -26,7 +27,7 @@ export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
   }, [isOpened]);
 
   useEffect(() => {
-    if (window.innerWidth <= 650) close();
+    if (window.innerWidth >= 650) open();
   }, []);
 
   return (
