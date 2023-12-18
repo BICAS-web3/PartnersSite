@@ -22,6 +22,21 @@
   }
 }
 
+.sidebar_page_item_link_wrap {
+  transition: all 0.2s;
+  border-left: 1px solid #181818;
+
+  &:hover {
+    border-left: 1px solid #e4c480;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 153, 0, 0.06) 0%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      #181818;
+  }
+}
+
 .sidebar_page_item_title_block {
   padding: 11px 14px;
   background: #121212;

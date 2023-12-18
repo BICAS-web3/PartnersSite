@@ -27,6 +27,7 @@ import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropD
 
 import s from "./styles.module.scss";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 const options = [
   {
@@ -310,11 +311,7 @@ const Total: FC<TotalProps> = () => {
           <div className={s.first_table_filter_block}>
             <div className={s.currency_block}>
               <span className={s.table_filter_block_title}>Валюта</span>
-              <CustomDropdownInput
-                list={currenciesList}
-                activeItemId="usd"
-                isDisabled={true}
-              />
+              <UsdCurrencyBlock />
             </div>
             <div className={s.website_block}>
               <span className={s.table_filter_block_title}>Сайт</span>

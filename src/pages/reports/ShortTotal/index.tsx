@@ -29,6 +29,7 @@ import s from "./styles.module.scss";
 
 import clsx from "clsx";
 import { add } from "lodash";
+import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 const wepPagesList = [
   {
@@ -378,11 +379,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           <div className={s.first_table_filter_block}>
             <div className={s.currency_block}>
               <span className={s.table_filter_block_title}>Валюта</span>
-              <CustomDropdownInput
-                list={currenciesList}
-                activeItemId="usd"
-                isDisabled={true}
-              />
+              <UsdCurrencyBlock />
             </div>
             <div className={s.website_block}>
               <span className={s.table_filter_block_title}>Сайт</span>

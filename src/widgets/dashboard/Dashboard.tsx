@@ -44,7 +44,7 @@ export const Dashboard: FC<DashboardProps> = () => {
     <section className={s.dashboard_container}>
       <div className={s.dashboard_body}>
         <Link href="/" className={s.dashboard_title}>
-          {isMobile ? "Dachboard" : "Главная"}
+          {isMobile ? "Dashboard" : "Главная"}
         </Link>
         <div
           className={`${s.dashboard_header} ${

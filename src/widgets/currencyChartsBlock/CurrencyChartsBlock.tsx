@@ -10,6 +10,7 @@ import { useUnit } from "effector-react";
 import { $isSidebarOpened } from "../sidebar/model";
 import * as PeriodModel from "@/widgets/dashboard/model";
 import * as TimeTypeModel from "./model";
+import { UsdCurrencyBlock } from "../usdCurrencyBlock/UsdCurrencyBlock";
 
 const currenciesList = [
   {
@@ -134,11 +135,7 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
             <span className={s.currency_block_title}>Валюта</span>
             <div className={s.choose_currency_block}>
               <div className={s.choose_currency_wrap}>
-                <CustomDropdownInput
-                  list={currenciesList}
-                  activeItemId="usd"
-                  isDisabled={true}
-                />
+                <UsdCurrencyBlock />
               </div>
             </div>
           </>
