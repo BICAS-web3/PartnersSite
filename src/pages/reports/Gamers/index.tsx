@@ -3,8 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import clsx from "clsx";
-import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import { Scrollbar } from "swiper/modules";
+import { SwiperRef, SwiperSlide } from "swiper/react";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { Layout } from "@/widgets/layout/Layout";
 import { BackHead } from "@/widgets/backHead/BackHead";
@@ -15,7 +14,6 @@ import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { MobilePickList } from "@/widgets/mobilePickList/MobilePickList";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { GenerateButton } from "@/widgets/generateButton/GenerateButton";
-import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
@@ -24,7 +22,6 @@ import * as api from "@/shared/api/";
 import { CheckBoxIco } from "@/shared/SVGs/CheckBoxIco";
 
 import prevArrow from "@/public/media/common/prevArrow.png";
-import nextArrow from "@/public/media/common/nextArrow.png";
 import filterIco from "@/public/media/common/filterImg.png";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
@@ -201,6 +198,16 @@ interface IResponse {
   sub_id: number;
 }
 
+interface IPlayerData {
+  bets_amount: number;
+  lost_bets: number;
+  won_bets: number;
+  total_wagered_sum: any;
+  gross_profit: any;
+  net_profit: any;
+  highest_win: any;
+}
+
 const Gamers: FC<GamersProps> = () => {
   const [titleArr, setTitleArr] = useState(historyList.map((el) => el.title));
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
@@ -309,25 +316,12 @@ const Gamers: FC<GamersProps> = () => {
           period: activePeriod.timeType,
         });
         if (response.status === "OK") {
-          // if ((response.body as any)?.length <= 0) {
-          //   setAnswerBody([
-          //     {
-          //       id: 233,
-          //       address: "0xcf133a1233470fd50bb710276994e9f3c0e822f6",
-          //       timestamp: 1702218527,
-          //       site_id: 0,
-          //       sub_id: 0,
-          //     },
-          //   ]);
-          // } else {
-          //   setAnswerBody(response.body);
-          // }
           setAnswerBody(response.body);
         }
         console.log("RESPONSESEE", response);
       }
     })();
-  }, [activePeriod]);
+  }, [activePeriod, barerToken]);
 
   const [numberPage, setNumberPage] = useState<number>(1);
   const [recordCount, setRecordCount] = useState(10);
@@ -346,39 +340,21 @@ const Gamers: FC<GamersProps> = () => {
     console.log("clicked");
   };
 
-  const [playersData, setPlayersData] = useState<
-    | {
-        bets_amount: number;
-        lost_bets: number;
-        won_bets: number;
-        total_wagered_sum: any;
-        gross_profit: any;
-        net_profit: any;
-        highest_win: any;
-      }
-    | any
-  >();
+  const [playerData, setPlayerData] = useState<IPlayerData[] | any>([]);
 
   useEffect(() => {
     (async () => {
-      if (barerToken && userWallet) {
-        const response = await api.getPlayersData({
-          bareer: barerToken,
-          address: userWallet.toLowerCase(),
+      if (barerToken && answerBody) {
+        answerBody?.map(async (item: IResponse, id: number) => {
+          const data = await api.getPlayersData({
+            bareer: barerToken,
+            address: item?.address?.toLowerCase(),
+          });
+          setPlayerData((prev: any) => [...prev, { ...data?.body, id }]);
         });
-
-        if (response.status === "OK") {
-          setPlayersData(response.body);
-        }
       }
     })();
-  }, [barerToken, userWallet]);
-
-  useEffect(() => {
-    if (playersData) {
-      console.log(playersData);
-    }
-  }, [playersData]);
+  }, [barerToken, answerBody]);
 
   return (
     <Layout activePage="byGamers">
@@ -519,12 +495,6 @@ const Gamers: FC<GamersProps> = () => {
               filterTitle="websitesCompanyPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            {/* <AdaptiveFilterItem
-              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
-              title="Показать"
-              filterTitle="choose"
-              setCurrentFilterPage={setCurrentFilterPage}
-            /> */}
             <div
               className="mobile_filter_item"
               onClick={() => setCurrentFilterPage("websitesTableFilter")}
@@ -645,6 +615,7 @@ const Gamers: FC<GamersProps> = () => {
             <CustomDropdownInput
               list={periodsList}
               setActiveInner={setActivePeriod}
+              activeItemId="lastMonthPeriod"
               maxW={
                 !is1280 && !is650 && !is700
                   ? 160
@@ -719,12 +690,6 @@ const Gamers: FC<GamersProps> = () => {
         {closed && medium && <GenerateButton className={s.open_btn} />}
         <div className={s.options_container}>
           <div className={s.options_wrapper}>
-            {/* <CustomDropDownChoose
-              list={historyList}
-              allPicked={true}
-              setActiveOptions={setActiveOpts}
-              activeOptions={activeOpts}
-            /> */}
             <CustomDropDownChoose
               list={historyList}
               setActiveOptions={setActiveOpts}
@@ -781,17 +746,7 @@ const Gamers: FC<GamersProps> = () => {
               </div>
             </SwiperSlide>
           ))}
-
-          {/* {
-        bets_amount: number;
-        lost_bets: number;
-        won_bets: number;
-        total_wagered_sum: any;
-        gross_profit: any;
-        net_profit: any;
-        highest_win: any;
-      } */}
-          {answerBody && playersData && (
+          {playerData && playerData?.length > 0 && (
             <>
               <SwiperSlide className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
@@ -800,7 +755,9 @@ const Gamers: FC<GamersProps> = () => {
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
-                    <span>{playersData?.bets_amount}</span>
+                    {playerData.map((item: IPlayerData, index: number) => (
+                      <span key={index}>{item?.bets_amount}</span>
+                    ))}
                   </div>
                 </div>
               </SwiperSlide>
@@ -811,7 +768,22 @@ const Gamers: FC<GamersProps> = () => {
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
-                    <span>{playersData?.lost_bets}</span>
+                    {playerData.map((item: IPlayerData, index: number) => (
+                      <span key={index}>{item?.lost_bets}</span>
+                    ))}
+                  </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>won_bets</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    {playerData.map((item: IPlayerData, index: number) => (
+                      <span key={index}>{item?.won_bets}</span>
+                    ))}
                   </div>
                 </div>
               </SwiperSlide>
@@ -824,7 +796,48 @@ const Gamers: FC<GamersProps> = () => {
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
-                    <span>{playersData?.total_wagered_sum}</span>
+                    {playerData.map((item: IPlayerData, index: number) => (
+                      <span key={index}>{item?.total_wagered_sum || "-"}</span>
+                    ))}
+                  </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>gross_profit</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    {playerData.map((item: IPlayerData, index: number) => (
+                      <span key={index}>{item?.gross_profit || "-"}</span>
+                    ))}
+                  </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>net_profit</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    {playerData.map((item: IPlayerData, index: number) => (
+                      <span key={index}>{item?.net_profit || "-"}</span>
+                    ))}
+                  </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>highest_win</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    {playerData.map((item: IPlayerData, index: number) => (
+                      <span key={index}>{item?.highest_win || "-"}</span>
+                    ))}
                   </div>
                 </div>
               </SwiperSlide>
