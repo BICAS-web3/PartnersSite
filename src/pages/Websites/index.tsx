@@ -290,9 +290,9 @@ const Websites: FC<WebsitesProps> = () => {
   const [handleSub, setHandleSub] = useState(false);
   useEffect(() => {
     (async () => {
-      if (addPage && pageType && pageUrl) {
+      if (addPage && pageUrl) {
         const data = await api.registerPage({
-          name: categotyFilter || "Прогнозы на спорт",
+          name: pageUrl,
           url: pageUrl,
           bareer: barerToken,
         });
@@ -311,7 +311,7 @@ const Websites: FC<WebsitesProps> = () => {
   function handleAddPage() {
     if (!isAuthed) {
       navigation.push("/");
-    } else if (!pageUrl || !pageType || validateWebPage(pageUrl) === false) {
+    } else if (!pageUrl || validateWebPage(pageUrl) === false) {
       setError(true);
     } else {
       setAddPage(true);
@@ -618,11 +618,11 @@ const Websites: FC<WebsitesProps> = () => {
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
                     <span className={s.swiper_slide_title}>{el}</span>
-                    {/* <Image
+                    <Image
                       onClick={() => setStartSort(el)}
                       src={upDownArrows}
                       alt="sort-ico"
-                    /> */}
+                    />
                   </div>
                   <div className={s.swiper_slide_content}>
                     {(isMobile ? mobTableOptions : activeOptions)
