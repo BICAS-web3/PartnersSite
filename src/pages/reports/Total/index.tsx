@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
+import { useUnit } from "effector-react";
 
 import clsx from "clsx";
 import Image from "next/image";
@@ -17,6 +18,7 @@ import { Layout } from "@/widgets/layout/Layout";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
@@ -27,6 +29,7 @@ import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropD
 
 import s from "./styles.module.scss";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
+import * as api from "@/shared/api";
 
 const options = [
   {
@@ -109,7 +112,7 @@ const Total: FC<TotalProps> = () => {
   const [activeOpts, setActiveOpts] = useState<IListProps[]>([]);
   const [mobTableOptions, setMobTableOpts] = useState(options);
   const [isMobile, setIsMobile] = useState<boolean>();
-
+  const [barerToken] = useUnit([ContactModel.$barerToken]);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
@@ -173,8 +176,26 @@ const Total: FC<TotalProps> = () => {
 
   const dataReset = () => {
     setMarktId("");
-    console.log("clicked");
   };
+
+  const [siteCurrent, setSiteCurrent] = useState("Выберите");
+  const [siteList, setSiteList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      if (barerToken) {
+        const data = await api.getUserSites({
+          bareer: barerToken,
+        });
+        if (data.status === "OK" && Array.isArray(data?.body)) {
+          const sites = (data?.body as any)?.map(
+            (item: any) => item?.basic?.url
+          );
+          setSiteList(sites);
+        }
+      }
+    })();
+  }, [barerToken]);
 
   return (
     <Layout activePage="total">
@@ -197,11 +218,14 @@ const Total: FC<TotalProps> = () => {
             activeTitle="websitesCurrencyFilter"
           />
           <AdaptivePicker
+            currentFilter={siteCurrent}
+            setCurrentFilter={setSiteCurrent}
             currentFilterPage={currentFilterPage}
-            list={wepPagesList}
+            list={siteList}
+            site={true}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentWebpages}
-            itemId="greekkeepers"
+            itemId={siteList[0]}
             activeTitle="webPagesCategoryFilter"
           />
           <AdaptivePicker
@@ -264,7 +288,7 @@ const Total: FC<TotalProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={currentWebpages}
+              objTitle={siteCurrent}
               title="Сайт"
               filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}
@@ -319,7 +343,11 @@ const Total: FC<TotalProps> = () => {
             <div className={s.website_block}>
               <span className={s.table_filter_block_title}>Сайт</span>
               <CustomDropdownInput
-                list={siteCategories}
+                setCategoryFilter={setSiteCurrent}
+                categotyFilter={siteCurrent}
+                sites={true}
+                custom={true}
+                list={siteList}
                 activeItemId="casino"
               />
             </div>

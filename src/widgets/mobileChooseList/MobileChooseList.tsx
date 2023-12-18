@@ -15,6 +15,7 @@ interface MobileChooseListProps {
   setTitleArr?: any;
   titleArr?: string[];
   isPartnerPage?: boolean;
+  site?: boolean;
 }
 
 export const MobileChooseList: FC<MobileChooseListProps> = ({
@@ -29,6 +30,7 @@ export const MobileChooseList: FC<MobileChooseListProps> = ({
   setTitleArr,
   titleArr,
   isPartnerPage,
+  site,
 }) => {
   const [allPicked, setAllpicked] = useState(evrPicked ? false : true);
   const [activeItems, setActiveItems] = useState<any>([]);

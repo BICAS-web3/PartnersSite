@@ -19,6 +19,7 @@ interface AdaptiveChooserProps {
   titleArr?: string[];
   setTitleArr?: any;
   isPartnerRef?: boolean;
+  site?: boolean;
 }
 
 export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
@@ -33,6 +34,7 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
   isPartnerRef,
   titleArr,
   setTitleArr,
+  site,
 }) => {
   const [pickedList, setPickedList] = useState([]);
 
@@ -73,6 +75,7 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
           </div>
         )}
         <MobileChooseList
+          site={site}
           setActiveOptions={setMobTableOpts}
           list={list}
           setPickedList={setPickedList}

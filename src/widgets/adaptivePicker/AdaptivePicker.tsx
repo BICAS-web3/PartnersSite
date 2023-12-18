@@ -15,6 +15,9 @@ interface AdaptivePickerProps {
   itemId: string;
   activeTitle: string;
   blockTitle?: string;
+  site?: boolean;
+  currentFilter?: string;
+  setCurrentFilter?: (el: string) => void;
 }
 
 export const AdaptivePicker: FC<AdaptivePickerProps> = ({
@@ -25,6 +28,9 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
   itemId,
   activeTitle,
   blockTitle,
+  site,
+  currentFilter,
+  setCurrentFilter,
 }) => {
   return (
     <div
@@ -50,10 +56,13 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
       </div>
       <div className="mobile_filter_body">
         <MobilePickList
+          site={site}
           list={list}
           activeItemId={itemId}
           setCurrent={setCurrentLanguage}
           startOptions={list}
+          categotyFilter={currentFilter}
+          setCategoryFilter={setCurrentFilter}
         />
       </div>
       <div className="mobile_filter_item_page_footer">

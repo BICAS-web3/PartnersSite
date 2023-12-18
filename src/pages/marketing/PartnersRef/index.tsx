@@ -137,6 +137,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [is1280, setIs1280] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [currentFilterPage, setCurrentFilterPage] = useState("");
+  const [siteCurrent, setSiteCurrent] = useState("");
 
   const [mobCurrency, setMobCurrency] = useState<any>({});
   const [mobCampaign, setMobCampaign] = useState<any>({});
@@ -152,7 +153,6 @@ const PartnersRef: FC<PartnersRefProps> = () => {
     IChangeResponse[] | any
   >();
 
-  const { isConnected, address } = useAccount();
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -257,6 +257,25 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   useEffect(() => {
     setNumberPage(1);
   }, [recordCount]);
+
+  const [siteList, setSiteList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      if (barerToken) {
+        const data = await api.getUserSites({
+          bareer: barerToken,
+        });
+        if (data.status === "OK" && Array.isArray(data?.body)) {
+          const sites = (data?.body as any)?.map(
+            (item: any) => item?.basic?.url
+          );
+          setSiteList(sites);
+        }
+      }
+    })();
+  }, [barerToken]);
+
   return (
     <Layout activePage="partnersRef">
       <section className={s.partners_ref_page}>
@@ -289,7 +308,8 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               />
               <AdaptiveChooser
                 isInput={true}
-                list={sitesList}
+                list={siteList}
+                site={true}
                 activeTitle="partnersRefSitesFilter"
                 currentFilterPage={currentFilterPage}
                 setCurrentFilterPage={setCurrentFilterPage}
@@ -425,7 +445,11 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>Сайт</span>
               <CustomDropdownInput
-                list={sitesList}
+                setCategoryFilter={setSiteCurrent}
+                categotyFilter={siteCurrent}
+                sites={true}
+                custom={true}
+                list={siteList}
                 activeItemId="gkio"
                 maxW={
                   !is1280 && !is650 && !is700
@@ -525,6 +549,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                       numberPage === 1
                         ? Number(recordCount)
                         : numberPage * Number(recordCount)
+                    )
+                    ?.filter((el: IChangeResponse) =>
+                      el?.basic_url?.includes(siteCurrent)
                     )
                     ?.map((el: IChangeResponse, i: number) => {
                       if (slide === "№") {

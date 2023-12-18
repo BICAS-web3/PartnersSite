@@ -260,6 +260,25 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     setMarktId("");
   };
 
+  const [siteCurrent, setSiteCurrent] = useState("");
+  const [siteList, setSiteList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      if (barerToken) {
+        const data = await api.getUserSites({
+          bareer: barerToken,
+        });
+        if (data.status === "OK" && Array.isArray(data?.body)) {
+          const sites = (data?.body as any)?.map(
+            (item: any) => item?.basic?.url
+          );
+          setSiteList(sites);
+        }
+      }
+    })();
+  }, [barerToken]);
+
   return (
     <Layout activePage="shortTotal">
       <section className={s.short_total_section}>
@@ -387,7 +406,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             <div className={s.website_block}>
               <span className={s.table_filter_block_title}>Сайт</span>
               <CustomDropdownInput
-                list={siteCategories}
+                setCategoryFilter={setSiteCurrent}
+                categotyFilter={siteCurrent}
+                sites={true}
+                custom={true}
+                list={siteList}
                 activeItemId="casino"
               />
             </div>

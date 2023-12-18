@@ -13,6 +13,9 @@ interface MobilePickListProps {
   custom?: boolean;
   categotyFilter?: string;
   setCategoryFilter?: (el: string) => void;
+  site?: boolean;
+  currentFilter?: string;
+  setCurrentFilter?: (el: string) => void;
 }
 
 export const MobilePickList: FC<MobilePickListProps> = ({
@@ -24,9 +27,16 @@ export const MobilePickList: FC<MobilePickListProps> = ({
   custom,
   categotyFilter,
   setCategoryFilter,
+  site,
+  currentFilter,
+  setCurrentFilter,
 }) => {
   const [activeItem, setActiveItem] = useState(
-    activeItemId ? list.filter((item) => item?.id === activeItemId)[0] : null
+    activeItemId
+      ? site
+        ? list.filter((item) => item === activeItemId)
+        : list.filter((item) => item?.id === activeItemId)[0]
+      : null
   );
 
   useEffect(() => {
@@ -45,21 +55,31 @@ export const MobilePickList: FC<MobilePickListProps> = ({
             key={ind}
             className={`${s.mobile_pick_list_item} ${
               custom
-                ? categotyFilter === item?.title && s.active
+                ? site
+                  ? categotyFilter === item
+                  : categotyFilter === item?.title && s.active
                 : activeItem?.id === item?.id && s.active
             }`}
             onClick={() => {
-              custom && setCategoryFilter && setCategoryFilter(item.title);
+              custom &&
+                setCategoryFilter &&
+                setCategoryFilter(site ? item : item?.title);
               !custom && setActiveItem(item);
               !custom &&
                 setCurrent(() =>
-                  startOptions.filter((el: any) => el.typeFilter === item.title)
+                  startOptions.filter(
+                    (el: any) =>
+                      el.typeFilter ===
+                      (site
+                        ? categotyFilter === item
+                        : categotyFilter === item?.title)
+                  )
                 );
             }} //
           >
             <div className={s.mob_pick_list_header}>
               <span className={s.mobile_pick_list_item_title}>
-                {item.title}
+                {site ? item : item?.title}
               </span>
               <div className={`${s.checkbox}`}></div>
             </div>
