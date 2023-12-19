@@ -29,9 +29,9 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
       <div className={s.welcome_form_block}>
         <div className={s.welcome_form_info}>
           <div className={s.form_info_header}>
-            <h1 className={s.form_title}>We're here to help</h1>
+            <h1 className={s.form_title}>We&apos;re here to help</h1>
             <p className={s.form_text}>
-              Send us your questions, and we'll reply <br /> by 12 hours.
+              Send us your questions, and we&apos;ll reply <br /> by 12 hours.
             </p>
           </div>
           <div className={s.form_header_social_media_list}>
@@ -47,9 +47,9 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
         </div>
         <div className={s.welcome_form_wrap}>
           <div className={s.form_info_header_clone}>
-            <h1 className={s.form_title}>We're here to help</h1>
+            <h1 className={s.form_title}>We&apos;re here to help</h1>
             <p className={s.form_text}>
-              Send us your questions, and we'll reply <br /> by 12 hours.
+              Send us your questions, and we&apos;ll reply <br /> by 12 hours.
             </p>
           </div>
           <div className={s.welcome_form}>
