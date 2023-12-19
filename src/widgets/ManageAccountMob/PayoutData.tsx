@@ -14,9 +14,8 @@ export const PayoutData: FC<PayoutDataProps> = ({
 }) => {
   return (
     <div
-      className={`${s.filter_block} ${
-        activeFilterBlock === "payout_data_filter" && s.filter_block_visible
-      }`}
+      className={`${s.filter_block} ${activeFilterBlock === "payout_data_filter" && s.filter_block_visible
+        }`}
     >
       <div className={s.filter_block_header}>
         <span
@@ -24,16 +23,16 @@ export const PayoutData: FC<PayoutDataProps> = ({
           onClick={() => setActiveFilterBlock("")}
         >
           <Image src={prevArr} alt="prev-arr" />
-          Назад
+          Back
         </span>
         <span className={s.filter_block_header_subTitle}>
-          Контактная информация
+          Contact info
         </span>
       </div>
       <div className={s.payout_block_body}>
         <div className={s.input_block}>
           <span className={s.input_block_title}>
-            Предпочитаемый способ оплаты:
+            Preferred payout method:
           </span>
           <input
             type="text"
@@ -42,7 +41,7 @@ export const PayoutData: FC<PayoutDataProps> = ({
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Адрес кошелька</span>
+          <span className={s.input_block_title}>Wallet address</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
@@ -51,8 +50,8 @@ export const PayoutData: FC<PayoutDataProps> = ({
         </div>
         <div className={s.change_info_details}>
           <p className={s.change_info_details_text}>
-            * для редактирования контактной информации свяжитесь с Вашим
-            менеджером
+            * To edit contact information, please contact our
+            manager
           </p>
         </div>
       </div>

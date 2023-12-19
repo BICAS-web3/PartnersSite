@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import s from "./styles.module.scss";
 import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
 
-interface PaymentInfoProps {}
+interface PaymentInfoProps { }
 
 const list = [
   "BSC, comission ~ 0.19 USDT",
@@ -19,11 +19,11 @@ export const PaymentInfo: FC<PaymentInfoProps> = () => {
   const [currencyList, setCurrencyList] = useState("");
   return (
     <div className={s.payment_info_block}>
-      <span className={s.payment_info_block_title}>Платежные данные</span>
+      <span className={s.payment_info_block_title}>Payout data</span>
       <div className={s.payment_variant_block}>
         <div className={s.input_block}>
           <span className={s.input_block_title}>
-            Предпочитаемый способ оплаты:
+            Preferred payout method:
           </span>
           {/* <input
             type="text"
@@ -43,7 +43,7 @@ export const PaymentInfo: FC<PaymentInfoProps> = () => {
       </div>
       <div className={s.card_num}>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Адрес кошелька</span>
+          <span className={s.input_block_title}>Wallet address</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
@@ -53,8 +53,8 @@ export const PaymentInfo: FC<PaymentInfoProps> = () => {
       </div>
       <div className={s.text_block}>
         <p className={s.info_text}>
-          * ­для изменения платежных данных, обратитесь в службу поддержки
-          партнеров.
+          * To edit contact information, please contact our
+          manager.
         </p>
       </div>
     </div>

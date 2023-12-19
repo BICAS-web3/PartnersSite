@@ -27,9 +27,8 @@ export const CSTableFilter: FC<CSTableFilterProps> = ({
 
   return (
     <div
-      className={`filter_item_page ${
-        currentFilterPage === "CSMobTableFilter" && "active"
-      }`}
+      className={`filter_item_page ${currentFilterPage === "CSMobTableFilter" && "active"
+        }`}
     >
       <div
         className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
@@ -39,9 +38,9 @@ export const CSTableFilter: FC<CSTableFilterProps> = ({
           onClick={() => setCurrentFilterPage("")}
         >
           <Image src={prevArrow} alt="close-filter-ico" />
-          Фильтры
+          Filters
         </span>
-        <span className="mobile_filter_title">Категория сайта</span>
+        <span className="mobile_filter_title">Site category</span>
       </div>
       <div className="mobile_filter_body">
         <MobileChooseList
@@ -51,8 +50,8 @@ export const CSTableFilter: FC<CSTableFilterProps> = ({
         />
       </div>
       <div className="mobile_filter_item_page_footer">
-        <button className="mob_cancel_btn">Отменить</button>
-        <button className="mob_save_btn">Сохранить</button>
+        <button className="mob_cancel_btn">Deny</button>
+        <button className="mob_save_btn">Save</button>
       </div>
     </div>
   );

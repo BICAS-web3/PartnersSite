@@ -51,7 +51,7 @@ export const AdaptiveMediaInputs: FC<AdaptiveMediaInputsProps> = ({
           onClick={() => setCurrentFilterPage("")}
         >
           <Image src={prevArrow} alt="close-filter-ico" />
-          Фильтры
+          Filters
         </span>
         <span className="mobile_filter_title">{blockTitle}</span>
       </div>
@@ -59,27 +59,27 @@ export const AdaptiveMediaInputs: FC<AdaptiveMediaInputsProps> = ({
         <div className={s.mob_input_preview_block}>
           <input
             className={`${s.media_mob_input} default_input`}
-            placeholder="Имя медиа"
+            placeholder="Media Name"
             value={mediaName}
             onChange={(e) => setMediaName(e.target.value)}
           />
           <input
             className={`${s.media_mob_input} default_input`}
-            placeholder="Высота"
+            placeholder="height"
             value={mediaHeight}
             onChange={(e) => setMediaHeight(e.target.value)}
           />
           <input
             className={`${s.media_mob_input} default_input`}
-            placeholder="Ширина"
+            placeholder="Width"
             value={mediaWidth}
             onChange={(e) => setMediaWidth(e.target.value)}
           />
         </div>
       </div>
       <div className="mobile_filter_item_page_footer">
-        <button className="mob_cancel_btn">Отменить</button>
-        <button className="mob_save_btn">Сохранить</button>
+        <button className="mob_cancel_btn">Deny</button>
+        <button className="mob_save_btn">Save</button>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ interface GenerateButtonProps {
 
 export const GenerateButton: FC<GenerateButtonProps> = ({
   onClick,
-  title = "Сгенерировать отчет",
+  title = "Generate report",
   className,
 }) => {
   return (

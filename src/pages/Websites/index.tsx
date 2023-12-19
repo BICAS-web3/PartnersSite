@@ -34,70 +34,70 @@ import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
 
 export const siteCategories = [
   {
-    title: "Прогнозы на спорт",
+    title: "Sports bets",
     id: "sportsForecasts",
   },
   {
-    title: "Спортивные новости",
+    title: "Sports news",
     id: "sportNews",
   },
   {
-    title: "Букмекеры и ставки",
+    title: "Bets",
     id: "bets",
   },
   {
-    title: "Спортивные трансляции",
+    title: "Sports streams",
     id: "sportsStreams",
   },
   {
-    title: "Казино",
+    title: "Casino",
     id: "casino",
   },
   {
-    title: "Спорт",
+    title: "Sport",
     id: "sport",
   },
 ];
 
 export const languagesList = [
   {
-    title: "Английский",
+    title: "English",
     id: "eng",
   },
   {
-    title: "Русский",
+    title: "Russian",
     id: "rus",
   },
   {
-    title: "Украинский",
+    title: "Ukranian",
     id: "ua",
   },
   {
-    title: "Испанский",
+    title: "Spanish",
     id: "spain",
   },
   {
-    title: "Арабский",
+    title: "Arabic",
     id: "arabic",
   },
   {
-    title: "Китайский",
+    title: "Chinese",
     id: "china",
   },
   {
-    title: "Французкий",
+    title: "French",
     id: "french",
   },
   {
-    title: "Корейский",
+    title: "Korean",
     id: "korean",
   },
   {
-    title: "Португальский",
+    title: "portuguese",
     id: "portugal",
   },
   {
-    title: "Другие",
+    title: "Other",
     id: "other",
   },
 ];
@@ -108,35 +108,35 @@ export const tableColumnsList = [
     id: "id",
   },
   {
-    title: "Сайт",
+    title: "Site",
     id: "websitePageSite",
   },
   {
-    title: "Состояние",
+    title: "Status",
     id: "state",
   },
 ];
 
 const addedSitesTitles = [
   {
-    title: "Добавленные сайты",
+    title: "Added sites",
     id: "addedSites",
   },
   {
-    title: "Скрытые сайты",
+    title: "Hidden sites",
     id: "hiddenSites",
   },
   {
-    title: "Добавленные Sub ID",
+    title: "Added Sub ID",
     id: "addedSubids",
   },
   {
-    title: "Скрытые Sub ID",
+    title: "Hidden Sub ID",
     id: "hiddenSubids",
   },
 ];
 
-interface WebsitesProps {}
+interface WebsitesProps { }
 
 export interface IPagesResponse {
   title?: string;
@@ -406,8 +406,8 @@ const Websites: FC<WebsitesProps> = () => {
           <div className={s.breadcrumbs_block}>
             <Breadcrumbs
               list={[
-                { title: "Главная", link: "/" },
-                { title: "Веб-сайты", link: "/Websites" },
+                { title: "Main", link: "/" },
+                { title: "web-sites", link: "/Websites" },
               ]}
             />
           </div>
@@ -597,9 +597,8 @@ const Websites: FC<WebsitesProps> = () => {
           )}
           {is650 && (
             <div
-              className={`${s.mobile_filter_block} mobile_filter_block ${
-                isFilter && s.filter_active
-              } ${currentFilterPage !== "" && s.scroll_disabled}`}
+              className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
+                } ${currentFilterPage !== "" && s.scroll_disabled}`}
               id="websites_filter_block"
             >
               <WebsitesFilter
@@ -644,16 +643,16 @@ const Websites: FC<WebsitesProps> = () => {
                   onClick={() => setIsFilter(false)}
                 >
                   <Image src={prevArrow} alt="close-filter-ico" />
-                  Назад
+                  Back
                 </span>
-                <span className="mobile_filter_title">Фильтры</span>
+                <span className="mobile_filter_title">Filters</span>
               </div>
               <div className="mobile_filter_body">
                 <div
                   className="mobile_filter_item"
                   onClick={() => setCurrentFilterPage("websitesFilterPage")}
                 >
-                  <span className="mobile_filter_item_title">Веб-сайт</span>
+                  <span className="mobile_filter_item_title">Web-sites</span>
                   <span className="mobile_filter_item_picked_value">
                     {websiteMobPlaceholder}
                   </span>
@@ -673,7 +672,7 @@ const Websites: FC<WebsitesProps> = () => {
                   className="mobile_filter_item"
                   onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
                 >
-                  <span className="mobile_filter_item_title">Язык</span>
+                  <span className="mobile_filter_item_title">Language</span>
                   <span className="mobile_filter_item_picked_value">
                     {currentLanguage.title}
                   </span>
@@ -682,9 +681,9 @@ const Websites: FC<WebsitesProps> = () => {
                   className="mobile_filter_item"
                   onClick={() => setCurrentFilterPage("websitesTableFilter")}
                 >
-                  <span className="mobile_filter_item_title">Показать</span>
+                  <span className="mobile_filter_item_title">Show</span>
                   <span className="mobile_filter_item_picked_value">
-                    Выбрано {titleArr?.length ? titleArr?.length : 0} п.
+                    Selected {titleArr?.length ? titleArr?.length : 0} el.
                   </span>
                 </div>
                 {/* <div className="mobile_filter_item">
@@ -697,7 +696,7 @@ const Websites: FC<WebsitesProps> = () => {
                   className={s.mobile_filter_back_btn}
                   onClick={() => setIsFilter(false)}
                 >
-                  Назад
+                  Back
                 </button>
                 {/* <ListButtons
                   setIsBack={setIsFilter}
@@ -711,24 +710,23 @@ const Websites: FC<WebsitesProps> = () => {
               className={`${s.adding_website_block_item} ${s.websites_item_block}`}
             >
               <span className={s.adding_website_block_item_title}>
-                Веб-сайт
+                Web-site
               </span>
               <input
                 value={pageUrl}
                 onChange={(el) => setPageUrl(el.target.value)}
                 type="text"
-                placeholder={`${
-                  isTablet
-                    ? "example.com"
-                    : "Введите свой сайт. Например: mysite.com"
-                }`}
+                placeholder={`${isTablet
+                  ? "example.com"
+                  : "Enter the name of the site. for example: mysite.com"
+                  }`}
                 className={clsx(
                   s.adding_website_input,
                   "default_input",
                   (validateWebPage(pageUrl) === false &&
                     error &&
                     "error_input") ||
-                    (error && !pageUrl && "error_input")
+                  (error && !pageUrl && "error_input")
                 )}
               />
             </div>
@@ -762,14 +760,14 @@ const Websites: FC<WebsitesProps> = () => {
                 />
               </div> */}
             <div className={s.adding_website_block_item}>
-              <span className={s.adding_website_block_item_title}>Язык</span>
+              <span className={s.adding_website_block_item_title}>Language</span>
               <CustomDropdownInput
                 list={languagesList}
                 activeItemId="sportsForecasts"
               />
             </div>
             <button onClick={handleAddPage} className={s.add_website_btn}>
-              {isAuthed ? "Добавить сайт" : "Войти"}
+              {isAuthed ? "Add site" : "LogIn"}
             </button>
           </div>
           <div className={s.website_downTable_filter_block}>
