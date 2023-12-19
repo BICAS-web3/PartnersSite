@@ -23,21 +23,21 @@ const currentDate = new Date();
 
 const timesList = [
   {
-    title: "1 день",
+    title: "1 day",
     id: "1day",
     timeLine: 24 * 3600 * 1000,
     timeType: "daily",
     step: 900000,
   },
   {
-    title: "7 дней",
+    title: "7 days",
     id: "7days",
     timeLine: 7 * 24 * 3600 * 1000,
     timeType: "weekly",
     step: 24 * 3600 * 1000,
   },
   {
-    title: "1 мес",
+    title: "1 month",
     id: "1month",
     timeType: "monthly",
     timeLine:
@@ -50,7 +50,7 @@ const timesList = [
     step: 7 * 24 * 3600 * 1000,
   },
   {
-    title: "3 мес",
+    title: "3 months",
     id: "3months",
     timeType: "monthly",
     timeLine:
@@ -69,7 +69,7 @@ const timesList = [
       new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
   },
   {
-    title: "1 год",
+    title: "1 year",
     id: "1year",
     timeType: "monthly",
     timeLine:
@@ -84,7 +84,7 @@ const timesList = [
       ).getTime(),
   },
   {
-    title: "Все время",
+    title: "All",
     id: "allTime",
     timeType: "all",
     timeLine:
@@ -99,7 +99,7 @@ const timesList = [
       ).getTime(),
   },
 ];
-interface CurrencyChartsBlockProps {}
+interface CurrencyChartsBlockProps { }
 
 export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
   const [setPeriodFirst, setPeriodSecond, setPeriodType] = useUnit([
@@ -132,7 +132,7 @@ export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
       <div className={s.currency_block}>
         {!isMobile && (
           <>
-            <span className={s.currency_block_title}>Валюта</span>
+            <span className={s.currency_block_title}>Currency</span>
             <div className={s.choose_currency_block}>
               <div className={s.choose_currency_wrap}>
                 <UsdCurrencyBlock />

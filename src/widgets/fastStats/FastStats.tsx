@@ -25,32 +25,32 @@ import * as api from "@/shared/api/";
 
 const optionsList = [
   {
-    title: "Валюта",
+    title: "Currency",
     id: "currency",
     bodyValue: "USD",
   },
   {
-    title: "Клики",
+    title: "Clicks",
     id: "clicks",
     bodyValue: 1,
   },
   {
-    title: "Регистрации",
+    title: "Registrations",
     id: "registrations",
     bodyValue: 1,
   },
   {
-    title: "Новые Игроки с депозитами",
+    title: "Registrations with bets",
     id: "newAccs",
     bodyValue: 1,
   },
   {
-    title: "Доход компании (общий)",
+    title: "Campaign income (total)",
     id: "companyIncome",
     bodyValue: 1,
   },
   {
-    title: "Сумма комиссий",
+    title: "Commissions sum",
     id: "commissionPrice",
     bodyValue: 1,
   },
@@ -60,17 +60,17 @@ const currentDate = new Date();
 
 const timesList = [
   {
-    title: "1 день",
+    title: "1 day",
     id: "1day",
     timeLine: 24 * 3600 * 1000,
   },
   {
-    title: "7 дней",
+    title: "7 days",
     id: "7days",
     timeLine: 7 * 24 * 3600 * 1000,
   },
   {
-    title: "1 мес",
+    title: "1 mon",
     id: "1month",
     timeLine:
       new Date(
@@ -81,7 +81,7 @@ const timesList = [
       new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
   },
   {
-    title: "3 мес",
+    title: "3 mon",
     id: "3months",
     timeLine:
       new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
@@ -92,14 +92,14 @@ const timesList = [
       ).getTime(),
   },
   {
-    title: "1 год",
+    title: "1 year",
     id: "1year",
     timeLine:
       new Date(currentDate.getFullYear(), 11, 31).getTime() -
       new Date(currentDate.getFullYear(), 0, 1).getTime(),
   },
   {
-    title: "Все время",
+    title: "All",
     id: "allTime",
     timeLine:
       new Date(currentDate.getFullYear(), 11, 31).getTime() -
@@ -107,7 +107,7 @@ const timesList = [
   },
 ];
 
-interface FastStatsProps {}
+interface FastStatsProps { }
 interface IListProps {
   id?: string;
   title?: string;
@@ -186,7 +186,7 @@ export const FastStats: FC<FastStatsProps> = () => {
   return (
     <div id="top" className={s.fast_stats_block}>
       <span className={clsx(s.fast_stats_title, s.mobile)}>
-        Быстрая статистика
+        Quick statistics
       </span>
       <div className={clsx(s.fast_stats_header, s.mobile)}>
         <div className={s.fast_stats_choose_options_wrap}>
@@ -217,7 +217,7 @@ export const FastStats: FC<FastStatsProps> = () => {
       </div>
       <div className={s.websites_filter_wrap} onClick={() => setIsFilter(true)}>
         <Image src={filterIco} alt="filter-img" />
-        <span className={s.websites_filter_btn}>Фильтры</span>
+        <span className={s.websites_filter_btn}>Filters</span>
       </div>
       <div
         className={clsx(
@@ -247,18 +247,18 @@ export const FastStats: FC<FastStatsProps> = () => {
         <div className="mobile_filter_body">
           <AdaptiveFilterItem
             objTitle={currentPeriod}
-            title="Период"
+            title="Period"
             filterTitle="websitesPeriodFilter"
             setCurrentFilterPage={setCurrentFilterPage}
           />
 
           <AdaptiveFilterItem
-            objTitle={`Выбрано ${activeOptions?.length} п.`}
-            title="Показать"
+            objTitle={`Selected ${activeOptions?.length} el.`}
+            title="Show"
             filterTitle="choose"
             setCurrentFilterPage={setCurrentFilterPage}
           />
-          <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
+          <ListButtons setIsBack={setIsFilter} title="Generate report" />
         </div>
       </div>
       <div className={s.fast_stats_table_block}>
@@ -278,35 +278,35 @@ export const FastStats: FC<FastStatsProps> = () => {
         >
           {!isMobile
             ? activeOptions.map((item, ind) => (
-                <SwiperSlide key={ind} className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{item.title}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {item.id === "registrations"
-                        ? conversionBody?.connected_wallets
-                        : item.bodyValue}
-                    </div>
+              <SwiperSlide key={ind} className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>{item.title}</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
                   </div>
-                </SwiperSlide>
-              ))
+                  <div className={s.swiper_slide_content}>
+                    {item.id === "registrations"
+                      ? conversionBody?.connected_wallets
+                      : item.bodyValue}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))
             : mobTableOptions.map((item, ind) => (
-                <SwiperSlide key={ind} className={s.swiper_slide}>
-                  <div className={s.swiper_slide_body}>
-                    <div className={s.swiper_slide_header}>
-                      <span className={s.swiper_slide_title}>{item.title}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
-                    </div>
-                    <div className={s.swiper_slide_content}>
-                      {item.id === "registrations"
-                        ? conversionBody?.connected_wallets
-                        : item.bodyValue}
-                    </div>
+              <SwiperSlide key={ind} className={s.swiper_slide}>
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>{item.title}</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
                   </div>
-                </SwiperSlide>
-              ))}
+                  <div className={s.swiper_slide_content}>
+                    {item.id === "registrations"
+                      ? conversionBody?.connected_wallets
+                      : item.bodyValue}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
     </div>

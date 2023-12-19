@@ -65,17 +65,17 @@ const options = [
     text: "-",
   },
   {
-    title: "Сайт",
+    title: "Site",
     id: "site",
     text: "-",
   },
   {
-    title: "Состояние",
+    title: "Status",
     id: "state",
     text: "-",
   },
   {
-    title: "Целевая страница",
+    title: "Referred page",
     id: "cPage",
     text: "-",
   },
@@ -85,7 +85,7 @@ const options = [
     text: "-",
   },
   {
-    title: "Готовая ссылка",
+    title: "Referal Link",
     id: "redRef",
     text: "-",
   },
@@ -96,7 +96,7 @@ const options = [
   // },
 ];
 
-interface PartnersRefProps {}
+interface PartnersRefProps { }
 export interface IPagesResponse {
   title?: string;
   basic: {
@@ -145,9 +145,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [mobCPageInputValue, setMobCPageInputValue] = useState("/live/");
   const [mobPickedSite, setMobPickedSite] = useState<
     | {
-        title?: string;
-        id?: string;
-      }
+      title?: string;
+      id?: string;
+    }
     | any
   >([]);
   const [pageResponseUpdated, setPageResponseUpdated] = useState<
@@ -282,8 +282,8 @@ const PartnersRef: FC<PartnersRefProps> = () => {
       <section className={s.partners_ref_page}>
         <Breadcrumbs
           list={[
-            { title: "Маркетинг", link: "/" },
-            { title: "Партнерские ссылки", link: "/marketing/PartnersRef" },
+            { title: "Marketing", link: "/" },
+            { title: "referal Links", link: "/marketing/PartnersRef" },
           ]}
         />
         {is650 ? (
@@ -293,9 +293,8 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               Фильтры
             </div>
             <div
-              className={`${s.mobile_filter_block} mobile_filter_block ${
-                isFilter && s.filter_active
-              } ${currentFilterPage !== "" && s.scroll_disabled}`}
+              className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
+                } ${currentFilterPage !== "" && s.scroll_disabled}`}
               id="partnersRef_filter_block"
             >
               <AdaptivePicker
@@ -305,7 +304,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 setCurrentFilterPage={setCurrentFilterPage}
                 setCurrentLanguage={setMobCurrency}
                 itemId="usd"
-                blockTitle="Валюта"
+                blockTitle="Currency"
               />
               {/* <AdaptiveChooser
                 isInput={true}
@@ -325,7 +324,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 list={siteList}
                 site={true}
                 setCurrentFilterPage={setCurrentFilterPage}
-                setCurrentLanguage={() => {}}
+                setCurrentLanguage={() => { }}
                 itemId={siteList[0]}
                 activeTitle="partnersRefSitesFilter"
                 custom={true}
@@ -342,7 +341,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               <AdaptiveInput
                 currentFilterPage={currentFilterPage}
                 activeTitle="partnersRefCPageFilter"
-                blockTitle="Целевая страница"
+                blockTitle="referred page"
                 placeholder="/live/"
                 setCurrentFilterPage={setCurrentFilterPage}
                 setValue={setMobCPageInputValue}
@@ -379,20 +378,20 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                   onClick={() => setIsFilter(false)}
                 >
                   <Image src={prevArrow} alt="close-filter-ico" />
-                  Назад
+                  Back
                 </span>
-                <span className="mobile_filter_title">Фильтры</span>
+                <span className="mobile_filter_title">Filters</span>
               </div>
               <div className="mobile_filter_body">
                 <AdaptiveFilterItem
                   objTitle="USD"
-                  title="Валюта"
+                  title="Currency"
                   filterTitle="none"
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
                 <AdaptiveFilterItem
-                  objTitle={siteCurrent || "Выберите"}
-                  title="Сайт"
+                  objTitle={siteCurrent || "Select"}
+                  title="Site"
                   filterTitle="partnersRefSitesFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
@@ -404,7 +403,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 /> */}
                 <AdaptiveFilterItem
                   objTitle={mobCPageInputValue}
-                  title="Целевая страница"
+                  title="Referred page"
                   filterTitle="partnersRefCPageFilter"
                   setCurrentFilterPage={setCurrentFilterPage}
                 />
@@ -422,9 +421,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                   className="mobile_filter_item"
                   onClick={() => setCurrentFilterPage("websitesTableFilter")}
                 >
-                  <span className="mobile_filter_item_title">Показать</span>
+                  <span className="mobile_filter_item_title">Show</span>
                   <span className="mobile_filter_item_picked_value">
-                    Выбранsо {titleArr?.length ? titleArr?.length : 0} п.
+                    Selected {titleArr?.length ? titleArr?.length : 0} el.
                   </span>
                 </div>
                 <div className={s.mob_subid_filter_input_wrap}>
@@ -440,11 +439,11 @@ const PartnersRef: FC<PartnersRefProps> = () => {
         ) : (
           <div className={s.table_filter_block}>
             <div className={s.table_filter_item}>
-              <span className={s.table_filter_item_title}>Валюта</span>
+              <span className={s.table_filter_item_title}>Currency</span>
               <UsdCurrencyBlock />
             </div>
             <div className={s.table_filter_item}>
-              <span className={s.table_filter_item_title}>Сайт</span>
+              <span className={s.table_filter_item_title}>Site</span>
               <CustomDropdownInput
                 setCategoryFilter={setSiteCurrent}
                 categotyFilter={siteCurrent}
@@ -456,12 +455,12 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                   !is1280 && !is650 && !is700
                     ? 160
                     : is1280
-                    ? 100
-                    : is700
-                    ? 160
-                    : is650
-                    ? 160
-                    : 130
+                      ? 100
+                      : is700
+                        ? 160
+                        : is650
+                          ? 160
+                          : 130
                 }
               />
             </div>
@@ -485,7 +484,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             </div> */}
             <div className={s.table_filter_item}>
               <span className={s.table_filter_item_title}>
-                Целевая страница
+                Referred page
               </span>
               <input
                 type="text"
@@ -499,7 +498,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             </div>
             <div className={s.generate_report_btn_wrap}>
               <button className={s.generate_report_btn}>
-                Сгенерировать отчет
+                Generate report
               </button>
             </div>
           </div>
@@ -557,15 +556,15 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                     ?.map((el: IChangeResponse, i: number) => {
                       if (slide === "№") {
                         return <span key={i}>№ {el?.basic_id + 1}</span>;
-                      } else if (slide === "Сайт") {
+                      } else if (slide === "Site") {
                         return (
                           <a target="_blank" href={el.basic_url} key={i}>
                             {el.basic_url}
                           </a>
                         );
-                      } else if (slide === "Состояние") {
-                        return <span key={i}>Активен</span>;
-                      } else if (slide === "Целевая страница") {
+                      } else if (slide === "Status") {
+                        return <span key={i}>Active</span>;
+                      } else if (slide === "Referred page") {
                         return (
                           <a
                             href={el.sub_ids_url}
@@ -578,21 +577,19 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                         );
                       } else if (slide === "SubID") {
                         return <span key={i}>{el.sub_ids_id}</span>;
-                      } else if (slide === "Готовая ссылка") {
+                      } else if (slide === "Referal link") {
                         return (
                           <span
                             className={s.swiper_text_copy}
                             onClick={() =>
                               navigator.clipboard.writeText(
-                                `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
-                                  el.basic_id
+                                `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${el.basic_id
                                 }&sub_id=${el.sub_ids_id}`
                               )
                             }
                             key={i}
-                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
-                            el.basic_id
-                          }&sub_id=${el.sub_ids_id}`}</span>
+                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${el.basic_id
+                            }&sub_id=${el.sub_ids_id}`}</span>
                         );
                       }
                     })}

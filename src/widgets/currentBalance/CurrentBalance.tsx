@@ -1,7 +1,7 @@
 import s from "./styles.module.scss";
 import { FC, useState } from "react";
 
-interface CurrentBalanceProps {}
+interface CurrentBalanceProps { }
 
 export const CurrentBalance: FC<CurrentBalanceProps> = () => {
   const [currentBTCbalance, setCurrentBTCbalance] = useState(0.0);
@@ -10,8 +10,8 @@ export const CurrentBalance: FC<CurrentBalanceProps> = () => {
   return (
     <div className={s.current_balance_block}>
       <div className={s.current_balance_header}>
-        <span className={s.current_balance_title}>Текущий баланс</span>
-        <span className={s.my_wallet_link}>Мой кошелёк</span>
+        <span className={s.current_balance_title}>Current ballance</span>
+        <span className={s.my_wallet_link}>My wallet</span>
       </div>
       <div className={s.current_balance_list}>
         <div className={s.current_btc_balance_block}>
@@ -28,7 +28,7 @@ export const CurrentBalance: FC<CurrentBalanceProps> = () => {
         </div>
       </div>
       <div className={s.balance_withdrawal_btn_block}>
-        <button className={s.balance_withdrawal_btn}>Вывод</button>
+        <button className={s.balance_withdrawal_btn}>Withdraw</button>
       </div>
     </div>
   );

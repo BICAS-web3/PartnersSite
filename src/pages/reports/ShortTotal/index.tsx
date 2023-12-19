@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
-import range from "lodash/range";
 import Image from "next/image";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,8 +8,6 @@ import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { siteCategories } from "@/widgets/welcomePageSignup/WelcomePageSignup";
-import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
@@ -28,7 +24,6 @@ import * as api from "@/shared/api";
 import s from "./styles.module.scss";
 
 import clsx from "clsx";
-import { add } from "lodash";
 import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 const wepPagesList = [
@@ -62,7 +57,7 @@ const tableItemsList = [
   //   data: "0",
   // },
   {
-    title: "Клики",
+    title: "Clicks",
     data: "0",
   },
   // {
@@ -70,55 +65,43 @@ const tableItemsList = [
   //   data: "0",
   // },
   {
-    title: "Регистрации",
+    title: "Registrations",
     data: "0",
   },
   {
-    title: "Соотношение регистрации/клики",
+    title: "Registrations/Clicks",
     data: "0",
   },
   {
-    title: "Регистрации с депозитом",
+    title: "Registrations with bets",
     data: "0",
   },
   {
-    title: "Соотношение регистрации с депозитом/регистрации",
+    title: "Registrations with bets/Registrations",
     data: "0",
   },
   {
-    title: "Сумма новых депозитов",
+    title: "Sum of the bets",
     data: "0,00 ₽",
   },
   {
-    title: "Новые аккаунты с депозитами",
-    data: "0",
-  },
-  {
-    title: "Аккаунты с депозитами",
-    data: "0",
-  },
-  {
-    title: "Сумма депозитов",
+    title: "Income",
     data: "0,00 ₽",
   },
   {
-    title: "Доход",
-    data: "0,00 ₽",
-  },
-  {
-    title: "Количество депозитов",
+    title: "Amount of bets",
     data: "0",
   },
   {
-    title: "Активные игроки",
+    title: "Active players",
     data: "0",
   },
   {
-    title: "Средний доход с игрока",
+    title: "Average income from the player",
     data: "0,00 ₽",
   },
   {
-    title: "Сумма бонусов",
+    title: "Sum of the bonuses",
     data: "0,00 ₽",
   },
   // {
@@ -130,7 +113,7 @@ const tableItemsList = [
   //   data: "0,00 ₽",
   // },
   {
-    title: "Реферальная комиссия",
+    title: "referal comission",
     data: "0,00 ₽",
   },
   // {
@@ -143,7 +126,7 @@ interface IListProps {
   title?: string;
   text?: string;
 }
-interface ShortTotalProps {}
+interface ShortTotalProps { }
 
 const ShortTotal: FC<ShortTotalProps> = () => {
   const [isAuthed, barerToken] = useUnit([
@@ -153,11 +136,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
 
   const [clicks, setClicks] = useState<
     | {
-        clicks: number;
-        id: number;
-        partner_id: string;
-        sub_id_internal: number;
-      }
+      clicks: number;
+      id: number;
+      partner_id: string;
+      sub_id_internal: number;
+    }
     | false
   >(false);
 
@@ -315,7 +298,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
             list={periodsList.concat([
-              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+              { title: "Custom select", id: "mobilePeriodManually" },
             ])}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
@@ -342,56 +325,56 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                 onClick={() => setCurrentFilterPage("")}
               >
                 <Image src={prevArrow} alt="close-filter-ico" />
-                Назад
+                Back
               </span>
-              <span className="mobile_filter_title">Фильтры</span>
+              <span className="mobile_filter_title">Filters</span>
             </div>
             <div className="mobile_filter_item_page_footer">
-              <button className="mob_cancel_btn">Отменить</button>
-              <button className="mob_save_btn">Сохранить</button>
+              <button className="mob_cancel_btn">Deny</button>
+              <button className="mob_save_btn">Save</button>
             </div>
           </div>
-          <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
+          <BackHead title="Filters" setIsOpen={setIsFilter} />{" "}
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
               objTitle="USD"
-              title="Валюта"
+              title="Currency"
               filterTitle="none"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={siteCurrent || "Выберите"}
-              title="Сайт"
+              objTitle={siteCurrent || "Select"}
+              title="Site"
               filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
               objTitle={currentPeriod}
-              title="Период"
+              title="Period"
               filterTitle="websitesPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
+            <ListButtons setIsBack={setIsFilter} title="Generate report" />
           </div>
         </div>
         <Breadcrumbs
           list={[
-            { title: "Главная", link: "/" },
-            { title: "Краткий суммарный", link: "/reports/ShortTotal" },
+            { title: "Main", link: "/" },
+            { title: "Short report", link: "/reports/ShortTotal" },
           ]}
         />
         <div onClick={handleFilterClick} className={s.mob_filter_btn}>
           <Image src={filterIcon} alt="filter-icon" />
-          Фильтры
+          Filters
         </div>
         <div className={s.table_filter_block}>
           <div className={s.first_table_filter_block}>
             <div className={s.currency_block}>
-              <span className={s.table_filter_block_title}>Валюта</span>
+              <span className={s.table_filter_block_title}>Currency</span>
               <UsdCurrencyBlock />
             </div>
             <div className={s.website_block}>
-              <span className={s.table_filter_block_title}>Сайт</span>
+              <span className={s.table_filter_block_title}>Site</span>
               <CustomDropdownInput
                 setCategoryFilter={setSiteCurrent}
                 categotyFilter={siteCurrent}
@@ -404,7 +387,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           </div>
           <div className={s.second_table_filter_block}>
             <div className={s.period_block}>
-              <span className={s.table_filter_block_title}>Период</span>
+              <span className={s.table_filter_block_title}>Period</span>
               <CustomDropdownInput
                 list={periodsList}
                 activeItemId="arbitraryPeriod"
@@ -418,7 +401,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             />
             <div className={s.generate_report_btn_wrap}>
               <button className={s.generate_report_btn} onClick={dataReset}>
-                Сгенерировать отчет
+                Generate report
               </button>
             </div>
           </div>
@@ -427,7 +410,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
               className={`${s.generate_report_btn_wrap} ${s.desk_hidden_report_btn_wrap}`}
             >
               <button className={s.generate_report_btn}>
-                Сгенерировать отчет
+                Generate report
               </button>
             </div>
           </div>
@@ -443,15 +426,22 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                 >
                   <span className={s.table_item_title}>{item.title}</span>
                   <span className={s.table_item_value}>
-                    {item.title === "Клики"
+                    {item.title === "Clicks"
                       ? clicks
                         ? clicks?.clicks
                         : 0
-                      : item.title === "Регистрации"
-                      ? usersRegistration
-                        ? usersRegistration?.connected_wallets
-                        : 0
-                      : item.data}
+                      : item.title === "Registrations"
+                        ? usersRegistration
+                          ? usersRegistration?.connected_wallets
+                          : 0
+                        : item.title === "Registrations/Clicks"
+                          ? Number((clicks as any)?.clicks || 0) <= 0
+                            ? 0
+                            : (
+                              usersRegistration?.connected_wallets /
+                              Number((clicks as any)?.clicks)
+                            ).toFixed(2)
+                          : item.data}
                   </span>
                 </div>
               ))}
@@ -470,7 +460,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                 >
                   <span className={s.table_item_title}>{item.title}</span>
                   <span className={s.table_item_value}>
-                    {item.title === "Доход"
+                    {item.title === "Income"
                       ? shortTotalResponseBody
                         ? shortTotalResponseBody.net_profit || "0"
                         : "0"

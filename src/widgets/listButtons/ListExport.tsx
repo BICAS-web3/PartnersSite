@@ -11,12 +11,12 @@ interface ListButtons {
 
 export const ListButtons: FC<ListButtons> = ({
   setIsBack,
-  title = "Экспортировать",
+  title = "Export",
 }) => {
   return (
     <div className={s.export_btn_container}>
       <button onClick={() => setIsBack(false)} className={s.export_back_btn}>
-        Назад
+        Back
       </button>
       <GenerateButton title={title} />
     </div>

@@ -7,6 +7,11 @@ import { WelcomeForm } from "../welcomeForm/WelcomeForm";
 import { WelcomeBottom } from "../welcomeBottom/WelcomeBottom";
 import { WelcomeFooter } from "../welcomeFooter/WelcomeFooter";
 
+import { WelcomePartnerSection } from "../welcomePartnerSection/WelcomePartnerSection";
+import { WelcomeStepsSection } from "../welcomeStepsSection/WelcomeStepsSection";
+import { WelcomeAboutSection } from "../welcomeAboutSection/WelcomeAboutSection";
+
+
 interface PrelandProps {}
 
 export const Preland: FC<PrelandProps> = () => {
@@ -14,10 +19,9 @@ export const Preland: FC<PrelandProps> = () => {
     <>
       <WelcomeHeroSection />
       <WelcomeBenefitsSection />
-      <WelcomeFaq />
-      <WelcomeForm />
-      <WelcomeBottom />
-      <WelcomeFooter />
+      <WelcomePartnerSection />
+      <WelcomeStepsSection />
+      <WelcomeAboutSection />
     </>
   );
 };
