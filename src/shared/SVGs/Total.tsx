@@ -19,3 +19,4 @@ export const Total: FC<TotalProps> = () => {
     </svg>
   );
 };
+a;
