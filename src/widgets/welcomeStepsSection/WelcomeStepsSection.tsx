@@ -42,9 +42,10 @@ export const WelcomeStepsSection: FC<WelcomeStepsSectionProps> = () => {
     },
   ];
   return (
-    <div className={s.welcome_steps_section}>
+    <section className={s.welcome_steps_section}>
+      <span className={s.welcome_steps_eclipse}></span>
       <h1 className={s.welcome_steps_title}>
-        3 Simple steps to earn income from Greek Keepers Affiliate Program
+        3 Simple steps to earn income fromGreek Keepers Affiliate Program
       </h1>
       <div className={s.welcome_steps_body}>
         {data.map((item, id) => (
@@ -77,8 +78,13 @@ export const WelcomeStepsSection: FC<WelcomeStepsSectionProps> = () => {
         >
           Register now
         </button>
-        <button className={s.welcome_hero_main_btn}>I have an account</button>
+        <button
+          onClick={() => setLogin(true)}
+          className={s.welcome_hero_main_btn}
+        >
+          I have an account
+        </button>
       </div>
-    </div>
+    </section>
   );
 };
