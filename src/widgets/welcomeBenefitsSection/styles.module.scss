@@ -1,3 +1,114 @@
 .welcome_benefits_section {
   min-height: 900px;
+  margin-top: 40px;
+
+  @media screen and (max-width: 700px) {
+    margin-top: 80px;
+  }
+
+  @media screen and (max-width: 650px) {
+    margin-top: 70px;
+  }
+}
+
+.welcome_benefits_body {
+  padding: 0 16px 40px 16px;
+}
+
+.welcome_benefits_title {
+  color: #ffe09d;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 52px;
+  letter-spacing: 1.6px;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 700px) {
+    font-size: 26px;
+    line-height: 33.8px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 22px;
+    line-height: 28.6px;
+    margin-bottom: 16px;
+  }
+}
+
+.benefits_list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 60px;
+  column-gap: 7vw;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media screen and (max-width: 650px) {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 14px;
+  }
+}
+
+.benefits_list_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.benefits_list_item_title {
+  margin-bottom: 8px;
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36.4px;
+  letter-spacing: 0.52px;
+
+  @media screen and (max-width: 700px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 16px;
+    line-height: 22.4px;
+  }
+}
+
+.benefits_list_item_text {
+  color: #7e7e7e;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 25.2px;
+  letter-spacing: 0.36px;
+
+  @media screen and (max-width: 700px) {
+    font-size: 14px;
+    line-height: 19.6px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    line-height: 16.8px;
+  }
+}
+
+.benefits_list_item_img {
+  @media screen and (max-width: 700px) {
+    width: 150px;
+    height: 150px;
+  }
+
+  @media screen and (max-width: 650px) {
+    width: 110px;
+    height: 110px;
+  }
 }
