@@ -1,21 +1,10 @@
 .welcome_partner_section {
-  min-height: 900px;
-  margin-top: 40px;
-  @media (max-width: 700px) {
-    margin-top: 80px;
-  }
-
-  @media (max-width: 650px) {
-    margin-top: 70px;
-  }
-}
-
-.welcome_partner_body {
-  // padding: 0 16px 40px 16px;
+  margin-top: 120px;
+  position: relative;
+  z-index: 2;
   padding-top: 50px;
   border-radius: 20px;
   border: 1px solid #2d2d2d;
-  overflow: hidden;
   background: linear-gradient(
     144deg,
     rgba(38, 34, 25, 0.4) -52.3%,
@@ -25,18 +14,31 @@
   width: 100%;
   width: 1496px;
   @media (max-width: 1600px) {
+    margin-top: 105px;
     width: 1061px;
   }
   @media (max-width: 1200px) {
+    margin-top: 80px;
     width: calc(100vw - 154px);
     margin: 0 auto;
     padding: 30px 39px 73px 39px;
     border-radius: 12px;
   }
+
   @media (max-width: 650px) {
+    margin-top: 72px;
     width: calc(100vw - 28px);
     margin: 0 auto;
     padding: 20px 12px 78px 12px;
+  }
+}
+
+.welcome_partner_body {
+  @media (max-width: 1600px) {
+  }
+  @media (max-width: 1200px) {
+  }
+  @media (max-width: 650px) {
   }
 }
 
@@ -125,6 +127,9 @@
   height: 478px;
   // height: 345px;
   position: relative;
+  z-index: 2;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;
   @media (max-width: 1600px) {
     height: 339px;
   }
@@ -134,6 +139,7 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 68px;
     row-gap: 18px;
+    border-radius: 0 0 12px 12px;
   }
   @media (max-width: 450px) {
     column-gap: 0;
@@ -506,4 +512,42 @@
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   // background-color: blue;
+}
+.welcome_steps_eclipse {
+  position: absolute;
+  width: 270px;
+  height: 263px;
+  border-radius: 270px;
+  background: rgba(209, 79, 5, 0.5);
+  filter: blur(250px);
+  right: -120px;
+  bottom: -9px;
+  z-index: 1;
+  @media (max-width: 1600px) {
+    width: 270px;
+    height: 263px;
+    border-radius: 270px;
+    background: #d14f05;
+    filter: blur(250px);
+    right: -327px;
+    bottom: -91px;
+  }
+  @media (max-width: 1200px) {
+    width: 270px;
+    height: 263px;
+    bottom: -313px;
+    right: -185px;
+  }
+  @media (max-width: 650px) {
+    width: 198px;
+    height: 150px;
+    transform: rotate(-87.285deg);
+    bottom: auto;
+    right: auto;
+    width: 198px;
+    height: 150px;
+    transform: rotate(-87.285deg);
+    left: -93px;
+    bottom: -159px;
+  }
 }

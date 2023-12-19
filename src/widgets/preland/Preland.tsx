@@ -5,6 +5,8 @@ import { WelcomeBenefitsSection } from "../welcomeBenefitsSection/WelcomeBenefit
 
 import { WelcomePartnerSection } from "../welcomePartnerSection/WelcomePartnerSection";
 import { WelcomeStepsSection } from "../welcomeStepsSection/WelcomeStepsSection";
+import { WelcomeAboutSection } from "../welcomeAboutSection/WelcomeAboutSection";
+
 
 interface PrelandProps {}
 
@@ -15,6 +17,7 @@ export const Preland: FC<PrelandProps> = () => {
       <WelcomeBenefitsSection />
       <WelcomePartnerSection />
       <WelcomeStepsSection />
+      <WelcomeAboutSection />
     </>
   );
 };
