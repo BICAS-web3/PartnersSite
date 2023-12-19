@@ -25,17 +25,7 @@ export const Header: FC<HeaderProps> = () => {
     AuthModel.$isAuthed,
   ]);
   const [
-    userEmail,
-    userCountry,
-    userPageCategory,
-    userPageName,
-    userMessanger,
-    userMessangerValue,
     barerToken,
-    userLanguage,
-    callContactReg,
-    userPhone,
-    userSelectedSource,
     setUserEmail,
     setUserName,
     setUserLastName,
@@ -49,18 +39,9 @@ export const Header: FC<HeaderProps> = () => {
     setUserPageCategory,
     setUserSelectedSource,
     setUserWallet,
+    setRegistrationTime,
   ] = useUnit([
-    ContactModel.$userEmail,
-    ContactModel.$userCountry,
-    ContactModel.$userPageCategory,
-    ContactModel.$userPageName,
-    ContactModel.$userMessanger,
-    ContactModel.$userMessangerValue,
     ContactModel.$barerToken,
-    ContactModel.$userLanguage,
-    ContactModel.$callContactReg,
-    ContactModel.$userPhone,
-    ContactModel.$userSelectedSource,
     ContactModel.setUserEmail,
     ContactModel.setUserName,
     ContactModel.setUserLastName,
@@ -74,6 +55,7 @@ export const Header: FC<HeaderProps> = () => {
     ContactModel.setUserPageCategory,
     ContactModel.setUserSelectedSource,
     ContactModel.setUserWallet,
+    ContactModel.setRegistrationTime,
   ]);
 
   const [localName, setLocalName] = useState("");
@@ -127,6 +109,7 @@ export const Header: FC<HeaderProps> = () => {
   useEffect(() => {
     console.log(1212, responseBody, isAuthed);
     if (responseBody && isAuthed) {
+      setRegistrationTime(responseBody?.basic?.registration_time);
       setUserMessangerValue(
         responseBody?.contacts?.find((el) => el.name === "messenger_login")
           ?.url || ""

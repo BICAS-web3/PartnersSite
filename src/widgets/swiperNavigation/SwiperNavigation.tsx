@@ -54,17 +54,17 @@ export const SwiperNavigation: FC<SwiperNavigationProps> = (props) => {
     <div className={s.table_navigation_block}>
       <div className={s.table_records_block}>
         <p className={s.table_records_text}>
-          Записи с{" "}
+          Records from {" "}
           {numberPage === 1
             ? 1
             : numberPage * Number(recordCount) - recordCount}{" "}
-          по{" "}
+          to {" "}
           {numberPage === 1
             ? Number(recordCount)
             : data?.length < numberPage * Number(recordCount)
-            ? data?.length
-            : numberPage * Number(recordCount)}{" "}
-          (всего {data?.length} записей)
+              ? data?.length
+              : numberPage * Number(recordCount)}{" "}
+          (total {data?.length} records)
         </p>
       </div>
       <div className={s.table_pages_wrap}>

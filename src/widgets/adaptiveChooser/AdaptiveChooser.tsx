@@ -60,7 +60,7 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
           onClick={() => setCurrentFilterPage("")}
         >
           <Image src={prevArrow} alt="close-filter-ico" />
-          Фильтры
+          Filters
         </span>
         <span className="mobile_filter_title">{blockTitle}</span>
       </div>
@@ -86,8 +86,8 @@ export const AdaptiveChooser: FC<AdaptiveChooserProps> = ({
         />
       </div>
       <div className="mobile_filter_item_page_footer">
-        <button className="mob_cancel_btn">Отменить</button>
-        <button className="mob_save_btn">Сохранить</button>
+        <button className="mob_cancel_btn">Deny</button>
+        <button className="mob_save_btn">Save</button>
       </div>
     </div>
   );

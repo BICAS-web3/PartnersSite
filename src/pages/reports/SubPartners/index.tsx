@@ -156,7 +156,7 @@ const statisticList = [
   },
 ];
 
-interface SubPartnersProps {}
+interface SubPartnersProps { }
 interface IListProps {
   id?: string;
   title?: string;
@@ -332,7 +332,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
               <MobilePickList
                 list={exportList.slice(1)}
                 activeItemId="exel"
-                setCurrent={() => {}}
+                setCurrent={() => { }}
                 startOptions={exportList.slice(1)}
               />
             </div>
@@ -367,12 +367,12 @@ const SubPartners: FC<SubPartnersProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                  ? 160
-                  : is700
-                  ? 160
-                  : is650
-                  ? 160
-                  : 160
+                    ? 160
+                    : is700
+                      ? 160
+                      : is650
+                        ? 160
+                        : 160
               }
             />
           </div>
@@ -451,7 +451,7 @@ const SubPartners: FC<SubPartnersProps> = () => {
         <div className={s.table_navigation_block}>
           <div className={s.table_records_block}>
             <p className={s.table_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
+              Records from 1 to 1 (total 1 records)
             </p>
           </div>
           <div className={s.table_pages_wrap}>

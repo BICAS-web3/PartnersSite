@@ -10,7 +10,7 @@ import mailIco from "@/public/media/footerImages/mailIco.png";
 import Image from "next/image";
 import Link from "next/link";
 
-interface FooterProps {}
+interface FooterProps { }
 
 export const Footer: FC<FooterProps> = () => {
   return (
@@ -20,20 +20,20 @@ export const Footer: FC<FooterProps> = () => {
           <div className={s.footer_upper_block_leftSide}>
             <div className={s.footer_main_links}>
               <a href="#" className={s.footer_main_links_item}>
-                Политика конфиденциальности
+                Confidentiality policy
               </a>
               <a href="#" className={s.footer_main_links_item}>
-                Политика cookie
+                Cookie policy
               </a>
               <a href="#" className={s.footer_main_links_item}>
-                Помощь
+                Help
               </a>
             </div>
             <p className={s.footer_upper_block_text}>
-              Partners-GreekKeepers использует cookie-файлы, чтобы гарантировать
-              вам максимальное удобство. Если Вы остаетесь на сайте, вы
-              соглашаетесь на использование нами ваших cookie-файлов на
-              Partners-GreekKeepers. <a href="#">Подробнее</a>
+              Partners-GreekKeepers uses cookies to ensure
+              maximum convenience for you. If you remain on the site, you
+              agree to our use of your cookies on
+              Partners-GreekKeepers. <a href="#">More</a>
             </p>
           </div>
           <div className={s.footer_upper_block_rightSide}>
@@ -65,7 +65,7 @@ export const Footer: FC<FooterProps> = () => {
           </div>
         </div>
         <div className={s.footer_lower_block}>
-          <span>Copyright © 2023 «GREEK KEEPERS». Все права защищены.</span>
+          <span>Copyright © 2023 «GREEK KEEPERS». All rights reserved.</span>
         </div>
       </div>
     </div>

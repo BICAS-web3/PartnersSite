@@ -23,9 +23,8 @@ export const ContactInfoBlock: FC<ContactInfoBlockProps> = ({
 
   return (
     <div
-      className={`${s.filter_block} ${
-        activeFilterBlock === "contact_info_filter" && s.filter_block_visible
-      }`}
+      className={`${s.filter_block} ${activeFilterBlock === "contact_info_filter" && s.filter_block_visible
+        }`}
     >
       <div className={s.filter_block_header}>
         <span
@@ -33,31 +32,31 @@ export const ContactInfoBlock: FC<ContactInfoBlockProps> = ({
           onClick={() => setActiveFilterBlock("")}
         >
           <Image src={prevArr} alt="prev-arr" />
-          Назад
+          Back
         </span>
         <span className={s.filter_block_header_subTitle}>
-          Контактная информация
+          Contact info
         </span>
       </div>
       <div className={s.contact_info_block_body}>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Имя*</span>
+          <span className={s.input_block_title}>Name*</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="Иван"
+            placeholder="John"
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Фамилия*</span>
+          <span className={s.input_block_title}>Surname*</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="Иванов"
+            placeholder="Johson"
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Номер телефона</span>
+          <span className={s.input_block_title}>Phone number</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
@@ -65,11 +64,11 @@ export const ContactInfoBlock: FC<ContactInfoBlockProps> = ({
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Мессенджер</span>
+          <span className={s.input_block_title}>Messenger</span>
           <CustomDropdownInput list={messangersList} activeItemId="inst" />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Логин мессенджера</span>
+          <span className={s.input_block_title}>Messenger login</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
@@ -78,16 +77,16 @@ export const ContactInfoBlock: FC<ContactInfoBlockProps> = ({
         </div>
         <div className={s.change_info_details}>
           <p className={s.change_info_details_text}>
-            * для редактирования контактной информации свяжитесь с Вашим
-            менеджером
+            * To edit contact information, please contact our
+            manager
           </p>
         </div>
         <div className={s.input_block} style={{ zIndex: "10" }}>
-          <span className={s.input_block_title}>Страна</span>
+          <span className={s.input_block_title}>Country</span>
           <CustomDropdownInput list={countriesList} posRel={true} />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Язык для уведомлений</span>
+          <span className={s.input_block_title}>Notification language</span>
           <CustomDropdownInput list={languagesList} posRel={true} />
         </div>
         <div className={s.change_domen_notif_wrap}>
@@ -99,12 +98,12 @@ export const ContactInfoBlock: FC<ContactInfoBlockProps> = ({
               <CheckBoxIco />
             </div>
             <p className={s.change_domen_notif_block_text}>
-              Уведомление о смене домена
+              Notify about domain change
             </p>
           </div>
         </div>
         <div className={s.save_changes_btn_wrap}>
-          <button className={s.save_changes_btn}>Сохранить изменения</button>
+          <button className={s.save_changes_btn}>Save changes</button>
         </div>
       </div>
     </div>

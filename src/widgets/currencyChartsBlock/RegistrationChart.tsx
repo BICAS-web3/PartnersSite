@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-interface RegistrationChartProps {}
+interface RegistrationChartProps { }
 
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/shared/tools";
@@ -194,7 +194,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
       width: isMobile ? 1 : 1.5,
     },
     subtitle: {
-      text: "Статистика регистраций",
+      text: "Registrations statistics",
       align: "left",
       offsetX: 0,
       offsetY: 0,
@@ -279,15 +279,15 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
 
   const series = [
     {
-      name: "Регистрация",
+      name: "Registration",
       data: [registrationsBody?.connected_wallets || 1],
     },
     {
-      name: "Новые игроки с депозитами",
+      name: "Registration with bets",
       data: [depositedAccount?.connected_wallets || 2],
     },
     {
-      name: "Сумма коммиссий",
+      name: "Commissions sum",
       data: [
         0.7, 3.3, 3.2, 3.5, 3.7, 3.7, 3.4, 3.5, 3.6, 3.1, 3.2, 3.5, 3.6, 3.7,
         3.2,

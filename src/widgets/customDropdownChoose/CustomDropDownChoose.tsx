@@ -80,14 +80,13 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
   return (
     <div
       ref={dropdownRef}
-      className={`${s.dropdown_input_block_wrap} ${
-        isOpen && s.dropdown_active
-      }`}
+      className={`${s.dropdown_input_block_wrap} ${isOpen && s.dropdown_active
+        }`}
     >
       <div className={s.active_dropdown_block} onClick={toggle}>
         <div className={s.active_dropdown_title_block}>
-          Выбрано {titleArr?.length && list?.length > 0 ? titleArr?.length : 0}{" "}
-          п.
+          Selected {titleArr?.length && list?.length > 0 ? titleArr?.length : 0}{" "}
+          el.
         </div>
         <div className={s.dropdown_ico_block}>
           <HeaderDropdownArrow />
@@ -107,7 +106,7 @@ export const CustomDropDownChoose: FC<CustomDropDownChooseProps> = ({
               <div className={`${s.checkbox} ${isAllPicked && s.checked}`}>
                 <CheckBoxIco />
               </div>
-              <span>Выбрать все</span>
+              <span>Select all</span>
             </span>
           </div>
           {updateList?.map((item: string, ind: number) => (

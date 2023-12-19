@@ -40,6 +40,7 @@ export type R_getUser = {
     main_wallet: string;
     program: string;
     is_verified: boolean;
+    registration_time: number;
   };
   contacts: {
     id: number;
@@ -281,7 +282,7 @@ export type T_DepositedUsers = {
 
 export type T_TotalsStats = {
   bareer: string;
-}
+};
 
 export type T_Players = {
   bareer: string;
@@ -635,4 +636,3 @@ export const getPlayersData = createEffect<T_Players, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
-

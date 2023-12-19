@@ -34,42 +34,42 @@ import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 const options = [
   {
-    title: "ID Сайта",
+    title: "Site ID",
     id: "websiteID",
     text: "-",
   },
   {
-    title: "Сайт",
+    title: "Site",
     id: "TotalReportWebsite",
     text: "-",
   },
   {
-    title: "Регистрация",
+    title: "Registrations",
     id: "TotalReportRegistration",
     text: "-",
   },
   {
-    title: "Новые активные игрки",
+    title: "New active players",
     id: "TotalReportNewAccs",
     text: "-",
   },
   {
-    title: "Сумма всех депозитов",
+    title: "Sum all wagers",
     id: "TotalReportDepoPrice",
     text: "-",
   },
   {
-    title: "Сумма бонусов",
+    title: "Bonus sum",
     id: "TotalReportBonusPrice",
     text: "-",
   },
   {
-    title: "Доход компании (общий)",
+    title: "Campaign income (total)",
     id: "TotalReportCompanyIncome",
     text: "-",
   },
   {
-    title: "Сумма коммиссий",
+    title: "Comissions sum",
     id: "TotalReportCommissionSum",
     text: "-",
   },
@@ -86,7 +86,7 @@ const wepPagesList = [
   },
 ];
 
-interface TotalProps {}
+interface TotalProps { }
 
 interface IListProps {
   title?: string;
@@ -114,6 +114,7 @@ const Total: FC<TotalProps> = () => {
   const [mobTableOptions, setMobTableOpts] = useState(options);
   const [isMobile, setIsMobile] = useState<boolean>();
   const [barerToken] = useUnit([ContactModel.$barerToken]);
+  const [registrationTime] = useUnit([ContactModel.$registrationTime]);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
@@ -181,6 +182,7 @@ const Total: FC<TotalProps> = () => {
 
   const [siteCurrent, setSiteCurrent] = useState("");
   const [siteList, setSiteList] = useState([]);
+  const [allSites, setAllSites] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -189,6 +191,7 @@ const Total: FC<TotalProps> = () => {
           bareer: barerToken,
         });
         if (data.status === "OK" && Array.isArray(data?.body)) {
+          setAllSites(data?.body as any);
           const sites = (data?.body as any)?.map(
             (item: any) => item?.basic?.url
           );
@@ -197,7 +200,20 @@ const Total: FC<TotalProps> = () => {
       }
     })();
   }, [barerToken]);
+  const [startTime, setStartTime] = useState("");
+  useEffect(() => {
+    if (registrationTime) {
+      const halfYearInSeconds = 6 * 30 * 24 * 60 * 60;
+      const endTimestamp = registrationTime + halfYearInSeconds;
+      const date = new Date(registrationTime * 1000);
 
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      setStartTime(`${year}-${month}-${day}`);
+    }
+  }, [registrationTime]);
   return (
     <Layout activePage="total">
       <section className={s.total_page}>
@@ -269,64 +285,64 @@ const Total: FC<TotalProps> = () => {
                 onClick={() => setCurrentFilterPage("")}
               >
                 <Image src={prevArrow} alt="close-filter-ico" />
-                Назад
+                Back
               </span>
-              <span className="mobile_filter_title">Фильтры</span>
+              <span className="mobile_filter_title">Filters</span>
             </div>
             <div className="mobile_filter_item_page_footer">
-              <button className="mob_cancel_btn">Отменить</button>
-              <button className="mob_save_btn">Сохранить</button>
+              <button className="mob_cancel_btn">Deny</button>
+              <button className="mob_save_btn">Save</button>
             </div>
           </div>
           <BackHead title="Фильтры" setIsOpen={setIsFilter} />{" "}
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
               objTitle="USD"
-              title="Валюта"
+              title="Currency"
               filterTitle="none"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={siteCurrent || "Выберите"}
-              title="Сайт"
+              objTitle={siteCurrent || "Select"}
+              title="Site"
               filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
               objTitle={currentPeriod}
-              title="Период"
+              title="Period"
               filterTitle="websitesPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
 
             <AdaptiveFilterItem
-              objTitle={`Выбрано ${mobTableOptions?.length} п.`}
-              title="Показать"
+              objTitle={`Selected ${mobTableOptions?.length} el.`}
+              title="show"
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
             />
 
-            <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
+            <ListButtons setIsBack={setIsFilter} title="Generate report" />
           </div>
         </div>
         <Breadcrumbs
           list={[
-            { title: "Главная", link: "/" },
-            { title: "Партнерские ссылки", link: "/reports/Total" },
+            { title: "Main", link: "/" },
+            { title: "Total report", link: "/reports/Total" },
           ]}
         />
         <div onClick={handleFilterClick} className={s.mob_filter_btn}>
           <Image src={filterIcon} alt="filter-icon" />
-          Фильтры
+          Filters
         </div>
         <div className={s.table_filter_block}>
           <div className={s.first_table_filter_block}>
             <div className={s.currency_block}>
-              <span className={s.table_filter_block_title}>Валюта</span>
+              <span className={s.table_filter_block_title}>Currency</span>
               <UsdCurrencyBlock />
             </div>
             <div className={s.website_block}>
-              <span className={s.table_filter_block_title}>Сайт</span>
+              <span className={s.table_filter_block_title}>Site</span>
               <CustomDropdownInput
                 setCategoryFilter={setSiteCurrent}
                 categotyFilter={siteCurrent}
@@ -339,7 +355,7 @@ const Total: FC<TotalProps> = () => {
           </div>
           <div className={s.second_table_filter_block}>
             <div className={s.period_block}>
-              <span className={s.table_filter_block_title}>Период</span>
+              <span className={s.table_filter_block_title}>Period</span>
               <CustomDropdownInput
                 list={periodsList}
                 activeItemId="arbitraryPeriod"
@@ -354,7 +370,7 @@ const Total: FC<TotalProps> = () => {
             />
             <div className={s.generate_report_btn_wrap}>
               <button className={s.generate_report_btn} onClick={dataReset}>
-                Сгенерировать отчет
+                Generate report
               </button>
             </div>
           </div>
@@ -366,7 +382,7 @@ const Total: FC<TotalProps> = () => {
               )}
             >
               <span className={s.table_filter_block_title}>
-                ID Маркетингового инструмента
+                ID of the marketing instrument
               </span>
               <input
                 value={marktId && marktId}
@@ -383,7 +399,7 @@ const Total: FC<TotalProps> = () => {
               )}
             >
               <button className={s.generate_report_btn} onClick={dataReset}>
-                Сгенерировать отчет
+                Generate report
               </button>
             </div>
           </div>
@@ -423,7 +439,22 @@ const Total: FC<TotalProps> = () => {
                     <span className={s.swiper_slide_title}>{item.title}</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
-                  <div className={s.swiper_slide_content}>{item.text}</div>
+                  <div className={s.swiper_slide_content}>
+                    {item?.title === "Registrations"
+                      ? startTime || "-"
+                      : item?.title === "Site"
+                        ? siteCurrent || "-"
+                        : item?.title === "Site ID"
+                          ? (allSites as any)?.find(
+                            (el: {
+                              basic: {
+                                name: string;
+                                internal_id?: number | string;
+                              };
+                            }) => el?.basic?.name === siteCurrent
+                          )?.basic?.internal_id || "-"
+                          : item?.text}
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
@@ -432,7 +463,7 @@ const Total: FC<TotalProps> = () => {
         <div className={s.table_nav_block}>
           <div className={s.table_records_block}>
             <p className={s.table_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
+              Records from 1 to 1 (total 1 records)
             </p>
           </div>
           <div className={s.table_pages_wrap}>

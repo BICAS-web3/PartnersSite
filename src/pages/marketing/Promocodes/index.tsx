@@ -51,7 +51,7 @@ const options = [
   },
 ];
 
-interface PromocodesProps {}
+interface PromocodesProps { }
 
 const Promocodes: FC<PromocodesProps> = () => {
   const [activeOpts, setActiveOpts] = useState([]);
@@ -136,9 +136,8 @@ const Promocodes: FC<PromocodesProps> = () => {
               Фильтры
             </div>
             <div
-              className={`${s.mobile_filter_block} mobile_filter_block ${
-                isFilter && s.filter_active
-              } ${currentFilterPage !== s.scroll_disabled}`}
+              className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
+                } ${currentFilterPage !== s.scroll_disabled}`}
               id="promocodes_filter_block"
             >
               <AdaptivePicker
@@ -188,12 +187,11 @@ const Promocodes: FC<PromocodesProps> = () => {
                 <AdaptiveFilterItem
                   objTitle={
                     mobSitesPicked.length > 1
-                      ? `${mobSitesPicked[0].title} и ещё ${
-                          mobSitesPicked.length - 1
-                        }`
+                      ? `${mobSitesPicked[0].title} и ещё ${mobSitesPicked.length - 1
+                      }`
                       : mobSitesPicked.length == 1
-                      ? mobSitesPicked[0].title
-                      : "none"
+                        ? mobSitesPicked[0].title
+                        : "none"
                   }
                   title="Сайт"
                   filterTitle="promocodesSitesFilter"
@@ -234,12 +232,12 @@ const Promocodes: FC<PromocodesProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 160
                       : is1280
-                      ? 100
-                      : is700
-                      ? 110
-                      : is650
-                      ? 160
-                      : 130
+                        ? 100
+                        : is700
+                          ? 110
+                          : is650
+                            ? 160
+                            : 130
                   }
                 />
               </div>
@@ -252,12 +250,12 @@ const Promocodes: FC<PromocodesProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 160
                       : is1280
-                      ? 100
-                      : is700
-                      ? 110
-                      : is650
-                      ? 160
-                      : 130
+                        ? 100
+                        : is700
+                          ? 110
+                          : is650
+                            ? 160
+                            : 130
                   }
                 />
               </div>
@@ -286,7 +284,7 @@ const Promocodes: FC<PromocodesProps> = () => {
         <div className={s.table_nav_block}>
           <div className={s.table_records_block}>
             <p className={s.table_records_text}>
-              Записи с 1 по 1 (всего 1 записей)
+              Records from 1 to 1 (total 1 records)
             </p>
           </div>
           <div className={s.table_pages_wrap}>
