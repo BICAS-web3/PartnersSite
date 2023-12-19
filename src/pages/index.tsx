@@ -189,7 +189,7 @@ const WelcomePage: FC<WelcomePageProps> = () => {
           )}
         </div>
       </div>
-      <Footer />
+      {(isLogin || isSignup) && <Footer />}
     </div>
   );
 };

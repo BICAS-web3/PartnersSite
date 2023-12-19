@@ -4,6 +4,7 @@
 
   @media screen and (max-width: 700px) {
     margin-top: 80px;
+    min-height: 300px;
   }
 
   @media screen and (max-width: 650px) {
@@ -12,7 +13,7 @@
 }
 
 .welcome_benefits_body {
-  padding: 0 16px 40px 16px;
+  padding: 0 16px;
 }
 
 .welcome_benefits_title {
