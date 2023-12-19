@@ -1,27 +1,66 @@
 .welcome_steps_section {
   font-family: var(--font-nunito-sans);
-  min-height: 900px;
   max-width: 1496px;
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 90px;
   display: flex;
   flex-direction: column;
+  position: relative;
   @media (max-width: 1600px) {
     max-width: 1039px;
+    margin-top: 97px;
   }
   @media (max-width: 1200px) {
-    width: 120px;
-    height: 120px;
     width: calc(100vw - 102px);
-  }
-  @media (max-width: 700px) {
+
     margin-top: 80px;
   }
 
   @media (max-width: 650px) {
     margin-top: 70px;
     width: calc(100vw - 24px);
-    margin-bottom: 200px;
+  }
+}
+
+.welcome_steps_eclipse {
+  position: absolute;
+  right: -745px;
+  top: -279px;
+  width: 649px;
+  height: 748px;
+  border-radius: 748px;
+  background: rgba(255, 187, 95, 0.3);
+  filter: blur(250px);
+  @media (max-width: 1600px) {
+    top: auto;
+    width: 322px;
+    height: 314px;
+    border-radius: 322px;
+    background: rgba(255, 187, 95, 0.4);
+    filter: blur(250px);
+    right: -366px;
+    bottom: -126px;
+  }
+  @media (max-width: 1200px) {
+    right: -541px;
+    width: 453px;
+    height: 441px;
+    border-radius: 453px;
+    background: rgba(255, 187, 95, 0.4);
+    filter: blur(250px);
+    bottom: -400px;
+  }
+
+  @media (max-width: 650px) {
+    top: 340px;
+    bottom: auto;
+    right: -263px;
+    width: 283px;
+    height: 276px;
+    border-radius: 283px;
+    background: rgba(255, 187, 95, 0.4);
+    filter: blur(150px);
+
   }
 }
 
@@ -33,14 +72,15 @@
   font-style: normal;
   font-weight: 900;
   line-height: 52px;
-  letter-spacing: 1.6px;
-  margin-bottom: 16px;
+  // margin-bottom: 16px;
+
   max-width: 971px;
 
   @media (max-width: 1200px) {
     font-size: 26px;
     line-height: 33.8px;
-    margin-bottom: 8px;
+    // margin-bottom: 8px;
+
   }
 
   @media (max-width: 650px) {
@@ -58,6 +98,8 @@
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr;
   }
+  margin-top: 16px;
+
 }
 
 .welcome_steps_step {
