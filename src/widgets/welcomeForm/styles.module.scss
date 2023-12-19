@@ -5,6 +5,7 @@
   position: relative;
   border-radius: 20px;
   border: 1px solid #2d2d2d;
+  z-index: 2;
   background: linear-gradient(
     144deg,
     rgba(38, 34, 25, 0.4) -52.3%,
@@ -44,6 +45,7 @@
 
   @media screen and (max-width: 700px) {
     grid-template-columns: 1fr;
+    // background: var(--black-10-f, #0f0f0f);
   }
 
   @media screen and (max-width: 650px) {

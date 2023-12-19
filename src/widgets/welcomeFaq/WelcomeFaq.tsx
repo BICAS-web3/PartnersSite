@@ -37,6 +37,7 @@ export const WelcomeFaq: FC<WelcomeFaqProps> = () => {
 
   return (
     <div className={s.welcome_faq_section}>
+      <span className={s.welcome_faq_eclipse}></span>
       <div className={s.welcome_faq_body}>
         <div className={s.welcome_faq_img_wrap}>
           <img src={img.src} alt="img" className={s.welcome_faq_img} />

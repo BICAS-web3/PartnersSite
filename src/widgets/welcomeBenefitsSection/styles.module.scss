@@ -1,7 +1,7 @@
 .welcome_benefits_section {
   min-height: 900px;
   margin-top: 40px;
-
+  position: relative;
   @media screen and (max-width: 700px) {
     margin-top: 80px;
     min-height: 300px;
@@ -14,6 +14,74 @@
 
 .welcome_benefits_body {
   padding: 0 16px;
+}
+
+.welcome_benefits_eclipse {
+  position: absolute;
+  width: 429px;
+  height: 763px;
+  border-radius: 763px;
+  background: rgba(255, 125, 5, 0.3);
+  filter: blur(305.5px);
+  top: 471px;
+  left: -700px;
+  @media (max-width: 1920px) {
+    left: -600px;
+  }
+  @media (max-width: 1600px) {
+    width: 429px;
+    height: 325px;
+    top: auto;
+    bottom: -154px;
+    left: -214px;
+  }
+  @media (max-width: 1280px) {
+    width: 429px;
+    height: 325px;
+    border-radius: 429px;
+    background: rgba(255, 125, 5, 0.5);
+    filter: blur(305.5px);
+    left: -145px;
+    bottom: 40px;
+  }
+  @media (max-width: 650px) {
+    width: 117px;
+    height: 114px;
+    left: auto;
+    // fill: #d14f05;
+    background: #d14f05;
+    filter: blur(130px);
+    bottom: auto;
+    top: -2px;
+    right: -55px;
+  }
+}
+.welcome_benefits_eclipse_2 {
+  position: absolute;
+  width: 392px;
+  height: 424px;
+  border-radius: 424px;
+  background: rgba(255, 187, 95, 0.4);
+  filter: blur(250px);
+  top: 343px;
+  right: -655px;
+  z-index: 2;
+  @media (max-width: 1920px) {
+    right: -400px;
+  }
+  @media (max-width: 1280px) {
+    display: none;
+  }
+  @media (max-width: 650px) {
+    right: auto;
+    display: block;
+    width: 148px;
+    height: 112px;
+    fill: rgba(255, 190, 115, 0.5);
+    filter: blur(100px);
+    top: 337px;
+    left: -65px;
+  }
 }
 
 .welcome_benefits_title {

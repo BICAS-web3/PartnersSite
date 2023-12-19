@@ -9,6 +9,7 @@
   align-items: start;
   justify-content: space-between;
   margin-bottom: 200px;
+  position: relative;
   @media (max-width: 1600px) {
     max-width: 1039px;
     gap: 16px;
@@ -22,6 +23,21 @@
   @media (max-width: 650px) {
     margin-top: 70px;
     width: calc(100vw - 24px);
+  }
+}
+
+.welcome_about_eclipse {
+  display: none;
+  @media (max-width: 650px) {
+    position: absolute;
+    display: block;
+    width: 283px;
+    height: 276px;
+    border-radius: 283px;
+    background: rgba(255, 187, 95, 0.4);
+    filter: blur(150px);
+    top: 100px;
+    left: -214px;
   }
 }
 

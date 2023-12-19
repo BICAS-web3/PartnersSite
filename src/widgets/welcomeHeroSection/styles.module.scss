@@ -1,7 +1,9 @@
 .welcome_hero_section {
-  min-height: 925px;
+  // min-height: 925px;
   width: 100%;
   position: relative;
+  // background-color: red;
+  height: calc(100vh - 80px);
 
   &::after {
     content: "";
@@ -22,16 +24,57 @@
     }
   }
 
-  @media screen and (max-width: 1280px) {
-    min-height: 850px;
+  @media screen and (max-width: 1920px) {
+    // min-height: 850px;
   }
+  // @media screen and (max-width: 1280px) {
+  //   min-height: 850px;
+  // }
 
   @media screen and (max-width: 700px) {
-    min-height: 780px;
+    // min-height: 780px;
   }
 
   @media screen and (max-width: 650px) {
-    min-height: 600px;
+    // min-height: 600px;
+    height: calc(100vh - 56px);
+  }
+}
+
+.welcome_hero_eclipse {
+  position: absolute;
+  width: 364px;
+  height: 354px;
+  border-radius: 364px;
+  background: rgba(255, 187, 95, 0.4);
+  filter: blur(250px);
+  top: -62px;
+  left: -70px;
+  z-index: 2;
+  @media (max-width: 1600px) {
+    top: 18px;
+    left: -150px;
+  }
+  @media (max-width: 700px) {
+    display: none;
+  }
+}
+.welcome_hero_eclipse_2 {
+  position: absolute;
+  width: 364px;
+  height: 354px;
+  border-radius: 364px;
+  background: rgba(255, 187, 95, 0.4);
+  filter: blur(250px);
+  top: 103px;
+  right: -334px;
+  z-index: 2;
+  @media (max-width: 1600px) {
+    top: 183px;
+    right: -284px;
+  }
+  @media (max-width: 700px) {
+    display: none;
   }
 }
 

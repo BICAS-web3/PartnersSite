@@ -14,6 +14,8 @@ export const WelcomeHeroSection: FC<WelcomeHeroSectionProps> = () => {
 
   return (
     <div className={s.welcome_hero_section}>
+      <span className={s.welcome_hero_eclipse}></span>
+      <span className={s.welcome_hero_eclipse_2}></span>
       <img src={bgImg.src} alt="background-img" className={s.bg_img} />
       <div className={s.welcome_hero_container}>
         <div className={s.welcome_hero_body}>

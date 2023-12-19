@@ -3,6 +3,7 @@
   max-width: 900px;
   margin: 100px auto 0 auto;
   min-height: 400px;
+  position: relative;
 
   @media screen and (max-width: 700px) {
     max-width: 550px;
@@ -11,6 +12,39 @@
 
   @media screen and (max-width: 650px) {
     margin: 70px auto 0 auto;
+  }
+}
+
+.welcome_faq_eclipse {
+  position: absolute;
+  width: 1114.658px;
+  height: 1063.854px;
+  transform: rotate(-17.247deg);
+  border-radius: 1114.658px;
+  background: rgba(255, 187, 95, 0.1);
+  filter: blur(250px);
+  top: -457px;
+  left: -765px;
+  @media (max-width: 1600px) {
+    width: 456px;
+    height: 444px;
+    border-radius: 456px;
+    background: rgba(255, 187, 95, 0.4);
+    filter: blur(250px);
+    top: -27px;
+    left: -264px;
+  }
+  @media (max-width: 1280px) {
+    width: 487px;
+    height: 475px;
+    border-radius: 487px;
+    background: rgba(255, 187, 95, 0.4);
+    filter: blur(250px);
+    top: 66px;
+    left: -530px;
+  }
+  @media (max-width: 700px) {
+    display: none;
   }
 }
 

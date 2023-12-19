@@ -19,6 +19,7 @@ export const WelcomeAboutSection: FC<WelcomeAboutSectionProps> = () => {
   ]);
   return (
     <section className={s.welcome_about_section}>
+      <span className={s.welcome_about_eclipse}></span>
       <article>
         <h2 className={s.welcome_about_title}>game.greekkepers.io</h2>
         <p
