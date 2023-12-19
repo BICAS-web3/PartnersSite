@@ -23,7 +23,7 @@ export const languagesList = [
   },
   {
     img: usaImg,
-    title: "us",
+    title: "en",
   },
   {
     img: ukraineImg,
@@ -118,7 +118,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
           />
           <span className={s.active_language_title}>
             {/* {activeLanguage.title} */}
-            us
+            en
           </span>
           {/* <div className={s.header_dd_ico_wrap}>
             <HeaderDropdownArrow />

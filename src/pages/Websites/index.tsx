@@ -416,6 +416,186 @@ const Websites: FC<WebsitesProps> = () => {
             <span className={s.websites_filter_btn}>Фильтры</span>
           </div>
           {is650 ? (
+            // <div
+            //   className={`${s.mobile_filter_block} mobile_filter_block ${
+            //     isFilter && s.filter_active
+            //   } ${currentFilterPage !== "" && s.scroll_disabled}`}
+            //   id="websites_filter_block"
+            // >
+            //   <WebsitesFilter
+            //     setCurrentFilterPage={setCurrentFilterPage}
+            //     currentFilterPage={currentFilterPage}
+            //     subBlock="websitesFilterPage"
+            //     setTitle={setWebsiteMobPlaceholder}
+            //   />
+            //   <WebsiteCategoryFilter
+            //     setCurrentFilterPage={setCurrentFilterPage}
+            //     currentFilterPage={currentFilterPage}
+            //     setCurrentSiteCategory={setCurrentSiteCategory}
+            //     setMobTableOpts={setMobTableOpts}
+            //     startOptions={pageResponseUpdated}
+            //     list={pageResponseUpdated}
+            //     custom={true}
+            //     categotyFilter={categotyFilter}
+            //     setCategoryFilter={setCategoryFilter}
+            //   />
+            //   <WebsiteLanguageFilter
+            //     setCurrentFilterPage={setCurrentFilterPage}
+            //     currentFilterPage={currentFilterPage}
+            //     setCurrentLanguage={setCurrentLanguage}
+            //   />
+            //   <WebsiteTableFilter
+            //     setCurrentFilterPage={setCurrentFilterPage}
+            //     currentFilterPage={currentFilterPage}
+            //     setMobTableOpts={setMobTableOpts}
+            //     activeOptions={mobTableOptions}
+            //     setActiveOptions={setMobTableOpts}
+            //     list={pageResponseUpdated}
+            //     setMobileTableLing={setMobileTableLing}
+            //     setTitleArr={setTitleArr}
+            //     titleArr={titleArr}
+            //     isPartnerPage={true}
+            //   />
+            //   <div
+            //     className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+            //   >
+            //     <span
+            //       className={`${s.close_filter_block_btn} close_filter_block_btn`}
+            //       onClick={() => setIsFilter(false)}
+            //     >
+            //       <Image src={prevArrow} alt="close-filter-ico" />
+            //       Назад
+            //     </span>
+            //     <span className="mobile_filter_title">Фильтры</span>
+            //   </div>
+            //   <div className="mobile_filter_body">
+            //     <div
+            //       className="mobile_filter_item"
+            //       onClick={() => setCurrentFilterPage("websitesFilterPage")}
+            //     >
+            //       <span className="mobile_filter_item_title">Веб-сайт</span>
+            //       <span className="mobile_filter_item_picked_value">
+            //         {websiteMobPlaceholder}
+            //       </span>
+            //     </div>
+            //     {/* <div
+            //       className="mobile_filter_item"
+            //       onClick={() => setCurrentFilterPage("websitesCategoryFilter")}
+            //     >
+            //       <span className="mobile_filter_item_title">
+            //         Категория сайта
+            //       </span>
+            //       <span className="mobile_filter_item_picked_value">
+            //         {currentSiteCategory.title}
+            //       </span>
+            //     </div> */}
+            //     <div
+            //       className="mobile_filter_item"
+            //       onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
+            //     >
+            //       <span className="mobile_filter_item_title">Язык</span>
+            //       <span className="mobile_filter_item_picked_value">
+            //         {currentLanguage.title}
+            //       </span>
+            //     </div>
+            //     <div
+            //       className="mobile_filter_item"
+            //       onClick={() => setCurrentFilterPage("websitesTableFilter")}
+            //     >
+            //       <span className="mobile_filter_item_title">Показать</span>
+            //       <span className="mobile_filter_item_picked_value">
+            //         Выбрано {titleArr?.length ? titleArr?.length : 0} п.
+            //       </span>
+            //     </div>
+            //     <div className="mobile_filter_item">
+            //       <button className={s.add_website_mob_btn}>
+            //         Добавить сайт
+            //       </button>
+            //     </div>
+
+            //     <button
+            //       className={s.mobile_filter_back_btn}
+            //       onClick={() => setIsFilter(false)}
+            //     >
+            //       Назад
+            //     </button>
+            //     {/* <ListButtons
+            //       setIsBack={setIsFilter}
+            //       title="Сгенерировать отчет"
+            //     /> */}
+            //   </div>
+            // </div>
+            <></>
+          ) : (
+            // <div className={s.adding_website_block}>
+            //   <div
+            //     className={`${s.adding_website_block_item} ${s.websites_item_block}`}
+            //   >
+            //     <span className={s.adding_website_block_item_title}>
+            //       Веб-сайт
+            //     </span>
+            //     <input
+            //       value={pageUrl}
+            //       onChange={(el) => setPageUrl(el.target.value)}
+            //       type="text"
+            //       placeholder={`${
+            //         isTablet
+            //           ? "example.com"
+            //           : "Введите свой сайт. Например: mysite.com"
+            //       }`}
+            //       className={clsx(
+            //         s.adding_website_input,
+            //         "default_input",
+            //         (validateWebPage(pageUrl) === false &&
+            //           error &&
+            //           "error_input") ||
+            //           (error && !pageUrl && "error_input")
+            //       )}
+            //     />
+            //   </div>
+            //   {/* <div className={s.adding_website_block_item}>
+            //     <span className={s.adding_website_block_item_title}>
+            //       Категория сайта
+            //     </span>
+            //     <CustomDropdownInput
+            //       setCategoryFilter={setCategoryFilter}
+            //       setSelectedValue={setPageType}
+            //       list={siteCategories.filter(
+            //         (el) => el.title !== categotyFilter
+            //       )}
+            //       activeItemId="sportsForecasts"
+            //       className={clsx(error && !pageType && "error_input")}
+            //       startList={pageResponseUpdated}
+            //       setActiveOptions={setActiveOptions}
+            //       custom={true}
+            //       categotyFilter={categotyFilter}
+            //       maxW={
+            //         !is1280 && !is650 && !isTablet
+            //           ? 160
+            //           : is1280
+            //           ? 135
+            //           : isTablet
+            //           ? 160
+            //           : is650
+            //           ? 160
+            //           : 160
+            //       }
+            //     />
+            //   </div> */}
+            //   <div className={s.adding_website_block_item}>
+            //     <span className={s.adding_website_block_item_title}>Язык</span>
+            //     <CustomDropdownInput
+            //       list={languagesList}
+            //       activeItemId="sportsForecasts"
+            //     />
+            //   </div>
+            //   <button onClick={handleAddPage} className={s.add_website_btn}>
+            //     {isAuthed ? "Добавить сайт" : "Войти"}
+            //   </button>
+            // </div>
+            <></>
+          )}
+          {is650 && (
             <div
               className={`${s.mobile_filter_block} mobile_filter_block ${
                 isFilter && s.filter_active
@@ -507,11 +687,11 @@ const Websites: FC<WebsitesProps> = () => {
                     Выбрано {titleArr?.length ? titleArr?.length : 0} п.
                   </span>
                 </div>
-                <div className="mobile_filter_item">
+                {/* <div className="mobile_filter_item">
                   <button className={s.add_website_mob_btn}>
-                    Добавить сайт
+                    Добавить сайт2
                   </button>
-                </div>
+                </div> */}
 
                 <button
                   className={s.mobile_filter_back_btn}
@@ -525,34 +705,34 @@ const Websites: FC<WebsitesProps> = () => {
                 /> */}
               </div>
             </div>
-          ) : (
-            <div className={s.adding_website_block}>
-              <div
-                className={`${s.adding_website_block_item} ${s.websites_item_block}`}
-              >
-                <span className={s.adding_website_block_item_title}>
-                  Веб-сайт
-                </span>
-                <input
-                  value={pageUrl}
-                  onChange={(el) => setPageUrl(el.target.value)}
-                  type="text"
-                  placeholder={`${
-                    isTablet
-                      ? "example.com"
-                      : "Введите свой сайт. Например: mysite.com"
-                  }`}
-                  className={clsx(
-                    s.adding_website_input,
-                    "default_input",
-                    (validateWebPage(pageUrl) === false &&
-                      error &&
-                      "error_input") ||
-                      (error && !pageUrl && "error_input")
-                  )}
-                />
-              </div>
-              {/* <div className={s.adding_website_block_item}>
+          )}
+          <div className={s.adding_website_block}>
+            <div
+              className={`${s.adding_website_block_item} ${s.websites_item_block}`}
+            >
+              <span className={s.adding_website_block_item_title}>
+                Веб-сайт
+              </span>
+              <input
+                value={pageUrl}
+                onChange={(el) => setPageUrl(el.target.value)}
+                type="text"
+                placeholder={`${
+                  isTablet
+                    ? "example.com"
+                    : "Введите свой сайт. Например: mysite.com"
+                }`}
+                className={clsx(
+                  s.adding_website_input,
+                  "default_input",
+                  (validateWebPage(pageUrl) === false &&
+                    error &&
+                    "error_input") ||
+                    (error && !pageUrl && "error_input")
+                )}
+              />
+            </div>
+            {/* <div className={s.adding_website_block_item}>
                 <span className={s.adding_website_block_item_title}>
                   Категория сайта
                 </span>
@@ -581,15 +761,17 @@ const Websites: FC<WebsitesProps> = () => {
                   }
                 />
               </div> */}
-              <div className={s.adding_website_block_item}>
-                <span className={s.adding_website_block_item_title}>Язык</span>
-                <CustomDropdownInput list={languagesList} activeItemId="eng" />
-              </div>
-              <button onClick={handleAddPage} className={s.add_website_btn}>
-                {isAuthed ? "Добавить сайт" : "Войти"}
-              </button>
+            <div className={s.adding_website_block_item}>
+              <span className={s.adding_website_block_item_title}>Язык</span>
+              <CustomDropdownInput
+                list={languagesList}
+                activeItemId="sportsForecasts"
+              />
             </div>
-          )}
+            <button onClick={handleAddPage} className={s.add_website_btn}>
+              {isAuthed ? "Добавить сайт" : "Войти"}
+            </button>
+          </div>
           <div className={s.website_downTable_filter_block}>
             <div className={s.websites_hiddenAdded_block}>
               <DropdownPick
@@ -622,7 +804,7 @@ const Websites: FC<WebsitesProps> = () => {
                     />
                   </div>
                   <div className={s.swiper_slide_content}>
-                    {(isMobile ? mobTableOptions : activeOptions)
+                    {(isMobile ? activeOptions : activeOptions)
 
                       ?.filter((eld: IPagesResponse) => {
                         if (categotyFilter?.length <= 0) {

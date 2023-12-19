@@ -19,6 +19,9 @@ import { CSTableFilter } from "../../widgets/csMobFilter/CSMobTableFilter";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 import { useMediaQuery } from "@/shared/tools";
 
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { useUnit } from "effector-react";
+
 export const optsList = [
   {
     title: "Валюта",
@@ -55,6 +58,7 @@ export const optsList = [
 interface CommissionStructureProps {}
 
 const CommissionStructure: FC<CommissionStructureProps> = () => {
+  const [registrationTime] = useUnit([ContactModel.$registrationTime]);
   const [titleArr, setTitleArr] = useState(optsList.map((el) => el.title));
   const [activeOps, setActiveOpts] = useState<
     | {
@@ -121,6 +125,28 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
       document.body.style.overflow = "auto";
     }
   }, [isFilter]);
+
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  useEffect(() => {
+    if (registrationTime) {
+      const halfYearInSeconds = 6 * 30 * 24 * 60 * 60;
+      const endTimestamp = registrationTime + halfYearInSeconds;
+      const date = new Date(registrationTime * 1000);
+      const endDate = new Date(endTimestamp * 1000);
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      const endYear = endDate.getFullYear();
+      const endMonth = String(endDate.getMonth() + 1).padStart(2, "0");
+      const endDay = String(endDate.getDate()).padStart(2, "0");
+
+      setStartTime(`${year}-${month}-${day}`);
+      setEndTime(`${endYear}-${endMonth}-${endDay}`);
+    }
+  }, [registrationTime]);
 
   return (
     <Layout activePage="commissionStructure">
@@ -224,7 +250,15 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
                         </span>
                         <Image src={upDownArrows} alt="sort-ico" />
                       </div>
-                      <div className={s.swiper_slide_content}>{item?.text}</div>
+                      <div className={s.swiper_slide_content}>
+                        {" "}
+                        {item?.title === "Дата начала"
+                          ? startTime
+                          : item?.title === "Дата окончания"
+                          ? endTime
+                          : item?.text}
+                        {/* {item?.text} */}
+                      </div>
                     </div>
                   </SwiperSlide>
                 )

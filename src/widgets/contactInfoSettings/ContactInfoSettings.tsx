@@ -245,13 +245,14 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Язык для уведомлений</span>
+          <span className={s.input_block_title}>Предпочитаемый язык</span>
           <CustomDropdownInput
-            activeItemId={
-              userLanguage &&
-              languagesList.find((el) => el.title === userLanguage)?.id
-            }
+            // activeItemId={
+            //   userLanguage &&
+            //   languagesList.find((el) => el.title === userLanguage)?.id
+            // }
             list={languagesList}
+            activeItemId="eng"
           />
         </div>
       </div>

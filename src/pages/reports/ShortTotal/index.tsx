@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
-import range from "lodash/range";
 import Image from "next/image";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,8 +8,6 @@ import { currenciesList, periodsList } from "@/pages/PayoutsHistory";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { siteCategories } from "@/widgets/welcomePageSignup/WelcomePageSignup";
-import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 import { BackHead } from "@/widgets/backHead/BackHead";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
@@ -28,7 +24,6 @@ import * as api from "@/shared/api";
 import s from "./styles.module.scss";
 
 import clsx from "clsx";
-import { add } from "lodash";
 import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 const wepPagesList = [
@@ -451,6 +446,13 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                       ? usersRegistration
                         ? usersRegistration?.connected_wallets
                         : 0
+                      : item.title === "Соотношение регистрации/клики"
+                      ? Number((clicks as any)?.clicks || 0) <= 0
+                        ? 0
+                        : (
+                            usersRegistration?.connected_wallets /
+                            Number((clicks as any)?.clicks)
+                          ).toFixed(2)
                       : item.data}
                   </span>
                 </div>

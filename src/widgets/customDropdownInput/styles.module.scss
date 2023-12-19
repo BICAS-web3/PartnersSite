@@ -20,7 +20,13 @@
     }
   }
 }
-
+.no_short {
+  span {
+    max-width: max-content;
+    text-wrap: wrap;
+    overflow: visible;
+  }
+}
 .active_dropdown_block {
   transition: all 0.5s;
   box-sizing: content-box;

@@ -42,11 +42,11 @@ export const PayoutData: FC<PayoutDataProps> = ({
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Номер банковской карты</span>
+          <span className={s.input_block_title}>Адрес кошелька</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="Wallet address"
+            placeholder="Wallet BEP20 address"
           />
         </div>
         <div className={s.change_info_details}>
