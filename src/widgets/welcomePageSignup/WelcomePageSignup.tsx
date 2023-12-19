@@ -36,65 +36,65 @@ export const siteCategories = [
     id: "inst",
   },
   {
-    title: "Прочее",
+    title: "Other",
     id: "other",
   },
 ];
 
 export const languagesList = [
   {
-    title: "Английский",
+    title: "English",
     id: "eng",
   },
   {
-    title: "Русский",
+    title: "Russian",
     id: "rus",
   },
   {
-    title: "Украинский",
+    title: "Ukranian",
     id: "ua",
   },
   {
-    title: "Испанский",
+    title: "Spanish",
     id: "spain",
   },
   {
-    title: "Арабский",
+    title: "Arabic",
     id: "arabic",
   },
   {
-    title: "Китайский",
+    title: "Chinese",
     id: "china",
   },
   {
-    title: "Французкий",
+    title: "French",
     id: "french",
   },
   {
-    title: "Корейский",
+    title: "Korean",
     id: "korean",
   },
   {
-    title: "Португальский",
+    title: "Portuguese",
     id: "portugal",
   },
   {
-    title: "Другие",
+    title: "Other",
     id: "other",
   },
 ];
 
 const fromWhereList = [
   {
-    title: "Реклама",
+    title: "Ads",
     id: "advert",
   },
   {
-    title: "Ссылка на сайт",
+    title: "Site link",
     id: "siteLink",
   },
   {
-    title: "Посоветовал знакомый",
+    title: "Friend's recomendation",
     id: "acquint",
   },
 ];
@@ -151,7 +151,7 @@ const countriesList = Object.keys(countries).map((code) => ({
   id: code,
 }));
 
-interface WelcomePageSignupProps {}
+interface WelcomePageSignupProps { }
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [token, setToken] = useState("");
@@ -476,16 +476,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           <Image alt="back-arrow" src={leftArr} />
           Назад
         </span>
-        <span className={s.desk_hidden_current_block_title}>Регистрация</span>
+        <span className={s.desk_hidden_current_block_title}>Registration</span>
       </div>
       <div className={s.welcome_page_signup_form}>
         <div className={s.welcome_page_signup_leftBlock}>
           <div className={s.welcome_page_paslog_block}>
             <span className={s.welcome_page_paslog_block_title}>
-              Логин и пароль
+              Login and Password
             </span>
             <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Логин*</span>
+              <span className={s.welcome_page_input_title}>Login*</span>
               <input
                 value={loginAuth}
                 onChange={(el) => setLoginAuth(el.target.value)}
@@ -495,7 +495,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               />
             </div>
             <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Пароль*</span>
+              <span className={s.welcome_page_input_title}>Password*</span>
               <input
                 value={password}
                 onChange={(el) => setPassword(el.target.value)}
@@ -509,16 +509,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 )}
                 placeholder={
                   isShortPassword
-                    ? "слишком короткий"
+                    ? "too short"
                     : errorPassword === true
-                    ? "пароли не совпадают"
-                    : "password"
+                      ? "passwords are different"
+                      : "password"
                 }
               />
             </div>
             <div className={s.welcome_page_input_block}>
               <span className={s.welcome_page_input_title}>
-                Повторите пароль*
+                Repeat password*
               </span>
               <input
                 value={passwordRepeat}
@@ -536,11 +536,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           </div>
           <div className={s.welcome_page_additionalInfo_block}>
             <span className={s.welcome_page_additionalInfo_block_title}>
-              Дополнительная информация
+              Additional info
             </span>
             <div className={s.welcome_page_additionalInfo_inputs_block}>
               <div className={s.welcome_page_input_block}>
-                <span className={s.welcome_page_input_title}>Сайт*</span>
+                <span className={s.welcome_page_input_title}>Site*</span>
                 <input
                   value={pageName}
                   onChange={(el) => setPageName(el.target.value)}
@@ -555,7 +555,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 5 }}>
                 <span className={s.welcome_page_input_title}>
-                  Категория сайта*
+                  Site category*
                 </span>
                 <CustomDropdownInput
                   list={siteCategories}
@@ -565,7 +565,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
                 <span className={s.welcome_page_input_title}>
-                  Предпочитаемый язык
+                  Preferred language
                 </span>
                 <CustomDropdownInput
                   setSelectedValue={setSelectedLanguage}
@@ -575,7 +575,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
                 <span className={s.welcome_page_input_title}>
-                  Как вы узнали о нас?
+                  How did you learn about us?
                 </span>
                 <CustomDropdownInput
                   setSelectedValue={setSelectedSourse}
@@ -585,12 +585,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 160
                       : is1280
-                      ? 110
-                      : is700
-                      ? 160
-                      : is650
-                      ? 160
-                      : 160
+                        ? 110
+                        : is700
+                          ? 160
+                          : is650
+                            ? 160
+                            : 160
                   }
                 />
               </div>
@@ -600,11 +600,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         <div className={s.welcome_page_signup_rightBlock}>
           <div className={s.welcome_page_contactInfo_block}>
             <span className={s.welcome_page_contactInfo_block_title}>
-              Контактная информация
+              Contact info
             </span>
             <div className={s.welcome_page_contactInfo_persInfo_block}>
               <div className={s.welcome_page_input_block}>
-                <span className={s.welcome_page_input_title}>Имя*</span>
+                <span className={s.welcome_page_input_title}>Name*</span>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -618,7 +618,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 />
               </div>
               <div className={s.welcome_page_input_block}>
-                <span className={s.welcome_page_input_title}>Фамилия*</span>
+                <span className={s.welcome_page_input_title}>Surname*</span>
                 <input
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
@@ -633,7 +633,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
             </div>
             <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Кошелек*</span>
+              <span className={s.welcome_page_input_title}>Wallet*</span>
               <input
                 value={wallet}
                 onChange={(el) => setWallet(el.target.value)}
@@ -645,13 +645,13 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   notValidAddress && s.error_input
                 )}
                 placeholder={
-                  notValidAddress ? "Не валидный адрес" : "Wallet BEP20"
+                  notValidAddress ? "Not a valid wallet" : "Wallet BEP20"
                 }
               />
             </div>
             <div className={s.welcome_page_contactInfo_otherInfo_block}>
               <div className={s.welcome_page_input_block} style={{ zIndex: 3 }}>
-                <span className={s.welcome_page_input_title}>Мессенджер*</span>
+                <span className={s.welcome_page_input_title}>Messenger*</span>
                 <CustomDropdownInput
                   setSelectedValue={setSelectedMessanger}
                   list={messangersList}
@@ -661,7 +661,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>
-                  Логин мессенджера*
+                  Messenger login*
                 </span>
                 <input
                   value={messangerValue}
@@ -676,7 +676,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
-                <span className={s.welcome_page_input_title}>Страна*</span>
+                <span className={s.welcome_page_input_title}>Country*</span>
                 <CustomDropdownInput
                   setSelectedValue={setSelectedCountry}
                   list={countriesList}
@@ -686,18 +686,18 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 160
                       : is1280
-                      ? 110
-                      : is700
-                      ? 160
-                      : is650
-                      ? 160
-                      : 160
+                        ? 110
+                        : is700
+                          ? 160
+                          : is650
+                            ? 160
+                            : 160
                   }
                 />
               </div>
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>
-                  Номер телефона (не обязательный)
+                  Phone number (not required)
                 </span>
                 <input
                   type="tel"
@@ -711,12 +711,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           </div>
           <div className={s.welcome_page_paymentData_block}>
             <span className={s.welcome_page_paymentData_block_title}>
-              Платежные данные
+              Payments info
             </span>
             <div className={s.welcome_page_paymentData_block_inputs}>
               <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
                 <span className={s.welcome_page_input_title}>
-                  Предпочитаемый метод выплат
+                  preferred payouts method
                 </span>
                 <CustomDropdownInput list={paymentTypes} activeItemId="usdt" />
               </div>
@@ -740,12 +740,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       </div>
       <div className={s.form_info}>
         <p className={s.form_info_text}>
-          Использование веб - сайта https://greekkepers.partners.io/
-          осуществляется в соответствии с правилами и условиями Greek Keppers
-          Partners и политикой конфиденциальности Greek Keppers Partners. Greek
-          Keepers может передавать Ваши личные данные, собранные в связи с
-          регистрацией на данном веб-сайте, своим аффилированным компаниям в
-          разных странах и третьим лицам, оказывающим услуги компании Greek
+          Using the website https://greekkepers.partners.io/
+          carried out in accordance with the terms and conditions of Greek Keppers
+          Partners and Greek Keppers Partners privacy policy. Greek
+          Keepers may share your personal data collected in connection with
+          registration on this website, its affiliated companies in
+          different countries and third parties providing services to Greek
           Keepers.
         </p>
         <div className={s.privacyPolicy_container}>
@@ -753,8 +753,8 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             className={s.privacyPolicy_text}
             onClick={() => setIsPPchecked(!isPPchecked)}
           >
-            <div className={s.checkbox}>{isPPchecked && <CheckBoxIco />}</div>Я
-            ознакомился, понимаю и принимаю вышеизложенные условия и политики
+            <div className={s.checkbox}>{isPPchecked && <CheckBoxIco />}</div>
+            I have read, understand and accept the above terms and conditions and policies
           </span>
         </div>
         <div className={s.btns_container}>
@@ -764,16 +764,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             className={s.register_submit_btn}
           >
             {startRegistration ? (
-              <PreloadDots title="Подождите" />
+              <PreloadDots title="Wait" />
             ) : (
-              "Зарегистрироваться"
+              "Register"
             )}
           </button>
           <button
             onClick={() => setLogin(true)}
             className={s.register_submit_btn}
           >
-            Есть аккаунт?
+            Have and account?
           </button>
         </div>
       </div>

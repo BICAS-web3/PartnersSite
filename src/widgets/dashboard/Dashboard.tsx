@@ -10,7 +10,7 @@ import { FastStats } from "../fastStats/FastStats";
 import s from "./styles.module.scss";
 import * as SidebarM from "@/widgets/sidebar/model";
 
-interface DashboardProps {}
+interface DashboardProps { }
 const currenciesList = [
   {
     title: "USD",
@@ -47,14 +47,13 @@ export const Dashboard: FC<DashboardProps> = () => {
           {isMobile ? "Dashboard" : "Главная"}
         </Link>
         <div
-          className={`${s.dashboard_header} ${
-            !isSidebarOpened && s.sidebar_closed
-          }`}
+          className={`${s.dashboard_header} ${!isSidebarOpened && s.sidebar_closed
+            }`}
         >
           {isMobile ? (
             <div className={s.choose_currency_block}>
               <div className={s.choose_currency_wrap}>
-                <span className={s.currency_block_title}>Валюта</span>
+                <span className={s.currency_block_title}>Currency</span>
                 <CustomDropdownInput list={currenciesList} activeItemId="usd" />
               </div>
             </div>

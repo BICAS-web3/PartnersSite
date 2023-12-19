@@ -17,12 +17,12 @@ const subscribesList = [
   },
 ];
 
-interface ProfileSubscribesProps {}
+interface ProfileSubscribesProps { }
 
 export const ProfileSubscribes: FC<ProfileSubscribesProps> = () => {
   return (
     <div className={s.subscribes_block}>
-      <span className={s.subscribes_block_title}>Подписки</span>
+      <span className={s.subscribes_block_title}>Subscriptions</span>
       <div className={s.sunbscribes_list}>
         {subscribesList.map((item, ind) => (
           <SubscribesItem item={item} key={ind} />

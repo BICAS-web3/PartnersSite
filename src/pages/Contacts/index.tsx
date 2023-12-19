@@ -5,7 +5,7 @@ import rightArr from "@/public/media/common/rightArrow.png";
 import Image from "next/image";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 
-interface ContactsProps {}
+interface ContactsProps { }
 
 const Contacts: FC<ContactsProps> = () => {
   return (
@@ -14,13 +14,13 @@ const Contacts: FC<ContactsProps> = () => {
         <div className={s.contacts_block}>
           <Breadcrumbs
             list={[
-              { title: "Главная", link: "/" },
-              { title: "Контакты", link: "/Contacts" },
+              { title: "Main", link: "/" },
+              { title: "Contacts", link: "/Contacts" },
             ]}
           />
-          <h2 className={s.contacts_tilte}>контакты:</h2>
+          <h2 className={s.contacts_tilte}>contacts:</h2>
           <p className={s.contacts_text}>
-            По любым вопросам работы партнёрской программы <br /> обращайтесь:
+            For any questions about affiliate program <br /> reach out to us:
           </p>
           <a
             target="_blank"

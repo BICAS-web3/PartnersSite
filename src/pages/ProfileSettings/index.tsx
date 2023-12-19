@@ -8,7 +8,7 @@ import { ProfileTwoAuthnt } from "@/widgets/profileTwoAuthnt/ProfileTwoAuthnt";
 import { ProfileChangePassword } from "@/widgets/profileChangePassword/ProfileChangePassword";
 import { ProfileSubscribes } from "@/widgets/profileSubscribes/ProfileSubscribes";
 
-interface ProfileSettingsProps {}
+interface ProfileSettingsProps { }
 
 const ProfileSettings: FC<ProfileSettingsProps> = () => {
   return (
@@ -16,8 +16,8 @@ const ProfileSettings: FC<ProfileSettingsProps> = () => {
       <section className={s.profile_settings_section}>
         <Breadcrumbs
           list={[
-            { title: "Главная", link: "/" },
-            { title: "Настройки профиля", link: "/ProfileSettings" },
+            { title: "Main", link: "/" },
+            { title: "Profile settings", link: "/ProfileSettings" },
           ]}
         />
         <div className={s.profile_settings_block}>

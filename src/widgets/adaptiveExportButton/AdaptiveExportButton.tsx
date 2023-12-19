@@ -23,7 +23,7 @@ export const AdaptiveExportButton: FC<AdaptiveExportButtonProps> = ({
     >
       <button className={s.export_btn}>
         <ExportIcon />
-        Экспорт
+        Export
       </button>
     </div>
   );

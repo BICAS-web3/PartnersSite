@@ -39,7 +39,7 @@ export const languagesList = [
   },
 ];
 
-interface RightMenuProps {}
+interface RightMenuProps { }
 
 export const RightMenu: FC<RightMenuProps> = () => {
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
@@ -103,10 +103,9 @@ export const RightMenu: FC<RightMenuProps> = () => {
     <div className={s.right_menu_body}>
       <div className={s.language_switcher}>
         <div
-          className={`${s.active_language_body} ${
-            languagesListVisibility && s.languages_list_active
-          }`}
-          // onClick={handleListVisibility}
+          className={`${s.active_language_body} ${languagesListVisibility && s.languages_list_active
+            }`}
+        // onClick={handleListVisibility}
         >
           {/* <Image className={s.active_language_img} src={usaImg} alt={`us`} />
           <span className={s.active_language_title}></span> */}
@@ -125,9 +124,8 @@ export const RightMenu: FC<RightMenuProps> = () => {
           </div> */}
         </div>
         <div
-          className={`${s.avaible_languages_list} ${
-            languagesListVisibility && s.avaible_languages_list_visible
-          }`}
+          className={`${s.avaible_languages_list} ${languagesListVisibility && s.avaible_languages_list_visible
+            }`}
         >
           {avaibleLanguages.map((item, ind) => (
             <div
@@ -147,9 +145,8 @@ export const RightMenu: FC<RightMenuProps> = () => {
         <>
           {/* {isMobile && <ChainList />} */}
           <div
-            className={`${s.mob_sidebar_open_btn} ${
-              isSbOpened && s.open_btn_active
-            }`}
+            className={`${s.mob_sidebar_open_btn} ${isSbOpened && s.open_btn_active
+              }`}
             onClick={handleSbVisibility}
           >
             {isMobile && (
@@ -173,7 +170,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
               setLogin(false);
             }}
           >
-            Регистрация
+            Registration
           </Link>
           <Link
             href={"/"}
@@ -183,7 +180,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
               setLogin(true);
             }}
           >
-            Вход
+            LogIn
           </Link>
         </>
       )}

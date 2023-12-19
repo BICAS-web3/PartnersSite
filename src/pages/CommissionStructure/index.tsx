@@ -24,48 +24,48 @@ import { useUnit } from "effector-react";
 
 export const optsList = [
   {
-    title: "Валюта",
+    title: "Currency",
     id: "currency",
     text: "USD",
   },
   {
-    title: "Структура коммиссий",
+    title: "Commissions structure",
     id: "commissionStructure",
     text: "Revenue Share",
   },
   {
-    title: "Название комиссионной группы",
+    title: "Comission group name",
     id: "commssGroupName",
     text: "USD START 50%",
   },
   {
-    title: "Дата начала",
+    title: "Starting date",
     id: "startDate",
     text: "2023-10-09",
   },
   {
-    title: "Описание",
+    title: "Description",
     id: "description",
-    text: "Отрицательная комиссия: да; Администраторский: 0%.",
+    text: "Negative comission: yes; Administrative: 0%.",
   },
   {
-    title: "Дата окончания",
+    title: "Ending date",
     id: "endDate",
     text: "2024-01-10",
   },
 ];
 
-interface CommissionStructureProps {}
+interface CommissionStructureProps { }
 
 const CommissionStructure: FC<CommissionStructureProps> = () => {
   const [registrationTime] = useUnit([ContactModel.$registrationTime]);
   const [titleArr, setTitleArr] = useState(optsList.map((el) => el.title));
   const [activeOps, setActiveOpts] = useState<
     | {
-        title?: string;
-        id?: string;
-        text?: string;
-      }
+      title?: string;
+      id?: string;
+      text?: string;
+    }
     | any
   >([]);
   const [is650, setIs650] = useState(false);
@@ -155,8 +155,8 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
           <div className={s.breadcrumbs_wrap}>
             <Breadcrumbs
               list={[
-                { title: "Главная", link: "/" },
-                { title: "Структура комиссий", link: "/CommissionStructure" },
+                { title: "Main", link: "/" },
+                { title: "Commissions structure", link: "/CommissionStructure" },
               ]}
             />
           </div>
@@ -164,12 +164,11 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
             <>
               <div className={s.mob_filter_block} onClick={handleFilterClick}>
                 <Image src={filterIco} alt="filter-ico" />
-                Фильтры
+                filters
               </div>
               <div
-                className={`${s.mobile_filter_block} mobile_filter_block ${
-                  isFilter && s.filter_active
-                }`}
+                className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
+                  }`}
               >
                 <CSTableFilter
                   setCurrentFilterPage={setCurrentFilterPage}
@@ -184,30 +183,30 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
                     onClick={() => setIsFilter(false)}
                   >
                     <Image src={prevArrow} alt="close-filter-ico" />
-                    Назад
+                    Back
                   </span>
-                  <span className="mobile_filter_title">Фильтры</span>
+                  <span className="mobile_filter_title">filters</span>
                 </div>
                 <div className="mobile_filter_body">
                   <div
                     className="mobile_filter_item"
                     onClick={() => setCurrentFilterPage("CSMobTableFilter")}
                   >
-                    <span className="mobile_filter_item_title">Показать</span>
+                    <span className="mobile_filter_item_title">Show</span>
                     <span className="mobile_filter_item_picked_value">
-                      Выбрано {mobTableOpts.length} п.
+                      Selected {mobTableOpts.length} el.
                     </span>
                   </div>
                   <ListButtons
                     setIsBack={setIsFilter}
-                    title="Сгенерировать отчет"
+                    title="Generate report"
                   />
                 </div>
               </div>
             </>
           ) : (
             <div className={s.fast_stats_block}>
-              <span className={s.fast_stats_title}>Быстрая статистика</span>
+              <span className={s.fast_stats_title}>Quick satistics</span>
               <div className={s.choose_opts_wrap}>
                 <CustomDropDownChoose
                   activeOptions={activeOps}
@@ -252,11 +251,11 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
                       </div>
                       <div className={s.swiper_slide_content}>
                         {" "}
-                        {item?.title === "Дата начала"
+                        {item?.title === "Starting date"
                           ? startTime
-                          : item?.title === "Дата окончания"
-                          ? endTime
-                          : item?.text}
+                          : item?.title === "Ending date"
+                            ? endTime
+                            : item?.text}
                         {/* {item?.text} */}
                       </div>
                     </div>
@@ -268,7 +267,7 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
           <div className={s.table_navigation_block}>
             <div className={s.table_records_block}>
               <p className={s.table_records_text}>
-                Записи с 1 по 1 (всего 1 записей)
+                Records from 1 to 1 (total 1 records)
               </p>
             </div>
             <div className={s.table_pages_wrap}>

@@ -98,10 +98,10 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
             {categotyFilter
               ? categotyFilter
               : activeItem
-              ? activeItem.title
-              : !activeItem && isExportSelect
-              ? "Экспорт"
-              : "Выберите..."}
+                ? activeItem.title
+                : !activeItem && isExportSelect
+                  ? "Export"
+                  : "Select..."}
           </span>
         </div>
         <div className={s.dropdown_ico_block} style={{ height: height }}>
