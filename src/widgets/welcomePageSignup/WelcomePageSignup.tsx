@@ -117,10 +117,6 @@ export const messangersList = [
     id: "Discord",
   },
   {
-    title: "Instagram",
-    id: "Instagram",
-  },
-  {
     title: "Telegram",
     id: "Telegram",
   },
@@ -569,17 +565,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
                 <span className={s.welcome_page_input_title}>
-                  Предпочитаемый язык*
+                  Предпочитаемый язык
                 </span>
                 <CustomDropdownInput
                   setSelectedValue={setSelectedLanguage}
                   list={languagesList}
-                  activeItemId="rus"
+                  activeItemId="eng"
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
                 <span className={s.welcome_page_input_title}>
-                  Как вы узнали о нас?*
+                  Как вы узнали о нас?
                 </span>
                 <CustomDropdownInput
                   setSelectedValue={setSelectedSourse}
@@ -648,7 +644,9 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   !wallet && error && s.error_input,
                   notValidAddress && s.error_input
                 )}
-                placeholder={notValidAddress ? "Не валидный адрес" : "wallet"}
+                placeholder={
+                  notValidAddress ? "Не валидный адрес" : "Wallet BEP20"
+                }
               />
             </div>
             <div className={s.welcome_page_contactInfo_otherInfo_block}>
@@ -699,7 +697,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>
-                  Номер телефона
+                  Номер телефона (не обязательный)
                 </span>
                 <input
                   type="tel"
@@ -718,12 +716,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             <div className={s.welcome_page_paymentData_block_inputs}>
               <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
                 <span className={s.welcome_page_input_title}>
-                  Предпочитаемый метод выплат*
+                  Предпочитаемый метод выплат
                 </span>
                 <CustomDropdownInput list={paymentTypes} activeItemId="usdt" />
               </div>
               <div className={s.welcome_page_input_block}>
-                <span className={s.welcome_page_input_title}>E-mail</span>
+                <span className={s.welcome_page_input_title}>E-mail*</span>
                 <input
                   value={email}
                   onChange={(el) => setEmail(el.target.value)}

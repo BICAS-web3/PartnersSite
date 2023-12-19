@@ -23,11 +23,17 @@
   flex-direction: column;
   width: 100%;
   max-width: 230px;
+  @media (max-width: 650px) {
+    max-width: 100%;
+  }
 }
 
 .websites_item_block {
   width: 100%;
   max-width: 400px;
+  @media (max-width: 650px) {
+    margin-top: 10px;
+  }
 }
 
 .adding_website_block_item_title {
@@ -101,6 +107,9 @@
 
 .website_downTable_filter_block {
   margin-top: 20px;
+  @media (max-width: 650px) {
+    display: none !important;
+  }
 }
 
 .websites_hiddenAdded_block {

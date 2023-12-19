@@ -114,6 +114,7 @@ const Total: FC<TotalProps> = () => {
   const [mobTableOptions, setMobTableOpts] = useState(options);
   const [isMobile, setIsMobile] = useState<boolean>();
   const [barerToken] = useUnit([ContactModel.$barerToken]);
+  const [registrationTime] = useUnit([ContactModel.$registrationTime]);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
@@ -181,6 +182,7 @@ const Total: FC<TotalProps> = () => {
 
   const [siteCurrent, setSiteCurrent] = useState("");
   const [siteList, setSiteList] = useState([]);
+  const [allSites, setAllSites] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -189,6 +191,7 @@ const Total: FC<TotalProps> = () => {
           bareer: barerToken,
         });
         if (data.status === "OK" && Array.isArray(data?.body)) {
+          setAllSites(data?.body as any);
           const sites = (data?.body as any)?.map(
             (item: any) => item?.basic?.url
           );
@@ -197,7 +200,20 @@ const Total: FC<TotalProps> = () => {
       }
     })();
   }, [barerToken]);
+  const [startTime, setStartTime] = useState("");
+  useEffect(() => {
+    if (registrationTime) {
+      const halfYearInSeconds = 6 * 30 * 24 * 60 * 60;
+      const endTimestamp = registrationTime + halfYearInSeconds;
+      const date = new Date(registrationTime * 1000);
 
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      setStartTime(`${year}-${month}-${day}`);
+    }
+  }, [registrationTime]);
   return (
     <Layout activePage="total">
       <section className={s.total_page}>
@@ -273,9 +289,6 @@ const Total: FC<TotalProps> = () => {
               </span>
               <span className="mobile_filter_title">Фильтры</span>
             </div>
-            <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-            </div>
             <div className="mobile_filter_item_page_footer">
               <button className="mob_cancel_btn">Отменить</button>
               <button className="mob_save_btn">Сохранить</button>
@@ -308,16 +321,6 @@ const Total: FC<TotalProps> = () => {
               filterTitle="choose"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-              className={clsx("mobile_filter_item", s.inputWrapper)}
-              onClick={() => setCurrentFilterPage("input")}
-            >
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-            </div>
 
             <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
@@ -347,18 +350,6 @@ const Total: FC<TotalProps> = () => {
                 custom={true}
                 list={siteList}
                 activeItemId="casino"
-              />
-            </div>
-            <div className={s.markt_tool_id_block}>
-              <span className={s.table_filter_block_title}>
-                ID Маркетингового инструмента
-              </span>
-              <input
-                value={marktId && marktId}
-                onChange={(e) => setMarktId(e.target.value)}
-                type="text"
-                placeholder=""
-                className={clsx(s.markt_tool_id_input, "default_input")}
               />
             </div>
           </div>
@@ -448,7 +439,22 @@ const Total: FC<TotalProps> = () => {
                     <span className={s.swiper_slide_title}>{item.title}</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
-                  <div className={s.swiper_slide_content}>{item.text}</div>
+                  <div className={s.swiper_slide_content}>
+                    {item?.title === "Регистрация"
+                      ? startTime || "-"
+                      : item?.title === "Сайт"
+                      ? siteCurrent || "-"
+                      : item?.title === "ID Сайта"
+                      ? (allSites as any)?.find(
+                          (el: {
+                            basic: {
+                              name: string;
+                              internal_id?: number | string;
+                            };
+                          }) => el?.basic?.name === siteCurrent
+                        )?.basic?.internal_id || "-"
+                      : item?.text}
+                  </div>
                 </div>
               </SwiperSlide>
             ))}

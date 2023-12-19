@@ -1,0 +1,233 @@
+.welcome_hero_section {
+  min-height: 925px;
+  width: 100%;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: relative;
+    display: block;
+    bottom: 150px;
+    height: 60px;
+    width: 100%;
+    filter: blur(20px);
+    background: #0f0f0f;
+
+    @media screen and (max-width: 1280px) {
+      bottom: 140px;
+    }
+
+    @media screen and (max-width: 700px) {
+      bottom: 160px;
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    min-height: 850px;
+  }
+
+  @media screen and (max-width: 700px) {
+    min-height: 780px;
+  }
+
+  @media screen and (max-width: 650px) {
+    min-height: 600px;
+  }
+}
+
+.bg_img {
+  position: absolute;
+  top: 0;
+  height: 830px;
+  width: 100%;
+  object-fit: cover;
+
+  @media screen and (max-width: 1280px) {
+    height: 780px;
+  }
+
+  @media screen and (max-width: 700px) {
+    height: 700px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 500px;
+  }
+}
+
+.welcome_hero_container {
+  height: 100%;
+  width: 100%;
+  max-width: 855px;
+  margin: 0 auto;
+}
+
+.welcome_hero_body {
+  height: 100%;
+  z-index: 10;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  text-align: center;
+
+  @media screen and (max-width: 650px) {
+    padding: 20px 14px;
+  }
+}
+
+.welcome_hero_title {
+  margin-bottom: 12px;
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 1.2px;
+
+  @media screen and (max-width: 1280px) {
+    font-size: 32px;
+    line-height: 44.8px;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 24px;
+    line-height: 33.6px;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 16px;
+    line-height: 22.4px;
+    margin-bottom: 8px;
+  }
+}
+
+.welcome_hero_subTitle {
+  color: #ffe09d;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 56.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  @media screen and (max-width: 700px) {
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 26px;
+    line-height: 36.4px;
+  }
+}
+
+.welcome_hero_text {
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: 0.8px;
+  max-width: 853px;
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 1280px) {
+    font-size: 22px;
+    line-height: 33px;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 10px;
+    line-height: 14px;
+  }
+}
+
+.welcome_hero_btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+
+  @media screen and (max-width: 650px) {
+    flex-direction: column;
+  }
+}
+
+.welcome_hero_start_btn {
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid #ffe09d;
+  background: #2e2315;
+  height: 50px;
+  width: 216px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffe09d;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 25px;
+
+  @media screen and (max-width: 700px) {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+.welcome_hero_main_btn {
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid #3e3e3e;
+  background: #252525;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 233px;
+  height: 50px;
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  @media screen and (max-width: 700px) {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 650px) {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+.welcome_hero_footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

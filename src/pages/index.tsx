@@ -24,6 +24,7 @@ import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
 import planetMobImg from "@/public/media/initPageImages/mobPlanetImg.png";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
+import { Preland } from "@/widgets/preland/Preland";
 
 interface WelcomePageProps {}
 
@@ -115,68 +116,76 @@ const WelcomePage: FC<WelcomePageProps> = () => {
   return (
     <div className={s.welcomePage_container}>
       <Header />
-      <div className={s.welcomePage_body}>
-        <div className={s.language_switcher}>
-          <div
-            className={`${s.active_language_body} ${
-              languagesListVisibility && s.languages_list_active
-            }`}
-            onClick={handleListVisibility}
-          >
-            <Image
-              className={s.active_language_img}
-              src={usaImg}
-              alt={`usa-img`}
-            />
-            <span className={s.active_language_title}>
-              {activeLanguage.title}
-            </span>
-            <div className={s.header_dd_ico_wrap}>
-              <HeaderDropdownArrow />
-            </div>
-          </div>
-          <div
-            className={`${s.avaible_languages_list} ${
-              languagesListVisibility && s.avaible_languages_list_visible
-            }`}
-          >
-            {avaibleLanguages.map((item, ind) => (
+      <div
+        className={s.welcomePage_body}
+        data-preland={!isSignup && !isLogin && "true"}
+      >
+        {(isLogin || isSignup) && (
+          <>
+            <div className={s.language_switcher}>
               <div
-                className={s.avaible_languages_list_item}
-                key={ind}
-                onClick={() => handleSetActiveLanguage(item.title)}
+                className={`${s.active_language_body} ${
+                  languagesListVisibility && s.languages_list_active
+                }`}
+                onClick={handleListVisibility}
               >
-                <Image src={item.img} alt={`${item.title}-img`} />
-                <span className={s.avaible_language_title}>
-                  <p>{item.title}</p>
+                <Image
+                  className={s.active_language_img}
+                  src={usaImg}
+                  alt={`usa-img`}
+                />
+                <span className={s.active_language_title}>
+                  {activeLanguage.title}
                 </span>
+                <div className={s.header_dd_ico_wrap}>
+                  <HeaderDropdownArrow />
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-        <div className={s.first_ellipse_wrap}>
-          <LightEllipse />
-        </div>
-        <div className={s.second_ellipse_wrap}>
-          <div className={s.second_ellipse_inner_blur}></div>
-        </div>
-        <div className={s.arcs_img_block}>
-          <Image src={arcsBg} alt="arcs-bg-image" />
-        </div>
-        <div className={s.planet_img_block}>
-          <Image src={activePlanetImg} alt="planet-bg-image" />
-        </div>
+              <div
+                className={`${s.avaible_languages_list} ${
+                  languagesListVisibility && s.avaible_languages_list_visible
+                }`}
+              >
+                {avaibleLanguages.map((item, ind) => (
+                  <div
+                    className={s.avaible_languages_list_item}
+                    key={ind}
+                    onClick={() => handleSetActiveLanguage(item.title)}
+                  >
+                    <Image src={item.img} alt={`${item.title}-img`} />
+                    <span className={s.avaible_language_title}>
+                      <p>{item.title}</p>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={s.first_ellipse_wrap}>
+              <LightEllipse />
+            </div>
+            <div className={s.second_ellipse_wrap}>
+              <div className={s.second_ellipse_inner_blur}></div>
+            </div>
+            <div className={s.arcs_img_block}>
+              <Image src={arcsBg} alt="arcs-bg-image" />
+            </div>
+            <div className={s.planet_img_block}>
+              <Image src={activePlanetImg} alt="planet-bg-image" />
+            </div>
+          </>
+        )}
         <div
           className={`${s.welcomePage_content_wrap} ${
             isSignup && s.isSignup_container
           }`}
+          data-preland={!isSignup && !isLogin && "true"}
         >
           {isLogin ? (
             <WelcomePageLogin />
           ) : isSignup ? (
             <WelcomePageSignup />
           ) : (
-            <WelcomePageInitial />
+            <Preland />
           )}
         </div>
       </div>

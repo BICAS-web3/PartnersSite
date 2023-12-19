@@ -411,10 +411,10 @@ const Websites: FC<WebsitesProps> = () => {
               ]}
             />
           </div>
-          {/* <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
+          <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
             <Image src={filterIco} alt="filter-img" />
             <span className={s.websites_filter_btn}>Фильтры</span>
-          </div> */}
+          </div>
           {is650 ? (
             // <div
             //   className={`${s.mobile_filter_block} mobile_filter_block ${
@@ -595,7 +595,117 @@ const Websites: FC<WebsitesProps> = () => {
             // </div>
             <></>
           )}
+          {is650 && (
+            <div
+              className={`${s.mobile_filter_block} mobile_filter_block ${
+                isFilter && s.filter_active
+              } ${currentFilterPage !== "" && s.scroll_disabled}`}
+              id="websites_filter_block"
+            >
+              <WebsitesFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                subBlock="websitesFilterPage"
+                setTitle={setWebsiteMobPlaceholder}
+              />
+              <WebsiteCategoryFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                setCurrentSiteCategory={setCurrentSiteCategory}
+                setMobTableOpts={setMobTableOpts}
+                startOptions={pageResponseUpdated}
+                list={pageResponseUpdated}
+                custom={true}
+                categotyFilter={categotyFilter}
+                setCategoryFilter={setCategoryFilter}
+              />
+              <WebsiteLanguageFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                setCurrentLanguage={setCurrentLanguage}
+              />
+              <WebsiteTableFilter
+                setCurrentFilterPage={setCurrentFilterPage}
+                currentFilterPage={currentFilterPage}
+                setMobTableOpts={setMobTableOpts}
+                activeOptions={mobTableOptions}
+                setActiveOptions={setMobTableOpts}
+                list={pageResponseUpdated}
+                setMobileTableLing={setMobileTableLing}
+                setTitleArr={setTitleArr}
+                titleArr={titleArr}
+                isPartnerPage={true}
+              />
+              <div
+                className={`${s.mobile_filter_block_header} mobile_filter_block_header `}
+              >
+                <span
+                  className={`${s.close_filter_block_btn} close_filter_block_btn`}
+                  onClick={() => setIsFilter(false)}
+                >
+                  <Image src={prevArrow} alt="close-filter-ico" />
+                  Назад
+                </span>
+                <span className="mobile_filter_title">Фильтры</span>
+              </div>
+              <div className="mobile_filter_body">
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesFilterPage")}
+                >
+                  <span className="mobile_filter_item_title">Веб-сайт</span>
+                  <span className="mobile_filter_item_picked_value">
+                    {websiteMobPlaceholder}
+                  </span>
+                </div>
+                {/* <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesCategoryFilter")}
+                >
+                  <span className="mobile_filter_item_title">
+                    Категория сайта
+                  </span>
+                  <span className="mobile_filter_item_picked_value">
+                    {currentSiteCategory.title}
+                  </span>
+                </div> */}
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesLanguageFilter")}
+                >
+                  <span className="mobile_filter_item_title">Язык</span>
+                  <span className="mobile_filter_item_picked_value">
+                    {currentLanguage.title}
+                  </span>
+                </div>
+                <div
+                  className="mobile_filter_item"
+                  onClick={() => setCurrentFilterPage("websitesTableFilter")}
+                >
+                  <span className="mobile_filter_item_title">Показать</span>
+                  <span className="mobile_filter_item_picked_value">
+                    Выбрано {titleArr?.length ? titleArr?.length : 0} п.
+                  </span>
+                </div>
+                {/* <div className="mobile_filter_item">
+                  <button className={s.add_website_mob_btn}>
+                    Добавить сайт2
+                  </button>
+                </div> */}
 
+                <button
+                  className={s.mobile_filter_back_btn}
+                  onClick={() => setIsFilter(false)}
+                >
+                  Назад
+                </button>
+                {/* <ListButtons
+                  setIsBack={setIsFilter}
+                  title="Сгенерировать отчет"
+                /> */}
+              </div>
+            </div>
+          )}
           <div className={s.adding_website_block}>
             <div
               className={`${s.adding_website_block_item} ${s.websites_item_block}`}
@@ -694,7 +804,7 @@ const Websites: FC<WebsitesProps> = () => {
                     />
                   </div>
                   <div className={s.swiper_slide_content}>
-                    {(isMobile ? mobTableOptions : activeOptions)
+                    {(isMobile ? activeOptions : activeOptions)
 
                       ?.filter((eld: IPagesResponse) => {
                         if (categotyFilter?.length <= 0) {

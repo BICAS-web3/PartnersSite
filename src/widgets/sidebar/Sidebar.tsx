@@ -143,7 +143,7 @@ import { useMediaQuery } from "@/shared/tools";
 
 export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
-    languagesList.filter((item) => item.title === "us")[0]
+    languagesList.filter((item) => item.title === "EN")[0]
   );
 
   const isMobile = useMediaQuery("(max-width:650px)");
@@ -152,7 +152,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
 
   const [languagesListVisibility, setLanugagesListVisibility] = useState(false);
   const [avaibleLanguages, setAvaibleLanguages] = useState(
-    languagesList.filter((item) => item.title !== activeLanguage.title)
+    languagesList.filter((item) => item?.title !== activeLanguage?.title)
   );
 
   const handleSetActiveLanguage = (itemId: any) => {
@@ -389,11 +389,11 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
           >
             <Image
               className={s.active_language_img}
-              src={activeLanguage.img}
-              alt={`${activeLanguage.title}-img`}
+              src={activeLanguage?.img}
+              alt={`${activeLanguage?.title}-img`}
             />
             <span className={s.active_language_title}>
-              {activeLanguage.title}
+              {activeLanguage?.title}
             </span>
             {/* <div className={s.header_dd_ico_wrap}>
               <HeaderDropdownArrow />
@@ -408,7 +408,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
               <div
                 className={s.avaible_languages_list_item}
                 key={ind}
-                onClick={() => handleSetActiveLanguage(item.title)}
+                onClick={() => handleSetActiveLanguage(item?.title)}
               >
                 <Image src={item.img} alt={`${item.title}-img`} />
                 <span className={s.avaible_language_title}>

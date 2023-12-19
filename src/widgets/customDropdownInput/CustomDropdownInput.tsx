@@ -25,6 +25,7 @@ interface CustomDropdownInputProps {
   sites?: boolean;
   siteCurrent?: string;
   setSiteCurrent?: (el: string) => void;
+  noShortText?: boolean;
 }
 
 export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
@@ -45,6 +46,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   sites,
   siteCurrent,
   setSiteCurrent,
+  noShortText,
 }) => {
   const [activeItem, setActiveItem] = useState(
     activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
@@ -86,10 +88,13 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
         onClick={handleDropdownChange}
       >
         <div
-          className={s.active_dropdown_title_block}
+          className={clsx(
+            s.active_dropdown_title_block,
+            noShortText && s.no_short
+          )}
           style={{ height: height }}
         >
-          <span style={{ maxWidth: maxW ? `${maxW}px` : "90px" }}>
+          <span>
             {categotyFilter
               ? categotyFilter
               : activeItem
