@@ -12,6 +12,7 @@
   }
   @media (max-width: 1200px) {
     width: calc(100vw - 102px);
+
     margin-top: 80px;
   }
 
@@ -59,6 +60,7 @@
     border-radius: 283px;
     background: rgba(255, 187, 95, 0.4);
     filter: blur(150px);
+
   }
 }
 
@@ -70,14 +72,15 @@
   font-style: normal;
   font-weight: 900;
   line-height: 52px;
-  letter-spacing: 1.6px;
   // margin-bottom: 16px;
+
   max-width: 971px;
 
   @media (max-width: 1200px) {
     font-size: 26px;
     line-height: 33.8px;
     // margin-bottom: 8px;
+
   }
 
   @media (max-width: 650px) {
@@ -96,6 +99,7 @@
     grid-template-rows: 1fr 1fr 1fr;
   }
   margin-top: 16px;
+
 }
 
 .welcome_steps_step {

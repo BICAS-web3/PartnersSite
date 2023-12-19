@@ -86,5 +86,6 @@ export const WelcomeStepsSection: FC<WelcomeStepsSectionProps> = () => {
         </button>
       </div>
     </section>
+
   );
 };
