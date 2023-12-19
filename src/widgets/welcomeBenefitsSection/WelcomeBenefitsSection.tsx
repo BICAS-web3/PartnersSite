@@ -47,6 +47,8 @@ export const WelcomeBenefitsSection: FC<WelcomeBenefitsSectionProps> = () => {
   return (
     <div className={s.welcome_benefits_section}>
       <div className={s.welcome_benefits_body}>
+        <span className={s.welcome_benefits_eclipse}></span>
+        <span className={s.welcome_benefits_eclipse_2}></span>
         <h1 className={s.welcome_benefits_title}>
           What makes GreekKeepersPartners special
         </h1>

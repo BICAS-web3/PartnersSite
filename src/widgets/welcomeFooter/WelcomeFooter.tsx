@@ -7,6 +7,7 @@ interface WelcomeFooterProps {}
 export const WelcomeFooter: FC<WelcomeFooterProps> = () => {
   return (
     <div className={s.welcome_footer}>
+      <span className={s.welcome_footer_eclipse}></span>
       <div className={s.welcome_footer_container}>
         <div className={s.welcome_footer_body}>
           <div className={s.footer_ico_block}>

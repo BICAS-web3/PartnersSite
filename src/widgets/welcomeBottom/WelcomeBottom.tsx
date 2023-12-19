@@ -16,6 +16,7 @@ export const WelcomeBottom: FC<WelcomeBottomProps> = () => {
   return (
     <div className={s.welcome_bottom_section}>
       <div className={s.welcome_bottom_body}>
+        <span className={s.welcome_bottom_eclipse}></span>
         <img src={coinImg.src} alt="coin-img" className={s.coin_img} />
         <h2 className={s.welcome_bottom_title}>
           Earn in Gaming <br /> Innovation web 3.0

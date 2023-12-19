@@ -1,5 +1,6 @@
 .welcome_footer {
   margin-top: 100px;
+  position: relative;
 
   @media screen and (max-width: 700px) {
     margin-top: 80px;
@@ -7,6 +8,41 @@
 
   @media screen and (max-width: 650px) {
     margin-top: 70px;
+  }
+}
+
+.welcome_footer_eclipse {
+  position: absolute;
+  width: 1383.18px;
+  height: 686.103px;
+  transform: rotate(-6.142deg);
+  border-radius: 1383.18px;
+  background: rgba(209, 140, 5, 0.1);
+  filter: blur(250px);
+  right: -300px;
+  bottom: -155px;
+  @media (max-width: 1600px) {
+    width: 1104.494px;
+    height: 547.865px;
+    transform: rotate(-6.142deg);
+    border-radius: 1104.494px;
+    background: rgba(209, 140, 5, 0.1);
+    filter: blur(250px);
+    bottom: -410px;
+    right: -305px;
+  }
+  @media (max-width: 1280px) {
+    width: 1104.494px;
+    height: 547.865px;
+    transform: rotate(-6.142deg);
+    border-radius: 1104.494px;
+    background: rgba(209, 140, 5, 0.1);
+    filter: blur(250px);
+    right: -416px;
+    bottom: 73px;
+  }
+  @media (max-width: 650px) {
+    display: none;
   }
 }
 
