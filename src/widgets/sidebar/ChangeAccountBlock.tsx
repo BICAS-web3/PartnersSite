@@ -26,9 +26,8 @@ export const ChangeAccountBlock: FC<ChangeAccountBlockProps> = ({
 }) => {
   return (
     <div
-      className={`${s.change_account_block} ${
-        activeSubPage === "changeAccount" && s.activeSubBlock
-      }`}
+      className={`${s.change_account_block} ${activeSubPage === "changeAccount" && s.activeSubBlock
+        }`}
     >
       <div className={s.sidebar_profile_block_header}>
         <span
@@ -41,11 +40,11 @@ export const ChangeAccountBlock: FC<ChangeAccountBlockProps> = ({
         <span className={s.sidebar_profile_block_title}>Profile</span>
       </div>
       <div className={s.change_account_body}>
-        <h1 className={s.change_account_body_title}>Мои аккаунты</h1>
+        <h1 className={s.change_account_body_title}>My accounts</h1>
         <div className={s.accounts_list}>
           {accsList.map((item, ind) => (
             <div key={item.id} className={s.accounts_list_item}>
-              <div className={s.accounts_list_item_ico_block}>B</div>
+              <div className={s.accounts_list_item_ico_block}>In</div>
               <div className={s.accounts_list_mailId_block}>
                 <span className={s.accounts_list_id_title}>{item.id}</span>
                 <span className={s.accounts_list_mail_title}>{item.mail}</span>

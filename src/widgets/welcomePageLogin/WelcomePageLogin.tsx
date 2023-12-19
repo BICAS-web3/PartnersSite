@@ -11,7 +11,7 @@ import * as api from "@/shared/api";
 import { PreloadDots } from "@/shared/ui/ProloadDots";
 import { useMediaQuery } from "@/shared/tools";
 
-interface WelcomePageLoginProps {}
+interface WelcomePageLoginProps { }
 
 export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const [startLogin, setStartLogin] = useState(false);
@@ -115,7 +115,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
       );
       setUserSelectedSource(
         responseBody.contacts?.find((el) => el?.name === "source_from")?.url ||
-          ""
+        ""
       );
       localStorage.setItem(`name`, responseBody.basic?.name.split(" ")[0]);
       localStorage.setItem(`last_name`, responseBody.basic?.name.split(" ")[1]);
@@ -154,17 +154,17 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
           value={loginEnter}
           type="text"
           className={`${s.welcome_page_login_form_input} default_input`}
-          placeholder="Логин пользователя"
+          placeholder="User login"
         />
         <input
           onChange={(el) => setPassword(el.target.value)}
           value={password}
           type="password"
           className={`${s.welcome_page_login_form_input} default_input`}
-          placeholder="Пароль"
+          placeholder="Password"
         />
         <button onClick={handleLoginUser} className={s.submit_btn}>
-          {getLogin ? <PreloadDots title="Подождите" /> : "Вход"}
+          {getLogin ? <PreloadDots title="Wait" /> : "Enter"}
         </button>
       </div>
       <div className={s.lower_support_btns}>
@@ -175,7 +175,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
           }}
           className={s.lower_support_btns_item}
         >
-          Регистрация
+          Registration
         </a>
       </div>
     </div>

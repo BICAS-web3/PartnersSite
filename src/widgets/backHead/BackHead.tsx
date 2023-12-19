@@ -16,7 +16,7 @@ export const BackHead: FC<BackHeadProps> = ({ setIsOpen, title }) => {
         onClick={() => setIsOpen(false)}
       >
         <Image src={prevArrow} alt="close-filter-ico" />
-        Назад
+        Back
       </span>
       <span className="mobile_filter_title">{title}</span>
     </div>

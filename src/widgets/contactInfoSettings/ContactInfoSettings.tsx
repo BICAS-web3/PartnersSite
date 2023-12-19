@@ -45,7 +45,7 @@ export const countriesList = Object.keys(countries).map((code) => ({
   id: code,
 }));
 
-interface ContactInfoSettingsProps {}
+interface ContactInfoSettingsProps { }
 
 export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
   const [domenChecked, setDomenChecked] = useState(false);
@@ -164,11 +164,11 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
   return (
     <div className={s.contact_info_settings_block}>
       <span className={s.contact_info_settings_block_title}>
-        Контактная информация
+        Contact info
       </span>
       <div className={s.name_surname_block}>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Имя*</span>
+          <span className={s.input_block_title}>Name*</span>
           <input
             type="text"
             value={userName && userName}
@@ -178,7 +178,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Фамилия*</span>
+          <span className={s.input_block_title}>Surname*</span>
           <input
             type="text"
             value={userLastName && userLastName}
@@ -191,7 +191,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
       <div className={s.phone_block}>
         <div className={s.input_block}>
           <span className={s.input_block_title}>
-            Номер телефона (не обязательный)
+            Phone Number (Not required)
           </span>
           <input
             type="text"
@@ -204,11 +204,11 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
       </div>
       <div className={s.messanger_block}>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Мессенджер</span>
+          <span className={s.input_block_title}>Messenger</span>
           <CustomDropdownInput list={messangersList} activeItemId="inst" />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Логин мессенджера</span>
+          <span className={s.input_block_title}>Messenger login</span>
           <input
             type="text"
             className={`${s.name_input} default_input`}
@@ -218,13 +218,12 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
       </div>
       <div className={s.change_info_details}>
         <p className={s.change_info_details_text}>
-          * для редактирования контактной информации свяжитесь с Вашим
-          менеджером
+          * to change the contact info, please contact our manager
         </p>
       </div>
       <div className={s.country_language_block}>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Страна</span>
+          <span className={s.input_block_title}>Country</span>
           <CustomDropdownInput
             activeItemId={
               userCountry &&
@@ -235,17 +234,17 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
               !is1280 && !is650 && !is700
                 ? 140
                 : is1280
-                ? 90
-                : is700
-                ? 160
-                : is650
-                ? 70
-                : 130
+                  ? 90
+                  : is700
+                    ? 160
+                    : is650
+                      ? 70
+                      : 130
             }
           />
         </div>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>Предпочитаемый язык</span>
+          <span className={s.input_block_title}>Preffered language</span>
           <CustomDropdownInput
             // activeItemId={
             //   userLanguage &&
@@ -265,13 +264,13 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
             <CheckBoxIco />
           </div>
           <p className={s.change_domen_notif_block_text}>
-            Уведомление о смене домена
+            Notification about domain change
           </p>
         </div>
       </div>
       <div className={s.save_changes_btn_wrap}>
         <button className={s.save_changes_btn} onClick={dataReset}>
-          Сохранить изменения
+          Save changes
         </button>
       </div>
     </div>

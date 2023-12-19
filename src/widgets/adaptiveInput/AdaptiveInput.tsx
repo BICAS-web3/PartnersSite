@@ -24,9 +24,8 @@ export const AdaptiveInput: FC<AdaptiveInputProps> = ({
 }) => {
   return (
     <div
-      className={`filter_item_page ${
-        currentFilterPage === activeTitle && "active"
-      }`}
+      className={`filter_item_page ${currentFilterPage === activeTitle && "active"
+        }`}
     >
       <div className={`mobile_filter_block_header`}>
         <span
@@ -47,8 +46,8 @@ export const AdaptiveInput: FC<AdaptiveInputProps> = ({
         />
       </div>
       <div className="mobile_filter_item_page_footer">
-        <button className="mob_cancel_btn">Отменить</button>
-        <button className="mob_save_btn">Сохранить</button>
+        <button className="mob_cancel_btn">Deny</button>
+        <button className="mob_save_btn">Save</button>
       </div>
     </div>
   );

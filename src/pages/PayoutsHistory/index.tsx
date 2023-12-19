@@ -38,19 +38,19 @@ export const currenciesList = [
 
 export const periodsList = [
   {
-    title: "Произвольный период",
+    title: "Custom period",
     id: "arbitraryPeriod",
   },
   {
-    title: "Сегодня",
+    title: "Today",
     id: "todaysPeriod",
   },
   {
-    title: "Вчера",
+    title: "Yesterday",
     id: "yesterdaysPeriod",
   },
   {
-    title: "Текущий месяц",
+    title: "This month",
     id: "currentMonthPeriod",
   },
   {
@@ -58,74 +58,74 @@ export const periodsList = [
     id: "lastMonthPeriod",
   },
   {
-    title: "Текущий год",
+    title: "Last month",
     id: "currentYearPeriod",
   },
   {
-    title: "Прошлый год",
+    title: "Last year",
     id: "lastYearPeriod",
   },
 ];
 
 export const mobilePeriodsList = [
   {
-    title: "Сегодня",
+    title: "Today",
     id: "todaysPeriod",
   },
   {
-    title: "Вчера",
+    title: "Yesterday",
     id: "yesterdaysPeriod",
   },
   {
-    title: "Текущий месяц",
+    title: "This month",
     id: "currentMonthPeriod",
   },
   {
-    title: "Прошлый месяц",
+    title: "Last month",
     id: "lastMonthPeriod",
   },
   {
-    title: "Текущий год",
+    title: "This year",
     id: "currentYearPeriod",
   },
   {
-    title: "Прошлый год",
+    title: "Last year",
     id: "lastYearPeriod",
   },
   {
-    title: "Выбрать вручную",
+    title: "Custom range",
     id: "mobilePeriodManually",
   },
 ];
 
 export const optionsList = [
   {
-    title: "Валюта",
+    title: "Currency",
     id: "currency",
     text: "USD",
   },
   {
-    title: "Дата",
+    title: "Date",
     id: "date",
     text: "-",
   },
   {
-    title: "Выплата",
+    title: "Payout",
     id: "withdrawal",
     text: "-",
   },
   {
-    title: "Доход",
+    title: "Income",
     id: "income",
     text: "-",
   },
   {
-    title: "Остаток",
+    title: "Left",
     id: "remainder",
     text: "-",
   },
   {
-    title: "Статус",
+    title: "Status",
     id: "status",
     text: "-",
   },
@@ -157,7 +157,7 @@ export const phExportOptions = [
   },
 ];
 
-interface PayoutsHistoryProps {}
+interface PayoutsHistoryProps { }
 
 const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const [activePayoutBtn, setActivePayoutBtn] = useState("status");
@@ -244,8 +244,8 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           <div className={s.breadcrumbs_block}>
             <Breadcrumbs
               list={[
-                { title: "Главная", link: "/" },
-                { title: "История выплат", link: "/PayoutsHistory" },
+                { title: "Main", link: "/" },
+                { title: "Payouts history", link: "/PayoutsHistory" },
               ]}
             />
           </div>
@@ -254,7 +254,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
               <div className={s.mob_filterExport_block}>
                 <div className={s.mob_filter_block} onClick={handleFilterClick}>
                   <Image src={filterIco} alt="filter-ico" />
-                  Фильтры
+                  Filters
                 </div>
                 <div
                   className={s.mob_export_block}
@@ -265,13 +265,12 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   }}
                 >
                   <Image src={exportIco} alt="filter-ico" />
-                  Экспорт
+                  Export
                 </div>
               </div>
               <div
-                className={`${s.mobile_filter_block} mobile_filter_block ${
-                  isFilter && s.filter_active
-                } ${currentFilterPage !== "" && s.scroll_disable}`}
+                className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
+                  } ${currentFilterPage !== "" && s.scroll_disable}`}
                 id="payouts_history_filter"
               >
                 <PhCurrencyMobBlock
@@ -306,13 +305,13 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                     onClick={() => setIsFilter(false)}
                   >
                     <Image src={prevArrow} alt="close-filter-ico" />
-                    Назад
+                    Back
                   </span>
-                  <span className="mobile_filter_title">Фильтры</span>
+                  <span className="mobile_filter_title">Filters</span>
                 </div>
                 <div className="mobile_filter_body">
                   <div className="mobile_filter_item" onClick={() => null}>
-                    <span className="mobile_filter_item_title">Валюта</span>
+                    <span className="mobile_filter_item_title">Currency</span>
                     <span className="mobile_filter_item_picked_value">
                       {mobSiteCategory.title}
                     </span>
@@ -321,14 +320,14 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                     className="mobile_filter_item"
                     onClick={() => setCurrentFilterPage("phPeriodMobBlock")}
                   >
-                    <span className="mobile_filter_item_title">Период</span>
+                    <span className="mobile_filter_item_title">Period</span>
                     <span className="mobile_filter_item_picked_value">
                       {mobPeriod.title}
                     </span>
                   </div>
                   <AdaptiveFilterItem
-                    objTitle={`Выбрано ${activeOps?.length} п.`}
-                    title="Показать"
+                    objTitle={`Selected ${activeOps?.length} el.`}
+                    title="Show"
                     filterTitle="choose"
                     setCurrentFilterPage={setCurrentFilterPage}
                   />
@@ -345,7 +344,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   </div> */}
                   <ListButtons
                     setIsBack={setIsFilter}
-                    title="Сгенерировать отчет"
+                    title="Generate report"
                   />
                 </div>
               </div>
@@ -353,14 +352,14 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           ) : (
             <div className={s.table_filter_block}>
               <div className={s.table_filter_currency_item}>
-                <span className={s.table_filter_block_item_title}>Валюта</span>
+                <span className={s.table_filter_block_item_title}>Currency</span>
                 <UsdCurrencyBlock />
               </div>
               <div
                 className={s.table_filter_period_item}
                 style={{ zIndex: 100 }}
               >
-                <span className={s.table_filter_block_item_title}>Период</span>
+                <span className={s.table_filter_block_item_title}>Period</span>
                 <CustomDropdownInput
                   list={periodsList}
                   activeItemId="arbitraryPeriod"
@@ -368,12 +367,12 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 130
                       : is1280
-                      ? 90
-                      : is700
-                      ? 130
-                      : is650
-                      ? 130
-                      : 130
+                        ? 90
+                        : is700
+                          ? 130
+                          : is650
+                            ? 130
+                            : 130
                   }
                 />
               </div>
@@ -525,7 +524,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                 </div>
               </div>
               <button className={s.generate_report_btn}>
-                Сгенерировать отчет
+                Generate report
               </button>
             </div>
           )}
@@ -575,7 +574,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           <div className={s.table_nav_block}>
             <div className={s.table_records_block}>
               <p className={s.table_records_text}>
-                Записи с 1 по 1 (всего 1 записей)
+                Records from 1 to 1 (total 1 records)
               </p>
             </div>
             <div className={s.table_pages_wrap}>
@@ -600,17 +599,15 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           <div className={s.info_block}>
             <div className={s.info_block_item}>
               <p className={s.info_block_text}>
-                Для получения выплаты, обратитесь, пожалуйста, к менеджеру. Это
-                нужно сделать всего лишь один раз, далее выплаты будут проходить
-                в автоматическом режиме. Минимальная сумма выплат составляет
-                ₽1500
+                For the withdrawal, please contact the manager.
+                It should be done only once, next withdrawals will be done automatically.
+                Minimal withdrawal amount is 100$.
               </p>
             </div>
             <div className={s.info_block_item}>
               <p className={s.info_block_text}>
-                Вы можете связаться с нашими менеджерами, используя их
-                контактную информацию, доступную на веб-сайте Партнерской
-                программы.
+                You can contact our managers, using their contact info,
+                that is available on the site.
               </p>
             </div>
           </div>

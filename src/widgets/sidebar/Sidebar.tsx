@@ -34,7 +34,7 @@ import Link from "next/link";
 
 const sidebarItems = [
   {
-    title: "Главное меню",
+    title: "Main menu",
     isClose: true,
     list: [
       {
@@ -44,31 +44,31 @@ const sidebarItems = [
         link: "/home",
       },
       {
-        title: "Веб-сайты",
+        title: "Web-Sites",
         icon: <Websites />,
         pageActive: "websites",
         link: "/Websites",
       },
       {
-        title: "Структура комиссий",
+        title: "Commissions structure",
         icon: <CommissionStr />,
         pageActive: "commissionStructure",
         link: "/CommissionStructure",
       },
       {
-        title: "История выплат",
+        title: "Payout history",
         icon: <PayoutHistory />,
         pageActive: "payoutsHistory",
         link: "/PayoutsHistory",
       },
       {
-        title: "Настройки профиля",
+        title: "Profile settings",
         icon: <ProfileIco />,
         pageActive: "profileSettings",
         link: "/ProfileSettings",
       },
       {
-        title: "Контакты",
+        title: "Contacts",
         icon: <Contacts />,
         pageActive: "contacts",
         link: "/Contacts",
@@ -76,22 +76,22 @@ const sidebarItems = [
     ],
   },
   {
-    title: "Маркетинг",
+    title: "Marketing",
     list: [
       {
-        title: "Партнерские ссылки",
+        title: "Referal links",
         icon: <PartnersLinks />,
         pageActive: "partnersRef",
         link: "/marketing/PartnersRef",
       },
       {
-        title: "Промокоды",
+        title: "Promocodes",
         icon: <PromoteCode />,
         pageActive: "promocodes",
         link: "/marketing/Promocodes",
       },
       {
-        title: "Медиа",
+        title: "Media",
         icon: <Media />,
         pageActive: "media",
         link: "/marketing/Media",
@@ -99,34 +99,34 @@ const sidebarItems = [
     ],
   },
   {
-    title: "Отчёты",
+    title: "Reports",
     list: [
       {
-        title: "Краткий суммарный",
+        title: "Short",
         icon: <ShortSummary />,
         pageActive: "shortTotal",
         link: "/reports/ShortTotal",
       },
       {
-        title: "Полный",
+        title: "Full",
         icon: <Total />,
         pageActive: "total",
         link: "/reports/Total",
       },
       {
-        title: "Маркетинговые инструменты",
+        title: "Marketing instuments",
         icon: <MarketingTools />,
         pageActive: "marketTools",
         link: "/MarketingTools",
       },
       {
-        title: "По игрокам",
+        title: "Players",
         icon: <Gamers />,
         pageActive: "byGamers",
         link: "/reports/Gamers",
       },
       {
-        title: "По суб-партнёрам",
+        title: "Sub-Partners",
         icon: <SubPartners />,
         pageActive: "bySubPartners",
         link: "/reports/SubPartners",
@@ -191,15 +191,13 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
 
   return (
     <div
-      className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${
-        isMobSidebarOpened && s.mob_account_opened
-      }`}
+      className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${isMobSidebarOpened && s.mob_account_opened
+        }`}
       id="mob_sidebar"
     >
       <div
-        className={`${s.sidebar_profile_block} ${
-          isMobSidebarOpened && s.mobSBopened
-        } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
+        className={`${s.sidebar_profile_block} ${isMobSidebarOpened && s.mobSBopened
+          } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
         id="sidebar_profile_block"
       >
         <ChangeAccountBlock
@@ -329,10 +327,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                     >
                       {isOpened && <span className={s.soon}>Скоро</span>}
                       <div
-                        className={`${s.sidebar_page_item_link_wrap} ${
-                          item2.pageActive === activeSubBlock &&
+                        className={`${s.sidebar_page_item_link_wrap} ${item2.pageActive === activeSubBlock &&
                           s.active_sub_block
-                        }`}
+                          }`}
                         data-page={item2.title}
                       >
                         <div className={s.sidebar_page_item_link_wrap_content}>
@@ -355,10 +352,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                       data-href={item2.link}
                     >
                       <div
-                        className={`${s.sidebar_page_item_link_wrap} ${
-                          item2.pageActive === activeSubBlock &&
+                        className={`${s.sidebar_page_item_link_wrap} ${item2.pageActive === activeSubBlock &&
                           s.active_sub_block
-                        }`}
+                          }`}
                         data-page={item2.title}
                       >
                         <div className={s.sidebar_page_item_link_wrap_content}>
@@ -382,10 +378,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
       <div className={s.desk_hidden_lang_choose_block}>
         <div className={s.language_switcher}>
           <div
-            className={`${s.active_language_body} ${
-              languagesListVisibility && s.languages_list_active
-            }`}
-            // onClick={handleListVisibility}
+            className={`${s.active_language_body} ${languagesListVisibility && s.languages_list_active
+              }`}
+          // onClick={handleListVisibility}
           >
             <Image
               className={s.active_language_img}
@@ -400,9 +395,8 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div> */}
           </div>
           <div
-            className={`${s.avaible_languages_list} ${
-              languagesListVisibility && s.avaible_languages_list_visible
-            }`}
+            className={`${s.avaible_languages_list} ${languagesListVisibility && s.avaible_languages_list_visible
+              }`}
           >
             {avaibleLanguages.map((item, ind) => (
               <div

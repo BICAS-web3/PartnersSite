@@ -13,7 +13,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-interface FollowsChartProps {}
+interface FollowsChartProps { }
 
 export const FollowsChart: FC<FollowsChartProps> = () => {
   const [periodFirst, barerToken] = useUnit([
@@ -213,7 +213,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
       width: isMobile ? 1 : 1.5,
     },
     subtitle: {
-      text: "Статистика переходов",
+      text: "Clicks statistics",
       align: "left",
       offsetX: 0,
       offsetY: 0,

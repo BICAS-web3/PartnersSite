@@ -175,7 +175,7 @@ const toolsTypeList = [
 const TabsTypes = ["Статус заявок", "История выплат"] as const;
 type TabsTypes = "Статус заявок" | "История выплат";
 
-interface MarketingToolsProps {}
+interface MarketingToolsProps { }
 interface IListProps {
   id?: string;
   title?: string;
@@ -374,7 +374,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
               <MobilePickList
                 list={exportList.slice(1)}
                 activeItemId="exel"
-                setCurrent={() => {}}
+                setCurrent={() => { }}
                 startOptions={exportList.slice(1)}
               />
             </div>
@@ -408,12 +408,12 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                  ? 160
-                  : is700
-                  ? 160
-                  : is650
-                  ? 160
-                  : 130
+                    ? 160
+                    : is700
+                      ? 160
+                      : is650
+                        ? 160
+                        : 130
               }
             />
           </div>
@@ -438,12 +438,12 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                  ? 160
-                  : is700
-                  ? 160
-                  : is650
-                  ? 160
-                  : 130
+                    ? 160
+                    : is700
+                      ? 160
+                      : is650
+                        ? 160
+                        : 130
               }
             />
           </div>
@@ -545,7 +545,7 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
           {!isMobile && (
             <div className={s.marketing_records_block}>
               <p className={s.marketing_records_text}>
-                Записи с 1 по 1 (всего 1 записей)
+                Records from 1 to 1 (total 1 records)
               </p>
             </div>
           )}
