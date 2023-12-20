@@ -151,7 +151,7 @@ const countriesList = Object.keys(countries).map((code) => ({
   id: code,
 }));
 
-interface WelcomePageSignupProps { }
+interface WelcomePageSignupProps {}
 
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [token, setToken] = useState("");
@@ -268,7 +268,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       !selectedCountry ||
       !password ||
       !passwordRepeat ||
-      !wallet
+      !wallet ||
+      !loginAuth ||
+      !categoryPage ||
+      !phoneValue ||
+      phoneValue?.length < 2
     ) {
       setError(true);
     } else {
@@ -386,17 +390,6 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             },
           ],
         });
-        // const addPage = await api.registerPage({
-        //   name: categoryPage || "Прогнозы на спорт",
-        //   url: pageName,
-        //   bareer: token,
-        // });
-        // const getSub = await api.registerSubId({
-        //   bareer: token,
-        //   name: categoryPage,
-        //   url: pageName,
-        //   internal_site_id: 0,
-        // });
         if (response.status === "OK") {
           window.open("/home", "_self");
         }
@@ -490,8 +483,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 value={loginAuth}
                 onChange={(el) => setLoginAuth(el.target.value)}
                 type="text"
-                className={`${s.welcome_page_input} default_input`}
-                placeholder="login"
+                className={clsx(
+                  "default_input",
+                  s.welcome_page_input,
+                  error && !loginAuth && s.error_input
+                )}
+                placeholder="Login"
               />
             </div>
             <div className={s.welcome_page_input_block}>
@@ -499,7 +496,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               <input
                 value={password}
                 onChange={(el) => setPassword(el.target.value)}
-                type="password"
+                type="Password"
                 className={clsx(
                   s.welcome_page_input,
                   errorPassword && s.error_input,
@@ -509,10 +506,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 )}
                 placeholder={
                   isShortPassword
-                    ? "too short"
+                    ? "Too short"
                     : errorPassword === true
-                      ? "passwords are different"
-                      : "password"
+                    ? "Passwords are different"
+                    : "Password"
                 }
               />
             </div>
@@ -530,7 +527,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   !passwordRepeat && error && s.error_input,
                   "default_input"
                 )}
-                placeholder={errorPassword === true ? "" : "repeat password"}
+                placeholder={errorPassword === true ? "" : "Repeat password"}
               />
             </div>
           </div>
@@ -550,7 +547,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                     "default_input",
                     !pageName && error && s.error_input
                   )}
-                  placeholder={"example.com"}
+                  placeholder={"Example.com"}
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 5 }}>
@@ -558,6 +555,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   Site category*
                 </span>
                 <CustomDropdownInput
+                  className={clsx(error && !categoryPage && s.error_input)}
                   list={siteCategories}
                   activeItemId="casino"
                   setSelectedValue={setCategotyPage}
@@ -585,12 +583,12 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 160
                       : is1280
-                        ? 110
-                        : is700
-                          ? 160
-                          : is650
-                            ? 160
-                            : 160
+                      ? 110
+                      : is700
+                      ? 160
+                      : is650
+                      ? 160
+                      : 160
                   }
                 />
               </div>
@@ -672,10 +670,13 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                     "default_input",
                     !messangerValue && error && s.error_input
                   )}
-                  placeholder={"@asdasdasd"}
+                  placeholder={"@user name"}
                 />
               </div>
-              <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>
+              <div
+                className={clsx(s.welcome_page_input_block, s.space_block)}
+                style={{ zIndex: 2 }}
+              >
                 <span className={s.welcome_page_input_title}>Country*</span>
                 <CustomDropdownInput
                   setSelectedValue={setSelectedCountry}
@@ -686,22 +687,28 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 160
                       : is1280
-                        ? 110
-                        : is700
-                          ? 160
-                          : is650
-                            ? 160
-                            : 160
+                      ? 110
+                      : is700
+                      ? 160
+                      : is650
+                      ? 160
+                      : 160
                   }
                 />
               </div>
-              <div className={s.welcome_page_input_block}>
+              <div className={clsx(s.welcome_page_input_block, s.space_block)}>
                 <span className={s.welcome_page_input_title}>
                   Phone number (not required)
                 </span>
                 <input
                   type="tel"
-                  className={`${s.welcome_page_input} default_input`}
+                  className={clsx(
+                    "default_input",
+                    s.welcome_page_input,
+                    ((error && !phoneValue) ||
+                      (phoneValue?.length < 2 && error)) &&
+                      s.error_input
+                  )}
                   value={phoneValue}
                   placeholder="+"
                   onChange={handlePhoneChange}
@@ -710,16 +717,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             </div>
           </div>
           <div className={s.welcome_page_paymentData_block}>
-            <span className={s.welcome_page_paymentData_block_title}>
+            {/* <span className={s.welcome_page_paymentData_block_title}>
               Payments info
-            </span>
+            </span> */}
             <div className={s.welcome_page_paymentData_block_inputs}>
-              <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
+              {/* <div className={s.welcome_page_input_block} style={{ zIndex: 1 }}>
                 <span className={s.welcome_page_input_title}>
                   preferred payouts method
                 </span>
                 <CustomDropdownInput list={paymentTypes} activeItemId="usdt" />
-              </div>
+              </div> */}
               <div className={s.welcome_page_input_block}>
                 <span className={s.welcome_page_input_title}>E-mail*</span>
                 <input
@@ -740,21 +747,21 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       </div>
       <div className={s.form_info}>
         <p className={s.form_info_text}>
-          Using the website https://greekkepers.partners.io/
-          carried out in accordance with the terms and conditions of Greek Keppers
-          Partners and Greek Keppers Partners privacy policy. Greek
-          Keepers may share your personal data collected in connection with
-          registration on this website, its affiliated companies in
-          different countries and third parties providing services to Greek
-          Keepers.
+          Using the website https://greekkepers.partners.io/ carried out in
+          accordance with the terms and conditions of Greek Keppers Partners and
+          Greek Keppers Partners privacy policy. Greek Keepers may share your
+          personal data collected in connection with registration on this
+          website, its affiliated companies in different countries and third
+          parties providing services to Greek Keepers.
         </p>
         <div className={s.privacyPolicy_container}>
           <span
             className={s.privacyPolicy_text}
             onClick={() => setIsPPchecked(!isPPchecked)}
           >
-            <div className={s.checkbox}>{isPPchecked && <CheckBoxIco />}</div>
-            I have read, understand and accept the above terms and conditions and policies
+            <div className={s.checkbox}>{isPPchecked && <CheckBoxIco />}</div>I
+            have read, understand and accept the above terms and conditions and
+            policies
           </span>
         </div>
         <div className={s.btns_container}>
@@ -763,54 +770,16 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             onClick={handleRegistration}
             className={s.register_submit_btn}
           >
-            {startRegistration ? (
-              <PreloadDots title="Wait" />
-            ) : (
-              "Register"
-            )}
+            {startRegistration ? <PreloadDots title="Wait" /> : "Register"}
           </button>
           <button
             onClick={() => setLogin(true)}
-            className={s.register_submit_btn}
+            className={s.register_login_btn}
           >
-            Have and account?
+            Have an account?
           </button>
         </div>
       </div>
     </div>
   );
 };
-
-// useEffect(() => {
-//   (async () => {
-//     if (startRegistration && signFirstMessageData) {
-//       await api.registerContact({
-//         wallet: address!.toLowerCase(),
-//         auth: signFirstMessageData.slice(2),
-//         timestamp: newDate,
-//         contact: [
-//           {
-//             name: selectedMessanger,
-//             url: messangerValue,
-//           },
-//           {
-//             name: "Email",
-//             url: email,
-//           },
-//           {
-//             name: categoryPage,
-//             url: pageName,
-//           },
-//           {
-//             name: "Country",
-//             url: selectedCountry,
-//           },
-//           {
-//             name: "Language",
-//             url: selectedLanguage,
-//           },
-//         ],
-//       });
-//     }
-//   })();
-// }, [startRegistration, signFirstMessageData]);
