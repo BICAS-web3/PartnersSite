@@ -41,6 +41,7 @@ export type R_getUser = {
     program: string;
     is_verified: boolean;
     registration_time: number;
+    login: string;
   };
   contacts: {
     id: number;
@@ -273,6 +274,12 @@ export type T_RegisterChart = {
   bareer: string;
   endTime: number;
   step?: number;
+};
+
+export type T_ChangePassword = {
+  bareer: string;
+  new_password: string;
+  old_password: string;
 };
 
 export type T_DepositedUsers = {
@@ -636,3 +643,24 @@ export const getPlayersData = createEffect<T_Players, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export const changePassword = createEffect<
+  T_ChangePassword,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/change/password`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
+    body: JSON.stringify({
+      new_password: form.new_password,
+      old_password: form.old_password,
+    }),
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});

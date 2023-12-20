@@ -18,6 +18,7 @@ export const $userPassword = createStore<string>("");
 export const $barerToken = createStore<string>("");
 export const $userWallet = createStore<string>("");
 export const $registrationTime = createStore<number>(0);
+export const $relogin = createStore<boolean>(false);
 
 export const setUserName = createEvent<string>();
 export const setUserLastName = createEvent<string>();
@@ -37,6 +38,7 @@ export const setUserPassword = createEvent<string>();
 export const setUserWallet = createEvent<string>();
 export const setBarerToken = createEvent<string>();
 export const setRegistrationTime = createEvent<number>();
+export const setRelogin = createEvent<boolean>();
 
 $userName.on(setUserName, (_, state) => state);
 $userLastName.on(setUserLastName, (_, state) => state);
@@ -56,3 +58,4 @@ $userLogin.on(setUserLogin, (_, state) => state);
 $barerToken.on(setBarerToken, (_, state) => state);
 $userWallet.on(setUserWallet, (_, state) => state);
 $registrationTime.on(setRegistrationTime, (_, state) => state);
+$relogin.on(setRelogin, (_, state) => state);
