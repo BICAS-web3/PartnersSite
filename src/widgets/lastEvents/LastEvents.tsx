@@ -1,7 +1,7 @@
 import s from "./styles.module.scss";
 import { FC } from "react";
 
-interface LastEventsProps { }
+interface LastEventsProps {}
 
 export const LastEvents: FC<LastEventsProps> = () => {
   return (

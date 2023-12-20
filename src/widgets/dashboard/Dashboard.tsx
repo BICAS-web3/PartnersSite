@@ -68,9 +68,9 @@ export const Dashboard: FC<DashboardProps> = () => {
         <div className={s.currency_charts_wrap}>
           <CurrencyChartsBlock />
         </div>
-        <div className={s.fast_stats_wrap}>
-          <FastStats />
-        </div>
+        <FastStats />
+        {/* <div className={s.fast_stats_wrap}>
+        </div> */}
       </div>
     </section>
   );
