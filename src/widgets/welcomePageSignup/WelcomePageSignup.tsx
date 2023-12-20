@@ -20,23 +20,23 @@ import { PreloadDots } from "@/shared/ui/ProloadDots";
 
 export const siteCategories = [
   {
-    title: "Казино",
-    id: "casino",
+    title: "Social Media Platforms",
+    id: "cs",
   },
   {
-    title: "Facebook",
+    title: "Search Engines and Advertising Networks",
     id: "fb",
   },
   {
-    title: "Telegram",
+    title: "Content Discovery Platforms",
     id: "tg",
   },
   {
-    title: "Instagram",
+    title: "E-commerce and Marketplace Sites",
     id: "inst",
   },
   {
-    title: "Other",
+    title: "Specialized Niche Websites and Forums",
     id: "other",
   },
 ];
@@ -557,7 +557,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 <CustomDropdownInput
                   className={clsx(error && !categoryPage && s.error_input)}
                   list={siteCategories}
-                  activeItemId="casino"
+                  activeItemId="cs"
                   setSelectedValue={setCategotyPage}
                 />
               </div>
@@ -631,7 +631,9 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
               </div>
             </div>
             <div className={s.welcome_page_input_block}>
-              <span className={s.welcome_page_input_title}>Wallet*</span>
+              <span className={s.welcome_page_input_title}>
+                Wallet address BEP20*
+              </span>
               <input
                 value={wallet}
                 onChange={(el) => setWallet(el.target.value)}
@@ -643,7 +645,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   notValidAddress && s.error_input
                 )}
                 placeholder={
-                  notValidAddress ? "Not a valid wallet" : "Wallet BEP20"
+                  notValidAddress ? "Not a valid wallet" : "Wallet address"
                 }
               />
             </div>
@@ -658,9 +660,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 />
               </div>
               <div className={s.welcome_page_input_block}>
-                <span className={s.welcome_page_input_title}>
-                  Messenger login*
-                </span>
+                <span className={s.welcome_page_input_title}>User Name*</span>
                 <input
                   value={messangerValue}
                   onChange={(el) => setMessangerValue(el.target.value)}
@@ -776,7 +776,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             onClick={() => window.open("/Login", "_self")}
             className={s.register_login_btn}
           >
-            Have an account?
+            I have an account
           </button>
         </div>
       </div>

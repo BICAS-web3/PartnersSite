@@ -15,6 +15,7 @@ import { languagesList } from "@/widgets/header/RightMenu";
 import planet1280Img from "@/public/media/initPageImages/1280Tablet.png";
 import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
 import { WelcomePageSignup } from "@/widgets/welcomePageSignup/WelcomePageSignup";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 interface RegistrationPageProps {}
 
@@ -24,7 +25,12 @@ const RegistrationPage: FC<RegistrationPageProps> = () => {
   const [is700, setIs700] = useState(false);
   const [isMob, setIsMob] = useState(false);
   const [activePlanetImg, setActivePlanetImg] = useState(planetBg);
-
+  const [barerToken] = useUnit([ContactModel.$barerToken]);
+  useEffect(() => {
+    if (barerToken) {
+      window.open("/home", "_self");
+    }
+  }, [barerToken]);
   const [activeLanguage, setActiveLanguage] = useState(
     languagesList.filter((item) => item.title === "ru")[0]
   );

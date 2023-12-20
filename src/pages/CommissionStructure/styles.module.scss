@@ -100,26 +100,32 @@
       border-radius: 0 8px 0 0;
     }
   }
-  flex-shrink: 1 !important;
-  width: 100% !important;
-  &[data-id="currency"] {
-    max-width: 126px !important;
+  // flex-shrink: 1 !important;
+  // width: 100% !important;
+  // &[data-id="currency"] {
+  //   max-width: 126px !important;
+  // }
+  // &[data-id="commissionStructure"] {
+  //   max-width: 230px !important;
+  // }
+  // &[data-id="commssGroupName"] {
+  //   max-width: 320px !important;
+  // }
+  // &[data-id="startDate"] {
+  //   max-width: 170px !important;
+  // }
+  // &[data-id="description"] {
+  //   //   max-width: 100% !important;
+  // }
+  // &[data-id="endDate"] {
+  //   max-width: 170px !important;
+  // }
+  width: max-content !important;
+  min-width: max-content;
+  @media (max-width: 1200px) {
+    min-width: 200px;
   }
-  &[data-id="commissionStructure"] {
-    max-width: 230px !important;
-  }
-  &[data-id="commssGroupName"] {
-    max-width: 320px !important;
-  }
-  &[data-id="startDate"] {
-    max-width: 170px !important;
-  }
-  &[data-id="description"] {
-    //   max-width: 100% !important;
-  }
-  &[data-id="endDate"] {
-    max-width: 170px !important;
-  }
+  flex: 1 0 auto;
 }
 
 .swiper {

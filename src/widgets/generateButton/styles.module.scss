@@ -14,4 +14,24 @@
   line-height: 15px;
   letter-spacing: 0.64px;
   cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #ffb800;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 }

@@ -14,6 +14,7 @@ import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { languagesList } from "@/widgets/header/RightMenu";
 import planet1280Img from "@/public/media/initPageImages/1280Tablet.png";
 import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 interface LoginPageProps {}
 
@@ -42,6 +43,12 @@ const LoginPage: FC<LoginPageProps> = () => {
     setLanugagesListVisibility(!languagesListVisibility);
   };
 
+  const [barerToken] = useUnit([ContactModel.$barerToken]);
+  useEffect(() => {
+    if (barerToken) {
+      window.open("/home", "_self");
+    }
+  }, [barerToken]);
   useEffect(() => {
     false;
     const handleResize = () => {

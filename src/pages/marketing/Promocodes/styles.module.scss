@@ -6,10 +6,9 @@
   gap: 10px;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(150px, 230px) minmax(150px, 230px) minmax(
-      150px,
-      230px
-    ) 200px;
+  grid-template-columns:
+    minmax(150px, 230px) minmax(150px, 230px) minmax(150px, 230px)
+    200px;
 }
 
 .table_filter_item {
@@ -51,6 +50,27 @@
   font-weight: 400;
   line-height: 22px;
   letter-spacing: 0.64px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #ffb800;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 }
 
 .table_choose_opts_wrap {

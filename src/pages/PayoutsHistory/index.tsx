@@ -6,7 +6,6 @@ import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdow
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
 import "swiper/scss";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import { Scrollbar } from "swiper/modules";
 import Image from "next/image";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
@@ -20,14 +19,14 @@ import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import filterIco from "@/public/media/common/filterImg.png";
 import { PhCurrencyMobBlock } from "../../widgets/phUI/";
 import { PhPeriodMobBlock } from "../../widgets/phUI/";
-import { PhTableFilterBlock } from "../../widgets/phUI/";
-import { PayoutsHistoryTable } from "@/widgets/payoutsHistoryTable/PayoutsHistoryTable";
 import { PhExportBlock } from "../../widgets/phUI/";
 import exportIco from "@/public/media/common/exportIco.png";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
+import { useMediaQuery } from "@/shared/tools";
+import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 
 export const currenciesList = [
   {
@@ -157,9 +156,10 @@ export const phExportOptions = [
   },
 ];
 
-interface PayoutsHistoryProps { }
+interface PayoutsHistoryProps {}
 
 const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
+  const [titleArr, setTitleArr] = useState(optionsList.map((el) => el.title));
   const [activePayoutBtn, setActivePayoutBtn] = useState("status");
   const [activeOps, setActiveOpts] = useState([]);
   const swiperRef = useRef<SwiperRef>(null);
@@ -237,6 +237,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     setIsFilter(true);
   };
 
+  const isMobile = useMediaQuery("(max-width:650px)");
   return (
     <Layout activePage="payoutsHistory">
       <section className={s.payouts_history_section}>
@@ -269,8 +270,9 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                 </div>
               </div>
               <div
-                className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
-                  } ${currentFilterPage !== "" && s.scroll_disable}`}
+                className={`${s.mobile_filter_block} mobile_filter_block ${
+                  isFilter && s.filter_active
+                } ${currentFilterPage !== "" && s.scroll_disable}`}
                 id="payouts_history_filter"
               >
                 <PhCurrencyMobBlock
@@ -352,7 +354,9 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           ) : (
             <div className={s.table_filter_block}>
               <div className={s.table_filter_currency_item}>
-                <span className={s.table_filter_block_item_title}>Currency</span>
+                <span className={s.table_filter_block_item_title}>
+                  Currency
+                </span>
                 <UsdCurrencyBlock />
               </div>
               <div
@@ -367,12 +371,12 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                     !is1280 && !is650 && !is700
                       ? 130
                       : is1280
-                        ? 90
-                        : is700
-                          ? 130
-                          : is650
-                            ? 130
-                            : 130
+                      ? 90
+                      : is700
+                      ? 130
+                      : is650
+                      ? 130
+                      : 130
                   }
                 />
               </div>
@@ -523,9 +527,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   />
                 </div>
               </div>
-              <button className={s.generate_report_btn}>
-                Generate report
-              </button>
+              <button className={s.generate_report_btn}>Generate report</button>
             </div>
           )}
           {/* <div className={s.payouts_status_block}>
@@ -556,6 +558,9 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   list={optionsList}
                   setActiveOptions={setActiveOpts}
                   activeOptions={activeOps}
+                  titleArr={titleArr}
+                  setTitleArr={setTitleArr}
+                  isRefPage={true}
                 />
               </div>
               <div className={s.export_choose_wrap}>
@@ -566,11 +571,33 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
               </div>
             </div>
           )}
-          <PayoutsHistoryTable
+          {/* <PayoutsHistoryTable
             is650={is650}
             is700={is700}
             cols={is650 ? mobTableOpts : activeOps}
-          />
+          /> */}
+          <SwiperWrap
+            data={isMobile ? mobTableOpts : activeOps}
+            swiperRef={swiperRef}
+          >
+            {titleArr.map((item: any, ind: number) => (
+              <SwiperSlide
+                key={item?.id}
+                className={s.swiper_slide}
+                data-id={item?.id}
+              >
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>{item}</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    {item === "Currency" ? <span>USDT</span> : <span>-</span>}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </SwiperWrap>
           <div className={s.table_nav_block}>
             <div className={s.table_records_block}>
               <p className={s.table_records_text}>
@@ -599,15 +626,15 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
           <div className={s.info_block}>
             <div className={s.info_block_item}>
               <p className={s.info_block_text}>
-                For the withdrawal, please contact the manager.
-                It should be done only once, next withdrawals will be done automatically.
+                For the withdrawal, please contact the manager. It should be
+                done only once, next withdrawals will be done automatically.
                 Minimal withdrawal amount is 100$.
               </p>
             </div>
             <div className={s.info_block_item}>
               <p className={s.info_block_text}>
-                You can contact our managers, using their contact info,
-                that is available on the site.
+                You can contact our managers, using their contact info, that is
+                available on the site.
               </p>
             </div>
           </div>

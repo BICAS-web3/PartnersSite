@@ -21,6 +21,7 @@ import { useMediaQuery } from "@/shared/tools";
 
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { useUnit } from "effector-react";
+import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 
 export const optsList = [
   {
@@ -55,17 +56,17 @@ export const optsList = [
   },
 ];
 
-interface CommissionStructureProps { }
+interface CommissionStructureProps {}
 
 const CommissionStructure: FC<CommissionStructureProps> = () => {
   const [registrationTime] = useUnit([ContactModel.$registrationTime]);
   const [titleArr, setTitleArr] = useState(optsList.map((el) => el.title));
   const [activeOps, setActiveOpts] = useState<
     | {
-      title?: string;
-      id?: string;
-      text?: string;
-    }
+        title?: string;
+        id?: string;
+        text?: string;
+      }
     | any
   >([]);
   const [is650, setIs650] = useState(false);
@@ -156,7 +157,10 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
             <Breadcrumbs
               list={[
                 { title: "Main", link: "/" },
-                { title: "Commissions structure", link: "/CommissionStructure" },
+                {
+                  title: "Commissions structure",
+                  link: "/CommissionStructure",
+                },
               ]}
             />
           </div>
@@ -167,8 +171,9 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
                 filters
               </div>
               <div
-                className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
-                  }`}
+                className={`${s.mobile_filter_block} mobile_filter_block ${
+                  isFilter && s.filter_active
+                }`}
               >
                 <CSTableFilter
                   setCurrentFilterPage={setCurrentFilterPage}
@@ -220,50 +225,43 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
               </div>
             </div>
           )}
-          <div className={s.table_wrap}>
-            <div className="scroll-bar"></div>
-            <Swiper
-              ref={swiperRef}
-              slidesPerView={"auto"}
-              direction="horizontal"
-              modules={[Scrollbar]}
-              scrollbar={{
-                el: ".scroll-bar",
-                draggable: true,
-              }}
-              spaceBetween={2}
-              centeredSlides={false}
-              className={s.swiper}
-            >
-              {(isMobile ? mobTableOpts : activeOps)?.map(
-                (item: any, ind: number) => (
-                  <SwiperSlide
-                    key={item?.id}
-                    className={s.swiper_slide}
-                    data-id={item?.id}
-                  >
-                    <div className={s.swiper_slide_body}>
-                      <div className={s.swiper_slide_header}>
-                        <span className={s.swiper_slide_title}>
-                          {item?.title}
-                        </span>
-                        <Image src={upDownArrows} alt="sort-ico" />
-                      </div>
-                      <div className={s.swiper_slide_content}>
-                        {" "}
-                        {item?.title === "Starting date"
-                          ? startTime
-                          : item?.title === "Ending date"
-                            ? endTime
-                            : item?.text}
-                        {/* {item?.text} */}
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                )
-              )}
-            </Swiper>
-          </div>
+          <SwiperWrap
+            data={isMobile ? mobTableOpts : activeOps}
+            swiperRef={swiperRef}
+          >
+            {titleArr.map((item: any, ind: number) => (
+              <SwiperSlide
+                key={item?.id}
+                className={s.swiper_slide}
+                data-id={item?.id}
+              >
+                <div className={s.swiper_slide_body}>
+                  <div className={s.swiper_slide_header}>
+                    <span className={s.swiper_slide_title}>{item}</span>
+                    <Image src={upDownArrows} alt="sort-ico" />
+                  </div>
+                  <div className={s.swiper_slide_content}>
+                    {item === "Starting date" ? (
+                      <span>{startTime || "-"}</span>
+                    ) : item === "Ending date" ? (
+                      <span>{endTime || "-"}</span>
+                    ) : item === "Description" ? (
+                      <span>Negative comission: yes; Administrative: 0%.</span>
+                    ) : item === "Comission group name" ? (
+                      <span>USD START 50%</span>
+                    ) : item === "Commissions structure" ? (
+                      <span>Revenue Share</span>
+                    ) : item === "Currency" ? (
+                      <span>USDT</span>
+                    ) : (
+                      <span></span>
+                    )}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </SwiperWrap>
+
           <div className={s.table_navigation_block}>
             <div className={s.table_records_block}>
               <p className={s.table_records_text}>
@@ -296,3 +294,42 @@ const CommissionStructure: FC<CommissionStructureProps> = () => {
 };
 
 export default CommissionStructure;
+
+// {
+/* <div className={s.table_wrap}>
+  <div className="scroll-bar"></div>
+  <Swiper
+    ref={swiperRef}
+    slidesPerView={"auto"}
+    direction="horizontal"
+    modules={[Scrollbar]}
+    scrollbar={{
+      el: ".scroll-bar",
+      draggable: true,
+    }}
+    spaceBetween={2}
+    centeredSlides={false}
+    className={s.swiper}
+  >
+    {(isMobile ? mobTableOpts : activeOps)?.map((item: any, ind: number) => (
+      <SwiperSlide key={item?.id} className={s.swiper_slide} data-id={item?.id}>
+        <div className={s.swiper_slide_body}>
+          <div className={s.swiper_slide_header}>
+            <span className={s.swiper_slide_title}>{item?.title}</span>
+            <Image src={upDownArrows} alt="sort-ico" />
+          </div>
+          <div className={s.swiper_slide_content}>
+            {" "}
+            {item?.title === "Starting date"
+              ? startTime
+              : item?.title === "Ending date"
+              ? endTime
+              : item?.text}
+            {/* {item?.text} */
+// }
+// </div>
+// </div>
+// </SwiperSlide>
+// ))}
+// </Swiper>
+// </div> */}
