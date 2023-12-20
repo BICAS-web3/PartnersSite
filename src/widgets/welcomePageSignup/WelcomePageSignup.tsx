@@ -290,6 +290,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         if (validateAddress(wallet) === false) {
           setNotValidAddress(true);
           setWallet("");
+          setLoginAuth("");
         }
         if (password?.length < 5) {
           setIsShortPassword(true);
@@ -327,6 +328,9 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
 
   const [startLogin, setStartLogin] = useState(false);
 
+  const [userExist, setUserExist] = useState(false);
+  const [walletExist, setWalletExist] = useState(false);
+
   useEffect(() => {
     (async () => {
       if (startRegistration) {
@@ -341,10 +345,42 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         });
         if (response.status === "OK") {
           setStartLogin(true);
+        } else {
+          setStartLogin(false);
+          setStartRegistration(false);
+          if (
+            ((response.body as any)?.error as string).includes("partner_pkey")
+          ) {
+            setWallet("");
+            setWalletExist(true);
+          } else if (
+            ((response.body as any)?.error as string).includes(
+              "partner_login_key"
+            )
+          ) {
+            setUserExist(true);
+            setLoginAuth("");
+          }
         }
       }
     })();
   }, [startRegistration]);
+
+  useEffect(() => {
+    if (userExist) {
+      setTimeout(() => {
+        setUserExist((prev) => !prev);
+      }, 2000);
+    }
+  }, [userExist]);
+
+  useEffect(() => {
+    if (walletExist) {
+      setTimeout(() => {
+        setWalletExist((prev) => !prev);
+      }, 2000);
+    }
+  }, [walletExist]);
 
   useEffect(() => {
     (async () => {
@@ -486,9 +522,10 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                 className={clsx(
                   "default_input",
                   s.welcome_page_input,
-                  error && !loginAuth && s.error_input
+                  error && !loginAuth && s.error_input,
+                  userExist && s.error_input
                 )}
-                placeholder="Login"
+                placeholder={userExist ? "User already exist" : "Login"}
               />
             </div>
             <div className={s.welcome_page_input_block}>
@@ -642,10 +679,15 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   s.welcome_page_input,
                   "default_input",
                   !wallet && error && s.error_input,
-                  notValidAddress && s.error_input
+                  notValidAddress && s.error_input,
+                  walletExist && s.error_input
                 )}
                 placeholder={
-                  notValidAddress ? "Not a valid wallet" : "Wallet address"
+                  walletExist
+                    ? "User already exist"
+                    : notValidAddress
+                    ? "Not a valid wallet"
+                    : "Wallet address"
                 }
               />
             </div>

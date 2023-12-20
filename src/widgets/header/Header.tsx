@@ -147,7 +147,7 @@ export const Header: FC<HeaderProps> = () => {
       setUserName(responseBody?.basic?.name?.split(" ")[0]);
       setUserLastName(responseBody?.basic?.name?.split(" ")[1]);
     }
-  }, [responseBody, isAuthed]);
+  }, [responseBody, isAuthed, barerToken]);
 
   useEffect(() => {
     return () => {

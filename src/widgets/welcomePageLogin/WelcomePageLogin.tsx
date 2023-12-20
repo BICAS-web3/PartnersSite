@@ -9,7 +9,7 @@ import * as AuthModel from "@/widgets/welcomePageInitial/model";
 import s from "./styles.module.scss";
 import * as api from "@/shared/api";
 import { PreloadDots } from "@/shared/ui/ProloadDots";
-import { useMediaQuery } from "@/shared/tools";
+import clsx from "clsx";
 
 interface WelcomePageLoginProps {}
 
@@ -20,6 +20,18 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const [getLogin, setGetLogin] = useState(false);
   const [loginEnter, setLoginEnter] = useState("");
   const [getToken, setGetToken] = useState("");
+  const [errorLogin, setErrorLogin] = useState(false);
+
+  useEffect(() => {
+    if (errorLogin) {
+      setPassword("");
+      setLoginEnter("");
+      setTimeout(() => {
+        setErrorLogin((prev) => !prev);
+      }, 2000);
+    }
+  }, [errorLogin]);
+
   const [setBarerToken, relogin] = useUnit([
     ContactModel.setBarerToken,
     ContactModel.$relogin,
@@ -39,6 +51,9 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
             (response.body as any).access_token
           );
           setGetData(true);
+        } else {
+          setGetLogin(false);
+          setErrorLogin(true);
         }
       }
     })();
@@ -156,15 +171,23 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
           onChange={(el) => setLoginEnter(el.target.value)}
           value={loginEnter}
           type="text"
-          className={`${s.welcome_page_login_form_input} default_input`}
-          placeholder="User login"
+          className={clsx(
+            s.welcome_page_login_form_input,
+            "default_input",
+            errorLogin && s.error_input
+          )}
+          placeholder={errorLogin ? "Wrong Login or Password" : "User login"}
         />
         <input
           onChange={(el) => setPassword(el.target.value)}
           value={password}
           type="password"
-          className={`${s.welcome_page_login_form_input} default_input`}
-          placeholder="Password"
+          className={clsx(
+            s.welcome_page_login_form_input,
+            "default_input",
+            errorLogin && s.error_input
+          )}
+          placeholder={errorLogin ? "Wrong Login or Password" : "Password"}
         />
         <button onClick={handleLoginUser} className={s.submit_btn}>
           {getLogin ? <PreloadDots title="Wait" /> : "Enter"}
@@ -172,10 +195,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
       </div>
       <div className={s.lower_support_btns}>
         <a
-          onClick={() => {
-            setLogin(false);
-            setSignup(true);
-          }}
+          onClick={() => window.open("/Registration", "_self")}
           className={s.lower_support_btns_item}
         >
           Registration
