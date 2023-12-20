@@ -22,6 +22,7 @@ import { useAccount } from "wagmi";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 import * as api from "@/shared/api/";
+import { SwiperWrap } from "../swiperWrap/SwiperWrap";
 
 const optionsList = [
   {
@@ -107,7 +108,7 @@ const timesList = [
   },
 ];
 
-interface FastStatsProps { }
+interface FastStatsProps {}
 interface IListProps {
   id?: string;
   title?: string;
@@ -166,6 +167,8 @@ export const FastStats: FC<FastStatsProps> = () => {
         });
         if (response.status === "OK") {
           setConversionBody(response.body);
+        } else {
+          console.log("DEAD");
         }
 
         const response2 = await api.getDepositedUsers({
@@ -178,9 +181,11 @@ export const FastStats: FC<FastStatsProps> = () => {
         }
       }
     })();
-  }, [tablePeriod]);
+  }, [tablePeriod, barerToken]);
 
-  console.log(conversionBody?.connected_wallets);
+  useEffect(() => {
+    console.log(222, conversionBody);
+  }, [conversionBody]);
   console.log("TEST", depositedUsersBody?.connected_wallets);
 
   return (
@@ -261,23 +266,12 @@ export const FastStats: FC<FastStatsProps> = () => {
           <ListButtons setIsBack={setIsFilter} title="Generate report" />
         </div>
       </div>
-      <div className={s.fast_stats_table_block}>
-        <div className="scroll-bar"></div>
-        <Swiper
-          ref={newsListSwiperRef}
-          slidesPerView={"auto"}
-          direction="horizontal"
-          modules={[Scrollbar]}
-          scrollbar={{
-            el: ".scroll-bar",
-            draggable: true,
-          }}
-          centeredSlides={false}
-          spaceBetween={2}
-          className={s.swiper}
-        >
-          {!isMobile
-            ? activeOptions.map((item, ind) => (
+      <SwiperWrap
+        data={isMobile ? activeOptions : mobTableOptions}
+        swiperRef={newsListSwiperRef}
+      >
+        {!isMobile
+          ? activeOptions.map((item, ind) => (
               <SwiperSlide key={ind} className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
@@ -287,12 +281,14 @@ export const FastStats: FC<FastStatsProps> = () => {
                   <div className={s.swiper_slide_content}>
                     {item.id === "registrations"
                       ? conversionBody?.connected_wallets
+                        ? conversionBody?.connected_wallets
+                        : item.bodyValue
                       : item.bodyValue}
                   </div>
                 </div>
               </SwiperSlide>
             ))
-            : mobTableOptions.map((item, ind) => (
+          : mobTableOptions.map((item, ind) => (
               <SwiperSlide key={ind} className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
@@ -307,8 +303,25 @@ export const FastStats: FC<FastStatsProps> = () => {
                 </div>
               </SwiperSlide>
             ))}
+      </SwiperWrap>
+      {/* <div className={s.fast_stats_table_block}>
+        <div className="scroll-bar"></div>
+        <Swiper
+          ref={newsListSwiperRef}
+          slidesPerView={"auto"}
+          direction="horizontal"
+          modules={[Scrollbar]}
+          scrollbar={{
+            el: ".scroll-bar",
+            draggable: true,
+          }}
+          centeredSlides={false}
+          spaceBetween={2}
+          className={s.swiper}
+        >
+        
         </Swiper>
-      </div>
+      </div> */}
     </div>
   );
 };

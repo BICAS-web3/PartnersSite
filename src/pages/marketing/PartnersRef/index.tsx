@@ -96,7 +96,7 @@ const options = [
   // },
 ];
 
-interface PartnersRefProps { }
+interface PartnersRefProps {}
 export interface IPagesResponse {
   title?: string;
   basic: {
@@ -145,9 +145,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   const [mobCPageInputValue, setMobCPageInputValue] = useState("/live/");
   const [mobPickedSite, setMobPickedSite] = useState<
     | {
-      title?: string;
-      id?: string;
-    }
+        title?: string;
+        id?: string;
+      }
     | any
   >([]);
   const [pageResponseUpdated, setPageResponseUpdated] = useState<
@@ -253,6 +253,10 @@ const PartnersRef: FC<PartnersRefProps> = () => {
   }, [barerToken]);
   const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
 
+  useEffect(() => {
+    console.log(444, titleArr);
+  }, [titleArr]);
+
   const [numberPage, setNumberPage] = useState<number>(1);
   const [recordCount, setRecordCount] = useState(10);
   useEffect(() => {
@@ -293,8 +297,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               Фильтры
             </div>
             <div
-              className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
-                } ${currentFilterPage !== "" && s.scroll_disabled}`}
+              className={`${s.mobile_filter_block} mobile_filter_block ${
+                isFilter && s.filter_active
+              } ${currentFilterPage !== "" && s.scroll_disabled}`}
               id="partnersRef_filter_block"
             >
               <AdaptivePicker
@@ -324,7 +329,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                 list={siteList}
                 site={true}
                 setCurrentFilterPage={setCurrentFilterPage}
-                setCurrentLanguage={() => { }}
+                setCurrentLanguage={() => {}}
                 itemId={siteList[0]}
                 activeTitle="partnersRefSitesFilter"
                 custom={true}
@@ -455,12 +460,12 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                   !is1280 && !is650 && !is700
                     ? 160
                     : is1280
-                      ? 100
-                      : is700
-                        ? 160
-                        : is650
-                          ? 160
-                          : 130
+                    ? 100
+                    : is700
+                    ? 160
+                    : is650
+                    ? 160
+                    : 130
                 }
               />
             </div>
@@ -483,9 +488,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               />
             </div> */}
             <div className={s.table_filter_item}>
-              <span className={s.table_filter_item_title}>
-                Referred page
-              </span>
+              <span className={s.table_filter_item_title}>Referred page</span>
               <input
                 type="text"
                 placeholder="/live/"
@@ -497,9 +500,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               <input type="text" className={`${s.subId_input} default_input`} />
             </div>
             <div className={s.generate_report_btn_wrap}>
-              <button className={s.generate_report_btn}>
-                Generate report
-              </button>
+              <button className={s.generate_report_btn}>Generate report</button>
             </div>
           </div>
         )}
@@ -577,19 +578,21 @@ const PartnersRef: FC<PartnersRefProps> = () => {
                         );
                       } else if (slide === "SubID") {
                         return <span key={i}>{el.sub_ids_id}</span>;
-                      } else if (slide === "Referal link") {
+                      } else {
                         return (
                           <span
                             className={s.swiper_text_copy}
                             onClick={() =>
                               navigator.clipboard.writeText(
-                                `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${el.basic_id
+                                `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+                                  el.basic_id
                                 }&sub_id=${el.sub_ids_id}`
                               )
                             }
                             key={i}
-                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${el.basic_id
-                            }&sub_id=${el.sub_ids_id}`}</span>
+                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+                            el.basic_id
+                          }&sub_id=${el.sub_ids_id}`}</span>
                         );
                       }
                     })}
