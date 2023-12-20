@@ -60,7 +60,6 @@
     border-radius: 283px;
     background: rgba(255, 187, 95, 0.4);
     filter: blur(150px);
-
   }
 }
 
@@ -80,7 +79,6 @@
     font-size: 26px;
     line-height: 33.8px;
     // margin-bottom: 8px;
-
   }
 
   @media (max-width: 650px) {
@@ -99,7 +97,6 @@
     grid-template-rows: 1fr 1fr 1fr;
   }
   margin-top: 16px;
-
 }
 
 .welcome_steps_step {
@@ -303,6 +300,26 @@
   font-style: normal;
   font-weight: 700;
   line-height: 25px;
+  overflow: hidden;
+  position: relative;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #ffb800;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 
   @media screen and (max-width: 700px) {
     font-size: 16px;
@@ -332,6 +349,26 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #b4b4b4;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 
   @media screen and (max-width: 700px) {
     font-size: 16px;

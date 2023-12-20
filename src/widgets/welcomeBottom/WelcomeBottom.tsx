@@ -27,10 +27,7 @@ export const WelcomeBottom: FC<WelcomeBottomProps> = () => {
         </p>
         <button
           className={s.register_btn}
-          onClick={() => {
-            setSignup(true);
-            setLogin(false);
-          }}
+          onClick={() => window.open("/Registration", "_self")}
         >
           Register now
         </button>

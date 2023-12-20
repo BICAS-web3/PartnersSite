@@ -33,16 +33,17 @@ export const WelcomeHeroSection: FC<WelcomeHeroSectionProps> = () => {
               more.
             </p>
             <div className={s.welcome_hero_btns}>
-              <button
-                className={s.welcome_hero_start_btn}
-                onClick={() => {
-                  setSignup(true);
-                  setLogin(false);
-                }}
-              >
+              <a className={s.welcome_hero_start_btn} href="/Registration">
                 Become a Partner
+              </a>
+              <button
+                onClick={() =>
+                  window.open("https://game.greekkeepers.io/", "_blank")
+                }
+                className={s.welcome_hero_main_btn}
+              >
+                Visit Main
               </button>
-              <button className={s.welcome_hero_main_btn}>Visit Main</button>
             </div>
           </div>
         </div>

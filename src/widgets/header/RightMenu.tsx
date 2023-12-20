@@ -6,11 +6,9 @@ import ukraineImg from "@/public/media/headerImages/ukraine.png";
 import chinaImg from "@/public/media/headerImages/china.png";
 import indiaImg from "@/public/media/headerImages/india.png";
 import Image from "next/image";
-import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { useUnit } from "effector-react";
 import * as RegistrationModel from "./model";
 import * as SidebarM from "@/widgets/sidebar/model";
-import { ChainList } from "../chainList/ChainList";
 import { ProfileWindow } from "../profileWindow/ProfileWindow";
 import { useMediaQuery } from "@/shared/tools";
 import { useAccount } from "wagmi";
@@ -39,7 +37,7 @@ export const languagesList = [
   },
 ];
 
-interface RightMenuProps { }
+interface RightMenuProps {}
 
 export const RightMenu: FC<RightMenuProps> = () => {
   const [isAuthed] = useUnit([AuthModel.$isAuthed]);
@@ -103,9 +101,10 @@ export const RightMenu: FC<RightMenuProps> = () => {
     <div className={s.right_menu_body}>
       <div className={s.language_switcher}>
         <div
-          className={`${s.active_language_body} ${languagesListVisibility && s.languages_list_active
-            }`}
-        // onClick={handleListVisibility}
+          className={`${s.active_language_body} ${
+            languagesListVisibility && s.languages_list_active
+          }`}
+          // onClick={handleListVisibility}
         >
           {/* <Image className={s.active_language_img} src={usaImg} alt={`us`} />
           <span className={s.active_language_title}></span> */}
@@ -124,8 +123,9 @@ export const RightMenu: FC<RightMenuProps> = () => {
           </div> */}
         </div>
         <div
-          className={`${s.avaible_languages_list} ${languagesListVisibility && s.avaible_languages_list_visible
-            }`}
+          className={`${s.avaible_languages_list} ${
+            languagesListVisibility && s.avaible_languages_list_visible
+          }`}
         >
           {avaibleLanguages.map((item, ind) => (
             <div
@@ -145,8 +145,9 @@ export const RightMenu: FC<RightMenuProps> = () => {
         <>
           {/* {isMobile && <ChainList />} */}
           <div
-            className={`${s.mob_sidebar_open_btn} ${isSbOpened && s.open_btn_active
-              }`}
+            className={`${s.mob_sidebar_open_btn} ${
+              isSbOpened && s.open_btn_active
+            }`}
             onClick={handleSbVisibility}
           >
             {isMobile && (
@@ -162,26 +163,27 @@ export const RightMenu: FC<RightMenuProps> = () => {
         </>
       ) : (
         <>
-          <Link
-            href={"/"}
+          <a
+            href={"/Registration"}
             className={s.signUp_btn}
-            onClick={() => {
-              setSignup(true);
-              setLogin(false);
-            }}
+            // onClick={() => {
+            //   // setSignup(true);
+            //   // setLogin(false);
+            //   window.open();
+            // }}
           >
             Registration
-          </Link>
-          <Link
-            href={"/"}
+          </a>
+          <a
+            href={"/Login"}
             className={s.signIn_btn}
-            onClick={() => {
-              setSignup(false);
-              setLogin(true);
-            }}
+            // onClick={() => {
+            //   setSignup(false);
+            //   setLogin(true);
+            // }}
           >
             LogIn
-          </Link>
+          </a>
         </>
       )}
     </div>
