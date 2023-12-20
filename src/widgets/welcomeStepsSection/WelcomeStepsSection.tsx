@@ -71,21 +71,17 @@ export const WelcomeStepsSection: FC<WelcomeStepsSectionProps> = () => {
       <div className={s.welcome_steps_btns}>
         <button
           className={s.welcome_hero_start_btn}
-          onClick={() => {
-            setSignup(true);
-            setLogin(false);
-          }}
+          onClick={() => window.open("/Registration", "_self")}
         >
           Register now
         </button>
         <button
-          onClick={() => setLogin(true)}
+          onClick={() => window.open("/Login", "_self")}
           className={s.welcome_hero_main_btn}
         >
           I have an account
         </button>
       </div>
     </section>
-
   );
 };

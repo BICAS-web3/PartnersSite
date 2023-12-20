@@ -27,8 +27,7 @@ export const WelcomePartnerSection: FC<WelcomePartnerSectionProps> = () => {
       <button
         className={s.welcome_partner_btn}
         onClick={() => {
-          setSignup(true);
-          setLogin(false);
+          window.open("/Registration", "_self");
         }}
       >
         Get started
