@@ -773,7 +773,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
             {startRegistration ? <PreloadDots title="Wait" /> : "Register"}
           </button>
           <button
-            onClick={() => setLogin(true)}
+            onClick={() => window.open("/Login", "_self")}
             className={s.register_login_btn}
           >
             Have an account?
