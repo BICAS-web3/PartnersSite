@@ -102,3 +102,11 @@
     font-size: 14px;
   }
 }
+
+.error_input {
+  // border: 1px solid red !important;
+  box-shadow: 0 0 1px 1px red;
+  &::placeholder {
+    color: red;
+  }
+}
