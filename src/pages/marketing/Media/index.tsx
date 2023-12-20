@@ -82,7 +82,7 @@ const options = [
   },
 ];
 
-interface MediaProps { }
+interface MediaProps {}
 
 const Media: FC<MediaProps> = () => {
   const [activeOpts, setActiveOpts] = useState([]);
@@ -182,8 +182,9 @@ const Media: FC<MediaProps> = () => {
               Фильтры
             </div>
             <div
-              className={`${s.mobile_filter_block} mobile_filter_block ${isFilter && s.filter_active
-                } ${currentFilterPage !== "" && s.scroll_disabled}`}
+              className={`${s.mobile_filter_block} mobile_filter_block ${
+                isFilter && s.filter_active
+              } ${currentFilterPage !== "" && s.scroll_disabled}`}
               id="media_filter_block"
             >
               <AdaptivePicker
@@ -260,11 +261,12 @@ const Media: FC<MediaProps> = () => {
                 <AdaptiveFilterItem
                   objTitle={
                     mobPickedSite.length > 1
-                      ? `${mobPickedSite[0].title} и ещё ${mobPickedSite.length - 1
-                      }`
+                      ? `${mobPickedSite[0].title} и ещё ${
+                          mobPickedSite.length - 1
+                        }`
                       : mobPickedSite.length == 1
-                        ? mobPickedSite[0].title
-                        : "none"
+                      ? mobPickedSite[0].title
+                      : "none"
                   }
                   title="Сайт"
                   filterTitle="mediaPageSitesFilter"
@@ -374,18 +376,18 @@ const Media: FC<MediaProps> = () => {
                   !is1280 && !is650 && !is700
                     ? 160
                     : is1280
-                      ? 100
-                      : is700
-                        ? 110
-                        : is650
-                          ? 160
-                          : 130
+                    ? 100
+                    : is700
+                    ? 110
+                    : is650
+                    ? 160
+                    : 130
                 }
               />
             </div>
             <div className={s.table_filter_btn_wrap}>
               <button className={s.search_table_btn} onClick={dataReset}>
-                Поиск
+                Search
               </button>
             </div>
           </div>

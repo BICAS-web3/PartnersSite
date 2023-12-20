@@ -71,58 +71,28 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
           className={s.profile_btn}
           title="Manage account"
         />
-        <div className={s.detail_container} ref={accountRef}>
-          <button
-            onClick={accountToggle}
-            className={clsx(
-              s.accoutn_detail_button,
-              accountIsOpen && s.accoutn_detail_button_open
-            )}
-          >
-            Hide accounts
-            <span
-              className={clsx(
-                s.dropdown_ico_block,
-                accountIsOpen && s.activ_icon
-              )}
-            >
-              <HeaderDropdownArrow />
-            </span>
-          </button>
+        <div
+          className={clsx(
+            s.profile_details,
+            accountIsOpen && s.profile_details_open
+          )}
+        >
           <div
-            className={clsx(
-              s.profile_details,
-              accountIsOpen && s.profile_details_open
-            )}
+            onClick={() => {
+              setLogin(true);
+              setRegistr(true);
+              setIsAuthed(false);
+              disconnect();
+              localStorage.removeItem("barer-token");
+              localStorage.removeItem("mail");
+              window.open("/", "_self");
+            }}
+            className={s.profile_logout}
           >
-            {Array.from({ length: 3 }).map((el, i) => (
-              <div className={s.detail_item} key={i}>
-                <span className={s.detail_letter}>B</span>
-                <div className={s.detail_data}>
-                  <span className={s.detail_data_id}>ID: 2132313123</span>
-                  <span className={s.detail_data_mail}>
-                    IvanIvanov@gmail.com
-                  </span>
-                </div>
-              </div>
-            ))}{" "}
-            <div
-              onClick={() => {
-                setLogin(true);
-                setRegistr(true);
-                setIsAuthed(false);
-                disconnect();
-                localStorage.removeItem("barer-token");
-                localStorage.removeItem("mail");
-                window.open("/", "_self");
-              }}
-              className={s.profile_logout}
-            >
-              <span>
-                <LogOutIco />
-              </span>
-              LogOut
-            </div>
+            <span>
+              <LogOutIco />
+            </span>
+            LogOut
           </div>
         </div>
       </div>

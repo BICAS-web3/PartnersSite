@@ -11,7 +11,7 @@ import * as api from "@/shared/api";
 import { PreloadDots } from "@/shared/ui/ProloadDots";
 import { useMediaQuery } from "@/shared/tools";
 
-interface WelcomePageLoginProps { }
+interface WelcomePageLoginProps {}
 
 export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const [startLogin, setStartLogin] = useState(false);
@@ -115,7 +115,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
       );
       setUserSelectedSource(
         responseBody.contacts?.find((el) => el?.name === "source_from")?.url ||
-        ""
+          ""
       );
       localStorage.setItem(`name`, responseBody.basic?.name.split(" ")[0]);
       localStorage.setItem(`last_name`, responseBody.basic?.name.split(" ")[1]);

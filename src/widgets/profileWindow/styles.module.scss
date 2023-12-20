@@ -112,12 +112,12 @@
 }
 
 .detail_container {
-  width: 100%;
-  color: white;
-  margin-top: 19px;
 }
 
 .profile_details {
+  width: 100%;
+  color: white;
+  margin-top: 19px;
   display: flex;
   flex-direction: column;
   max-height: 0;
@@ -127,8 +127,7 @@
   width: 100%;
   background: var(--gray-320, #202020);
   gap: 1px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-radius: 8px;
   overflow: hidden;
 }
 

@@ -114,7 +114,7 @@ const sidebarItems = [
         link: "/reports/Total",
       },
       {
-        title: "Marketing instuments",
+        title: "Marketing tools",
         icon: <MarketingTools />,
         pageActive: "marketTools",
         link: "/MarketingTools",
@@ -191,13 +191,15 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
 
   return (
     <div
-      className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${isMobSidebarOpened && s.mob_account_opened
-        }`}
+      className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${
+        isMobSidebarOpened && s.mob_account_opened
+      }`}
       id="mob_sidebar"
     >
       <div
-        className={`${s.sidebar_profile_block} ${isMobSidebarOpened && s.mobSBopened
-          } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
+        className={`${s.sidebar_profile_block} ${
+          isMobSidebarOpened && s.mobSBopened
+        } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
         id="sidebar_profile_block"
       >
         <ChangeAccountBlock
@@ -313,10 +315,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             <div className={s.sidebar_page_item_link_block}>
               {item1.list.map((item2, ind) => {
                 if (
-                  item2?.title === "Промокоды" ||
-                  item2?.title === "Медиа" ||
-                  item2?.title === "По суб-партнёрам" ||
-                  item2?.title === "Маркетинговые инструменты"
+                  item2?.title === "Promocodes" ||
+                  item2?.title === "Media" ||
+                  item2?.title === "Sub-Partners" ||
+                  item2?.title === "Marketing tools"
                 ) {
                   return (
                     <div
@@ -325,11 +327,12 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                       data-href={item2.link}
                       className={s.not_link}
                     >
-                      {isOpened && <span className={s.soon}>Скоро</span>}
+                      {isOpened && <span className={s.soon}>Soon</span>}
                       <div
-                        className={`${s.sidebar_page_item_link_wrap} ${item2.pageActive === activeSubBlock &&
+                        className={`${s.sidebar_page_item_link_wrap} ${
+                          item2.pageActive === activeSubBlock &&
                           s.active_sub_block
-                          }`}
+                        }`}
                         data-page={item2.title}
                       >
                         <div className={s.sidebar_page_item_link_wrap_content}>
@@ -352,9 +355,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                       data-href={item2.link}
                     >
                       <div
-                        className={`${s.sidebar_page_item_link_wrap} ${item2.pageActive === activeSubBlock &&
+                        className={`${s.sidebar_page_item_link_wrap} ${
+                          item2.pageActive === activeSubBlock &&
                           s.active_sub_block
-                          }`}
+                        }`}
                         data-page={item2.title}
                       >
                         <div className={s.sidebar_page_item_link_wrap_content}>
@@ -378,9 +382,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
       <div className={s.desk_hidden_lang_choose_block}>
         <div className={s.language_switcher}>
           <div
-            className={`${s.active_language_body} ${languagesListVisibility && s.languages_list_active
-              }`}
-          // onClick={handleListVisibility}
+            className={`${s.active_language_body} ${
+              languagesListVisibility && s.languages_list_active
+            }`}
+            // onClick={handleListVisibility}
           >
             <Image
               className={s.active_language_img}
@@ -395,8 +400,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div> */}
           </div>
           <div
-            className={`${s.avaible_languages_list} ${languagesListVisibility && s.avaible_languages_list_visible
-              }`}
+            className={`${s.avaible_languages_list} ${
+              languagesListVisibility && s.avaible_languages_list_visible
+            }`}
           >
             {avaibleLanguages.map((item, ind) => (
               <div

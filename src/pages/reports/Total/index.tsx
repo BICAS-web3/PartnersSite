@@ -16,13 +16,11 @@ import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 
 import { Layout } from "@/widgets/layout/Layout";
 import { BackHead } from "@/widgets/backHead/BackHead";
-import { InputBlock } from "@/widgets/inputBlock/InputBlock";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { DataSettings } from "@/widgets/dataSettings/DataSettings";
 import { AdaptivePicker } from "@/widgets/adaptivePicker/AdaptivePicker";
 import { AdaptiveChooser } from "@/widgets/adaptiveChooser/AdaptiveChooser";
-import { siteCategories } from "@/widgets/welcomePageSignup/WelcomePageSignup";
 import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterItem";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
 import { CustomDropDownChoose } from "@/widgets/customDropdownChoose/CustomDropDownChoose";
@@ -31,6 +29,7 @@ import s from "./styles.module.scss";
 import { ListButtons } from "@/widgets/listButtons/ListExport";
 import * as api from "@/shared/api";
 import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
+import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 
 const options = [
   {
@@ -86,7 +85,7 @@ const wepPagesList = [
   },
 ];
 
-interface TotalProps { }
+interface TotalProps {}
 
 interface IListProps {
   title?: string;
@@ -97,7 +96,7 @@ interface IListProps {
 const Total: FC<TotalProps> = () => {
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
-
+  const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
   const swiperRef = useRef<SwiperRef>(null);
 
   const [isFilter, setIsFilter] = useState(false);
@@ -411,10 +410,52 @@ const Total: FC<TotalProps> = () => {
               setActiveOptions={setActiveOpts}
               allPicked={true}
               activeOptions={activeOpts}
+              titleArr={titleArr}
+              setTitleArr={setTitleArr}
+              isRefPage={true}
             />
           </div>
         )}
-        <div className={s.table_wrap}>
+        <SwiperWrap
+          data={isMobile ? mobTableOptions : activeOpts}
+          swiperRef={swiperRef}
+        >
+          {titleArr.map((item: any, ind: number) => (
+            <SwiperSlide
+              key={item?.id}
+              className={s.swiper_slide}
+              data-id={item?.id}
+            >
+              <div className={s.swiper_slide_body}>
+                <div className={s.swiper_slide_header}>
+                  <span className={s.swiper_slide_title}>{item}</span>
+                  <Image src={upDownArrows} alt="sort-ico" />
+                </div>
+                <div className={s.swiper_slide_content}>
+                  {item === "Registrations" ? (
+                    <span>{startTime || "-"}</span>
+                  ) : item === "Site" ? (
+                    <span>{siteCurrent || "-"}</span>
+                  ) : item === "Site ID" ? (
+                    <span>
+                      {(allSites as any)?.find(
+                        (el: {
+                          basic: {
+                            name: string;
+                            internal_id?: number | string;
+                          };
+                        }) => el?.basic?.name === siteCurrent
+                      )?.basic?.internal_id || "-"}
+                    </span>
+                  ) : (
+                    <span>-</span>
+                  )}
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </SwiperWrap>
+        {/* <div className={s.table_wrap}>
           <div className="scroll-bar"></div>
           <Swiper
             ref={swiperRef}
@@ -443,23 +484,23 @@ const Total: FC<TotalProps> = () => {
                     {item?.title === "Registrations"
                       ? startTime || "-"
                       : item?.title === "Site"
-                        ? siteCurrent || "-"
-                        : item?.title === "Site ID"
-                          ? (allSites as any)?.find(
-                            (el: {
-                              basic: {
-                                name: string;
-                                internal_id?: number | string;
-                              };
-                            }) => el?.basic?.name === siteCurrent
-                          )?.basic?.internal_id || "-"
-                          : item?.text}
+                      ? siteCurrent || "-"
+                      : item?.title === "Site ID"
+                      ? (allSites as any)?.find(
+                          (el: {
+                            basic: {
+                              name: string;
+                              internal_id?: number | string;
+                            };
+                          }) => el?.basic?.name === siteCurrent
+                        )?.basic?.internal_id || "-"
+                      : item?.text}
                   </div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-        </div>
+        </div> */}
         <div className={s.table_nav_block}>
           <div className={s.table_records_block}>
             <p className={s.table_records_text}>

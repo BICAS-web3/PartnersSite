@@ -641,6 +641,9 @@
 .not_link {
   position: relative;
   cursor: auto;
+  @media (max-width: 650px) {
+    display: none;
+  }
 }
 
 .soon {

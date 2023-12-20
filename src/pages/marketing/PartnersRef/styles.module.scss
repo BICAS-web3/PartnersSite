@@ -50,6 +50,27 @@
   font-weight: 400;
   line-height: 22px;
   letter-spacing: 0.64px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #ffb800;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 }
 
 .c_page_input,

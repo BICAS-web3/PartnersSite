@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from "react";
 import s from "./styles.module.scss";
-import { Layout } from "@/widgets/layout/Layout";
 import { Header } from "@/widgets/header/Header";
 import Image from "next/image";
 import planetBg from "@/public/media/initPageImages/rightPlanet.png";
@@ -8,23 +7,16 @@ import arcsBg from "@/public/media/initPageImages/arcs.png";
 import { Footer } from "@/widgets/footer/Footer";
 import { useUnit } from "effector-react/effector-react.mjs";
 import * as RegistrM from "@/widgets/header/model";
-import { WelcomePageInitial } from "@/widgets/welcomePageInitial/WelcomePageInitial";
 import { WelcomePageLogin } from "@/widgets/welcomePageLogin/WelcomePageLogin";
 import { WelcomePageSignup } from "@/widgets/welcomePageSignup/WelcomePageSignup";
 import { LightEllipse } from "@/widgets/lightEllipse/LightEllipse";
 import usaImg from "@/public/media/headerImages/usa.png";
-import russiaImg from "@/public/media/headerImages/russia.png";
-import ukraineImg from "@/public/media/headerImages/ukraine.png";
-import chinaImg from "@/public/media/headerImages/china.png";
-import indiaImg from "@/public/media/headerImages/india.png";
 import { HeaderDropdownArrow } from "@/shared/SVGs/HeaderDropdownArrow";
 import { languagesList } from "@/widgets/header/RightMenu";
 import planet1280Img from "@/public/media/initPageImages/1280Tablet.png";
 import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
-import planetMobImg from "@/public/media/initPageImages/mobPlanetImg.png";
-import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
 import { Preland } from "@/widgets/preland/Preland";
+import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 interface WelcomePageProps {}
 
@@ -85,14 +77,12 @@ const WelcomePage: FC<WelcomePageProps> = () => {
     };
   }, []);
 
-  const router = useRouter();
-  const { isConnected } = useAccount();
-
-  // console.log(isConnected);
-
-  // useEffect(() => {
-  //   isConnected && router.push("/home");
-  // }, []);
+  const [barerToken] = useUnit([ContactModel.$barerToken]);
+  useEffect(() => {
+    if (barerToken) {
+      window.open("/home", "_self");
+    }
+  }, [barerToken]);
 
   useEffect(() => {
     if (is1280) {

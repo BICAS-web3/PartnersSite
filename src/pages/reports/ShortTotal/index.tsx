@@ -126,7 +126,7 @@ interface IListProps {
   title?: string;
   text?: string;
 }
-interface ShortTotalProps { }
+interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
   const [isAuthed, barerToken] = useUnit([
@@ -136,11 +136,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
 
   const [clicks, setClicks] = useState<
     | {
-      clicks: number;
-      id: number;
-      partner_id: string;
-      sub_id_internal: number;
-    }
+        clicks: number;
+        id: number;
+        partner_id: string;
+        sub_id_internal: number;
+      }
     | false
   >(false);
 
@@ -409,9 +409,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             <div
               className={`${s.generate_report_btn_wrap} ${s.desk_hidden_report_btn_wrap}`}
             >
-              <button className={s.generate_report_btn}>
-                Generate report
-              </button>
+              <button className={s.generate_report_btn}>Generate report</button>
             </div>
           </div>
         </div>
@@ -431,17 +429,17 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                         ? clicks?.clicks
                         : 0
                       : item.title === "Registrations"
-                        ? usersRegistration
-                          ? usersRegistration?.connected_wallets
-                          : 0
-                        : item.title === "Registrations/Clicks"
-                          ? Number((clicks as any)?.clicks || 0) <= 0
-                            ? 0
-                            : (
-                              usersRegistration?.connected_wallets /
-                              Number((clicks as any)?.clicks)
-                            ).toFixed(2)
-                          : item.data}
+                      ? usersRegistration
+                        ? usersRegistration?.connected_wallets
+                        : 0
+                      : item.title === "Registrations/Clicks"
+                      ? Number((clicks as any)?.clicks || 0) <= 0
+                        ? 0
+                        : (
+                            usersRegistration?.connected_wallets /
+                            Number((clicks as any)?.clicks)
+                          ).toFixed(2)
+                      : item.data}
                   </span>
                 </div>
               ))}
