@@ -20,7 +20,10 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
   const [getLogin, setGetLogin] = useState(false);
   const [loginEnter, setLoginEnter] = useState("");
   const [getToken, setGetToken] = useState("");
-  const [setBarerToken] = useUnit([ContactModel.setBarerToken]);
+  const [setBarerToken, relogin] = useUnit([
+    ContactModel.setBarerToken,
+    ContactModel.$relogin,
+  ]);
   useEffect(() => {
     (async () => {
       if (getLogin) {

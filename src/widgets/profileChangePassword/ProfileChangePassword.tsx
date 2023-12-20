@@ -13,11 +13,16 @@ export const ProfileChangePassword: FC<ProfileChangePasswordProps> = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
-  const [barerToken] = useUnit([ContactModel.$barerToken]);
+  const [barerToken, userLogin, setBarerToken] = useUnit([
+    ContactModel.$barerToken,
+    ContactModel.$userLogin,
+    ContactModel.setBarerToken,
+  ]);
   const [changePassword, setChangePassword] = useState(false);
   const [errorResponse, setErrorResponse] = useState(false);
   const [errorRepeat, setErrorRepeat] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [cashPassword, setCashPassword] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -30,6 +35,7 @@ export const ProfileChangePassword: FC<ProfileChangePasswordProps> = () => {
         });
 
         if (response.status === "OK") {
+          setCashPassword(newPassword);
           setOldPassword("");
           setNewPassword("");
           setPasswordRepeat("");
@@ -88,16 +94,34 @@ export const ProfileChangePassword: FC<ProfileChangePasswordProps> = () => {
     ) {
       if (passwordRepeat !== newPassword) {
         setErrorRepeat(true);
+        setNewPassword("");
+        setPasswordRepeat("");
       }
       setError(true);
-      setOldPassword("");
-      setNewPassword("");
-      setPasswordRepeat("");
+
       setChangePassword(false);
     } else {
       setChangePassword(true);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      if (isSuccess && userLogin) {
+        const response = await api.loginUser({
+          password: cashPassword,
+          login: userLogin,
+        });
+        if (response.status === "OK") {
+          setBarerToken((response.body as any).access_token as string);
+          localStorage.setItem(
+            `barer-token`,
+            (response.body as any).access_token
+          );
+        }
+      }
+    })();
+  }, [isSuccess]);
 
   return (
     <div className={s.change_password_block}>
@@ -112,7 +136,7 @@ export const ProfileChangePassword: FC<ProfileChangePasswordProps> = () => {
             className={clsx(
               s.name_input,
               "default_input",
-              error && s.error_input,
+              error && !oldPassword && s.error_input,
               errorResponse && s.error_input
             )}
             placeholder={
@@ -137,7 +161,7 @@ export const ProfileChangePassword: FC<ProfileChangePasswordProps> = () => {
             className={clsx(
               s.name_input,
               "default_input",
-              error && s.error_input
+              error && !newPassword && s.error_input
             )}
             placeholder={errorRepeat ? "Repeat password" : error ? "" : "..."}
           />
@@ -151,7 +175,7 @@ export const ProfileChangePassword: FC<ProfileChangePasswordProps> = () => {
             className={clsx(
               s.name_input,
               "default_input",
-              error && s.error_input
+              error && !passwordRepeat && s.error_input
             )}
             placeholder={errorRepeat ? "Repeat password" : error ? "" : "..."}
           />

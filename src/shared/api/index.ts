@@ -41,6 +41,7 @@ export type R_getUser = {
     program: string;
     is_verified: boolean;
     registration_time: number;
+    login: string;
   };
   contacts: {
     id: number;
