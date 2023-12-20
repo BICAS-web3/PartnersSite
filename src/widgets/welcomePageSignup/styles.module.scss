@@ -47,9 +47,17 @@
 }
 
 .welcome_page_input_block {
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.space_block {
+  padding-top: 25px;
+  @media (max-width: 996px) {
+    padding-top: 4px;
+  }
 }
 
 .welcome_page_paslog_block,
@@ -181,6 +189,65 @@
   font-weight: 700;
   line-height: normal;
   cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #ffb800;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.register_login_btn {
+  padding: 13px 41px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  color: #eaeaea;
+  border: 2px solid #3e3e3e;
+  background: #252525;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #b4b4b4;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 }
 
 .desk_hidden_nav {
@@ -259,11 +326,12 @@
   .welcome_page_contactInfo_persInfo_block {
     grid-template-columns: 1fr;
   }
-  .register_submit_btn {
+  .register_submit_btn,
+  .register_login_btn {
     font-size: 16px;
     height: 40px;
   }
-  .welcome_page_signup_content {
+  register_login_btn .welcome_page_signup_content {
     background: #0f0f0f;
     border-radius: 0;
   }

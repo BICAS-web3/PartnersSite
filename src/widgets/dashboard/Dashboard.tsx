@@ -62,7 +62,7 @@ export const Dashboard: FC<DashboardProps> = () => {
           ) : (
             <CurrentBalance />
           )}
-          <PartnerProfile />
+          {/* <PartnerProfile /> */}
           <LastEvents />
         </div>
         <div className={s.currency_charts_wrap}>
