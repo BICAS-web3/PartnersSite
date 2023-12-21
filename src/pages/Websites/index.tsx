@@ -145,6 +145,7 @@ export interface IPagesResponse {
   basic_name: string;
   basic_url: string;
   basic_partner_id: string;
+  basic_language: string;
 }
 
 const Websites: FC<WebsitesProps> = () => {
@@ -159,6 +160,7 @@ const Websites: FC<WebsitesProps> = () => {
     "name",
     "url",
     "partner_id",
+    "language",
   ]);
 
   const [addPage, setAddPage] = useState(false);
@@ -173,6 +175,7 @@ const Websites: FC<WebsitesProps> = () => {
       name: string;
       url: string;
       partner_id: string;
+      language: string;
     };
     sub_ids: any;
   } | null>();
@@ -192,6 +195,8 @@ const Websites: FC<WebsitesProps> = () => {
           basic_name: el.basic.name,
           basic_url: el.basic.url,
           basic_partner_id: el.basic.partner_id,
+          basic_language: el.basic.language,
+
           title: Object.keys(el.basic)[i],
         };
       });
@@ -295,6 +300,7 @@ const Websites: FC<WebsitesProps> = () => {
           name: pageUrl,
           url: pageUrl,
           bareer: barerToken,
+          language: selectedLanguage,
         });
         if (data.status === "OK") {
           setUpdateGetRequest("OK");
@@ -341,6 +347,7 @@ const Websites: FC<WebsitesProps> = () => {
                 name: string;
                 url: string;
                 partner_id: string;
+                language: string;
               };
               sub_ids: any;
             }
@@ -398,6 +405,12 @@ const Websites: FC<WebsitesProps> = () => {
   }, [recordCount]);
 
   const [startSort, setStartSort] = useState("");
+
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+
+  useEffect(() => {
+    console.log(currentLanguage);
+  }, [currentLanguage]);
 
   return (
     <Layout activePage="websites">
@@ -559,7 +572,11 @@ const Websites: FC<WebsitesProps> = () => {
               </span>
               <CustomDropdownInput
                 list={languagesList}
-                activeItemId="sportsForecasts"
+                activeItemId="eng"
+                custom={true}
+                // sites={true}
+                categotyFilter={selectedLanguage}
+                setCategoryFilter={setSelectedLanguage}
               />
             </div>
             <button onClick={handleAddPage} className={s.add_website_btn}>
@@ -642,6 +659,10 @@ const Websites: FC<WebsitesProps> = () => {
                         } else if (el === "partner_id") {
                           return (
                             <span key={index}>{element?.basic_partner_id}</span>
+                          );
+                        } else if (el === "language") {
+                          return (
+                            <span key={index}>{element?.basic_language}</span>
                           );
                         }
                       })}

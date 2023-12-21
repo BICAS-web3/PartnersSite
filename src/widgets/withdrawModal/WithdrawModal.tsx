@@ -42,7 +42,10 @@ export const WithdrawModal: FC<WithdrawModalProps> = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [notValidAddress, setNotValidAddress] = useState(false);
 
-  const [barerToken] = useUnit([ContentModel.$barerToken]);
+  const [barerToken, userWallet] = useUnit([
+    ContentModel.$barerToken,
+    ContentModel.$userWallet,
+  ]);
 
   const isMobile = useMediaQuery("(max-width:650px)");
   useEffect(() => {
@@ -212,7 +215,9 @@ export const WithdrawModal: FC<WithdrawModalProps> = () => {
               )}
               type="text"
               placeholder={
-                notValidAddress
+                userWallet
+                  ? userWallet
+                  : notValidAddress
                   ? "Not a valid address"
                   : "Enter the withdrawal address"
               }
