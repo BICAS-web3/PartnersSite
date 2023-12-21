@@ -1,9 +1,10 @@
 import s from "./styles.module.scss";
-import { FC } from "react";
+import { FC, useState } from "react";
 import bgImg from "@/public/media/initPageImages/formEllipse.png";
 import mailIco from "@/public/media/footerImages/mailIco.png";
 import tgIco from "@/public/media/footerImages/tgIco.png";
 import twitterIco from "@/public/media/footerImages/twitterIco.png";
+import * as Api from "@/shared/api";
 
 const smediaList = [
   {
@@ -20,9 +21,13 @@ const smediaList = [
   },
 ];
 
-interface WelcomeFormProps {}
+interface WelcomeFormProps { }
 
 export const WelcomeForm: FC<WelcomeFormProps> = () => {
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+
   return (
     <div className={s.welcome_form_section}>
       <img src={bgImg.src} alt="bg-ellipse" className={s.bg_img} />
@@ -57,18 +62,44 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
               type="text"
               placeholder="Your name"
               className={`${s.form_input} default_input`}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
             />
             <input
               type="text"
               placeholder="Your email"
               className={`${s.form_input} default_input`}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
             <textarea
               name="question_id"
               placeholder="Enter your question"
               className={`${s.textarea}`}
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
             ></textarea>
-            <button className={s.submit_btn}>Send</button>
+            <button
+              className={s.submit_btn}
+              onClick={() => {
+                Api.submitQuestion({
+                  name: name,
+                  email: email,
+                  message: message
+                });
+                setName("");
+                setEmail("");
+                setMessage("");
+              }
+
+              }
+            >Send</button>
           </div>
         </div>
       </div>

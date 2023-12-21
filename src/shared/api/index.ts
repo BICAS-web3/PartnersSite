@@ -320,6 +320,13 @@ export type T_Players = {
   address: string;
 };
 
+export type T_SubmitQuestion = {
+  //bareer: string,
+  name: string,
+  email: string,
+  message: string
+}
+
 export type T_WalletsRegistered = {
   timestamp?: number | string;
   wallet?: string;
@@ -704,6 +711,28 @@ export const getWithdrawal = createEffect<
     //   new_password: form.new_password,
     //   old_password: form.old_password,
     // }),
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const submitQuestion = createEffect<
+  T_SubmitQuestion,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/partner/question`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      //Authorization: `Bearer ${form.bareer}`,
+    },
+    body: JSON.stringify({
+      name: form.name,
+      email: form.email,
+      message: form.message
+    }),
   })
     .then(async (res) => await res.json())
     .catch((e) => e);
