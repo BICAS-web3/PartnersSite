@@ -489,7 +489,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                   <span className={s.table_item_value}>
                     {item.title === "Income"
                       ? shortTotalResponseBody
-                        ? shortTotalResponseBody.net_profit * -1 || "0"
+                        ? (shortTotalResponseBody.net_profit * -1) * 0.4 || "0"
                         : "0"
                       : item.title === "Amount of bets" ?
                         shortTotalResponseBody
@@ -502,7 +502,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                             ? Number(usersRegistrationDeposited?.connected_wallets || 0) <= 0
                               ? 0
                               : (
-                                shortTotalResponseBody.net_profit * -1 /
+                                (shortTotalResponseBody.net_profit * -1) * 0.4 /
                                 Number(usersRegistrationDeposited?.connected_wallets)
                               ).toFixed(2)
                             :
