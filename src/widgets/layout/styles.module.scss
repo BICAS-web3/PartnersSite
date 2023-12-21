@@ -18,7 +18,32 @@
   top: 80px;
 
   @media screen and (max-width: 700px) {
-    top: 70px;
+    top: 56px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: calc(100% - 56px);
+    position: absolute;
+    top: 56px;
+    width: 100%;
+    left: -120%;
+    background: #0f0f0f;
+    overflow-x: scroll;
+    transition: all 0.3s;
+    padding-bottom: 20px;
+  }
+}
+
+.sideBar_opened {
+  @media screen and (max-width: 650px) {
+    left: 0;
+  }
+}
+
+.mob_account_opened {
+  overflow: hidden;
+  .sidebar_profile_block {
+    left: 0;
   }
 }
 
