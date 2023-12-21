@@ -39,6 +39,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
   const { address } = useAccount();
 
   const [registrationsBody, setRegistrationsBody] = useState<any>();
+  const [registrationsBetBody, setRegistrationsBetBody] = useState<any>();
   const [depositedAccount, setDepositedAccounts] = useState<any>();
   // const [startTime, setStartTime] = useState<any>();
 
@@ -51,8 +52,17 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
           endTime: Math.floor(Date.now() / 1000),
           step: periodSecond.period,
         });
+        const responseBet = await api.getUsersRegistrationBetChart({
+          bareer: barerToken,
+          startTime: Math.floor(Date.now() / 1000) - periodSecond.timeline,
+          endTime: Math.floor(Date.now() / 1000),
+          step: periodSecond.period,
+        });
         if (response.status === "OK") {
           setRegistrationsBody(response.body);
+        }
+        if (responseBet.status === "OK") {
+          setRegistrationsBetBody(responseBet.body);
         }
         console.log("second chart response", response);
 
@@ -190,7 +200,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
       },
     },
 
-    colors: ["#CD4C30"], // "#F2DE2F", "#2FF24E",
+    colors: ["#CD4C30", "#2FF24E"], // "#F2DE2F", ,
     stroke: {
       curve: "smooth",
       width: isMobile ? 1 : 1.5,
@@ -284,10 +294,10 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
       name: "Registration",
       data: registrationsBody?.amount,
     },
-    // {
-    //   name: "Registration with bets",
-    //   data: [depositedAccount?.connected_wallets || 2],
-    // },
+    {
+      name: "Registration with bets",
+      data: registrationsBetBody?.amount,
+    },
     // {
     //   name: "Commissions sum",
     //   data: [

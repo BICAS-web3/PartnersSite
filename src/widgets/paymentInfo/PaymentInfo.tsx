@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
 import s from "./styles.module.scss";
 import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
-
-interface PaymentInfoProps { }
+import * as ContentModel from "@/widgets/welcomePageSignup/model";
+import { useUnit } from "effector-react";
+interface PaymentInfoProps {}
 
 const list = [
   "BSC, comission ~ 0.19 USDT",
@@ -14,17 +15,15 @@ const list = [
 ];
 
 export const PaymentInfo: FC<PaymentInfoProps> = () => {
-  const [paymentType, setPaymentType] = useState("");
-  const [cardVal, setCardVal] = useState("");
+  const [userWallet] = useUnit([ContentModel.$userWallet]);
   const [currencyList, setCurrencyList] = useState("");
+
   return (
     <div className={s.payment_info_block}>
       <span className={s.payment_info_block_title}>Payout data</span>
       <div className={s.payment_variant_block}>
         <div className={s.input_block}>
-          <span className={s.input_block_title}>
-            Preferred payout method:
-          </span>
+          <span className={s.input_block_title}>Preferred payout method:</span>
           {/* <input
             type="text"
             className={`${s.name_input} default_input`}
@@ -47,14 +46,13 @@ export const PaymentInfo: FC<PaymentInfoProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder="Wallet BEP20 address"
+            placeholder={userWallet ? userWallet : "Wallet BEP20 address"}
           />
         </div>
       </div>
       <div className={s.text_block}>
         <p className={s.info_text}>
-          * To edit contact information, please contact our
-          manager.
+          * To edit contact information, please contact our manager.
         </p>
       </div>
     </div>

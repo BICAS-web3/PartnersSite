@@ -90,6 +90,7 @@ export type T_UserSitesResp = {
     name: string;
     partner_id: string;
     url: string;
+    language: string;
   };
   sub_ids: [
     {
@@ -110,6 +111,7 @@ export type T_RegisterPage = {
   name: string;
   url: string;
   bareer: string;
+  language: string;
 };
 
 export type T_RegisterSubId = {
@@ -454,7 +456,11 @@ export const registerPage = createEffect<T_RegisterPage, T_ApiResponse, string>(
         "Content-Type": "application/json",
         Authorization: `Bearer ${form.bareer}`,
       },
-      body: JSON.stringify({ url: form.url, name: form.name }),
+      body: JSON.stringify({
+        url: form.url,
+        name: form.name,
+        language: form.language,
+      }),
     })
       .then(async (res) => await res.json())
       .catch((e) => e);
@@ -638,6 +644,26 @@ export const getUsersRegistrationChart = createEffect<
 >(async (form) => {
   return fetch(
     `${BaseApiUrl}/partner/connected/${form.startTime}/${form.endTime}/${form.step}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+    }
+  )
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getUsersRegistrationBetChart = createEffect<
+  T_RegisterChart,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(
+    `${BaseApiUrl}/partner/connected_betted/${form.startTime}/${form.endTime}/${form.step}`,
     {
       method: "GET",
       headers: {
