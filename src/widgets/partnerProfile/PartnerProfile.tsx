@@ -14,15 +14,15 @@ export const PartnerProfile: FC<PartnerProfileProps> = ({ className }) => {
   return (
     <div className={clsx(s.container, className)}>
       <div className={s.data}>
-        <h3>Профиль партнёра</h3>
+        <h3>Partner profile</h3>
         <p>
-          Ваша доля выручки (на 19.12.2023): <span>55%</span>
+          Your share of revenue (as of 12/19/2023): <span>55%</span>
         </p>
         <p>
-          Накоплено бонусов: <span>20 бонусов</span>
+          Accumulated bonuses: <span>20 bonuses</span>
         </p>
         <p>
-          Ваш текущий уровень: <span>5 </span> из 6
+          Your current level: <span>5 ​​</span> out of 6
         </p>
       </div>
       <Image className={s.image} src={partner_eclipse} alt="img" />
