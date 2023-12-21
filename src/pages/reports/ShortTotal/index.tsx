@@ -504,7 +504,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                           : item.title === "Average income from the player"
                             ? Number(
                               usersRegistrationDeposited?.connected_wallets || 0
-                            ) <= 0
+                            ) <= 0 && shortTotalResponseBody == undefined
                               ? 0
                               : (
                                 (shortTotalResponseBody.net_profit * -1 * 0.55) /
@@ -534,7 +534,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                                         : 0
                                       : item.title === "Registrations with bets/Registrations"
                                         ? Number(usersRegistration?.connected_wallets || 0) <= 0
-                                          ? 0
+                                          ? 0 && usersRegistrationDeposited == undefined
                                           : (
                                             usersRegistrationDeposited?.connected_wallets /
                                             Number(usersRegistration?.connected_wallets)
