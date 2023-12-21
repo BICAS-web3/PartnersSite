@@ -27,6 +27,9 @@ import { AdaptiveFilterItem } from "@/widgets/adaptiveFilterItem/AdaptiveFilterI
 import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 import { useMediaQuery } from "@/shared/tools";
 import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
+import * as ContentModel from "@/widgets/welcomePageSignup/model";
+import * as api from "@/shared/api";
+import { useUnit } from "effector-react";
 
 export const currenciesList = [
   {
@@ -36,33 +39,34 @@ export const currenciesList = [
 ];
 
 export const periodsList = [
-  {
-    title: "Custom period",
-    id: "arbitraryPeriod",
-  },
+  // {
+  //   title: "Custom period",
+  //   id: "arbitraryPeriod",
+  // },
   {
     title: "Today",
     id: "todaysPeriod",
+    period: "daily",
   },
   {
-    title: "Yesterday",
+    title: "Week",
     id: "yesterdaysPeriod",
+    period: "weekly",
   },
-  {
-    title: "This month",
-    id: "currentMonthPeriod",
-  },
-  {
-    title: "Прошлый месяц",
-    id: "lastMonthPeriod",
-  },
+  // {
+  //   title: "Last month",
+  //   id: "currentMonthPeriod",
+  //   period: "monthly",
+  // },
   {
     title: "Last month",
     id: "currentYearPeriod",
+    period: "monthly",
   },
   {
     title: "Last year",
     id: "lastYearPeriod",
+    period: "all",
   },
 ];
 
@@ -99,7 +103,7 @@ export const mobilePeriodsList = [
 
 export const optionsList = [
   {
-    title: "Currency",
+    title: "Token",
     id: "currency",
     text: "USD",
   },
@@ -109,22 +113,27 @@ export const optionsList = [
     text: "-",
   },
   {
-    title: "Payout",
+    title: "Amount",
     id: "withdrawal",
     text: "-",
   },
   {
-    title: "Income",
+    title: "Network",
     id: "income",
     text: "-",
   },
   {
-    title: "Left",
+    title: "Wallet address",
     id: "remainder",
     text: "-",
   },
   {
     title: "Status",
+    id: "status",
+    text: "-",
+  },
+  {
+    title: "Partner ID",
     id: "status",
     text: "-",
   },
@@ -156,10 +165,27 @@ export const phExportOptions = [
   },
 ];
 
-interface PayoutsHistoryProps {}
+interface IResponse {
+  id: number;
+  start_time: string;
+  token: string;
+  network: string;
+  wallet_address: string;
+  status: string;
+  partner_id: string;
+  amount: string;
+}
 
+interface PayoutsHistoryProps {}
+enum TimeBoundary {
+  Daily = "daily",
+  Weekly = "weekly",
+  Monthly = "monthly",
+  All = "all",
+}
 const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const [titleArr, setTitleArr] = useState(optionsList.map((el) => el.title));
+  const [barerToken] = useUnit([ContentModel.$barerToken]);
   const [activePayoutBtn, setActivePayoutBtn] = useState("status");
   const [activeOps, setActiveOpts] = useState([]);
   const swiperRef = useRef<SwiperRef>(null);
@@ -238,6 +264,26 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   };
 
   const isMobile = useMediaQuery("(max-width:650px)");
+
+  const [periodState, setPeriodState] = useState("Today");
+
+  const [responseBody, setResponseBody] = useState<IResponse[]>();
+
+  useEffect(() => {
+    (async () => {
+      if (periodState && barerToken) {
+        const response = await api.getWithdrawal({
+          bareer: barerToken,
+          time_boundary: periodsList.find((el) => el.title === periodState)
+            ?.period as TimeBoundary,
+        });
+        if (response.status === "OK") {
+          setResponseBody((response as any).body as IResponse[]);
+        }
+      }
+    })();
+  }, [periodState, barerToken]);
+
   return (
     <Layout activePage="payoutsHistory">
       <section className={s.payouts_history_section}>
@@ -366,7 +412,10 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                 <span className={s.table_filter_block_item_title}>Period</span>
                 <CustomDropdownInput
                   list={periodsList}
-                  activeItemId="arbitraryPeriod"
+                  activeItemId="todaysPeriod"
+                  custom={true}
+                  categotyFilter={periodState}
+                  setCategoryFilter={setPeriodState}
                   maxW={
                     !is1280 && !is650 && !is700
                       ? 130
@@ -576,28 +625,60 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
             is700={is700}
             cols={is650 ? mobTableOpts : activeOps}
           /> */}
-          <SwiperWrap
-            data={isMobile ? mobTableOpts : activeOps}
-            swiperRef={swiperRef}
-          >
-            {titleArr.map((item: any, ind: number) => (
-              <SwiperSlide
-                key={item?.id}
-                className={s.swiper_slide}
-                data-id={item?.id}
-              >
-                <div className={s.swiper_slide_body}>
-                  <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>{item}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
+          {responseBody && (
+            <SwiperWrap data={responseBody} swiperRef={swiperRef}>
+              {titleArr.map((item: any, ind: number) => (
+                <SwiperSlide
+                  key={item?.id}
+                  className={s.swiper_slide}
+                  data-id={item?.id}
+                >
+                  <div className={s.swiper_slide_body}>
+                    <div className={s.swiper_slide_header}>
+                      <span className={s.swiper_slide_title}>{item}</span>
+                      <Image src={upDownArrows} alt="sort-ico" />
+                    </div>
+                    <div className={s.swiper_slide_content}>
+                      {responseBody.map((element: IResponse, index) => {
+                        if (item === "Token") {
+                          return <span key={index}>{element.token}</span>;
+                        } else if (item === "Date") {
+                          const parsedTimestamp = new Date(element.start_time);
+                          return (
+                            <span key={index}>{`${(
+                              parsedTimestamp?.getUTCMonth() + 1
+                            )
+                              ?.toString()
+                              ?.padStart(2, "0")}-${parsedTimestamp
+                              ?.getUTCDate()
+                              ?.toString()
+                              ?.padStart(
+                                2,
+                                "0"
+                              )}-${parsedTimestamp?.getUTCFullYear()}`}</span>
+                          );
+                        } else if (item === "Amount") {
+                          return <span key={index}>{element.amount}</span>;
+                        } else if (item === "Network") {
+                          return <span key={index}>{element.network}</span>;
+                        } else if (item === "Wallet address") {
+                          return (
+                            <span key={index}>{element.wallet_address}</span>
+                          );
+                        } else if (item === "Status") {
+                          return <span key={index}>{element.status}</span>;
+                        } else if (item === "Partner ID") {
+                          return <span key={index}>{element.partner_id}</span>;
+                        } else {
+                          return <span key={index}>-</span>;
+                        }
+                      })}
+                    </div>
                   </div>
-                  <div className={s.swiper_slide_content}>
-                    {item === "Currency" ? <span>USDT</span> : <span>-</span>}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </SwiperWrap>
+                </SwiperSlide>
+              ))}
+            </SwiperWrap>
+          )}
           <div className={s.table_nav_block}>
             <div className={s.table_records_block}>
               <p className={s.table_records_text}>

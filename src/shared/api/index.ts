@@ -793,21 +793,14 @@ export const getWithdrawal = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  return fetch(
-    `${BaseApiUrl}/partner/withdrawals/${form.time_boundary.toString()}`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${form.bareer}`,
-      },
-      // body: JSON.stringify({
-      //   new_password: form.new_password,
-      //   old_password: form.old_password,
-      // }),
-    }
-  )
+  return fetch(`${BaseApiUrl}/partner/withdrawals/${form.time_boundary}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
+  })
     .then(async (res) => await res.json())
     .catch((e) => e);
 });

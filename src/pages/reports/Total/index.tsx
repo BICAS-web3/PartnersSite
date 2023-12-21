@@ -248,7 +248,11 @@ const Total: FC<TotalProps> = () => {
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
             list={periodsList.concat([
-              { title: "Выбрать вручную", id: "mobilePeriodManually" },
+              {
+                title: "Выбрать вручную",
+                id: "mobilePeriodManually",
+                period: "daily",
+              },
             ])}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
