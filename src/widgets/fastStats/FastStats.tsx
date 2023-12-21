@@ -108,7 +108,7 @@ const timesList = [
   },
 ];
 
-interface FastStatsProps {}
+interface FastStatsProps { }
 interface IListProps {
   id?: string;
   title?: string;
@@ -129,11 +129,11 @@ export const FastStats: FC<FastStatsProps> = () => {
   ]);
   const [clicks, setClicks] = useState<
     | {
-        clicks: number;
-        id: number;
-        partner_id: string;
-        sub_id_internal: number;
-      }
+      clicks: number;
+      id: number;
+      partner_id: string;
+      sub_id_internal: number;
+    }
     | false
   >(false);
   useEffect(() => {
@@ -210,9 +210,13 @@ export const FastStats: FC<FastStatsProps> = () => {
       if (barerToken) {
         const response = await api.getUsersRegistrationChart({
           bareer: barerToken,
-          endTime: tablePeriod,
+          startTime: Math.floor(Date.now() / 1000) - tablePeriod,
+          endTime: Math.floor(Date.now() / 1000),
+          step: 3600
         });
+        console.log('Clicks', response.body);
         if (response.status === "OK") {
+          console.log('Clicks', response.body);
           setConversionBody(response.body);
         } else {
           console.log("DEAD");
@@ -337,14 +341,14 @@ export const FastStats: FC<FastStatsProps> = () => {
                     ? conversionBody?.connected_wallets
                     : "-"
                   : item === "Currency"
-                  ? "USD"
-                  : item === "Clicks"
-                  ? (clicks as any)?.clicks || 0
-                  : item === "Registrations with bets"
-                  ? usersRegistration
-                    ? usersRegistrationDeposited?.connected_wallets
-                    : 0
-                  : "-"}
+                    ? "USD"
+                    : item === "Clicks"
+                      ? (clicks as any)?.clicks || 0
+                      : item === "Registrations with bets"
+                        ? usersRegistration
+                          ? usersRegistrationDeposited?.connected_wallets
+                          : 0
+                        : "-"}
               </div>
             </div>
           </SwiperSlide>
