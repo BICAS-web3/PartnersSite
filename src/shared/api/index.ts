@@ -3,6 +3,38 @@ import { createEffect } from "effector";
 export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
 
+export enum Level {
+  firstMonth = "firstMonth",
+  novice = "novice",
+  beginner = "beginner",
+  intermediate = "intermediate",
+  advanced = "advanced",
+  pro = "pro",
+  god = "god"
+}
+
+export interface ILevelPercentages {
+  firstMonth: number;
+  novice: number;
+  beginner: number;
+  intermediate: number;
+  advanced: number;
+  pro: number;
+  god: number;
+  [key: string]: any;
+}
+
+
+export const LevelPercentages: ILevelPercentages = {
+  "firstMonth": 0.55,
+  "novice": 0.60,
+  "beginner": 0.65,
+  "intermediate": 0.70,
+  "advanced": 0.75,
+  "pro": 0.80,
+  "god": 0.85
+}
+
 export type T_Localization = {};
 export type T_Networks = {
   networks: Array<T_NetworkFullInfo>;
@@ -147,16 +179,16 @@ export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
   | T_Networks
-    | T_Rpcs
-    | R_getUser
-    | T_UserSitesResp
-    | T_GetSubIdClickResponse
-    | T_ClicksResponse
-    | T_ChartResponse
-    | T_DepositResponse
-    | T_RegisteredWallets
-    | T_TotalsStatsResponse
-    | Array<T_Withdrawal>;
+  | T_Rpcs
+  | R_getUser
+  | T_UserSitesResp
+  | T_GetSubIdClickResponse
+  | T_ClicksResponse
+  | T_ChartResponse
+  | T_DepositResponse
+  | T_RegisteredWallets
+  | T_TotalsStatsResponse
+  | Array<T_Withdrawal>;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -600,8 +632,7 @@ export const getUsersRegistrationChart = createEffect<
   const startTime = Date.now();
 
   return fetch(
-    `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${
-      form.step
+    `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${form.step
     }`,
     {
       method: "GET",
