@@ -200,39 +200,6 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
       },
     },
 
-    legend: {
-      show: true,
-      showForSingleSeries: false,
-      showForNullSeries: true,
-      showForZeroSeries: true,
-      position: "bottom",
-      horizontalAlign: "center",
-      floating: false,
-      fontSize: isMobile ? "8px" : "12px",
-      fontWeight: 400,
-      inverseOrder: false,
-      labels: {
-        colors: "#979797",
-        useSeriesColors: false,
-      },
-      markers: {
-        width: isMobile ? 8 : 10,
-        height: isMobile ? 8 : 10,
-        onClick: undefined,
-        offsetX: isMobile ? -4 : -10,
-        offsetY: 0,
-      },
-      itemMargin: {
-        horizontal: isMobile ? 10 : 27,
-        vertical: 0,
-      },
-      onItemClick: {
-        toggleDataSeries: true,
-      },
-      onItemHover: {
-        highlightDataSeries: true,
-      },
-    },
     colors: ["#CD4C30", "#2FF24E"], // "#F2DE2F", ,
     stroke: {
       curve: "smooth",
@@ -276,6 +243,39 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
         right: 0,
         bottom: 20,
         left: 20,
+      },
+    },
+    legend: {
+      show: true,
+      showForSingleSeries: false,
+      showForNullSeries: true,
+      showForZeroSeries: true,
+      position: "bottom",
+      horizontalAlign: "center",
+      floating: false,
+      fontSize: isMobile ? "8px" : "12px",
+      fontWeight: 400,
+      inverseOrder: false,
+      labels: {
+        colors: "#979797",
+        useSeriesColors: false,
+      },
+      markers: {
+        width: isMobile ? 8 : 10,
+        height: isMobile ? 8 : 10,
+        onClick: undefined,
+        offsetX: isMobile ? -4 : -10,
+        offsetY: 0,
+      },
+      itemMargin: {
+        horizontal: isMobile ? 10 : 27,
+        vertical: 0,
+      },
+      onItemClick: {
+        toggleDataSeries: true,
+      },
+      onItemHover: {
+        highlightDataSeries: true,
       },
     },
     tooltip: {
