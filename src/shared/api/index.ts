@@ -125,6 +125,24 @@ export type T_TotalsStatsResponse = {
   won_bets: number;
 };
 
+enum TimeBoundary {
+  Daily = "daily",
+  Weekly = "weekly",
+  Monthly = "monthly",
+  All = "all",
+}
+
+export type T_Withdrawal = {
+  id: number;
+  start_time: number;
+  token: string;
+  network: string;
+  wallet_address: string;
+  status: string;
+  partner_id: string;
+  amount: string;
+};
+
 export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
@@ -137,7 +155,8 @@ export type T_ApiResponse = {
     | T_ChartResponse
     | T_DepositResponse
     | T_RegisteredWallets
-    | T_TotalsStatsResponse;
+    | T_TotalsStatsResponse
+    | Array<T_Withdrawal>;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -289,6 +308,11 @@ export type T_ChangePassword = {
   bareer: string;
   new_password: string;
   old_password: string;
+};
+
+export type T_GetWithdrawals = {
+  bareer: string;
+  time_boundary: TimeBoundary;
 };
 
 export type T_DepositedUsers = {
@@ -670,6 +694,30 @@ export const changePassword = createEffect<
       old_password: form.old_password,
     }),
   })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getWithdrawal = createEffect<
+  T_GetWithdrawals,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(
+    `${BaseApiUrl}/partner/withdrawals/${form.time_boundary.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+      // body: JSON.stringify({
+      //   new_password: form.new_password,
+      //   old_password: form.old_password,
+      // }),
+    }
+  )
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
