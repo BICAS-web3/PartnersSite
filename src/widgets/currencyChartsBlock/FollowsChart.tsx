@@ -180,7 +180,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
 
     legend: {
       show: true,
-      showForSingleSeries: false,
+      showForSingleSeries: true,
       showForNullSeries: true,
       showForZeroSeries: true,
       position: "bottom",
@@ -218,7 +218,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
       width: isMobile ? 1 : 1.5,
     },
     subtitle: {
-      text: "Registrations statistics",
+      text: "Clikcs statistics",
       align: "left",
       offsetX: 0,
       offsetY: 0,
@@ -270,7 +270,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
 
   const series = [
     {
-      name: "My Series",
+      name: "Clicks",
       data: startTime?.amount,
     },
   ];
