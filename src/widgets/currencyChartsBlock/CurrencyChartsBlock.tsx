@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
-
-import { CustomDropdownInput } from "../customDropdownInput/CustomDropdownInput";
 import { RegistrationChart } from "./RegistrationChart";
 import { FollowsChart } from "./FollowsChart";
 
@@ -11,13 +9,6 @@ import { $isSidebarOpened } from "../sidebar/model";
 import * as PeriodModel from "@/widgets/dashboard/model";
 import * as TimeTypeModel from "./model";
 import { UsdCurrencyBlock } from "../usdCurrencyBlock/UsdCurrencyBlock";
-
-const currenciesList = [
-  {
-    title: "USD",
-    id: "usd",
-  },
-];
 
 const currentDate = new Date();
 
@@ -40,48 +31,74 @@ const timesList = [
     title: "1 month",
     id: "1month",
     timeType: "monthly",
-    timeLine:
-      Math.floor((new Date(
+    timeLine: Math.floor(
+      (new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
         1
       ).getTime() -
-        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime()) / 1000),
+        new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          1
+        ).getTime()) /
+        1000
+    ),
     step: 7 * 24 * 3600,
   },
   {
     title: "3 months",
     id: "3months",
     timeType: "monthly",
-    timeLine:
-      Math.floor((new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() -
+    timeLine: Math.floor(
+      (new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1
+      ).getTime() -
         new Date(
           currentDate.getFullYear(),
           currentDate.getMonth() - 3,
           1
-        ).getTime()) / 1000),
-    step:
-      Math.floor((new Date(
+        ).getTime()) /
+        1000
+    ),
+    step: Math.floor(
+      (new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
         1
       ).getTime() -
-        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime()) / 1000),
+        new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          1
+        ).getTime()) /
+        1000
+    ),
   },
   {
     title: "1 year",
     id: "1year",
     timeType: "monthly",
-    timeLine:
-      Math.floor((new Date(currentDate.getFullYear(), 11, 31).getTime() -
-        new Date(currentDate.getFullYear(), 0, 1).getTime()) / 1000),
-    step:
-      Math.floor((new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() -
+    timeLine: Math.floor(
+      (new Date(currentDate.getFullYear(), 11, 31).getTime() -
+        new Date(currentDate.getFullYear(), 0, 1).getTime()) /
+        1000
+    ),
+    step: Math.floor(
+      (new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1
+      ).getTime() -
         new Date(
           currentDate.getFullYear(),
           currentDate.getMonth() - 3,
           1
-        ).getTime()) / 1000),
+        ).getTime()) /
+        1000
+    ),
   },
   {
     title: "All",
@@ -99,7 +116,7 @@ const timesList = [
       ).getTime(),
   },
 ];
-interface CurrencyChartsBlockProps { }
+interface CurrencyChartsBlockProps {}
 
 export const CurrencyChartsBlock: FC<CurrencyChartsBlockProps> = () => {
   const [setPeriodFirst, setPeriodSecond, setPeriodType] = useUnit([
