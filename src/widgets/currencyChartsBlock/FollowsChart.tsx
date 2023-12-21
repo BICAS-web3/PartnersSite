@@ -13,7 +13,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-interface FollowsChartProps { }
+interface FollowsChartProps {}
 
 export const FollowsChart: FC<FollowsChartProps> = () => {
   const [periodFirst, barerToken] = useUnit([
@@ -59,6 +59,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
   const options = {
     chart: {
       id: "line-chart",
+
       toolbar: {
         show: false,
       },
@@ -68,10 +69,11 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
         top: 0,
         left: 0,
         blur: 3,
-        color: ["#F8CF66", "#F28D2F", "#E96D52"],
+        color: ["#F2DE2F", "#2FF24E", "#CD4C30"],
         opacity: 0.4,
       },
     },
+
     dataLabels: {
       enabled: false,
     },
@@ -86,6 +88,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
       categories: categories,
       type: "category",
       position: "bottom",
+      tickPlacement: "between",
 
       labels: {
         show: true,
@@ -97,7 +100,6 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
           colors: "#7E7E7E",
           fontSize: isMobile ? "8px" : "12px",
           fontWeight: 400,
-          cssClass: "apexcharts-xaxis-label",
         },
         offsetX: 0,
         offsetY: 0,
@@ -175,6 +177,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
         offsetX: 0,
       },
     },
+
     legend: {
       show: true,
       showForSingleSeries: false,
@@ -187,7 +190,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
       fontWeight: 400,
       inverseOrder: false,
       labels: {
-        colors: "#979797",
+        colors: "#7E7E7E",
         useSeriesColors: false,
       },
       markers: {
@@ -208,7 +211,6 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
         highlightDataSeries: true,
       },
     },
-
     colors: ["#F8CF66", "#F28D2F", "#E96D52"],
 
     stroke: {
@@ -216,7 +218,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
       width: isMobile ? 1 : 1.5,
     },
     subtitle: {
-      text: "Clicks statistics",
+      text: "Registrations statistics",
       align: "left",
       offsetX: 0,
       offsetY: 0,

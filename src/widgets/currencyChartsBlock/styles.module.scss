@@ -83,6 +83,9 @@
   border: 1px solid #2d2d2d;
   background: var(--gray-218, #181818);
   padding: 28px 30px;
+  @media (max-width: 1700px) {
+    padding: 10px 20px;
+  }
   @media (max-width: 1200px) {
     padding: 16px;
     padding-bottom: 0;
@@ -109,15 +112,25 @@
   border-radius: 10px;
   gap: 5px;
   border: 1px solid #212121;
-  @media (min-width: 1200px) {
-    top: 20px;
-    right: 30px;
-  }
-  @media (min-width: 650px) {
-    top: 16px;
+  top: 24px;
+  right: 30px;
+  @media (max-width: 1670px) {
+    top: 34px;
     right: 16px;
   }
+  @media (max-width: 1280px) {
+    top: 15px;
+  }
+  // @media (min-width: 650px) {
+  //   right: 16px;
+  // }
+  // @media (min-width: 1200px) {
+  // }
+  // @media (min-width: 1670px) {
+  //   top: 16px;
+  // }
   @media (max-width: 650px) {
+    top: auto;
     bottom: 0;
     right: 0;
     width: 100%;
@@ -139,7 +152,7 @@
   padding: 5px 12px;
   border-radius: 8px;
   background: #181818;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1600px) {
     padding: 3px 11px;
     min-width: 47px;
   }
