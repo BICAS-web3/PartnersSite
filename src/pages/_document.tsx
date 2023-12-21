@@ -50,7 +50,7 @@ export default function Document() {
           href="/favicon48.ico"
         />{" "}
         <meta property="og:url" content="https://game.greekkeepers.io/" />
-        <title>Greek Keepers | Affiliates</title>
+        <title>GreekKeepers | Affiliates</title>
       </Head>
       <body>
         <Main />
