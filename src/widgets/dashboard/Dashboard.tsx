@@ -11,7 +11,7 @@ import s from "./styles.module.scss";
 import * as SidebarM from "@/widgets/sidebar/model";
 import { PartnerProfile } from "../partnerProfile/PartnerProfile";
 
-interface DashboardProps {}
+interface DashboardProps { }
 const currenciesList = [
   {
     title: "USD",
@@ -45,12 +45,11 @@ export const Dashboard: FC<DashboardProps> = () => {
     <section className={s.dashboard_container}>
       <div className={s.dashboard_body}>
         <Link href="/home" className={s.dashboard_title}>
-          {isMobile ? "Dashboard" : "Главная"}
+          {isMobile ? "Dashboard" : "Main"}
         </Link>
         <div
-          className={`${s.dashboard_header} ${
-            !isSidebarOpened && s.sidebar_closed
-          }`}
+          className={`${s.dashboard_header} ${!isSidebarOpened && s.sidebar_closed
+            }`}
         >
           {isMobile ? (
             <div className={s.choose_currency_block}>
