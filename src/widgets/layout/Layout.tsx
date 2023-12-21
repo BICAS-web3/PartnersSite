@@ -5,6 +5,7 @@ import { Footer } from "../footer/Footer";
 import { Sidebar } from "../sidebar/Sidebar";
 import * as SidebarM from "@/widgets/sidebar/model";
 import { useUnit } from "effector-react";
+import clsx from "clsx";
 interface LayoutProps {
   children?: any;
   activePage: string;
@@ -27,15 +28,17 @@ export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
   }, [isOpened]);
 
   useEffect(() => {
-    if (window.innerWidth >= 650) open();
+    if (window.innerWidth <= 650) close();
   }, []);
 
   return (
     <div className={`${s.page_container} ${!isOpened && s.sidebar_closed}`}>
       <Header />
-      <Sidebar activeSubBlock={activePage} />
+      <div className={clsx(s.side_bar_wrapper, isOpened && s.sideBar_opened)}>
+        <Sidebar activeSubBlock={activePage} />
+      </div>
       <main className={s.main_section}>
-        {children} <Footer />
+        {children} <Footer isMainPage={true} />
       </main>
     </div>
   );

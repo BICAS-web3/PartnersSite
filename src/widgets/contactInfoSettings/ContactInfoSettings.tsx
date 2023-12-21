@@ -26,10 +26,6 @@ export const messangersList = [
     id: "Discord",
   },
   {
-    title: "Instagram",
-    id: "Instagram",
-  },
-  {
     title: "Telegram",
     id: "Telegram",
   },
@@ -58,6 +54,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
     userPhone,
     setUserPhone,
     userMessanger,
+    setUserMessanger,
     userMessangerValue,
     userCountry,
     userLanguage,
@@ -69,6 +66,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
     UserDataModel.$userPhone,
     UserDataModel.setUserPhone,
     UserDataModel.$userMessanger,
+    UserDataModel.setUserMessanger,
     UserDataModel.$userMessangerValue,
     UserDataModel.$userCountry,
     UserDataModel.$userLanguage,
@@ -113,6 +111,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
     setUserName("");
     setUserLastName("");
     setUserPhone("");
+    setUserMessanger("");
   };
 
   return (
@@ -164,7 +163,9 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
           <input
             type="text"
             className={`${s.name_input} default_input`}
-            placeholder={userMessangerValue ? userMessangerValue : "@asdasdsad"}
+            value={userMessanger && userMessanger}
+            onChange={(e) => setUserMessanger(e.target.value)}
+            placeholder={userMessanger ? userMessanger : "@asdasdsad"}
           />
         </div>
       </div>
