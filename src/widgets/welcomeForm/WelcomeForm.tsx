@@ -1,10 +1,12 @@
 import s from "./styles.module.scss";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import bgImg from "@/public/media/initPageImages/formEllipse.png";
 import mailIco from "@/public/media/footerImages/mailIco.png";
 import tgIco from "@/public/media/footerImages/tgIco.png";
 import twitterIco from "@/public/media/footerImages/twitterIco.png";
 import * as Api from "@/shared/api";
+
+import clsx from "clsx";
 
 const smediaList = [
   {
@@ -21,12 +23,50 @@ const smediaList = [
   },
 ];
 
-interface WelcomeFormProps { }
+interface WelcomeFormProps {}
 
 export const WelcomeForm: FC<WelcomeFormProps> = () => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [error, setError] = useState(false);
+  const [notValidMail, setNotValidMail] = useState(false);
+  const [start, setStart] = useState(false);
+
+  function validateEmail(email: string) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  useEffect(() => {
+    if (notValidMail) {
+      setTimeout(() => {
+        setNotValidMail(false);
+      }, 2000);
+    }
+  }, [notValidMail]);
+
+  useEffect(() => {
+    if (start) {
+      Api.submitQuestion({
+        name: name,
+        email: email,
+        message: message,
+      });
+      setName("");
+      setEmail("");
+      setMessage("");
+      setStart(false);
+    }
+  }, [start]);
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError((prev) => !prev);
+      }, 2000);
+    }
+  }, [error]);
 
   return (
     <div className={s.welcome_form_section}>
@@ -61,7 +101,11 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
             <input
               type="text"
               placeholder="Your name"
-              className={`${s.form_input} default_input`}
+              className={clsx(
+                s.form_input,
+                "default_input",
+                error && !name && s.error_input
+              )}
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -69,8 +113,13 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
             />
             <input
               type="text"
-              placeholder="Your email"
-              className={`${s.form_input} default_input`}
+              placeholder={notValidMail ? "Not valid email" : "Your email"}
+              className={clsx(
+                s.form_input,
+                "default_input",
+                error && !email && s.error_input,
+                notValidMail && s.error_input
+              )}
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -79,7 +128,7 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
             <textarea
               name="question_id"
               placeholder="Enter your question"
-              className={`${s.textarea}`}
+              className={clsx(s.textarea, error && !message && s.error_input)}
               value={message}
               onChange={(e) => {
                 setMessage(e.target.value);
@@ -88,18 +137,18 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
             <button
               className={s.submit_btn}
               onClick={() => {
-                Api.submitQuestion({
-                  name: name,
-                  email: email,
-                  message: message
-                });
-                setName("");
-                setEmail("");
-                setMessage("");
-              }
-
-              }
-            >Send</button>
+                if (!name || !email || !message) {
+                  setError(true);
+                } else if (validateEmail(email) === false) {
+                  setNotValidMail(true);
+                  setEmail("");
+                } else {
+                  setStart(true);
+                }
+              }}
+            >
+              Send
+            </button>
           </div>
         </div>
       </div>
