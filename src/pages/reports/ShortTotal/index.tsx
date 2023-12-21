@@ -126,7 +126,7 @@ interface IListProps {
   title?: string;
   text?: string;
 }
-interface ShortTotalProps { }
+interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
   const [isAuthed, barerToken] = useUnit([
@@ -136,11 +136,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
 
   const [clicks, setClicks] = useState<
     | {
-      clicks: number;
-      id: number;
-      partner_id: string;
-      sub_id_internal: number;
-    }
+        clicks: number;
+        id: number;
+        partner_id: string;
+        sub_id_internal: number;
+      }
     | false
   >(false);
 
@@ -314,7 +314,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
             list={periodsList.concat([
-              { title: "Custom select", id: "mobilePeriodManually" },
+              {
+                title: "Custom select",
+                id: "mobilePeriodManually",
+                period: "daily",
+              },
             ])}
             setCurrentFilterPage={setCurrentFilterPage}
             setCurrentLanguage={setCurrentPeriod}
@@ -445,32 +449,32 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                         ? clicks?.clicks
                         : 0
                       : item.title === "Registrations"
-                        ? usersRegistration
-                          ? usersRegistration?.connected_wallets
-                          : 0
-                        : item.title === "Registrations/Clicks"
-                          ? Number((clicks as any)?.clicks || 0) <= 0
-                            ? 0
-                            : (
-                              usersRegistration?.connected_wallets /
-                              Number((clicks as any)?.clicks)
-                            ).toFixed(2)
-                          : item.title === "Registrations with bets"
-                            ? usersRegistration
-                              ? usersRegistrationDeposited?.connected_wallets
-                              : 0
-                            : item.title === "Registrations with bets/Registrations"
-                              ? Number(usersRegistration?.connected_wallets || 0) <= 0
-                                ? 0
-                                : (
-                                  usersRegistrationDeposited?.connected_wallets /
-                                  Number(usersRegistration?.connected_wallets)
-                                ).toFixed(2)
-                              : item.title === "Sum of the bets"
-                                ? shortTotalResponseBody
-                                  ? shortTotalResponseBody?.total_wagered_sum
-                                  : 0
-                                : item.data}
+                      ? usersRegistration
+                        ? usersRegistration?.connected_wallets
+                        : 0
+                      : item.title === "Registrations/Clicks"
+                      ? Number((clicks as any)?.clicks || 0) <= 0
+                        ? 0
+                        : (
+                            usersRegistration?.connected_wallets /
+                            Number((clicks as any)?.clicks)
+                          ).toFixed(2)
+                      : item.title === "Registrations with bets"
+                      ? usersRegistration
+                        ? usersRegistrationDeposited?.connected_wallets
+                        : 0
+                      : item.title === "Registrations with bets/Registrations"
+                      ? Number(usersRegistration?.connected_wallets || 0) <= 0
+                        ? 0
+                        : (
+                            usersRegistrationDeposited?.connected_wallets /
+                            Number(usersRegistration?.connected_wallets)
+                          ).toFixed(2)
+                      : item.title === "Sum of the bets"
+                      ? shortTotalResponseBody
+                        ? shortTotalResponseBody?.total_wagered_sum
+                        : 0
+                      : item.data}
                   </span>
                 </div>
               ))}
@@ -494,56 +498,57 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                         ? shortTotalResponseBody.net_profit * -1 * 0.55 || "0"
                         : "0"
                       : item.title === "Amount of bets"
+                      ? shortTotalResponseBody
+                        ? shortTotalResponseBody.bets_amount || "0"
+                        : "0"
+                      : item.title === "Active players"
+                      ? usersRegistration
+                        ? usersRegistrationDeposited?.connected_wallets
+                        : 0
+                      : item.title === "Average income from the player"
+                      ? Number(
+                          usersRegistrationDeposited?.connected_wallets || 0
+                        ) <= 0 && shortTotalResponseBody == undefined
+                        ? 0
+                        : (
+                            (shortTotalResponseBody.net_profit * -1 * 0.55) /
+                            Number(
+                              usersRegistrationDeposited?.connected_wallets
+                            )
+                          ).toFixed(2)
+                      : item.data
+                      ? item.title === "Clicks"
+                        ? clicks
+                          ? clicks?.clicks
+                          : 0
+                        : item.title === "Registrations"
+                        ? usersRegistration
+                          ? usersRegistration?.connected_wallets
+                          : 0
+                        : item.title === "Registrations/Clicks"
+                        ? Number((clicks as any)?.clicks || 0) <= 0
+                          ? 0
+                          : (
+                              usersRegistration?.connected_wallets /
+                              Number((clicks as any)?.clicks)
+                            ).toFixed(2)
+                        : item.title === "Registrations with bets"
+                        ? usersRegistration
+                          ? usersRegistrationDeposited?.connected_wallets
+                          : 0
+                        : item.title === "Registrations with bets/Registrations"
+                        ? Number(usersRegistration?.connected_wallets || 0) <= 0
+                          ? 0 && usersRegistrationDeposited == undefined
+                          : (
+                              usersRegistrationDeposited?.connected_wallets /
+                              Number(usersRegistration?.connected_wallets)
+                            ).toFixed(2)
+                        : item.title === "Sum of the bets"
                         ? shortTotalResponseBody
-                          ? shortTotalResponseBody.bets_amount || "0"
-                          : "0"
-                        : item.title === "Active players"
-                          ? usersRegistration
-                            ? usersRegistrationDeposited?.connected_wallets
-                            : 0
-                          : item.title === "Average income from the player"
-                            ? Number(
-                              usersRegistrationDeposited?.connected_wallets || 0
-                            ) <= 0 && shortTotalResponseBody == undefined
-                              ? 0
-                              : (
-                                (shortTotalResponseBody.net_profit * -1 * 0.55) /
-                                Number(
-                                  usersRegistrationDeposited?.connected_wallets
-                                )
-                              ).toFixed(2)
-                            : item.data ?
-                              item.title === "Clicks"
-                                ? clicks
-                                  ? clicks?.clicks
-                                  : 0
-                                : item.title === "Registrations"
-                                  ? usersRegistration
-                                    ? usersRegistration?.connected_wallets
-                                    : 0
-                                  : item.title === "Registrations/Clicks"
-                                    ? Number((clicks as any)?.clicks || 0) <= 0
-                                      ? 0
-                                      : (
-                                        usersRegistration?.connected_wallets /
-                                        Number((clicks as any)?.clicks)
-                                      ).toFixed(2)
-                                    : item.title === "Registrations with bets"
-                                      ? usersRegistration
-                                        ? usersRegistrationDeposited?.connected_wallets
-                                        : 0
-                                      : item.title === "Registrations with bets/Registrations"
-                                        ? Number(usersRegistration?.connected_wallets || 0) <= 0
-                                          ? 0 && usersRegistrationDeposited == undefined
-                                          : (
-                                            usersRegistrationDeposited?.connected_wallets /
-                                            Number(usersRegistration?.connected_wallets)
-                                          ).toFixed(2)
-                                        : item.title === "Sum of the bets"
-                                          ? shortTotalResponseBody
-                                            ? shortTotalResponseBody?.total_wagered_sum
-                                            : 0
-                                          : item.data : 0}
+                          ? shortTotalResponseBody?.total_wagered_sum
+                          : 0
+                        : item.data
+                      : 0}
                   </span>
                 </div>
               ))}
