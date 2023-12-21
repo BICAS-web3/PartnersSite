@@ -328,6 +328,14 @@ export type T_RegisterChart = {
   step?: number;
 };
 
+export type T_PartnerClicks = {
+  bareer: string;
+  startTime: number
+  endTime: number;
+  step: number;
+};
+
+
 export type T_Withdraw = {
   bareer: string;
   amount: string;
@@ -633,6 +641,29 @@ export const getUsersRegistrationChart = createEffect<
 
   return fetch(
     `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${form.step
+    }`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+    }
+  )
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getUsersClicks = createEffect<
+  T_PartnerClicks,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  //const startTime = Date.now();
+
+  return fetch(
+    `${BaseApiUrl}/partner/clicks/${form.startTime}/${form.endTime}/${form.step
     }`,
     {
       method: "GET",

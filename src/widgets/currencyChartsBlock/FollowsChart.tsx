@@ -25,9 +25,10 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
   useEffect(() => {
     (async () => {
       if (periodFirst && barerToken) {
-        const response = await api.getUsersRegistrationChart({
+        const response = await api.getUsersClicks({
           bareer: barerToken,
-          endTime: periodFirst.timeline,
+          startTime: Math.floor(Date.now() / 1000) - periodFirst.timeline,
+          endTime: Math.floor(Date.now() / 1000),
           step: periodFirst.period,
         });
         if (response.status === "OK") {
@@ -266,12 +267,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
   const series = [
     {
       name: "My Series",
-      data: startTime?.amount?.map((el: number, i: number) => {
-        return {
-          x: i === 0 ? periodFirst : periodFirst.period * i,
-          y: el || 1,
-        };
-      }),
+      data: startTime?.amount,
     },
   ];
 
