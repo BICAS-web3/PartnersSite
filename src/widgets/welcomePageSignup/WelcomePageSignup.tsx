@@ -156,6 +156,7 @@ interface WelcomePageSignupProps {}
 export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   const [token, setToken] = useState("");
   const [notValidAddress, setNotValidAddress] = useState(false);
+  const [notValidMail, setNotValidMail] = useState(false);
   const [isShortPassword, setIsShortPassword] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
 
@@ -250,6 +251,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   }, [notValidAddress]);
 
   useEffect(() => {
+    if (notValidMail) {
+      setTimeout(() => {
+        setNotValidMail(false);
+      }, 2000);
+    }
+  }, [notValidMail]);
+
+  useEffect(() => {
     if (isShortPassword) {
       setTimeout(() => {
         setIsShortPassword(false);
@@ -279,6 +288,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       if (
         password !== passwordRepeat ||
         validateAddress(wallet) === false ||
+        validateEmail(email) === false ||
         password?.length < 5
       ) {
         if (password !== passwordRepeat) {
@@ -287,10 +297,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           setPasswordRepeat("");
         }
 
+        if (validateEmail(email) === false) {
+          setNotValidMail(true);
+          setEmail("");
+        }
+
         if (validateAddress(wallet) === false) {
           setNotValidAddress(true);
           setWallet("");
-          setLoginAuth("");
         }
         if (password?.length < 5) {
           setIsShortPassword(true);
@@ -491,6 +505,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
   function validateAddress(wallet: string) {
     const pattern = /^(0x)?[0-9a-fA-F]{40}$/;
     return pattern.test(wallet);
+  }
+
+  function validateEmail(email: string) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 
   return (
@@ -778,6 +797,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   type="email"
                   className={clsx(
                     !email && error && s.error_input,
+                    notValidMail && s.error_input,
                     s.welcome_page_input,
                     "default_input"
                   )}
