@@ -29,6 +29,7 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
           bareer: barerToken,
           endTime: periodFirst.timeline,
           step: periodFirst.period,
+          startTime: 0
         });
         if (response.status === "OK") {
           setStartTime(response.body);
