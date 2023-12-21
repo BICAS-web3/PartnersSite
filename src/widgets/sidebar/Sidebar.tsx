@@ -302,7 +302,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
       </div>
       <div className={s.sidebar_body}>
         {sidebarItems.map((item1, ind) => (
-          <div key={ind} className={`${s.sidebar_page_item}`}>
+          <div key={ind} className={`${s.sidebar_page_item}`} data-id={ind + 1}>
             <div className={s.sidebar_page_item_title_block}>
               <span className={s.sidebar_page_item_title}>{item1.title}</span>
               {item1.isClose && (

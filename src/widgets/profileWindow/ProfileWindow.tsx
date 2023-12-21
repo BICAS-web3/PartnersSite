@@ -46,6 +46,8 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
   //   alert(userEmail);
   // }, [userEmail]);
 
+  console.log("aname", userName);
+
   return (
     <article ref={dropdownRef} className={s.profile}>
       {isTablet ? (
@@ -57,7 +59,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
           className={clsx(s.profile_button, isOpen && s.profile_button_open)}
           onClick={toggle}
         >
-          {userEmail || localStorage.getItem("mail")}
+          {userName || localStorage.getItem("name")}
           <span className={clsx(s.dropdown_ico_block, isOpen && s.activ_icon)}>
             <HeaderDropdownArrow />
           </span>

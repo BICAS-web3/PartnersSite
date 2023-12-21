@@ -81,6 +81,8 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
     }
   };
 
+  console.log("WWWWW", maxW);
+
   return (
     <div
       ref={dropdownRef}
@@ -98,7 +100,7 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
           )}
           style={{ height: height }}
         >
-          <span>
+          <span style={{ maxWidth: `${maxW}px` }} data-id={maxW}>
             {categotyFilter
               ? categotyFilter
               : activeItem

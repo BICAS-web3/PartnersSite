@@ -163,7 +163,7 @@ const LoginPage: FC<LoginPageProps> = () => {
           <WelcomePageLogin />
         </div>
       </div>
-      <Footer />
+      <Footer isMainPage={false} />
     </div>
   );
 };

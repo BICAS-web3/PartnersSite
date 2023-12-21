@@ -616,6 +616,17 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
                   list={siteCategories}
                   activeItemId="cs"
                   setSelectedValue={setCategotyPage}
+                  maxW={
+                    !is1280 && !is650 && !is700
+                      ? 160
+                      : is1280
+                      ? 110
+                      : is700
+                      ? 160
+                      : is650
+                      ? 160
+                      : 160
+                  }
                 />
               </div>
               <div className={s.welcome_page_input_block} style={{ zIndex: 2 }}>

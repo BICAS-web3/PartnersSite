@@ -10,11 +10,15 @@ import mailIco from "@/public/media/footerImages/mailIco.png";
 import Image from "next/image";
 import Link from "next/link";
 
-interface FooterProps { }
+interface FooterProps {
+  isMainPage?: boolean;
+}
 
-export const Footer: FC<FooterProps> = () => {
+export const Footer: FC<FooterProps> = ({ isMainPage }) => {
+  console.log(isMainPage);
+
   return (
-    <div className={s.footer}>
+    <div className={`${s.footer} ${!isMainPage && s.fullWidth}`}>
       <div className={s.footer_body}>
         <div className={s.footer_upper_block}>
           <div className={s.footer_upper_block_leftSide}>
@@ -30,10 +34,9 @@ export const Footer: FC<FooterProps> = () => {
               </a>
             </div>
             <p className={s.footer_upper_block_text}>
-              Partners-GreekKeepers uses cookies to ensure
-              maximum convenience for you. If you remain on the site, you
-              agree to our use of your cookies on
-              Partners-GreekKeepers. <a href="#">More</a>
+              Partners-GreekKeepers uses cookies to ensure maximum convenience
+              for you. If you remain on the site, you agree to our use of your
+              cookies on Partners-GreekKeepers. <a href="#">More</a>
             </p>
           </div>
           <div className={s.footer_upper_block_rightSide}>

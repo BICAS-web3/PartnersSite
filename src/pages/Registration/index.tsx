@@ -167,7 +167,7 @@ const RegistrationPage: FC<RegistrationPageProps> = () => {
           <WelcomePageSignup />
         </div>
       </div>
-      <Footer />
+      <Footer isMainPage={false} />
     </div>
   );
 };
