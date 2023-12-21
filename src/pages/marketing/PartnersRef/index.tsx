@@ -3,7 +3,7 @@ import s from "./styles.module.scss";
 import { Layout } from "@/widgets/layout/Layout";
 import { Breadcrumbs } from "@/widgets/breadcrumbs/BreadCrumbs";
 import { CustomDropdownInput } from "@/widgets/customDropdownInput/CustomDropdownInput";
-import { currenciesList } from "@/pages/PayoutsHistory";
+import { currenciesList, phExportOptions } from "@/pages/PayoutsHistory";
 import Image from "next/image";
 import filterIco from "@/public/media/common/filterImg.png";
 import "swiper/scss";
@@ -27,7 +27,7 @@ import { WebsiteTableFilter } from "@/widgets/websitesUI";
 import { SwiperNavigation } from "@/widgets/swiperNavigation/SwiperNavigation";
 import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
-
+import * as XLSX from "xlsx";
 export const sitesList = [
   {
     title: "https://greekkeepers.io",
@@ -95,7 +95,14 @@ const options = [
   //   text: "-",
   // },
 ];
-
+const headers = [
+  "№",
+  "Site",
+  "Status",
+  "Referred page",
+  "SubID",
+  "Referal Link",
+];
 interface PartnersRefProps {}
 export interface IPagesResponse {
   title?: string;
@@ -280,6 +287,25 @@ const PartnersRef: FC<PartnersRefProps> = () => {
       }
     })();
   }, [barerToken]);
+
+  const [exportType, setExportType] = useState<any>("Excel");
+  const handleExport = () => {
+    const data = pageResponseUpdated.map((movie: IChangeResponse) => [
+      movie.basic_id,
+      movie.basic_url,
+      "Active",
+      movie.sub_ids_url,
+      movie.sub_ids_id,
+      `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+        movie.basic_id
+      }&sub_id=${movie.sub_ids_id}`,
+    ]);
+
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Report");
+    XLSX.writeFile(wb, exportType === "Excel" ? "data.xlsx" : "data.csv");
+  };
 
   return (
     <Layout activePage="partnersRef">
@@ -500,7 +526,9 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               <input type="text" className={`${s.subId_input} default_input`} />
             </div>
             <div className={s.generate_report_btn_wrap}>
-              <button className={s.generate_report_btn}>Generate report</button>
+              <button onClick={handleExport} className={s.generate_report_btn}>
+                Generate report
+              </button>
             </div>
           </div>
         )}
@@ -522,7 +550,7 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             История выплат
           </button>
         </div> */}
-        <div className={s.choose_table_opts_wrap}>
+        {/* <div className={s.choose_table_opts_wrap}>
           <CustomDropDownChoose
             list={options}
             setActiveOptions={setActiveOpts}
@@ -532,7 +560,35 @@ const PartnersRef: FC<PartnersRefProps> = () => {
             setTitleArr={setTitleArr}
             isRefPage={true}
           />
-        </div>
+        </div> */}
+        {!is650 && (
+          <div
+            className={s.choose_table_block}
+            style={{ zIndex: 9, position: "relative" }}
+          >
+            <div className={s.choose_options_block}>
+              <CustomDropDownChoose
+                list={options}
+                setActiveOptions={setActiveOpts}
+                allPicked={true}
+                activeOptions={activeOpts}
+                titleArr={titleArr}
+                setTitleArr={setTitleArr}
+                isRefPage={true}
+              />
+            </div>
+            <div className={s.export_choose_wrap}>
+              <CustomDropdownInput
+                list={phExportOptions}
+                isExportSelect={true}
+                categotyFilter={exportType}
+                setCategoryFilter={setExportType}
+                custom={true}
+                activeItemId="excelExport"
+              />
+            </div>
+          </div>
+        )}
         <SwiperWrap data={pageResponseUpdated} swiperRef={swiperRef}>
           {titleArr.map((slide, index) => (
             <SwiperSlide key={index} className={s.swiper_slide}>

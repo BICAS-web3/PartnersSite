@@ -405,3 +405,19 @@
     color: white;
   }
 }
+.choose_table_block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.choose_table_block {
+  margin-top: 20px;
+}
+.choose_options_block {
+  max-width: 230px;
+}
+.export_choose_wrap {
+  width: 100%;
+  max-width: 230px;
+  z-index: 10;
+}
