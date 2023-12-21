@@ -512,7 +512,38 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                                   usersRegistrationDeposited?.connected_wallets
                                 )
                               ).toFixed(2)
-                            : item.data}
+                            : item.data ?
+                              item.title === "Clicks"
+                                ? clicks
+                                  ? clicks?.clicks
+                                  : 0
+                                : item.title === "Registrations"
+                                  ? usersRegistration
+                                    ? usersRegistration?.connected_wallets
+                                    : 0
+                                  : item.title === "Registrations/Clicks"
+                                    ? Number((clicks as any)?.clicks || 0) <= 0
+                                      ? 0
+                                      : (
+                                        usersRegistration?.connected_wallets /
+                                        Number((clicks as any)?.clicks)
+                                      ).toFixed(2)
+                                    : item.title === "Registrations with bets"
+                                      ? usersRegistration
+                                        ? usersRegistrationDeposited?.connected_wallets
+                                        : 0
+                                      : item.title === "Registrations with bets/Registrations"
+                                        ? Number(usersRegistration?.connected_wallets || 0) <= 0
+                                          ? 0
+                                          : (
+                                            usersRegistrationDeposited?.connected_wallets /
+                                            Number(usersRegistration?.connected_wallets)
+                                          ).toFixed(2)
+                                        : item.title === "Sum of the bets"
+                                          ? shortTotalResponseBody
+                                            ? shortTotalResponseBody?.total_wagered_sum
+                                            : 0
+                                          : item.data : 0}
                   </span>
                 </div>
               ))}
