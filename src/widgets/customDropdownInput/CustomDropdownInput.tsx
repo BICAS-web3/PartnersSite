@@ -48,14 +48,18 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
   setSiteCurrent,
   noShortText,
 }) => {
-  const [activeItem, setActiveItem] = useState(
-    activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
-  );
+  const [activeItem, setActiveItem] = useState<any>(null);
+
+  useEffect(() => {
+    setActiveItem(
+      activeItemId ? list.filter((item) => item.id === activeItemId)[0] : null
+    );
+  }, [activeItemId]);
 
   useEffect(() => {
     setActiveInner && setActiveInner(activeItem);
     setSelectedValue;
-    setSelectedValue && setSelectedValue(activeItem?.title);
+    setSelectedValue && setSelectedValue((activeItem as any)?.title);
   }, [activeItem]);
 
   const { dropdownRef, toggle, close, isOpen } = useDropdown();
@@ -98,10 +102,10 @@ export const CustomDropdownInput: FC<CustomDropdownInputProps> = ({
             {categotyFilter
               ? categotyFilter
               : activeItem
-                ? activeItem.title
-                : !activeItem && isExportSelect
-                  ? "Export"
-                  : "Select..."}
+              ? (activeItem as any)?.title
+              : !activeItem && isExportSelect
+              ? "Export"
+              : "Select..."}
           </span>
         </div>
         <div className={s.dropdown_ico_block} style={{ height: height }}>

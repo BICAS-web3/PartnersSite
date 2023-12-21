@@ -36,22 +36,22 @@ import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
 
 const periodsList = [
   {
-    title: "Сегодня",
+    title: "Today",
     id: "todaysPeriod",
     timeType: "daily",
   },
   {
-    title: "Текущая неделя",
+    title: "This week",
     id: "yesterdaysPeriod",
     timeType: "weekly",
   },
   {
-    title: "Текущий месяц",
+    title: "Current month",
     id: "currentMonthPeriod",
     timeType: "monthly",
   },
   {
-    title: "За все время",
+    title: "All this time",
     id: "lastMonthPeriod",
     timeType: "all",
   },
@@ -70,7 +70,7 @@ const currenciesList = [
 
 const exportList = [
   {
-    title: "Экспорт",
+    title: "Export",
     id: "export",
   },
   {
@@ -85,27 +85,27 @@ const exportList = [
 
 const countriesList = [
   {
-    title: "Австралия",
+    title: "Australia",
     id: "australia",
   },
   {
-    title: "Австрия",
+    title: "Austria",
     id: "austria",
   },
   {
-    title: "Азербайджан",
+    title: "Azerbaijan",
     id: "azerbagan",
   },
   {
-    title: "Албания",
+    title: "Albania",
     id: "albania",
   },
   {
-    title: "Алжир",
+    title: "Algeria",
     id: "algir",
   },
   {
-    title: "Ангола",
+    title: "Angola",
     id: "angola",
   },
 ];
@@ -142,12 +142,12 @@ const companyList = [
 
 let historyList = [
   {
-    title: "ID сайта",
+    title: "ID Websiteа",
     id: "pageId",
     text: "-",
   },
   // {
-  //   title: "Сайт",
+  //   title: "Website",
   //   id: "page",
   //   text: "-",
   // },
@@ -157,12 +157,12 @@ let historyList = [
     text: "-",
   },
   {
-    title: "Дата регистрации",
+    title: "Registration date",
     id: "registrationDate",
     text: "-",
   },
   // {
-  //   title: "Страна",
+  //   title: "Country",
   //   id: "country",
   //   text: "-",
   // },
@@ -177,7 +177,7 @@ let historyList = [
   //   text: "-",
   // },
   {
-    title: "Адрес игрока",
+    title: "Player address",
     id: "company_income",
     text: "-",
   },
@@ -246,7 +246,7 @@ const Gamers: FC<GamersProps> = () => {
   ]);
   useEffect(() => {
     setActivePeriod({
-      title: "Сегодня",
+      title: "Today",
       id: "todaysPeriod",
       timeType: "daily",
     });
@@ -473,49 +473,49 @@ const Gamers: FC<GamersProps> = () => {
                 onClick={() => setCurrentFilterPage("")}
               >
                 <Image src={prevArrow} alt="close-filter-ico" />
-                Назад
+                Back
               </span>
-              <span className="mobile_filter_title">Фильтры</span>
+              <span className="mobile_filter_title">Filters</span>
             </div>
             <div className={clsx("mobile_filter_body", s.inputWrapper_body)}>
-              <InputBlock placeholder="ID Маркетингового инструмента" />
+              <InputBlock placeholder="Marketing Tool ID" />
 
-              <InputBlock placeholder="ID Маркетингового инструмента" />
+              <InputBlock placeholder="Marketing Tool ID" />
             </div>
             <div className="mobile_filter_item_page_footer">
               <button className="mob_cancel_btn">Отменить</button>
               <button className="mob_save_btn">Сохранить</button>
             </div>
           </div>
-          <BackHead title="Фильтры" setIsOpen={setIsFilter} />
+          <BackHead title="Filters" setIsOpen={setIsFilter} />
           <div className="mobile_filter_body">
             <AdaptiveFilterItem
               objTitle="USD"
-              title="Валюта"
+              title="Currency"
               filterTitle="none"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
-              objTitle={siteCurrent || "Выберите"}
-              title="Сайт"
+              objTitle={siteCurrent || "Select"}
+              title="Website"
               filterTitle="webPagesCategoryFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
               objTitle={currentPeriod}
-              title="Период"
+              title="Period"
               filterTitle="websitesPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
               objTitle={currentCountry}
-              title="Страна"
+              title="Country"
               filterTitle="websitesCountryPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
             <AdaptiveFilterItem
               objTitle={currentCompany}
-              title="Кампания"
+              title="Campaign"
               filterTitle="websitesCompanyPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
@@ -523,9 +523,9 @@ const Gamers: FC<GamersProps> = () => {
               className="mobile_filter_item"
               onClick={() => setCurrentFilterPage("websitesTableFilter")}
             >
-              <span className="mobile_filter_item_title">Показать</span>
+              <span className="mobile_filter_item_title">Show</span>
               <span className="mobile_filter_item_picked_value">
-                Выбранsо {titleArr?.length ? titleArr?.length : 0} п.
+                Selected {titleArr?.length ? titleArr?.length : 0} i.
               </span>
             </div>
             <div
@@ -536,8 +536,8 @@ const Gamers: FC<GamersProps> = () => {
               className={clsx("mobile_filter_item", s.inputWrapper)}
               onClick={() => setCurrentFilterPage("input")}
             >
-              <InputBlock placeholder="ID Маркетингового инструмента" />
-              <InputBlock placeholder="ID Маркетингового инструмента" />
+              <InputBlock placeholder="Marketing Tool ID" />
+              <InputBlock placeholder="Marketing Tool ID" />
             </div>
             <ListButtons setIsBack={setIsFilter} title="Сгенерировать отчет" />
           </div>
@@ -564,9 +564,9 @@ const Gamers: FC<GamersProps> = () => {
               onClick={() => setIsExport(false)}
               className={s.export_back_btn}
             >
-              Назад
+              Back
             </button>
-            <GenerateButton title="Экспортировать" />
+            <GenerateButton title="Exportировать" />
           </div>
         </div>
         <div className={s.breadcrumbs_block}>
@@ -579,15 +579,15 @@ const Gamers: FC<GamersProps> = () => {
         </div>
         <div className={s.websites_filter_wrap} onClick={handleFilterClick}>
           <Image src={filterIco} alt="filter-img" />
-          <span className={s.websites_filter_btn}>Фильтры</span>
+          <span className={s.websites_filter_btn}>Filters</span>
         </div>
         <div className={s.games_table_container}>
           <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Валюта</span>
+            <span className={s.games_table_title}>Currency</span>
             <UsdCurrencyBlock />
           </div>
           <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Страна</span>
+            <span className={s.games_table_title}>Country</span>
             <CustomDropdownInput
               list={countriesList}
               maxW={
@@ -604,9 +604,7 @@ const Gamers: FC<GamersProps> = () => {
             />
           </div>
           <div className={clsx(s.games_table_item, s.games_table_item_grow)}>
-            <span className={s.games_table_title}>
-              ID Маркетингового инструмента
-            </span>
+            <span className={s.games_table_title}>Marketing Tool ID</span>
             <input
               className={s.games_table_input}
               value={marktId && marktId}
@@ -614,7 +612,7 @@ const Gamers: FC<GamersProps> = () => {
             />
           </div>
           <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Сайт</span>
+            <span className={s.games_table_title}>Website</span>
             <CustomDropdownInput
               setCategoryFilter={setSiteCurrent}
               categotyFilter={siteCurrent}
@@ -635,7 +633,7 @@ const Gamers: FC<GamersProps> = () => {
             />
           </div>
           <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Период</span>
+            <span className={s.games_table_title}>Period</span>
             <CustomDropdownInput
               list={periodsList}
               setActiveInner={setActivePeriod}
@@ -661,7 +659,7 @@ const Gamers: FC<GamersProps> = () => {
             setSecondDataPicker={setSecondDataPicker}
           />
           <div className={s.games_table_item}>
-            <span className={s.games_table_title}>ID игрока</span>
+            <span className={s.games_table_title}>Player ID</span>
             <input
               className={s.games_table_input}
               value={playerId && playerId}
@@ -677,7 +675,7 @@ const Gamers: FC<GamersProps> = () => {
             />
           </div>
           <div className={s.games_table_item}>
-            <span className={s.games_table_title}>Кампания</span>
+            <span className={s.games_table_title}>Campaign</span>
             <CustomDropdownInput list={companyList} />
           </div>
           {(!closed || !medium) && (
@@ -696,7 +694,7 @@ const Gamers: FC<GamersProps> = () => {
               <CheckBoxIco />
             </div>
             <label className={s.label} htmlFor="players">
-              Только новые игроки
+              New players only
             </label>
           </div>
           <div className={s.games_label_item}>
@@ -707,7 +705,7 @@ const Gamers: FC<GamersProps> = () => {
               <CheckBoxIco />
             </div>
             <label className={s.label} htmlFor="deposit">
-              Только игроки без депозитов
+              Only players without deposits
             </label>
           </div>
         </div>
@@ -747,11 +745,11 @@ const Gamers: FC<GamersProps> = () => {
                         : numberPage * Number(recordCount)
                     )
                     ?.map((el: IResponse, i: number) => {
-                      if (slide_title === "ID сайта") {
+                      if (slide_title === "ID Websiteа") {
                         return <span key={i}>{el.site_id}</span>;
                       } else if (slide_title === "SubID") {
                         return <span key={i}>{el.sub_id}</span>;
-                      } else if (slide_title === "Дата регистрации") {
+                      } else if (slide_title === "Registration date") {
                         const data = new Date(el.timestamp * 1000);
                         return (
                           <span key={i}>{`${`${data.getDay() + 1}`.padStart(
@@ -762,7 +760,7 @@ const Gamers: FC<GamersProps> = () => {
                             "0"
                           )}.${data.getFullYear()}`}</span>
                         );
-                      } else if (slide_title === "Адрес игрока") {
+                      } else if (slide_title === "Player address") {
                         return <span key={i}>{el.address}</span>;
                       }
                     })}

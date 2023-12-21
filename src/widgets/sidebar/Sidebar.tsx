@@ -140,6 +140,7 @@ interface SidebarProps {
 }
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { useMediaQuery } from "@/shared/tools";
+import { WithdrawModal } from "../withdrawModal/WithdrawModal";
 
 export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
@@ -222,10 +223,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
         </div>
         <div className={s.profile_info_block}>
           <div className={s.profile_name_block}>
-            <div className={s.profile_name_block_ico}>B</div>
+            <div className={s.profile_name_block_ico}>{userName[0]}</div>
             <div className={s.profile_mailId_block}>
               <span className={s.profile_id_title}>ID: 2132313123</span>
-              <span className={s.profile_mail_title}>IvanIvanov@gmail.com</span>
+              <span className={s.profile_mail_title}>{userEmail}</span>
             </div>
           </div>
           <div className={s.profile_balance_block}>
@@ -237,7 +238,8 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
               <span className={s.profile_usd_title}>BNB</span>
               <span className={s.profile_balance_title}>82710.10</span>
             </div>
-            <button className={s.withdrawal_money_btn}>Вывод средств</button>
+            {/* <button className={s.withdrawal_money_btn}>Вывод средств</button> */}
+            <WithdrawModal />
           </div>
         </div>
         <div className={s.profile_options_list}>
