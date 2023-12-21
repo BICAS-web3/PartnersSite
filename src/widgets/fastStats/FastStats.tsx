@@ -122,7 +122,59 @@ export const FastStats: FC<FastStatsProps> = () => {
   const [currentPeriod, setCurrentPeriod] = useState<IListProps>({});
   const newsListSwiperRef = useRef<SwiperRef>(null);
   const [isMobile, setIsMobile] = useState<boolean>();
+  const [setPeriod, tablePeriod, barerToken] = useUnit([
+    TimeModel.setTablePeriod,
+    TimeModel.$tablePeriod,
+    ContactModel.$barerToken,
+  ]);
+  const [clicks, setClicks] = useState<
+    | {
+        clicks: number;
+        id: number;
+        partner_id: string;
+        sub_id_internal: number;
+      }
+    | false
+  >(false);
+  useEffect(() => {
+    (async () => {
+      if (barerToken) {
+        const data = await api.getFullClicks({
+          bareer: barerToken,
+        });
+        data.status === "OK" && setClicks(data.body as api.T_ClicksResponse);
+      }
+    })();
+  }, [barerToken]);
+  const [usersRegistrationDeposited, setUsersRegistrationDeposited] =
+    useState<any>();
 
+  useEffect(() => {
+    (async () => {
+      if (barerToken) {
+        const data = await api.getDepositedUsers({
+          bareer: barerToken,
+          period: "all",
+        });
+        console.log(data.body);
+        data.status === "OK" && setUsersRegistrationDeposited(data.body);
+      }
+    })();
+  }, [barerToken]);
+
+  const [usersRegistration, setUsersRegistration] = useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      if (barerToken) {
+        const data = await api.getUsersRegistration({
+          bareer: barerToken,
+          period: "all",
+        });
+        data.status === "OK" && setUsersRegistration(data.body);
+      }
+    })();
+  }, [barerToken]);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
@@ -137,15 +189,10 @@ export const FastStats: FC<FastStatsProps> = () => {
     };
   }, []);
 
-  const [setPeriod, tablePeriod, barerToken] = useUnit([
-    TimeModel.setTablePeriod,
-    TimeModel.$tablePeriod,
-    ContactModel.$barerToken,
-  ]);
-
   const [isFilter, setIsFilter] = useState(false);
   const [mobTableOptions, setMobTableOpts] = useState(optionsList);
 
+  const [titleArr, setTitleArr] = useState(optionsList.map((el) => el.title));
   useEffect(() => {
     if (isFilter) {
       window.scrollTo(0, 0);
@@ -200,6 +247,9 @@ export const FastStats: FC<FastStatsProps> = () => {
             setActiveOptions={setActiveOptions}
             allPicked={true}
             activeOptions={activeOptions}
+            titleArr={titleArr}
+            setTitleArr={setTitleArr}
+            isRefPage={true}
           />
         </div>
         <div className={s.time_range_block}>
@@ -270,39 +320,35 @@ export const FastStats: FC<FastStatsProps> = () => {
         data={isMobile ? activeOptions : mobTableOptions}
         swiperRef={newsListSwiperRef}
       >
-        {!isMobile
-          ? activeOptions.map((item, ind) => (
-              <SwiperSlide key={ind} className={s.swiper_slide}>
-                <div className={s.swiper_slide_body}>
-                  <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>{item.title}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
-                  </div>
-                  <div className={s.swiper_slide_content}>
-                    {item.id === "registrations"
-                      ? conversionBody?.connected_wallets
-                        ? conversionBody?.connected_wallets
-                        : item.bodyValue
-                      : item.bodyValue}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))
-          : mobTableOptions.map((item, ind) => (
-              <SwiperSlide key={ind} className={s.swiper_slide}>
-                <div className={s.swiper_slide_body}>
-                  <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>{item.title}</span>
-                    <Image src={upDownArrows} alt="sort-ico" />
-                  </div>
-                  <div className={s.swiper_slide_content}>
-                    {item.id === "registrations"
-                      ? conversionBody?.connected_wallets
-                      : item.bodyValue}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
+        {titleArr.map((item: any, ind: number) => (
+          <SwiperSlide
+            key={item?.id}
+            className={s.swiper_slide}
+            data-id={item?.id}
+          >
+            <div className={s.swiper_slide_body}>
+              <div className={s.swiper_slide_header}>
+                <span className={s.swiper_slide_title}>{item}</span>
+                <Image src={upDownArrows} alt="sort-ico" />
+              </div>
+              <div className={s.swiper_slide_content}>
+                {item === "Registrations"
+                  ? conversionBody?.connected_wallets
+                    ? conversionBody?.connected_wallets
+                    : "-"
+                  : item === "Currency"
+                  ? "USD"
+                  : item === "Clicks"
+                  ? (clicks as any)?.clicks || 0
+                  : item === "Registrations with bets"
+                  ? usersRegistration
+                    ? usersRegistrationDeposited?.connected_wallets
+                    : 0
+                  : "-"}
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
       </SwiperWrap>
       {/* <div className={s.fast_stats_table_block}>
         <div className="scroll-bar"></div>

@@ -49,6 +49,8 @@ export default function Document() {
           sizes="48x48"
           href="/favicon48.ico"
         />{" "}
+        <meta property="og:url" content="https://game.greekkeepers.io/" />
+        <title>Greek Keepers | Affiliates</title>
       </Head>
       <body>
         <Main />
