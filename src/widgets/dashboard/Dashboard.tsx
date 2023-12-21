@@ -44,7 +44,7 @@ export const Dashboard: FC<DashboardProps> = () => {
   return (
     <section className={s.dashboard_container}>
       <div className={s.dashboard_body}>
-        <Link href="/" className={s.dashboard_title}>
+        <Link href="/home" className={s.dashboard_title}>
           {isMobile ? "Dashboard" : "Главная"}
         </Link>
         <div
@@ -62,7 +62,7 @@ export const Dashboard: FC<DashboardProps> = () => {
           ) : (
             <CurrentBalance />
           )}
-          {/* <PartnerProfile /> */}
+          <PartnerProfile />
           <LastEvents />
         </div>
         <div className={s.currency_charts_wrap}>

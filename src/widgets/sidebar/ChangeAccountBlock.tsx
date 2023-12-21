@@ -26,8 +26,9 @@ export const ChangeAccountBlock: FC<ChangeAccountBlockProps> = ({
 }) => {
   return (
     <div
-      className={`${s.change_account_block} ${activeSubPage === "changeAccount" && s.activeSubBlock
-        }`}
+      className={`${s.change_account_block} ${
+        activeSubPage === "changeAccount" && s.activeSubBlock
+      }`}
     >
       <div className={s.sidebar_profile_block_header}>
         <span

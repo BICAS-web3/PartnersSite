@@ -129,7 +129,7 @@ enum TimeBoundary {
   Daily = "daily",
   Weekly = "weekly",
   Monthly = "monthly",
-  All = "all"
+  All = "all",
 }
 
 export type T_Withdrawal = {
@@ -147,16 +147,16 @@ export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
   | T_Networks
-  | T_Rpcs
-  | R_getUser
-  | T_UserSitesResp
-  | T_GetSubIdClickResponse
-  | T_ClicksResponse
-  | T_ChartResponse
-  | T_DepositResponse
-  | T_RegisteredWallets
-  | T_TotalsStatsResponse
-  | Array<T_Withdrawal>;
+    | T_Rpcs
+    | R_getUser
+    | T_UserSitesResp
+    | T_GetSubIdClickResponse
+    | T_ClicksResponse
+    | T_ChartResponse
+    | T_DepositResponse
+    | T_RegisteredWallets
+    | T_TotalsStatsResponse
+    | Array<T_Withdrawal>;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -244,6 +244,7 @@ export type T_RegisterUser = {
   password: string;
   traffic_source: string;
   users_amount_a_month: number;
+  language: string;
 };
 
 export const loginUser = createEffect<T_LoginUser, T_ApiResponse, string>(
@@ -293,6 +294,14 @@ export type T_RegisterChart = {
   bareer: string;
   endTime: number;
   step?: number;
+};
+
+export type T_Withdraw = {
+  bareer: string;
+  amount: string;
+  network: string;
+  token: string;
+  wallet_address: string;
 };
 
 export type T_ChangePassword = {
@@ -584,7 +593,8 @@ export const getUsersRegistrationChart = createEffect<
   const startTime = Date.now();
 
   return fetch(
-    `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${form.step
+    `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${
+      form.step
     }`,
     {
       method: "GET",
@@ -693,18 +703,42 @@ export const getWithdrawal = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  return fetch(`${BaseApiUrl}/partner/withdrawals/${form.time_boundary.toString()}`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${form.bareer}`,
+  return fetch(
+    `${BaseApiUrl}/partner/withdrawals/${form.time_boundary.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+      // body: JSON.stringify({
+      //   new_password: form.new_password,
+      //   old_password: form.old_password,
+      // }),
     }
-    // body: JSON.stringify({
-    //   new_password: form.new_password,
-    //   old_password: form.old_password,
-    // }),
-  })
+  )
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+
+export const withdraw = createEffect<T_Withdraw, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/withdraw`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+      body: JSON.stringify({
+        amount: form.amount,
+        network: form.network,
+        token: "USDT",
+        wallet_address: form.wallet_address,
+      }),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);

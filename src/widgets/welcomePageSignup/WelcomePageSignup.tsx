@@ -342,6 +342,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
           users_amount_a_month: 1,
           login: loginAuth,
           password: password,
+          language: selectedLanguage,
         });
         if (response.status === "OK") {
           setStartLogin(true);
