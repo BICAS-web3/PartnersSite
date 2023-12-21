@@ -1,7 +1,8 @@
+import { WithdrawModal } from "../withdrawModal/WithdrawModal";
 import s from "./styles.module.scss";
 import { FC, useState } from "react";
 
-interface CurrentBalanceProps { }
+interface CurrentBalanceProps {}
 
 export const CurrentBalance: FC<CurrentBalanceProps> = () => {
   const [currentBTCbalance, setCurrentBTCbalance] = useState(0.0);
@@ -28,7 +29,8 @@ export const CurrentBalance: FC<CurrentBalanceProps> = () => {
         </div>
       </div>
       <div className={s.balance_withdrawal_btn_block}>
-        <button className={s.balance_withdrawal_btn}>Withdraw</button>
+        {/* <button className={s.balance_withdrawal_btn}>Withdraw</button> */}
+        <WithdrawModal />
       </div>
     </div>
   );

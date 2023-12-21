@@ -45,7 +45,7 @@ export const countriesList = Object.keys(countries).map((code) => ({
   id: code,
 }));
 
-interface ContactInfoSettingsProps { }
+interface ContactInfoSettingsProps {}
 
 export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
   const [domenChecked, setDomenChecked] = useState(false);
@@ -106,53 +106,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-    }; // useEffect(() => {
-    //   (async () => {
-    //     if (callContactReg) {
-    //       await api.registerContact({
-    //         bareer: barerToken,
-    //         contact: [
-    //           {
-    //             name: "messenger_login",
-    //             url: userMessangerValue,
-    //           },
-    //           {
-    //             name: "email",
-    //             url: userEmail,
-    //           },
-    //           {
-    //             name: "messenger_type",
-    //             url: userMessanger,
-    //           },
-    //           {
-    //             name: "page_name",
-    //             url: userPageName,
-    //           },
-    //           {
-    //             name: "country",
-    //             url: userCountry,
-    //           },
-    //           {
-    //             name: "page_type",
-    //             url: userPageCategory,
-    //           },
-    //           {
-    //             name: "language",
-    //             url: userLanguage,
-    //           },
-    //           {
-    //             name: "phone",
-    //             url: userPhone,
-    //           },
-    //           {
-    //             name: "source_from",
-    //             url: userSelectedSource,
-    //           },
-    //         ],
-    //       });
-    //     }
-    //   })();
-    // }, [callContactReg]);
+    };
   }, []);
 
   const dataReset = () => {
@@ -163,9 +117,7 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
 
   return (
     <div className={s.contact_info_settings_block}>
-      <span className={s.contact_info_settings_block_title}>
-        Contact info
-      </span>
+      <span className={s.contact_info_settings_block_title}>Contact info</span>
       <div className={s.name_surname_block}>
         <div className={s.input_block}>
           <span className={s.input_block_title}>Name*</span>
@@ -234,24 +186,22 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
               !is1280 && !is650 && !is700
                 ? 140
                 : is1280
-                  ? 90
-                  : is700
-                    ? 160
-                    : is650
-                      ? 70
-                      : 130
+                ? 90
+                : is700
+                ? 160
+                : is650
+                ? 70
+                : 130
             }
           />
         </div>
         <div className={s.input_block}>
           <span className={s.input_block_title}>Preffered language</span>
           <CustomDropdownInput
-            // activeItemId={
-            //   userLanguage &&
-            //   languagesList.find((el) => el.title === userLanguage)?.id
-            // }
             list={languagesList}
-            activeItemId="eng"
+            activeItemId={
+              languagesList.find((el) => el.title === userLanguage)?.id
+            }
           />
         </div>
       </div>
@@ -276,3 +226,50 @@ export const ContactInfoSettings: FC<ContactInfoSettingsProps> = () => {
     </div>
   );
 };
+// useEffect(() => {
+//   (async () => {
+//     if (callContactReg) {
+//       await api.registerContact({
+//         bareer: barerToken,
+//         contact: [
+//           {
+//             name: "messenger_login",
+//             url: userMessangerValue,
+//           },
+//           {
+//             name: "email",
+//             url: userEmail,
+//           },
+//           {
+//             name: "messenger_type",
+//             url: userMessanger,
+//           },
+//           {
+//             name: "page_name",
+//             url: userPageName,
+//           },
+//           {
+//             name: "country",
+//             url: userCountry,
+//           },
+//           {
+//             name: "page_type",
+//             url: userPageCategory,
+//           },
+//           {
+//             name: "language",
+//             url: userLanguage,
+//           },
+//           {
+//             name: "phone",
+//             url: userPhone,
+//           },
+//           {
+//             name: "source_from",
+//             url: userSelectedSource,
+//           },
+//         ],
+//       });
+//     }
+//   })();
+// }, [callContactReg]);

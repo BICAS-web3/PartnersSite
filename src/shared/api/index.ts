@@ -225,6 +225,7 @@ export type T_RegisterUser = {
   password: string;
   traffic_source: string;
   users_amount_a_month: number;
+  language: string;
 };
 
 export const loginUser = createEffect<T_LoginUser, T_ApiResponse, string>(
@@ -274,6 +275,14 @@ export type T_RegisterChart = {
   bareer: string;
   endTime: number;
   step?: number;
+};
+
+export type T_Withdraw = {
+  bareer: string;
+  amount: string;
+  network: string;
+  token: string;
+  wallet_address: string;
 };
 
 export type T_ChangePassword = {
@@ -664,3 +673,24 @@ export const changePassword = createEffect<
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+
+export const withdraw = createEffect<T_Withdraw, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/partner/withdraw`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+      body: JSON.stringify({
+        amount: form.amount,
+        network: form.network,
+        token: "USDT",
+        wallet_address: form.wallet_address,
+      }),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);

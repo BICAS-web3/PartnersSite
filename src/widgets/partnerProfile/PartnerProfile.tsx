@@ -1,9 +1,10 @@
-import { FC, RefObject, useEffect } from "react";
+import { FC } from "react";
 
 import clsx from "clsx";
 
 import s from "./styles.module.scss";
 import Image from "next/image";
+import partner_eclipse from "@/public/media/dashboard/partner_eclipse.png";
 
 interface PartnerProfileProps {
   className?: string;
@@ -11,7 +12,7 @@ interface PartnerProfileProps {
 
 export const PartnerProfile: FC<PartnerProfileProps> = ({ className }) => {
   return (
-    <div className={s.container}>
+    <div className={clsx(s.container, className)}>
       <div className={s.data}>
         <h3>Профиль партнёра</h3>
         <p>
@@ -24,7 +25,7 @@ export const PartnerProfile: FC<PartnerProfileProps> = ({ className }) => {
           Ваш текущий уровень: <span>5 </span> из 6
         </p>
       </div>
-      <Image src={""} alt="" width={86} height={86} />
+      <Image className={s.image} src={partner_eclipse} alt="img" />
     </div>
   );
 };
