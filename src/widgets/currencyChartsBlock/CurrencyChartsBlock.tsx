@@ -25,63 +25,63 @@ const timesList = [
   {
     title: "1 day",
     id: "1day",
-    timeLine: 24 * 3600 * 1000,
+    timeLine: 24 * 3600,
     timeType: "daily",
-    step: 900000,
+    step: 900,
   },
   {
     title: "7 days",
     id: "7days",
-    timeLine: 7 * 24 * 3600 * 1000,
+    timeLine: 7 * 24 * 3600,
     timeType: "weekly",
-    step: 24 * 3600 * 1000,
+    step: 24 * 3600,
   },
   {
     title: "1 month",
     id: "1month",
     timeType: "monthly",
     timeLine:
-      new Date(
+      Math.floor(new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
         0
       ).getTime() -
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
-    step: 7 * 24 * 3600 * 1000,
+        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() / 1000),
+    step: 7 * 24 * 3600,
   },
   {
     title: "3 months",
     id: "3months",
     timeType: "monthly",
     timeLine:
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
-      new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - 3,
-        1
-      ).getTime(),
+      Math.floor(new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
+        new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() - 3,
+          1
+        ).getTime() / 1000),
     step:
-      new Date(
+      Math.floor(new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
         0
       ).getTime() -
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
+        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() / 1000),
   },
   {
     title: "1 year",
     id: "1year",
     timeType: "monthly",
     timeLine:
-      new Date(currentDate.getFullYear(), 11, 31).getTime() -
-      new Date(currentDate.getFullYear(), 0, 1).getTime(),
+      Math.floor(new Date(currentDate.getFullYear(), 11, 31).getTime() -
+        new Date(currentDate.getFullYear(), 0, 1).getTime() / 1000),
     step:
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
-      new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - 3,
-        1
-      ).getTime(),
+      Math.floor(new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
+        new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() - 3,
+          1
+        ).getTime() / 1000),
   },
   {
     title: "All",

@@ -1,12 +1,12 @@
 import { createEvent, createStore } from "effector";
 
 export const $periodFirst = createStore<{ timeline: number; period: number }>({
-  timeline: 24 * 3600 * 1000,
-  period: 900000,
+  timeline: 24 * 3600,
+  period: 900,
 });
 export const $periodSecond = createStore<{ timeline: number; period: number }>({
-  timeline: 24 * 3600 * 1000,
-  period: 900000,
+  timeline: 24 * 3600,
+  period: 900,
 });
 
 export const setPeriodFirst = createEvent<{
