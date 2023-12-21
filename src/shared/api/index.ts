@@ -147,16 +147,16 @@ export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
   | T_Networks
-    | T_Rpcs
-    | R_getUser
-    | T_UserSitesResp
-    | T_GetSubIdClickResponse
-    | T_ClicksResponse
-    | T_ChartResponse
-    | T_DepositResponse
-    | T_RegisteredWallets
-    | T_TotalsStatsResponse
-    | Array<T_Withdrawal>;
+  | T_Rpcs
+  | R_getUser
+  | T_UserSitesResp
+  | T_GetSubIdClickResponse
+  | T_ClicksResponse
+  | T_ChartResponse
+  | T_DepositResponse
+  | T_RegisteredWallets
+  | T_TotalsStatsResponse
+  | Array<T_Withdrawal>;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -292,8 +292,9 @@ export type T_RegisterWallets = {
 
 export type T_RegisterChart = {
   bareer: string;
+  startTime: number
   endTime: number;
-  step?: number;
+  step: number;
 };
 
 export type T_Withdraw = {
@@ -597,11 +598,9 @@ export const getUsersRegistrationChart = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  const startTime = Date.now();
 
   return fetch(
-    `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${
-      form.step
+    `${BaseApiUrl}/partner/connected/${form.startTime}/${form.endTime}/${form.step
     }`,
     {
       method: "GET",
