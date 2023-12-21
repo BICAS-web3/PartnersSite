@@ -21,6 +21,8 @@ export const FollowsChart: FC<FollowsChartProps> = () => {
     ContactModel.$barerToken,
   ]);
 
+  console.log(periodFirst.timeline);
+
   const [startTime, setStartTime] = useState<any>();
   useEffect(() => {
     (async () => {

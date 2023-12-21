@@ -41,12 +41,12 @@ const timesList = [
     id: "1month",
     timeType: "monthly",
     timeLine:
-      Math.floor(new Date(
+      Math.floor((new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
-        0
+        1
       ).getTime() -
-        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() / 1000),
+        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime()) / 1000),
     step: 7 * 24 * 3600,
   },
   {
@@ -54,34 +54,34 @@ const timesList = [
     id: "3months",
     timeType: "monthly",
     timeLine:
-      Math.floor(new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
+      Math.floor((new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() -
         new Date(
           currentDate.getFullYear(),
           currentDate.getMonth() - 3,
           1
-        ).getTime() / 1000),
+        ).getTime()) / 1000),
     step:
-      Math.floor(new Date(
+      Math.floor((new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
-        0
+        1
       ).getTime() -
-        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() / 1000),
+        new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime()) / 1000),
   },
   {
     title: "1 year",
     id: "1year",
     timeType: "monthly",
     timeLine:
-      Math.floor(new Date(currentDate.getFullYear(), 11, 31).getTime() -
-        new Date(currentDate.getFullYear(), 0, 1).getTime() / 1000),
+      Math.floor((new Date(currentDate.getFullYear(), 11, 31).getTime() -
+        new Date(currentDate.getFullYear(), 0, 1).getTime()) / 1000),
     step:
-      Math.floor(new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
+      Math.floor((new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime() -
         new Date(
           currentDate.getFullYear(),
           currentDate.getMonth() - 3,
           1
-        ).getTime() / 1000),
+        ).getTime()) / 1000),
   },
   {
     title: "All",
