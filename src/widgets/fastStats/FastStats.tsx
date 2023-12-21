@@ -23,6 +23,7 @@ import * as ContactModel from "@/widgets/welcomePageSignup/model";
 
 import * as api from "@/shared/api/";
 import { SwiperWrap } from "../swiperWrap/SwiperWrap";
+import { timesList } from "../currencyChartsBlock/CurrencyChartsBlock";
 
 const optionsList = [
   {
@@ -59,59 +60,13 @@ const optionsList = [
 
 const currentDate = new Date();
 
-const timesList = [
-  {
-    title: "1 day",
-    id: "1day",
-    timeLine: 24 * 3600 * 1000,
-  },
-  {
-    title: "7 days",
-    id: "7days",
-    timeLine: 7 * 24 * 3600 * 1000,
-  },
-  {
-    title: "1 mon",
-    id: "1month",
-    timeLine:
-      new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() + 1,
-        0
-      ).getTime() -
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime(),
-  },
-  {
-    title: "3 mon",
-    id: "3months",
-    timeLine:
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getTime() -
-      new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - 3,
-        1
-      ).getTime(),
-  },
-  {
-    title: "1 year",
-    id: "1year",
-    timeLine:
-      new Date(currentDate.getFullYear(), 11, 31).getTime() -
-      new Date(currentDate.getFullYear(), 0, 1).getTime(),
-  },
-  {
-    title: "All",
-    id: "allTime",
-    timeLine:
-      new Date(currentDate.getFullYear(), 11, 31).getTime() -
-      new Date(currentDate.getFullYear(), 0, 1).getTime(),
-  },
-];
-
 interface FastStatsProps {}
 interface IListProps {
-  id?: string;
   title?: string;
+  id?: string;
+  timeLine?: number;
+  timeType?: string;
+  step?: number;
 }
 
 export const FastStats: FC<FastStatsProps> = () => {
@@ -202,7 +157,7 @@ export const FastStats: FC<FastStatsProps> = () => {
     }
   }, [isFilter]);
 
-  const [conversionBody, setConversionBody] = useState<any>();
+  const [conversionBody, setConversionBody] = useState<number>();
   const [depositedUsersBody, setDepositedUsersBody] = useState<any>();
 
   useEffect(() => {
@@ -210,10 +165,16 @@ export const FastStats: FC<FastStatsProps> = () => {
       if (barerToken) {
         const response = await api.getUsersRegistrationChart({
           bareer: barerToken,
-          endTime: tablePeriod,
+          startTime: Math.floor(Date.now() / 1000) - tablePeriod.timeline!,
+          endTime: Math.floor(Date.now() / 1000),
+          step: tablePeriod?.period,
         });
         if (response.status === "OK") {
-          setConversionBody(response.body);
+          setConversionBody(
+            (response.body as any)?.amount.filter((el: number) => el > 0)
+              ?.length
+          );
+          console.log(response.body);
         } else {
           console.log("DEAD");
         }
@@ -259,7 +220,7 @@ export const FastStats: FC<FastStatsProps> = () => {
               key={item?.id}
               onClick={() => {
                 setCurrentTimeStats(item?.id);
-                setPeriod(item.timeLine);
+                setPeriod({ timeline: item.timeLine, period: item.step });
               }}
               style={{
                 background: currentTimeStats === item?.id ? "#212121" : "",
@@ -333,8 +294,8 @@ export const FastStats: FC<FastStatsProps> = () => {
               </div>
               <div className={s.swiper_slide_content}>
                 {item === "Registrations"
-                  ? conversionBody?.connected_wallets
-                    ? conversionBody?.connected_wallets
+                  ? conversionBody
+                    ? conversionBody
                     : "-"
                   : item === "Currency"
                   ? "USD"

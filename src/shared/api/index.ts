@@ -10,7 +10,7 @@ export enum Level {
   intermediate = "intermediate",
   advanced = "advanced",
   pro = "pro",
-  god = "god"
+  god = "god",
 }
 
 export interface ILevelPercentages {
@@ -24,16 +24,15 @@ export interface ILevelPercentages {
   [key: string]: any;
 }
 
-
 export const LevelPercentages: ILevelPercentages = {
-  "firstMonth": 0.55,
-  "novice": 0.60,
-  "beginner": 0.65,
-  "intermediate": 0.70,
-  "advanced": 0.75,
-  "pro": 0.80,
-  "god": 0.85
-}
+  firstMonth: 0.55,
+  novice: 0.6,
+  beginner: 0.65,
+  intermediate: 0.7,
+  advanced: 0.75,
+  pro: 0.8,
+  god: 0.85,
+};
 
 export type T_Localization = {};
 export type T_Networks = {
@@ -179,16 +178,16 @@ export type T_ApiResponse = {
   status: string;
   body: // | T_ErrorText
   | T_Networks
-  | T_Rpcs
-  | R_getUser
-  | T_UserSitesResp
-  | T_GetSubIdClickResponse
-  | T_ClicksResponse
-  | T_ChartResponse
-  | T_DepositResponse
-  | T_RegisteredWallets
-  | T_TotalsStatsResponse
-  | Array<T_Withdrawal>;
+    | T_Rpcs
+    | R_getUser
+    | T_UserSitesResp
+    | T_GetSubIdClickResponse
+    | T_ClicksResponse
+    | T_ChartResponse
+    | T_DepositResponse
+    | T_RegisteredWallets
+    | T_TotalsStatsResponse
+    | Array<T_Withdrawal>;
   // | T_Token_
   // | T_Game
   // | T_Nickname
@@ -326,15 +325,15 @@ export type T_RegisterChart = {
   bareer: string;
   endTime: number;
   step?: number;
+  startTime: number;
 };
 
 export type T_PartnerClicks = {
   bareer: string;
-  startTime: number
+  startTime: number;
   endTime: number;
   step: number;
 };
-
 
 export type T_Withdraw = {
   bareer: string;
@@ -371,10 +370,10 @@ export type T_Players = {
 
 export type T_SubmitQuestion = {
   //bareer: string,
-  name: string,
-  email: string,
-  message: string
-}
+  name: string;
+  email: string;
+  message: string;
+};
 
 export type T_WalletsRegistered = {
   timestamp?: number | string;
@@ -637,11 +636,8 @@ export const getUsersRegistrationChart = createEffect<
   T_ApiResponse,
   string
 >(async (form) => {
-  const startTime = Date.now();
-
   return fetch(
-    `${BaseApiUrl}/partner/connected/${startTime}/${startTime + form.endTime}/${form.step
-    }`,
+    `${BaseApiUrl}/partner/connected/${form.startTime}/${form.endTime}/${form.step}`,
     {
       method: "GET",
       headers: {
@@ -663,8 +659,7 @@ export const getUsersClicks = createEffect<
   //const startTime = Date.now();
 
   return fetch(
-    `${BaseApiUrl}/partner/clicks/${form.startTime}/${form.endTime}/${form.step
-    }`,
+    `${BaseApiUrl}/partner/clicks/${form.startTime}/${form.endTime}/${form.step}`,
     {
       method: "GET",
       headers: {
@@ -791,7 +786,6 @@ export const getWithdrawal = createEffect<
     .catch((e) => e);
 });
 
-
 export const submitQuestion = createEffect<
   T_SubmitQuestion,
   T_ApiResponse,
@@ -807,7 +801,7 @@ export const submitQuestion = createEffect<
     body: JSON.stringify({
       name: form.name,
       email: form.email,
-      message: form.message
+      message: form.message,
     }),
   })
     .then(async (res) => await res.json())
@@ -834,4 +828,3 @@ export const withdraw = createEffect<T_Withdraw, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
-

@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-interface RegistrationChartProps { }
+interface RegistrationChartProps {}
 
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/shared/tools";
@@ -40,13 +40,15 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
 
   const [registrationsBody, setRegistrationsBody] = useState<any>();
   const [depositedAccount, setDepositedAccounts] = useState<any>();
+  // const [startTime, setStartTime] = useState<any>();
 
   useEffect(() => {
     (async () => {
       if (periodSecond && barerToken) {
         const response = await api.getUsersRegistrationChart({
           bareer: barerToken,
-          endTime: periodSecond.timeline,
+          startTime: Math.floor(Date.now() / 1000) - periodSecond.timeline,
+          endTime: Math.floor(Date.now() / 1000),
           step: periodSecond.period,
         });
         if (response.status === "OK") {
@@ -188,7 +190,7 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
       },
     },
 
-    colors: ["#F2DE2F", "#2FF24E", "#CD4C30"],
+    colors: ["#CD4C30"], // "#F2DE2F", "#2FF24E",
     stroke: {
       curve: "smooth",
       width: isMobile ? 1 : 1.5,
@@ -280,19 +282,19 @@ export const RegistrationChart: FC<RegistrationChartProps> = () => {
   const series = [
     {
       name: "Registration",
-      data: [registrationsBody?.connected_wallets || 1],
+      data: registrationsBody?.amount,
     },
-    {
-      name: "Registration with bets",
-      data: [depositedAccount?.connected_wallets || 2],
-    },
-    {
-      name: "Commissions sum",
-      data: [
-        0.7, 3.3, 3.2, 3.5, 3.7, 3.7, 3.4, 3.5, 3.6, 3.1, 3.2, 3.5, 3.6, 3.7,
-        3.2,
-      ],
-    },
+    // {
+    //   name: "Registration with bets",
+    //   data: [depositedAccount?.connected_wallets || 2],
+    // },
+    // {
+    //   name: "Commissions sum",
+    //   data: [
+    //     0.7, 3.3, 3.2, 3.5, 3.7, 3.7, 3.4, 3.5, 3.6, 3.1, 3.2, 3.5, 3.6, 3.7,
+    //     3.2,
+    //   ],
+    // },
   ];
   return (
     <ReactApexChart
