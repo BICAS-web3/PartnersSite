@@ -1,3 +1,5 @@
+import * as XLSX from "xlsx";
+
 import { Layout } from "@/widgets/layout/Layout";
 import s from "./styles.module.scss";
 import { FC, useEffect, useRef, useState } from "react";
@@ -30,7 +32,6 @@ import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 import * as ContentModel from "@/widgets/welcomePageSignup/model";
 import * as api from "@/shared/api";
 import { useUnit } from "effector-react";
-
 export const currenciesList = [
   {
     title: "USD",
@@ -184,7 +185,19 @@ enum TimeBoundary {
   All = "all",
 }
 const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
+  const [movies, setMovies] = useState([]);
   const [titleArr, setTitleArr] = useState(optionsList.map((el) => el.title));
+  const headers = [
+    "ID",
+    "Start Time",
+    "Token",
+    "Network",
+    "Wallet Address",
+    "Status",
+    "Partner ID",
+    "Amount",
+  ];
+
   const [barerToken] = useUnit([ContentModel.$barerToken]);
   const [activePayoutBtn, setActivePayoutBtn] = useState("status");
   const [activeOps, setActiveOpts] = useState([]);
@@ -279,10 +292,31 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
         });
         if (response.status === "OK") {
           setResponseBody((response as any).body as IResponse[]);
+          setMovies((response as any).body);
         }
       }
     })();
   }, [periodState, barerToken]);
+
+  const [exportType, setExportType] = useState<any>("Excel");
+
+  const handleExport = () => {
+    const data = movies.map((movie) => [
+      (movie as any)?.id,
+      (movie as any)?.start_time,
+      (movie as any)?.token,
+      (movie as any)?.network,
+      (movie as any)?.wallet_address,
+      (movie as any)?.status,
+      (movie as any)?.partner_id,
+      (movie as any)?.amount,
+    ]);
+
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Report");
+    XLSX.writeFile(wb, exportType === "Excel" ? "data.xlsx" : "data.csv");
+  };
 
   return (
     <Layout activePage="payoutsHistory">
@@ -576,7 +610,9 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   />
                 </div>
               </div>
-              <button className={s.generate_report_btn}>Generate report</button>
+              <button onClick={handleExport} className={s.generate_report_btn}>
+                Generate report
+              </button>
             </div>
           )}
           {/* <div className={s.payouts_status_block}>
@@ -616,6 +652,10 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                 <CustomDropdownInput
                   list={phExportOptions}
                   isExportSelect={true}
+                  categotyFilter={exportType}
+                  setCategoryFilter={setExportType}
+                  custom={true}
+                  activeItemId="excelExport"
                 />
               </div>
             </div>

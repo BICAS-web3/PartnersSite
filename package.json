@@ -13,6 +13,7 @@
     "@types/lodash.range": "^3.2.8",
     "@types/react-datepicker": "^4.19.1",
     "@types/react-toastify": "^4.1.0",
+    "@types/xlsx": "^0.0.36",
     "apexcharts": "^3.44.0",
     "chart.js": "^4.4.0",
     "clsx": "^2.0.0",
