@@ -9,18 +9,6 @@ export default function Document() {
           rel="icon"
           type="image/png"
           sizes="192x192"
-          href="/android-chrome-192.webp"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="512x512"
-          href="/android-chrome-512.webp"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
           href="/android-chrome-192.png"
         />
         <link
