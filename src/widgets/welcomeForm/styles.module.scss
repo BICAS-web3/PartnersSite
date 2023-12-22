@@ -288,6 +288,7 @@
   background: #202020;
   color: #ffe09d;
   border-color: transparent;
+  z-index: 2;
   &::after {
     content: "";
     position: absolute;
@@ -300,6 +301,18 @@
     z-index: 20;
     animation: animation_ 5s ease-in-out;
     background: #ffe09d;
+  }
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: transparent;
   }
 }
 
