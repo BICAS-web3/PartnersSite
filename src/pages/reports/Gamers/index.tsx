@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-
+import * as XLSX from "xlsx";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import clsx from "clsx";
@@ -70,12 +70,8 @@ const currenciesList = [
 
 const exportList = [
   {
-    title: "Export",
-    id: "export",
-  },
-  {
-    title: "Exel",
-    id: "exel",
+    title: "Excel",
+    id: "excel",
   },
   {
     title: "Csv",
@@ -146,11 +142,6 @@ let historyList = [
     id: "pageId",
     text: "-",
   },
-  // {
-  //   title: "Website",
-  //   id: "page",
-  //   text: "-",
-  // },
   {
     title: "SubID",
     id: "playerId",
@@ -161,24 +152,44 @@ let historyList = [
     id: "registrationDate",
     text: "-",
   },
-  // {
-  //   title: "Country",
-  //   id: "country",
-  //   text: "-",
-  // },
-  // {
-  //   title: "Сумма депозитов",
-  //   id: "deposti_summ",
-  //   text: "-",
-  // },
-  // {
-  //   title: "Доход компаний общий",
-  //   id: "company_income",
-  //   text: "-",
-  // },
   {
     title: "Player address",
     id: "company_income",
+    text: "-",
+  },
+  {
+    title: "Bets amount",
+    id: "Bets_amount",
+    text: "-",
+  },
+  {
+    title: "Lost bets",
+    id: "Lost_bets",
+    text: "-",
+  },
+  {
+    title: "Won bets",
+    id: "Won_bets",
+    text: "-",
+  },
+  {
+    title: "Total wagered sum",
+    id: "Total_wagered_sum",
+    text: "-",
+  },
+  {
+    title: "Gross profit",
+    id: "Gross_profit",
+    text: "-",
+  },
+  {
+    title: "Net profit",
+    id: "Net_profit",
+    text: "-",
+  },
+  {
+    title: "Highest win",
+    id: "Highest_win",
     text: "-",
   },
 ];
@@ -189,7 +200,7 @@ interface IListProps {
   text?: string;
 }
 
-interface GamersProps { }
+interface GamersProps {}
 
 interface IResponse {
   id: number;
@@ -388,6 +399,54 @@ const Gamers: FC<GamersProps> = () => {
     })();
   }, [barerToken]);
 
+  const [exportType, setExportType] = useState<any>("Excel");
+
+  const generateReport = () => {
+    const reportData = answerBody
+      ? answerBody.map((item: IResponse) => {
+          return titleArr.map((title) => {
+            if (title === "Site ID") {
+              return item.site_id || "-";
+            } else if (title === "SubID") {
+              return item.sub_id || "-";
+            } else if (title === "Registration date") {
+              const dataRegistration = new Date(item.timestamp * 1000);
+              return `${`${dataRegistration.getDay() + 1}`.padStart(
+                2,
+                "0"
+              )}.${`${dataRegistration.getMonth() + 1}`.padStart(
+                2,
+                "0"
+              )}.${dataRegistration.getFullYear()}`;
+            } else if (title === "Player address") {
+              return item.address || "-";
+            } else if (title === "Bets amount") {
+              return item.bets_amount || "-";
+            } else if (title === "Lost bets") {
+              return item.lost_bets || "-";
+            } else if (title === "Won bets") {
+              return item.won_bets || "-";
+            } else if (title === "Total wagered sum") {
+              return item.total_wagered_sum || "-";
+            } else if (title === "Gross profit") {
+              return item.gross_profit || "-";
+            } else if (title === "Net profit") {
+              return item.net_profit || "-";
+            } else if (title === "Highest win") {
+              return item.highest_win || "-";
+            }
+          });
+        })
+      : [];
+
+    const ws = XLSX.utils.aoa_to_sheet([titleArr, ...reportData]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Player Report");
+
+    const filename =
+      exportType === "Excel" ? "player_report.xlsx" : "player_report.csv";
+    XLSX.writeFile(wb, filename);
+  };
   return (
     <Layout activePage="byGamers">
       <section className={s.gamers_section}>
@@ -551,7 +610,13 @@ const Gamers: FC<GamersProps> = () => {
               <InputBlock placeholder="Marketing instrument ID" />
               <InputBlock placeholder="Marketing instrument ID" />
             </div>
-            <ListButtons setIsBack={setIsFilter} title="Generate report" />
+            <ListButtons
+              onClick={() => {
+                generateReport();
+              }}
+              setIsBack={setIsFilter}
+              title="Generate report"
+            />
           </div>
         </div>
         <div
@@ -565,8 +630,8 @@ const Gamers: FC<GamersProps> = () => {
             <div className={s.mobile_pick_list}>
               <MobilePickList
                 list={exportList.slice(1)}
-                activeItemId="exel"
-                setCurrent={() => { }}
+                activeItemId="excel"
+                setCurrent={() => {}}
                 startOptions={exportList.slice(1)}
               />
             </div>
@@ -606,19 +671,17 @@ const Gamers: FC<GamersProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 100
                   : is1280
-                    ? 100
-                    : is700
-                      ? 100
-                      : is650
-                        ? 100
-                        : 130
+                  ? 100
+                  : is700
+                  ? 100
+                  : is650
+                  ? 100
+                  : 130
               }
             />
           </div>
           <div className={clsx(s.games_table_item, s.games_table_item_grow)}>
-            <span className={s.games_table_title}>
-              Marketing instrument ID
-            </span>
+            <span className={s.games_table_title}>Marketing instrument ID</span>
             <input
               className={s.games_table_input}
               value={marktId && marktId}
@@ -637,12 +700,12 @@ const Gamers: FC<GamersProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                    ? 160
-                    : is700
-                      ? 160
-                      : is650
-                        ? 160
-                        : 160
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 160
               }
             />
           </div>
@@ -656,12 +719,12 @@ const Gamers: FC<GamersProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                    ? 160
-                    : is700
-                      ? 160
-                      : is650
-                        ? 160
-                        : 160
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 160
               }
             />
           </div>
@@ -695,7 +758,7 @@ const Gamers: FC<GamersProps> = () => {
           {(!closed || !medium) && (
             <GenerateButton
               className={clsx(s.generate_button)}
-              onClick={dataReset}
+              onClick={generateReport}
             />
           )}
         </div>
@@ -723,7 +786,9 @@ const Gamers: FC<GamersProps> = () => {
             </label>
           </div>
         </div>
-        {closed && medium && <GenerateButton className={s.open_btn} />}
+        {closed && medium && (
+          <GenerateButton onClick={generateReport} className={s.open_btn} />
+        )}
         <div className={s.options_container}>
           <div className={s.options_wrapper}>
             <CustomDropDownChoose
@@ -737,7 +802,13 @@ const Gamers: FC<GamersProps> = () => {
             />
           </div>
           <div className={s.export_wrapper}>
-            <CustomDropdownInput list={exportList} activeItemId="export" />
+            <CustomDropdownInput
+              custom={true}
+              categotyFilter={exportType}
+              setCategoryFilter={setExportType}
+              list={exportList}
+              activeItemId="excel"
+            />
           </div>
         </div>
         <SwiperWrap data={answerBody} swiperRef={swiperRef}>
@@ -775,19 +846,37 @@ const Gamers: FC<GamersProps> = () => {
                           )}.${data.getFullYear()}`}</span>
                         );
                       } else if (slide_title === "Player address") {
-                        return <span key={i}>{el.address}</span>;
+                        return <span key={i}>{el?.address}</span>;
+                      } else if (slide_title === "Bets amount") {
+                        return <span key={i}>{el?.bets_amount}</span>;
+                      } else if (slide_title === "Lost bets") {
+                        return <span key={i}>{el?.lost_bets}</span>;
+                      } else if (slide_title === "Won bets") {
+                        return <span key={i}>{el?.won_bets}</span>;
+                      } else if (slide_title === "Bets amount") {
+                        return <span key={i}>{el?.bets_amount}</span>;
+                      } else if (slide_title === "Total wagered sum") {
+                        return (
+                          <span key={i}>{el?.total_wagered_sum || "-"}</span>
+                        );
+                      } else if (slide_title === "Gross profit") {
+                        return <span key={i}>{el?.gross_profit || "-"}</span>;
+                      } else if (slide_title === "Net profit") {
+                        return <span key={i}>{el?.net_profit || "-"}</span>;
+                      } else if (slide_title === "Highest win") {
+                        return <span key={i}>{el?.highest_win || "-"}</span>;
                       }
                     })}
                 </div>
               </div>
             </SwiperSlide>
           ))}
-          {answerBody && answerBody?.length > 0 && (
+          {/* {answerBody && answerBody?.length > 0 && (
             <>
               <SwiperSlide className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>bets_amount</span>
+                    <span className={s.swiper_slide_title}>Bets amount</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
@@ -800,7 +889,7 @@ const Gamers: FC<GamersProps> = () => {
               <SwiperSlide className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>lost_bets</span>
+                    <span className={s.swiper_slide_title}>Lost bets</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
@@ -813,7 +902,7 @@ const Gamers: FC<GamersProps> = () => {
               <SwiperSlide className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>won_bets</span>
+                    <span className={s.swiper_slide_title}>Won bets</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
@@ -827,7 +916,7 @@ const Gamers: FC<GamersProps> = () => {
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
                     <span className={s.swiper_slide_title}>
-                      total_wagered_sum
+                      Total wagered sum
                     </span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
@@ -841,7 +930,7 @@ const Gamers: FC<GamersProps> = () => {
               <SwiperSlide className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>gross_profit</span>
+                    <span className={s.swiper_slide_title}>Gross profit</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
@@ -854,7 +943,7 @@ const Gamers: FC<GamersProps> = () => {
               <SwiperSlide className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>net_profit</span>
+                    <span className={s.swiper_slide_title}>Net profit</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
@@ -867,7 +956,7 @@ const Gamers: FC<GamersProps> = () => {
               <SwiperSlide className={s.swiper_slide}>
                 <div className={s.swiper_slide_body}>
                   <div className={s.swiper_slide_header}>
-                    <span className={s.swiper_slide_title}>highest_win</span>
+                    <span className={s.swiper_slide_title}>Highest win</span>
                     <Image src={upDownArrows} alt="sort-ico" />
                   </div>
                   <div className={s.swiper_slide_content}>
@@ -878,7 +967,7 @@ const Gamers: FC<GamersProps> = () => {
                 </div>
               </SwiperSlide>
             </>
-          )}
+          )} */}
         </SwiperWrap>
         <SwiperNavigation
           data={answerBody}
