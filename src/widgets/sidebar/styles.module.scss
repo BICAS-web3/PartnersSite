@@ -1,22 +1,21 @@
-.sidebar_block {
-  // grid-row: 2/3;
-  // // background: #181818;
-  // grid-column: 1;
-  // transition: all 0.4s;
-  // z-index: 13;
-  // height: 101.4%;
-  // position: fixed;
-  // top: 80px;
+.bottom_bb_block {
+  width: 259px;
+  position: fixed;
+  background: #181818;
+  height: 700px;
+  transition: all 0.2s;
 
-  // @media screen and (max-width: 700px) {
-  //   top: 70px;
-  // }
+  @media screen and (max-width: 650px) {
+    display: none;
+  }
+}
+
+.block_bb_closed {
+  width: 50px;
 }
 
 .sidebar_body {
-  // height: 100%;
   max-height: calc(100vh - 80px);
-  // background: #181818;
   width: 262px;
   transition: all 0.4s;
   overflow-x: hidden;
