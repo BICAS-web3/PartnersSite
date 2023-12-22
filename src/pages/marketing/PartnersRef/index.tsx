@@ -290,21 +290,35 @@ const PartnersRef: FC<PartnersRefProps> = () => {
 
   const [exportType, setExportType] = useState<any>("Excel");
   const handleExport = () => {
-    const data = pageResponseUpdated.map((movie: IChangeResponse) => [
-      movie.basic_id,
-      movie.basic_url,
-      "Active",
-      movie.sub_ids_url,
-      movie.sub_ids_id,
-      `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
-        movie.basic_id
-      }&sub_id=${movie.sub_ids_id}`,
-    ]);
-
-    const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    const newData = pageResponseUpdated
+      ? pageResponseUpdated?.map((element: IChangeResponse) => {
+          return titleArr.map((title) => {
+            if (title === "№") {
+              return "№" + element?.basic_id + 1;
+            } else if (title === "Site") {
+              return element.basic_url;
+            } else if (title === "Status") {
+              return "Active";
+            } else if (title === "Referred page") {
+              return element.sub_ids_url;
+            } else if (title === "SubID") {
+              return element.sub_ids_id;
+            } else if (title === "Referal Link") {
+              return `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+                element.basic_id
+              }&sub_id=${element.sub_ids_id}`;
+            }
+          });
+        })
+      : [];
+    const headers = titleArr;
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...newData]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Report");
-    XLSX.writeFile(wb, exportType === "Excel" ? "data.xlsx" : "data.csv");
+    const exportType = "Excel";
+    const filename =
+      exportType === "Excel" ? "referal_links.xlsx" : "referal_links.csv";
+    XLSX.writeFile(wb, filename);
   };
 
   return (

@@ -75,8 +75,8 @@ const exportList = [
     id: "export",
   },
   {
-    title: "Exel",
-    id: "exel",
+    title: "Excel",
+    id: "excel",
   },
   {
     title: "Csv",
@@ -175,7 +175,7 @@ const toolsTypeList = [
 const TabsTypes = ["Статус заявок", "История выплат"] as const;
 type TabsTypes = "Статус заявок" | "История выплат";
 
-interface MarketingToolsProps { }
+interface MarketingToolsProps {}
 interface IListProps {
   id?: string;
   title?: string;
@@ -373,8 +373,8 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
             <div className={s.mobile_pick_list}>
               <MobilePickList
                 list={exportList.slice(1)}
-                activeItemId="exel"
-                setCurrent={() => { }}
+                activeItemId="excel"
+                setCurrent={() => {}}
                 startOptions={exportList.slice(1)}
               />
             </div>
@@ -408,12 +408,12 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                    ? 160
-                    : is700
-                      ? 160
-                      : is650
-                        ? 160
-                        : 130
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 130
               }
             />
           </div>
@@ -438,12 +438,12 @@ const MarketingTools: FC<MarketingToolsProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                    ? 160
-                    : is700
-                      ? 160
-                      : is650
-                        ? 160
-                        : 130
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 130
               }
             />
           </div>

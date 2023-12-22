@@ -25,7 +25,7 @@ import s from "./styles.module.scss";
 
 import clsx from "clsx";
 import { UsdCurrencyBlock } from "@/widgets/usdCurrencyBlock/UsdCurrencyBlock";
-
+import * as XLSX from "xlsx";
 const wepPagesList = [
   {
     title: "https://greekkeepers.io",
@@ -279,6 +279,101 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     })();
   }, [barerToken]);
 
+  const [exportType, setExportType] = useState<any>("Excel");
+
+  const newData = firstTableBlock.concat(secondTableBlock).map((item, ind) => {
+    if (item?.title === "Income") {
+      return {
+        title: "Income",
+        data: shortTotalResponseBody
+          ? shortTotalResponseBody.net_profit * -1 * 0.55 || "0"
+          : "0",
+      };
+    } else if (item?.title === "Amount of bets") {
+      return {
+        title: "Amount of bets",
+        data: shortTotalResponseBody
+          ? shortTotalResponseBody.bets_amount || "0"
+          : "0",
+      };
+    } else if (item?.title === "Active players") {
+      return {
+        title: "Active players",
+        data: usersRegistration
+          ? usersRegistrationDeposited?.connected_wallets
+          : 0,
+      };
+    } else if (item?.title === "Average income from the player") {
+      return {
+        title: "Average income from the player",
+        data:
+          Number(usersRegistrationDeposited?.connected_wallets || 0) <= 0 &&
+          shortTotalResponseBody == undefined
+            ? 0
+            : (
+                (shortTotalResponseBody.net_profit * -1 * 0.55) /
+                Number(usersRegistrationDeposited?.connected_wallets)
+              ).toFixed(2),
+      };
+    } else if (item?.title === "Clicks") {
+      return {
+        title: "Clicks",
+        data: clicks ? clicks?.clicks : 0,
+      };
+    } else if (item?.title === "Registrations") {
+      return {
+        title: "Registrations",
+        data: usersRegistration ? usersRegistration?.connected_wallets : 0,
+      };
+    } else if (item?.title === "Registrations/Clicks") {
+      return {
+        title: "Registrations/Clicks",
+        data:
+          Number((clicks as any)?.clicks || 0) <= 0
+            ? 0
+            : (
+                usersRegistration?.connected_wallets /
+                Number((clicks as any)?.clicks)
+              ).toFixed(2),
+      };
+    } else if (item?.title === "Registrations with bets") {
+      return {
+        title: "Registrations with bets",
+        data: usersRegistration
+          ? usersRegistrationDeposited?.connected_wallets
+          : 0,
+      };
+    } else if (item?.title === "Registrations with bets/Registrations") {
+      return {
+        title: "Registrations with bets/Registrations",
+        data:
+          Number(usersRegistration?.connected_wallets || 0) <= 0
+            ? 0 && usersRegistrationDeposited == undefined
+            : (
+                usersRegistrationDeposited?.connected_wallets /
+                Number(usersRegistration?.connected_wallets)
+              ).toFixed(2),
+      };
+    } else if (item?.title === "Sum of the bets") {
+      return {
+        title: "Sum of the bets",
+        data: shortTotalResponseBody
+          ? shortTotalResponseBody?.total_wagered_sum
+          : 0,
+      };
+    }
+  });
+
+  const handleExport = () => {
+    const data = newData.map((item: any) => [item?.title, item?.data]);
+    const ws = XLSX.utils.aoa_to_sheet([["Title", "Data"], ...data]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Report");
+    const filename =
+      exportType === "Excel" ? "short_report.xlsx" : "short_report.csv";
+    XLSX.writeFile(wb, filename);
+  };
+
   return (
     <Layout activePage="shortTotal">
       <section className={s.short_total_section}>
@@ -374,7 +469,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
               filterTitle="websitesPeriodFilter"
               setCurrentFilterPage={setCurrentFilterPage}
             />
-            <ListButtons setIsBack={setIsFilter} title="Generate report" />
+            <ListButtons
+              onClick={handleExport}
+              setIsBack={setIsFilter}
+              title="Generate report"
+            />
           </div>
         </div>
         <Breadcrumbs
@@ -419,7 +518,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
               setFirstDataPicker={setFirstDatePickerDate}
               setSecondDataPicker={setSecondDatePickerDate}
             />
-            <div className={s.generate_report_btn_wrap}>
+            <div onClick={handleExport} className={s.generate_report_btn_wrap}>
               <button className={s.generate_report_btn} onClick={dataReset}>
                 Generate report
               </button>
@@ -429,7 +528,9 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             <div
               className={`${s.generate_report_btn_wrap} ${s.desk_hidden_report_btn_wrap}`}
             >
-              <button className={s.generate_report_btn}>Generate report</button>
+              <button onClick={handleExport} className={s.generate_report_btn}>
+                Generate report
+              </button>
             </div>
           </div>
         </div>

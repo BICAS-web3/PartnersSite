@@ -301,23 +301,36 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const [exportType, setExportType] = useState<any>("Excel");
 
   const handleExport = () => {
-    const data = movies.map((movie) => [
-      (movie as any)?.id,
-      (movie as any)?.start_time,
-      (movie as any)?.token,
-      (movie as any)?.network,
-      (movie as any)?.wallet_address,
-      (movie as any)?.status,
-      (movie as any)?.partner_id,
-      (movie as any)?.amount,
-    ]);
+    const newData = responseBody
+      ? responseBody?.map((element) => {
+          return titleArr.map((title) => {
+            if (title === "Token") {
+              return element.token;
+            } else if (title === "Date") {
+              return element.start_time;
+            } else if (title === "Amount") {
+              return element.amount;
+            } else if (title === "Network") {
+              return element.network;
+            } else if (title === "Wallet address") {
+              return element.wallet_address;
+            } else if (title === "Status") {
+              return element.status;
+            } else if (title === "Partner ID") {
+              return element.partner_id;
+            }
+          });
+        })
+      : [];
 
-    const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    const headers = titleArr;
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...newData]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Report");
-    XLSX.writeFile(wb, exportType === "Excel" ? "data.xlsx" : "data.csv");
+    const filename =
+      exportType === "Excel" ? "payout_history.xlsx" : "payout_history.csv";
+    XLSX.writeFile(wb, filename);
   };
-
   return (
     <Layout activePage="payoutsHistory">
       <section className={s.payouts_history_section}>
@@ -427,6 +440,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   <ListButtons
                     setIsBack={setIsFilter}
                     title="Generate report"
+                    onClick={handleExport}
                   />
                 </div>
               </div>

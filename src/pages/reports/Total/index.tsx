@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { useUnit } from "effector-react";
-
+import * as XLSX from "xlsx";
 import clsx from "clsx";
 import Image from "next/image";
 import { Scrollbar } from "swiper/modules";
@@ -213,6 +213,38 @@ const Total: FC<TotalProps> = () => {
       setStartTime(`${year}-${month}-${day}`);
     }
   }, [registrationTime]);
+
+  const [exportType, setExportType] = useState<any>("Excel");
+
+  const handleExport = () => {
+    const newData = allSites.map((site) => {
+      return titleArr.map((title) => {
+        if (title === "Registrations") {
+          return startTime || "";
+        } else if (title === "Site") {
+          return siteCurrent || "";
+        } else if (title === "Site ID") {
+          const foundSite = allSites.find(
+            (el: {
+              basic: { name: string | number; internal_id: string | number };
+            }) => el.basic.name === siteCurrent
+          );
+          return foundSite ? (foundSite as any).basic.internal_id || "-" : "-";
+        } else {
+          return "-";
+        }
+      });
+    });
+
+    const headers = titleArr;
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...newData]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Report");
+    const exportType = "Excel"; // Assuming a default exportType
+    const filename =
+      exportType === "Excel" ? "total_report.xlsx" : "total_report.csv";
+    XLSX.writeFile(wb, filename);
+  };
   return (
     <Layout activePage="total">
       <section className={s.total_page}>
@@ -325,7 +357,11 @@ const Total: FC<TotalProps> = () => {
               setCurrentFilterPage={setCurrentFilterPage}
             />
 
-            <ListButtons setIsBack={setIsFilter} title="Generate report" />
+            <ListButtons
+              onClick={handleExport}
+              setIsBack={setIsFilter}
+              title="Generate report"
+            />
           </div>
         </div>
         <Breadcrumbs
@@ -372,7 +408,7 @@ const Total: FC<TotalProps> = () => {
               setSecondDataPicker={setSecondDatePickerDate}
             />
             <div className={s.generate_report_btn_wrap}>
-              <button className={s.generate_report_btn} onClick={dataReset}>
+              <button className={s.generate_report_btn} onClick={handleExport}>
                 Generate report
               </button>
             </div>
@@ -401,7 +437,7 @@ const Total: FC<TotalProps> = () => {
                 s.desk_hidden_report_btn_wrap
               )}
             >
-              <button className={s.generate_report_btn} onClick={dataReset}>
+              <button className={s.generate_report_btn} onClick={handleExport}>
                 Generate report
               </button>
             </div>

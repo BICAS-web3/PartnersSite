@@ -74,8 +74,8 @@ const exportList = [
     id: "export",
   },
   {
-    title: "Exel",
-    id: "exel",
+    title: "Excel",
+    id: "excel",
   },
   {
     title: "Csv",
@@ -156,7 +156,7 @@ const statisticList = [
   },
 ];
 
-interface SubPartnersProps { }
+interface SubPartnersProps {}
 interface IListProps {
   id?: string;
   title?: string;
@@ -331,8 +331,8 @@ const SubPartners: FC<SubPartnersProps> = () => {
             <div className={s.mobile_pick_list}>
               <MobilePickList
                 list={exportList.slice(1)}
-                activeItemId="exel"
-                setCurrent={() => { }}
+                activeItemId="excel"
+                setCurrent={() => {}}
                 startOptions={exportList.slice(1)}
               />
             </div>
@@ -367,12 +367,12 @@ const SubPartners: FC<SubPartnersProps> = () => {
                 !is1280 && !is650 && !is700
                   ? 160
                   : is1280
-                    ? 160
-                    : is700
-                      ? 160
-                      : is650
-                        ? 160
-                        : 160
+                  ? 160
+                  : is700
+                  ? 160
+                  : is650
+                  ? 160
+                  : 160
               }
             />
           </div>
