@@ -19,35 +19,29 @@
     overflow: hidden;
   }
   @media (max-width: 1200px) {
-<<<<<<< HEAD
     width: 750px;
   }
   @media (max-width: 998px) {
     margin: 80px auto 0 auto;
     width: calc(100vw - 154px);
     width: 591px;
-=======
     width: calc(100vw - 154px);
     margin: 80px auto 0 auto;
     padding: 30px 39px 73px 39px;
->>>>>>> main
     border-radius: 12px;
   }
 
   @media (max-width: 650px) {
-<<<<<<< HEAD
     padding-top: 20px;
     width: 400px;
     margin: 72px auto 0 auto;
   }
   @media (max-width: 450px) {
     width: 292px;
-=======
     margin-top: 72px;
     width: calc(100vw - 28px);
     margin: 70px auto 0 auto;
     padding: 20px 12px 78px 12px;
->>>>>>> main
   }
 }
 
