@@ -15,6 +15,8 @@ import { languagesList } from "@/widgets/header/RightMenu";
 import planet1280Img from "@/public/media/initPageImages/1280Tablet.png";
 import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { FailedWindow } from "@/shared/ui/FailedWindow";
+import clsx from "clsx";
 
 interface LoginPageProps {}
 
@@ -99,11 +101,16 @@ const LoginPage: FC<LoginPageProps> = () => {
     const nextCont = document.getElementById("__next");
     if (nextCont) nextCont.style.display = "flex";
   }, []);
+  const [failed, setFailed] = useState(false);
 
   return (
     <div className={s.welcomePage_container}>
       <Header />
       <div className={s.welcomePage_body} data-preland={false}>
+        <FailedWindow
+          className={clsx(s.login_failed, failed && s.failed_open)}
+          closeClick={() => setFailed(false)}
+        />
         <div className={s.language_switcher}>
           <div
             className={`${s.active_language_body} ${
@@ -160,9 +167,9 @@ const LoginPage: FC<LoginPageProps> = () => {
           }`}
           data-preland={false}
         >
-          <WelcomePageLogin />
+          <WelcomePageLogin failed={failed} setFailed={setFailed} />
         </div>
-      </div>
+      </div>{" "}
       <Footer isMainPage={false} />
     </div>
   );

@@ -12,7 +12,10 @@ import Image from "next/image";
 import upDownArrows from "@/public/media/fastStatsImages/upDownArrows.png";
 import prevArrow from "@/public/media/common/prevArrow.png";
 import nextArrow from "@/public/media/common/nextArrow.png";
-import { tableRowsList } from "@/widgets/swiperNavigation/SwiperNavigation";
+import {
+  SwiperNavigation,
+  tableRowsList,
+} from "@/widgets/swiperNavigation/SwiperNavigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import range from "lodash/range";
@@ -331,6 +334,11 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
       exportType === "Excel" ? "payout_history.xlsx" : "payout_history.csv";
     XLSX.writeFile(wb, filename);
   };
+  const [numberPage, setNumberPage] = useState<number>(1);
+  const [recordCount, setRecordCount] = useState(10);
+  useEffect(() => {
+    setNumberPage(1);
+  }, [recordCount]);
   return (
     <Layout activePage="payoutsHistory">
       <section className={s.payouts_history_section}>
@@ -693,71 +701,66 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                       <Image src={upDownArrows} alt="sort-ico" />
                     </div>
                     <div className={s.swiper_slide_content}>
-                      {responseBody.map((element: IResponse, index) => {
-                        if (item === "Token") {
-                          return <span key={index}>{element.token}</span>;
-                        } else if (item === "Date") {
-                          const parsedTimestamp = new Date(element.start_time);
-                          return (
-                            <span key={index}>{`${(
-                              parsedTimestamp?.getUTCMonth() + 1
-                            )
-                              ?.toString()
-                              ?.padStart(2, "0")}-${parsedTimestamp
-                              ?.getUTCDate()
-                              ?.toString()
-                              ?.padStart(
-                                2,
-                                "0"
-                              )}-${parsedTimestamp?.getUTCFullYear()}`}</span>
-                          );
-                        } else if (item === "Amount") {
-                          return <span key={index}>{element.amount}</span>;
-                        } else if (item === "Network") {
-                          return <span key={index}>{element.network}</span>;
-                        } else if (item === "Wallet address") {
-                          return (
-                            <span key={index}>{element.wallet_address}</span>
-                          );
-                        } else if (item === "Status") {
-                          return <span key={index}>{element.status}</span>;
-                        } else if (item === "Partner ID") {
-                          return <span key={index}>{element.partner_id}</span>;
-                        } else {
-                          return <span key={index}>-</span>;
-                        }
-                      })}
+                      {responseBody
+                        ?.slice(
+                          numberPage === 1
+                            ? 0
+                            : numberPage * Number(recordCount) - recordCount,
+                          numberPage === 1
+                            ? Number(recordCount)
+                            : numberPage * Number(recordCount)
+                        )
+                        ?.map((element: IResponse, index) => {
+                          if (item === "Token") {
+                            return <span key={index}>{element.token}</span>;
+                          } else if (item === "Date") {
+                            const parsedTimestamp = new Date(
+                              element.start_time
+                            );
+                            return (
+                              <span key={index}>{`${(
+                                parsedTimestamp?.getUTCMonth() + 1
+                              )
+                                ?.toString()
+                                ?.padStart(2, "0")}-${parsedTimestamp
+                                ?.getUTCDate()
+                                ?.toString()
+                                ?.padStart(
+                                  2,
+                                  "0"
+                                )}-${parsedTimestamp?.getUTCFullYear()}`}</span>
+                            );
+                          } else if (item === "Amount") {
+                            return <span key={index}>{element.amount}</span>;
+                          } else if (item === "Network") {
+                            return <span key={index}>{element.network}</span>;
+                          } else if (item === "Wallet address") {
+                            return (
+                              <span key={index}>{element.wallet_address}</span>
+                            );
+                          } else if (item === "Status") {
+                            return <span key={index}>{element.status}</span>;
+                          } else if (item === "Partner ID") {
+                            return (
+                              <span key={index}>{element.partner_id}</span>
+                            );
+                          } else {
+                            return <span key={index}>-</span>;
+                          }
+                        })}
                     </div>
                   </div>
                 </SwiperSlide>
               ))}
             </SwiperWrap>
           )}
-          <div className={s.table_nav_block}>
-            <div className={s.table_records_block}>
-              <p className={s.table_records_text}>
-                Records from 1 to 1 (total 1 records)
-              </p>
-            </div>
-            <div className={s.table_pages_wrap}>
-              <div className={s.table_pages_block}>
-                <div className={s.table_prev_page_btn}>
-                  <Image src={prevArrow} alt="prev-arr" />
-                </div>
-                <div className={s.table_current_page_btn}>1</div>
-                <div className={s.table_next_page_btn}>
-                  <Image src={nextArrow} alt="next-arr" />
-                </div>
-              </div>
-              <div className={s.choose_table_rows_block}>
-                <CustomDropdownInput
-                  list={tableRowsList}
-                  activeItemId="ten"
-                  height={30}
-                />
-              </div>
-            </div>
-          </div>
+          <SwiperNavigation
+            numberPage={numberPage}
+            data={responseBody || []}
+            recordCount={recordCount}
+            setNumberPage={setNumberPage}
+            setRecordCount={setRecordCount}
+          />
           <div className={s.info_block}>
             <div className={s.info_block_item}>
               <p className={s.info_block_text}>

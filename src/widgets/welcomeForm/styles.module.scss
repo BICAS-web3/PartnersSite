@@ -71,6 +71,7 @@
 
   @media screen and (max-width: 650px) {
     margin-bottom: 8px;
+    text-align: center;
   }
 }
 
@@ -91,6 +92,7 @@
   @media screen and (max-width: 650px) {
     font-size: 12px;
     line-height: 16.8px;
+    text-align: center;
   }
 }
 
@@ -131,6 +133,9 @@
   flex-direction: column;
   max-width: 440px;
   gap: 12px;
+  @media (max-width: 700px) {
+    max-width: 100%;
+  }
 }
 
 .textarea {
@@ -162,6 +167,7 @@
 }
 
 .submit_btn {
+  position: relative;
   cursor: pointer;
   width: 100%;
   height: 50px;
@@ -202,6 +208,7 @@
   @media screen and (max-width: 650px) {
     font-size: 16px;
     height: 40px;
+    width: 100%;
   }
 }
 
@@ -235,5 +242,72 @@
   box-shadow: 0 0 1px 1px red;
   &::placeholder {
     color: red;
+  }
+}
+
+.is_desktop {
+  @media (max-width: 700px) {
+    display: none;
+  }
+}
+
+.is_mobile {
+  display: none;
+  @media (max-width: 700px) {
+    display: flex;
+  }
+}
+
+.btn_wrapp {
+  @media (max-width: 700px) {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+  }
+  @media (max-width: 650px) {
+    flex-direction: column-reverse;
+    align-items: start;
+    gap: 16px;
+  }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  width: 268px;
+  padding-top: 8px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.animation {
+  border-radius: 8px;
+  // overflow: hidden;
+  background: #202020;
+  color: #ffe09d;
+  border-color: transparent;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 4px;
+    // border-radius: 0 0 8px 8px;
+    background: transparent;
+    left: 0;
+    z-index: 20;
+    animation: animation_ 5s ease-in-out;
+    background: #ffe09d;
+  }
+}
+
+@keyframes animation_ {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
   }
 }

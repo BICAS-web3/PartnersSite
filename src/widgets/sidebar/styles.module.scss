@@ -678,3 +678,47 @@
   color: wheat;
   transform: rotate(3deg);
 }
+
+.btn {
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid #ffe09d;
+  background: #2e2315;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffe09d;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.64px;
+  padding: 9px 0;
+  width: 200px;
+  height: 40px;
+  overflow: hidden;
+  position: relative;
+  &::before {
+    transition: all 0.2s;
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    bottom: -20px;
+    visibility: hidden;
+    filter: blur(50px);
+    opacity: 0;
+    background-color: #ffb800;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  @media (max-width: 650px) {
+    width: 100%;
+  }
+}

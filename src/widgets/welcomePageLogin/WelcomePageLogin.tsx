@@ -10,10 +10,17 @@ import s from "./styles.module.scss";
 import * as api from "@/shared/api";
 import { PreloadDots } from "@/shared/ui/ProloadDots";
 import clsx from "clsx";
+import { FailedWindow } from "@/shared/ui/FailedWindow";
 
-interface WelcomePageLoginProps {}
+interface WelcomePageLoginProps {
+  failed: boolean;
+  setFailed: (el: boolean) => void;
+}
 
-export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
+export const WelcomePageLogin: FC<WelcomePageLoginProps> = ({
+  failed,
+  setFailed,
+}) => {
   const [startLogin, setStartLogin] = useState(false);
   const [responseBody, setResponseBody] = useState<api.R_getUser>();
   const [password, setPassword] = useState("");
@@ -36,6 +43,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
     ContactModel.setBarerToken,
     ContactModel.$relogin,
   ]);
+
   useEffect(() => {
     (async () => {
       if (getLogin) {
@@ -54,6 +62,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
         } else {
           setGetLogin(false);
           setErrorLogin(true);
+          setFailed(true);
         }
       }
     })();
@@ -164,43 +173,46 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = () => {
     }
   };
   return (
-    <div className={s.welcome_page_login_content}>
-      <div className={s.welcome_page_login_form}>
-        {/* <a className={s.lower_support_btns_item}>Забыли пароль?</a> */}
-        <input
-          onChange={(el) => setLoginEnter(el.target.value)}
-          value={loginEnter}
-          type="text"
-          className={clsx(
-            s.welcome_page_login_form_input,
-            "default_input",
-            errorLogin && s.error_input
-          )}
-          placeholder={errorLogin ? "Wrong Login or Password" : "User login"}
-        />
-        <input
-          onChange={(el) => setPassword(el.target.value)}
-          value={password}
-          type="password"
-          className={clsx(
-            s.welcome_page_login_form_input,
-            "default_input",
-            errorLogin && s.error_input
-          )}
-          placeholder={errorLogin ? "Wrong Login or Password" : "Password"}
-        />
-        <button onClick={handleLoginUser} className={s.submit_btn}>
-          {getLogin ? <PreloadDots title="Wait" /> : "Enter"}
-        </button>
+    <>
+      {" "}
+      <div className={s.welcome_page_login_content}>
+        <div className={s.welcome_page_login_form}>
+          {/* <a className={s.lower_support_btns_item}>Забыли пароль?</a> */}
+          <input
+            onChange={(el) => setLoginEnter(el.target.value)}
+            value={loginEnter}
+            type="text"
+            className={clsx(
+              s.welcome_page_login_form_input,
+              "default_input",
+              errorLogin && s.error_input
+            )}
+            placeholder={errorLogin ? "Wrong Login or Password" : "User login"}
+          />
+          <input
+            onChange={(el) => setPassword(el.target.value)}
+            value={password}
+            type="password"
+            className={clsx(
+              s.welcome_page_login_form_input,
+              "default_input",
+              errorLogin && s.error_input
+            )}
+            placeholder={errorLogin ? "Wrong Login or Password" : "Password"}
+          />
+          <button onClick={handleLoginUser} className={s.submit_btn}>
+            {getLogin ? <PreloadDots title="Wait" /> : "Enter"}
+          </button>
+        </div>
+        <div className={s.lower_support_btns}>
+          <a
+            onClick={() => window.open("/Registration", "_self")}
+            className={s.lower_support_btns_item}
+          >
+            Registration
+          </a>
+        </div>
       </div>
-      <div className={s.lower_support_btns}>
-        <a
-          onClick={() => window.open("/Registration", "_self")}
-          className={s.lower_support_btns_item}
-        >
-          Registration
-        </a>
-      </div>
-    </div>
+    </>
   );
 };
