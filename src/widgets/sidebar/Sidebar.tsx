@@ -203,6 +203,63 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
           } ${isMobSidebarOpened && s.mob_account_opened}`}
           id="mob_sidebar"
         >
+    <div
+      className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${
+        isMobSidebarOpened && s.mob_account_opened
+      }`}
+      id="mob_sidebar"
+    >
+      <div
+        className={`${s.sidebar_profile_block} ${
+          isMobSidebarOpened && s.mobSBopened
+        } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
+        id="sidebar_profile_block"
+      >
+        <ChangeAccountBlock
+          activeSubPage={accountSubBlock}
+          setActiveSubPage={setAccountSubBlock}
+        />
+        <ManageAccountBlock
+          activeSubPage={accountSubBlock}
+          setActiveSubPage={setAccountSubBlock}
+        />
+        <div className={s.sidebar_profile_block_header}>
+          <span
+            className={s.sidebar_profile_block_header_title}
+            onClick={() => setIsMobSidebarOpened(false)}
+          >
+            <Image src={prevArr} alt="back-arr" />
+            Back
+          </span>
+          <span className={s.sidebar_profile_block_title}>Profile</span>
+        </div>
+        <div className={s.profile_info_block}>
+          <div className={s.profile_name_block}>
+            <div className={s.profile_name_block_ico}>{userName[0]}</div>
+            <div className={s.profile_mailId_block}>
+              <span className={s.profile_id_title}>ID: 2132313123</span>
+              <span className={s.profile_mail_title}>{userEmail}</span>
+            </div>
+          </div>
+          <div className={s.profile_balance_block}>
+            <div className={s.profile_usd_balance}>
+              <span className={s.profile_usd_title}>USD</span>
+              <span className={s.profile_balance_title}>82710.10</span>
+            </div>
+            {/* <button className={s.withdrawal_money_btn}>Вывод средств</button> */}
+            <WithdrawModal />
+          </div>
+        </div>
+        <div className={s.profile_options_list}>
+          <div className={s.profile_options_list_item}>
+            <div className={s.profile_options_list_item_title_block}>
+              <Image src={walletIco} alt="wallet-ico" />
+              <span className={s.profile_options_list_item_title}>
+                My wallet
+              </span>
+            </div>
+            <Image src={linkIco} alt="link-ico" />
+          </div>
           <div
             className={`${s.sidebar_profile_block} ${
               isMobSidebarOpened && s.mobSBopened
@@ -401,7 +458,10 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> <>
+      {openWithdraw ? (
+        <WithdrawModal setOpenWithdraw={setOpenWithdraw} />
+      ) : (
           <div className={s.desk_hidden_lang_choose_block}>
             <div className={s.language_switcher}>
               <div
@@ -418,9 +478,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                 <span className={s.active_language_title}>
                   {activeLanguage?.title}
                 </span>
-                {/* <div className={s.header_dd_ico_wrap}>
-              <HeaderDropdownArrow />
-            </div> */}
+
               </div>
               <div
                 className={`${s.avaible_languages_list} ${

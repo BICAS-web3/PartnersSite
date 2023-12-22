@@ -59,7 +59,7 @@ const CommissionsList = [
   },
 ];
 
-interface WelcomeFaqProps { }
+interface WelcomeFaqProps {}
 
 export const WelcomeFaq: FC<WelcomeFaqProps> = () => {
   const [activeBtn, setActiveBtn] = useState(0);
@@ -68,7 +68,10 @@ export const WelcomeFaq: FC<WelcomeFaqProps> = () => {
   const handleChangeAccordeon = (id: number) => {
     const index = activeAccordeon.findIndex((val) => val == id);
     if (index != -1) {
-      setActiveAccordeon([...activeAccordeon.slice(0, index), ...activeAccordeon.slice(index + 1, undefined)]);
+      setActiveAccordeon([
+        ...activeAccordeon.slice(0, index),
+        ...activeAccordeon.slice(index + 1, undefined),
+      ]);
     } else {
       setActiveAccordeon([id, ...activeAccordeon]);
     }
@@ -85,8 +88,9 @@ export const WelcomeFaq: FC<WelcomeFaqProps> = () => {
           <h2 className={s.faq_title}>F.A.Q</h2>
           <div className={s.switcher_block}>
             <button
-              className={`${s.switcher_block_btn} ${activeBtn === 0 && s.active
-                }`}
+              className={`${s.switcher_block_btn} ${
+                activeBtn === 0 && s.active
+              }`}
               onClick={() => {
                 setActiveAccordeon([]);
                 setActiveBtn(0);
@@ -95,8 +99,9 @@ export const WelcomeFaq: FC<WelcomeFaqProps> = () => {
               General
             </button>
             <button
-              className={`${s.switcher_block_btn} ${activeBtn === 1 && s.active
-                }`}
+              className={`${s.switcher_block_btn} ${
+                activeBtn === 1 && s.active
+              }`}
               onClick={() => {
                 setActiveAccordeon([]);
                 setActiveBtn(1);
@@ -107,43 +112,49 @@ export const WelcomeFaq: FC<WelcomeFaqProps> = () => {
           </div>
           <div className={s.accordeon_wrap}>
             <div className={s.accordeon_block}>
-              {activeBtn == 0 ? GeneralList.map((item, ind) => (
-                <div key={item.id} className={`${s.accordeon} `}>
-                  <div
-                    className={s.accordeon_header}
-                    onClick={() => handleChangeAccordeon(item.id)}
-                  >
-                    <span className={s.accordeon_title}>{item.title}</span>
-                    <img src={downArr.src} alt="arr" />
-                  </div>
-                  <div
-                    className={`${s.accordeon_body} ${activeAccordeon.find((val) => item.id == val) != undefined && s.accordeon_active
-                      }`}
-                  >
-                    <div className={s.accordeon_content}>
-                      <p className={s.accordeon_text}>{item.text}</p>
+              {activeBtn == 0
+                ? GeneralList.map((item, ind) => (
+                    <div key={item.id} className={`${s.accordeon} `}>
+                      <div
+                        className={s.accordeon_header}
+                        onClick={() => handleChangeAccordeon(item.id)}
+                      >
+                        <span className={s.accordeon_title}>{item.title}</span>
+                        <img src={downArr.src} alt="arr" />
+                      </div>
+                      <div
+                        className={`${s.accordeon_body} ${
+                          activeAccordeon.find((val) => item.id == val) !=
+                            undefined && s.accordeon_active
+                        }`}
+                      >
+                        <div className={s.accordeon_content}>
+                          <p className={s.accordeon_text}>{item.text}</p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )) : CommissionsList.map((item, ind) => (
-                <div key={item.id} className={`${s.accordeon} `}>
-                  <div
-                    className={s.accordeon_header}
-                    onClick={() => handleChangeAccordeon(item.id)}
-                  >
-                    <span className={s.accordeon_title}>{item.title}</span>
-                    <img src={downArr.src} alt="arr" />
-                  </div>
-                  <div
-                    className={`${s.accordeon_body} ${activeAccordeon.find((val) => item.id == val) != undefined && s.accordeon_active
-                      }`}
-                  >
-                    <div className={s.accordeon_content}>
-                      <p className={s.accordeon_text}>{item.text}</p>
+                  ))
+                : CommissionsList.map((item, ind) => (
+                    <div key={item.id} className={`${s.accordeon} `}>
+                      <div
+                        className={s.accordeon_header}
+                        onClick={() => handleChangeAccordeon(item.id)}
+                      >
+                        <span className={s.accordeon_title}>{item.title}</span>
+                        <img src={downArr.src} alt="arr" />
+                      </div>
+                      <div
+                        className={`${s.accordeon_body} ${
+                          activeAccordeon.find((val) => item.id == val) !=
+                            undefined && s.accordeon_active
+                        }`}
+                      >
+                        <div className={s.accordeon_content}>
+                          <p className={s.accordeon_text}>{item.text}</p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  ))}
             </div>
           </div>
         </div>
