@@ -58,6 +58,21 @@
   width: fit-content;
   height: fit-content;
   margin-bottom: 40px;
+
+  @media screen and (max-width: 1280px) {
+    width: 247px;
+    height: 200px;
+  }
+
+  @media screen and (max-width: 700px) {
+    width: 250px;
+    height: 210px;
+  }
+
+  @media screen and (max-width: 650px) {
+    width: 180px;
+    height: 150px;
+  }
 }
 
 .welcome_bottom_title {

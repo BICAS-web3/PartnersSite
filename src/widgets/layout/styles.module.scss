@@ -1,6 +1,6 @@
 .page_container {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 259px 1fr;
   grid-template-rows: 80px 1fr;
   transition: all 0.4s;
   overflow: hidden;
@@ -16,10 +16,6 @@
   height: 101.4%;
   position: fixed;
   top: 80px;
-
-  @media screen and (max-width: 700px) {
-    top: 56px;
-  }
 
   @media screen and (max-width: 650px) {
     height: calc(100% - 56px);

@@ -6,6 +6,7 @@ import * as RegistrM from "@/widgets/header/model";
 
 import about from "@/public/media/initPageImages/about.png";
 import about_bomile from "@/public/media/initPageImages/about_bomile.png";
+import screensImg from "@/public/media/initPageImages/screens.png";
 
 import clsx from "clsx";
 import s from "./styles.module.scss";
@@ -56,12 +57,7 @@ export const WelcomeAboutSection: FC<WelcomeAboutSectionProps> = () => {
         </button>
       </article>
       <div className={s.welcome_about_images}>
-        <Image className={s.welcome_about_image} alt="image" src={about} />
-        <Image
-          className={s.welcome_about_image_mobile}
-          alt="image"
-          src={about_bomile}
-        />
+        <img className={s.screens_img} alt="image" src={screensImg.src} />
       </div>
     </section>
   );

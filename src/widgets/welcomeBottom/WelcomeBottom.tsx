@@ -1,6 +1,6 @@
 import s from "./styles.module.scss";
 import { FC } from "react";
-import coinImg from "@/public/media/initPageImages/coin.png";
+import bagImg from "@/public/media/initPageImages/bag.png";
 
 import * as RegistrM from "@/widgets/header/model";
 import { useUnit } from "effector-react";
@@ -17,7 +17,7 @@ export const WelcomeBottom: FC<WelcomeBottomProps> = () => {
     <div className={s.welcome_bottom_section}>
       <div className={s.welcome_bottom_body}>
         <span className={s.welcome_bottom_eclipse}></span>
-        <img src={coinImg.src} alt="coin-img" className={s.coin_img} />
+        <img src={bagImg.src} alt="coin-img" className={s.coin_img} />
         <h2 className={s.welcome_bottom_title}>
           Earn in Gaming <br /> Innovation web 3.0
         </h2>
