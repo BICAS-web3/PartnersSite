@@ -29,6 +29,7 @@
 }
 
 .welcomePage_content_wrap {
+  // background-color: blue;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -277,4 +278,14 @@
   .planet_img_block {
     right: -170px;
   }
+}
+
+.login_failed {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.failed_open {
+  transform: scaleY(1) !important;
 }

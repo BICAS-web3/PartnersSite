@@ -46,19 +46,35 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
     }
   }, [notValidMail]);
 
+  const [showLine, setShowLine] = useState(false);
+  const [requestDone, setRequestDone] = useState(false);
   useEffect(() => {
-    if (start) {
-      Api.submitQuestion({
-        name: name,
-        email: email,
-        message: message,
-      });
-      setName("");
-      setEmail("");
-      setMessage("");
-      setStart(false);
-    }
+    (async () => {
+      if (start) {
+        const request = await Api.submitQuestion({
+          name: name,
+          email: email,
+          message: message,
+        });
+        if (request.status === "OK") {
+          setName("");
+          setEmail("");
+          setMessage("");
+          setStart(false);
+          setRequestDone(true);
+        }
+      }
+    })();
   }, [start]);
+
+  useEffect(() => {
+    if (requestDone) {
+      const timeout = setTimeout(() => {
+        setRequestDone(false);
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [requestDone]);
 
   useEffect(() => {
     if (error) {
@@ -68,11 +84,20 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
     }
   }, [error]);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const width = window.innerWidth;
+    if (width < 650) {
+      setIsMobile(true);
+    }
+  }, []);
+
   return (
     <div className={s.welcome_form_section}>
       <img src={bgImg.src} alt="bg-ellipse" className={s.bg_img} />
       <div className={s.welcome_form_block}>
-        <div className={s.welcome_form_info}>
+        <div className={clsx(s.welcome_form_info, s.is_desktop)}>
           <div className={s.form_info_header}>
             <h1 className={s.form_title}>We&apos;re here to help</h1>
             <p className={s.form_text}>
@@ -134,21 +159,42 @@ export const WelcomeForm: FC<WelcomeFormProps> = () => {
                 setMessage(e.target.value);
               }}
             ></textarea>
-            <button
-              className={s.submit_btn}
-              onClick={() => {
-                if (!name || !email || !message) {
-                  setError(true);
-                } else if (validateEmail(email) === false) {
-                  setNotValidMail(true);
-                  setEmail("");
-                } else {
-                  setStart(true);
-                }
-              }}
-            >
-              Send
-            </button>
+
+            <div className={s.btn_wrapp}>
+              {" "}
+              <div
+                className={clsx(s.form_header_social_media_list, s.is_mobile)}
+              >
+                {smediaList.map((item, ind) => (
+                  <div
+                    key={ind}
+                    className={s.form_header_social_media_list_item}
+                  >
+                    <img src={item.ico.src} alt="title" />
+                    <span
+                      className={s.form_header_social_media_list_item_title}
+                    >
+                      {item.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <button
+                className={clsx(s.submit_btn, requestDone && s.animation)}
+                onClick={() => {
+                  if (!name || !email || !message) {
+                    setError(true);
+                  } else if (validateEmail(email) === false) {
+                    setNotValidMail(true);
+                    setEmail("");
+                  } else {
+                    setStart(true);
+                  }
+                }}
+              >
+                {requestDone ? "Thanks for contacting us" : "Send"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
