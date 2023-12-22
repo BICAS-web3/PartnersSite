@@ -203,63 +203,6 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
           } ${isMobSidebarOpened && s.mob_account_opened}`}
           id="mob_sidebar"
         >
-    <div
-      className={`${s.sidebar_block} ${!isOpened && s.main_sidebar_closed} ${
-        isMobSidebarOpened && s.mob_account_opened
-      }`}
-      id="mob_sidebar"
-    >
-      <div
-        className={`${s.sidebar_profile_block} ${
-          isMobSidebarOpened && s.mobSBopened
-        } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
-        id="sidebar_profile_block"
-      >
-        <ChangeAccountBlock
-          activeSubPage={accountSubBlock}
-          setActiveSubPage={setAccountSubBlock}
-        />
-        <ManageAccountBlock
-          activeSubPage={accountSubBlock}
-          setActiveSubPage={setAccountSubBlock}
-        />
-        <div className={s.sidebar_profile_block_header}>
-          <span
-            className={s.sidebar_profile_block_header_title}
-            onClick={() => setIsMobSidebarOpened(false)}
-          >
-            <Image src={prevArr} alt="back-arr" />
-            Back
-          </span>
-          <span className={s.sidebar_profile_block_title}>Profile</span>
-        </div>
-        <div className={s.profile_info_block}>
-          <div className={s.profile_name_block}>
-            <div className={s.profile_name_block_ico}>{userName[0]}</div>
-            <div className={s.profile_mailId_block}>
-              <span className={s.profile_id_title}>ID: 2132313123</span>
-              <span className={s.profile_mail_title}>{userEmail}</span>
-            </div>
-          </div>
-          <div className={s.profile_balance_block}>
-            <div className={s.profile_usd_balance}>
-              <span className={s.profile_usd_title}>USD</span>
-              <span className={s.profile_balance_title}>82710.10</span>
-            </div>
-            {/* <button className={s.withdrawal_money_btn}>Вывод средств</button> */}
-            <WithdrawModal />
-          </div>
-        </div>
-        <div className={s.profile_options_list}>
-          <div className={s.profile_options_list_item}>
-            <div className={s.profile_options_list_item_title_block}>
-              <Image src={walletIco} alt="wallet-ico" />
-              <span className={s.profile_options_list_item_title}>
-                My wallet
-              </span>
-            </div>
-            <Image src={linkIco} alt="link-ico" />
-          </div>
           <div
             className={`${s.sidebar_profile_block} ${
               isMobSidebarOpened && s.mobSBopened
@@ -293,19 +236,12 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                 </div>
               </div>
               <div className={s.profile_balance_block}>
-                <div className={s.profile_bnb_balance}>
-                  <span className={s.profile_bnb_title}>BNB</span>
-                  <span className={s.profile_balance_title}>82710.10</span>
-                </div>
                 <div className={s.profile_usd_balance}>
-                  <span className={s.profile_usd_title}>BNB</span>
+                  <span className={s.profile_usd_title}>USD</span>
                   <span className={s.profile_balance_title}>82710.10</span>
                 </div>
                 {/* <button className={s.withdrawal_money_btn}>Вывод средств</button> */}
-                {/* <WithdrawModal /> */}
-                <button className={s.btn} onClick={() => setOpenWithdraw(true)}>
-                  Withdraw
-                </button>
+                <WithdrawModal />
               </div>
             </div>
             <div className={s.profile_options_list}>
@@ -319,182 +255,214 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                 <Image src={linkIco} alt="link-ico" />
               </div>
               <div
-                className={s.profile_options_list_item}
-                onClick={() => setAccountSubBlock("manageAccount")}
+                className={`${s.sidebar_profile_block} ${
+                  isMobSidebarOpened && s.mobSBopened
+                } ${accountSubBlock !== "" && s.sb_profile_scroll_disabled}`}
+                id="sidebar_profile_block"
               >
-                <div className={s.profile_options_list_item_title_block}>
-                  <Image src={settingsIco} alt="wallet-ico" />
-                  <span className={s.profile_options_list_item_title}>
-                    Manage account
-                  </span>
-                </div>
-                <Image src={nextArr} alt="next-arr" />
-              </div>
-              <div
-                className={s.profile_options_list_item}
-                onClick={() => setAccountSubBlock("changeAccount")}
-              >
-                <div className={s.profile_options_list_item_title_block}>
-                  <Image src={profileIco} alt="wallet-ico" />
-                  <span className={s.profile_options_list_item_title}>
-                    Change account
-                  </span>
-                </div>
-                <Image src={nextArr} alt="next-arr" />
-              </div>
-              <div
-                onClick={() => {
-                  localStorage.removeItem("barer-token");
-                  localStorage.removeItem("mail");
-                  window.open("/", "_self");
-                }}
-                className={s.profile_options_list_item}
-              >
-                <div className={s.profile_options_list_item_title_block}>
-                  <Image src={logoutIco} alt="wallet-ico" />
-                  <span className={s.profile_options_list_item_title}>
-                    Logout
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className={s.desk_hidden_profile_block}
-            onClick={() => setIsMobSidebarOpened(true)}
-          >
-            <span className={s.desk_hidden_profile_block_title}>
-              {userEmail ? userEmail : "examle@email.com"}
-            </span>
-            <Image src={nextArr} alt="right-arrow" />
-          </div>
-          <div className={s.sidebar_body}>
-            {sidebarItems.map((item1, ind) => (
-              <div
-                key={ind}
-                className={`${s.sidebar_page_item}`}
-                data-id={ind + 1}
-              >
-                <div className={s.sidebar_page_item_title_block}>
-                  <span className={s.sidebar_page_item_title}>
-                    {item1.title}
-                  </span>
-                  {item1.isClose && (
-                    <div
-                      className={s.sidebar_close_btn_wrap}
-                      onClick={handleSidebarVisibility}
-                    >
-                      <Image src={closeSidebarIco} alt="close-ico" />
-                    </div>
-                  )}
-                </div>
-                <div className={s.sidebar_page_item_link_block}>
-                  {item1.list.map((item2, ind) => {
-                    if (
-                      item2?.title === "Promocodes" ||
-                      item2?.title === "Media" ||
-                      item2?.title === "Sub-Partners" ||
-                      item2?.title === "Marketing tools"
-                    ) {
-                      return (
-                        <div
-                          key={item2?.title}
-                          // href={`${item2.link}`}
-                          data-href={item2.link}
-                          className={s.not_link}
-                        >
-                          {isOpened && <span className={s.soon}>Soon</span>}
-                          <div
-                            className={`${s.sidebar_page_item_link_wrap} ${
-                              item2.pageActive === activeSubBlock &&
-                              s.active_sub_block
-                            }`}
-                            data-page={item2.title}
-                          >
-                            <div
-                              className={s.sidebar_page_item_link_wrap_content}
-                            >
-                              <div className={s.sidebar_page_item_ico_block}>
-                                {item2.icon}
-                              </div>
-                              <span className={s.sidebar_page_item_link}>
-                                {item2.title}
-                              </span>
-                            </div>
-                            <Image src={nextArr} alt="right-arrow" />
-                          </div>
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <a
-                          key={item2?.title}
-                          href={`${item2.link}`}
-                          data-href={item2.link}
-                        >
-                          <div
-                            className={`${s.sidebar_page_item_link_wrap} ${
-                              item2.pageActive === activeSubBlock &&
-                              s.active_sub_block
-                            }`}
-                            data-page={item2.title}
-                          >
-                            <div
-                              className={s.sidebar_page_item_link_wrap_content}
-                            >
-                              <div className={s.sidebar_page_item_ico_block}>
-                                {item2.icon}
-                              </div>
-                              <span className={s.sidebar_page_item_link}>
-                                {item2.title}
-                              </span>
-                            </div>
-                            <Image src={nextArr} alt="right-arrow" />
-                          </div>
-                        </a>
-                      );
-                    }
-                  })}
-                </div>
-              </div>
-            ))}
-          </div> <>
-      {openWithdraw ? (
-        <WithdrawModal setOpenWithdraw={setOpenWithdraw} />
-      ) : (
-          <div className={s.desk_hidden_lang_choose_block}>
-            <div className={s.language_switcher}>
-              <div
-                className={`${s.active_language_body} ${
-                  languagesListVisibility && s.languages_list_active
-                }`}
-                // onClick={handleListVisibility}
-              >
-                <Image
-                  className={s.active_language_img}
-                  src={activeLanguage?.img}
-                  alt={`${activeLanguage?.title}-img`}
+                <ChangeAccountBlock
+                  activeSubPage={accountSubBlock}
+                  setActiveSubPage={setAccountSubBlock}
                 />
-                <span className={s.active_language_title}>
-                  {activeLanguage?.title}
-                </span>
-
+                <ManageAccountBlock
+                  activeSubPage={accountSubBlock}
+                  setActiveSubPage={setAccountSubBlock}
+                />
+                <div className={s.sidebar_profile_block_header}>
+                  <span
+                    className={s.sidebar_profile_block_header_title}
+                    onClick={() => setIsMobSidebarOpened(false)}
+                  >
+                    <Image src={prevArr} alt="back-arr" />
+                    Back
+                  </span>
+                  <span className={s.sidebar_profile_block_title}>Profile</span>
+                </div>
+                <div className={s.profile_info_block}>
+                  <div className={s.profile_name_block}>
+                    <div className={s.profile_name_block_ico}>
+                      {userName[0]}
+                    </div>
+                    <div className={s.profile_mailId_block}>
+                      <span className={s.profile_id_title}>ID: 2132313123</span>
+                      <span className={s.profile_mail_title}>{userEmail}</span>
+                    </div>
+                  </div>
+                  <div className={s.profile_balance_block}>
+                    <div className={s.profile_bnb_balance}>
+                      <span className={s.profile_bnb_title}>BNB</span>
+                      <span className={s.profile_balance_title}>82710.10</span>
+                    </div>
+                    <div className={s.profile_usd_balance}>
+                      <span className={s.profile_usd_title}>BNB</span>
+                      <span className={s.profile_balance_title}>82710.10</span>
+                    </div>
+                    {/* <button className={s.withdrawal_money_btn}>Вывод средств</button> */}
+                    {/* <WithdrawModal /> */}
+                    <button
+                      className={s.btn}
+                      onClick={() => setOpenWithdraw(true)}
+                    >
+                      Withdraw
+                    </button>
+                  </div>
+                </div>
+                <div className={s.profile_options_list}>
+                  <div className={s.profile_options_list_item}>
+                    <div className={s.profile_options_list_item_title_block}>
+                      <Image src={walletIco} alt="wallet-ico" />
+                      <span className={s.profile_options_list_item_title}>
+                        My wallet
+                      </span>
+                    </div>
+                    <Image src={linkIco} alt="link-ico" />
+                  </div>
+                  <div
+                    className={s.profile_options_list_item}
+                    onClick={() => setAccountSubBlock("manageAccount")}
+                  >
+                    <div className={s.profile_options_list_item_title_block}>
+                      <Image src={settingsIco} alt="wallet-ico" />
+                      <span className={s.profile_options_list_item_title}>
+                        Manage account
+                      </span>
+                    </div>
+                    <Image src={nextArr} alt="next-arr" />
+                  </div>
+                  <div
+                    className={s.profile_options_list_item}
+                    onClick={() => setAccountSubBlock("changeAccount")}
+                  >
+                    <div className={s.profile_options_list_item_title_block}>
+                      <Image src={profileIco} alt="wallet-ico" />
+                      <span className={s.profile_options_list_item_title}>
+                        Change account
+                      </span>
+                    </div>
+                    <Image src={nextArr} alt="next-arr" />
+                  </div>
+                  <div
+                    onClick={() => {
+                      localStorage.removeItem("barer-token");
+                      localStorage.removeItem("mail");
+                      window.open("/", "_self");
+                    }}
+                    className={s.profile_options_list_item}
+                  >
+                    <div className={s.profile_options_list_item_title_block}>
+                      <Image src={logoutIco} alt="wallet-ico" />
+                      <span className={s.profile_options_list_item_title}>
+                        Logout
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div
-                className={`${s.avaible_languages_list} ${
-                  languagesListVisibility && s.avaible_languages_list_visible
-                }`}
+                className={s.desk_hidden_profile_block}
+                onClick={() => setIsMobSidebarOpened(true)}
               >
-                {avaibleLanguages.map((item, ind) => (
+                <span className={s.desk_hidden_profile_block_title}>
+                  {userEmail ? userEmail : "examle@email.com"}
+                </span>
+                <Image src={nextArr} alt="right-arrow" />
+              </div>
+              <div className={s.sidebar_body}>
+                {sidebarItems.map((item1, ind) => (
                   <div
-                    className={s.avaible_languages_list_item}
                     key={ind}
-                    onClick={() => handleSetActiveLanguage(item?.title)}
+                    className={`${s.sidebar_page_item}`}
+                    data-id={ind + 1}
                   >
-                    <Image src={item.img} alt={`${item.title}-img`} />
-                    <span className={s.avaible_language_title}>
-                      <p>{item.title}</p>
-                    </span>
+                    <div className={s.sidebar_page_item_title_block}>
+                      <span className={s.sidebar_page_item_title}>
+                        {item1.title}
+                      </span>
+                      {item1.isClose && (
+                        <div
+                          className={s.sidebar_close_btn_wrap}
+                          onClick={handleSidebarVisibility}
+                        >
+                          <Image src={closeSidebarIco} alt="close-ico" />
+                        </div>
+                      )}
+                    </div>
+                    <div className={s.sidebar_page_item_link_block}>
+                      {item1.list.map((item2, ind) => {
+                        if (
+                          item2?.title === "Promocodes" ||
+                          item2?.title === "Media" ||
+                          item2?.title === "Sub-Partners" ||
+                          item2?.title === "Marketing tools"
+                        ) {
+                          return (
+                            <div
+                              key={item2?.title}
+                              // href={`${item2.link}`}
+                              data-href={item2.link}
+                              className={s.not_link}
+                            >
+                              {isOpened && <span className={s.soon}>Soon</span>}
+                              <div
+                                className={`${s.sidebar_page_item_link_wrap} ${
+                                  item2.pageActive === activeSubBlock &&
+                                  s.active_sub_block
+                                }`}
+                                data-page={item2.title}
+                              >
+                                <div
+                                  className={
+                                    s.sidebar_page_item_link_wrap_content
+                                  }
+                                >
+                                  <div
+                                    className={s.sidebar_page_item_ico_block}
+                                  >
+                                    {item2.icon}
+                                  </div>
+                                  <span className={s.sidebar_page_item_link}>
+                                    {item2.title}
+                                  </span>
+                                </div>
+                                <Image src={nextArr} alt="right-arrow" />
+                              </div>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <a
+                              key={item2?.title}
+                              href={`${item2.link}`}
+                              data-href={item2.link}
+                            >
+                              <div
+                                className={`${s.sidebar_page_item_link_wrap} ${
+                                  item2.pageActive === activeSubBlock &&
+                                  s.active_sub_block
+                                }`}
+                                data-page={item2.title}
+                              >
+                                <div
+                                  className={
+                                    s.sidebar_page_item_link_wrap_content
+                                  }
+                                >
+                                  <div
+                                    className={s.sidebar_page_item_ico_block}
+                                  >
+                                    {item2.icon}
+                                  </div>
+                                  <span className={s.sidebar_page_item_link}>
+                                    {item2.title}
+                                  </span>
+                                </div>
+                                <Image src={nextArr} alt="right-arrow" />
+                              </div>
+                            </a>
+                          );
+                        }
+                      })}
+                    </div>
                   </div>
                 ))}
               </div>
