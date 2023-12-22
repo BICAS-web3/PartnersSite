@@ -72,23 +72,23 @@ export const WelcomeFooter: FC<WelcomeFooterProps> = () => {
             </div>
             <div className={s.welcome_footer_top_social_media}>
               <div className={s.footer_top_links_list}>
-                <a href="#" className={s.footer_top_links_list_item}>
+                <Link href="#" className={s.footer_top_links_list_item}>
                   Privacy Policy
-                </a>
-                <a href="#" className={s.footer_top_links_list_item}>
+                </Link>
+                <Link href="#" className={s.footer_top_links_list_item}>
                   Cookie Policy
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/Registration"
                   className={s.footer_top_links_list_item}
                 >
                   Join our Community
-                </a>
+                </Link>
               </div>
               <div className={s.social_media_list_wrap}>
                 <div className={s.social_media_list}>
                   {socialMList.map((item, ind) => (
-                    <div className={s.social_media_list_item_wrap}>
+                    <div className={s.social_media_list_item_wrap} key={ind}>
                       <Link
                         href={item.href}
                         key={ind}
