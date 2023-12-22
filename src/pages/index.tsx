@@ -170,13 +170,7 @@ const WelcomePage: FC<WelcomePageProps> = () => {
           }`}
           data-preland={!isSignup && !isLogin && "true"}
         >
-          {isLogin ? (
-            <WelcomePageLogin />
-          ) : isSignup ? (
-            <WelcomePageSignup />
-          ) : (
-            <Preland />
-          )}
+          <Preland />
         </div>
       </div>
       {(isLogin || isSignup) && <Footer />}
