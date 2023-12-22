@@ -230,12 +230,8 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
           </div>
           <div className={s.profile_balance_block}>
-            <div className={s.profile_bnb_balance}>
-              <span className={s.profile_bnb_title}>BNB</span>
-              <span className={s.profile_balance_title}>82710.10</span>
-            </div>
             <div className={s.profile_usd_balance}>
-              <span className={s.profile_usd_title}>BNB</span>
+              <span className={s.profile_usd_title}>USD</span>
               <span className={s.profile_balance_title}>82710.10</span>
             </div>
             {/* <button className={s.withdrawal_money_btn}>Вывод средств</button> */}
@@ -380,6 +376,9 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             </div>
           </div>
         ))}
+        <div
+          className={`${s.bottom_bb_block} ${!isOpened && s.block_bb_closed}`}
+        ></div>
       </div>
       <div className={s.desk_hidden_lang_choose_block}>
         <div className={s.language_switcher}>
