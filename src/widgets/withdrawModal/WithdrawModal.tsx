@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import { useDropdown, useMediaQuery } from "@/shared/tools";
 import { CloseIco, USDTIcon } from "@/shared/SVGs";
@@ -14,9 +14,11 @@ import { useUnit } from "effector-react";
 import * as ContentModel from "@/widgets/welcomePageSignup/model";
 import { ResultWindow } from "@/shared/ui/ResultWindow/ui/ResultWindow";
 
-interface WithdrawModalProps {}
+interface WithdrawModalProps {
+  setOpenWithdraw?: (el: boolean) => void;
+}
 
-export const WithdrawModal: FC<WithdrawModalProps> = () => {
+export const WithdrawModal: FC<WithdrawModalProps> = ({ setOpenWithdraw }) => {
   const list = ["BSC", "Tron", "Arbitrum", "Polygon", "Ethereum", "Solana"];
 
   const { open, isOpen, close, dropdownRef } = useDropdown();
@@ -47,7 +49,17 @@ export const WithdrawModal: FC<WithdrawModalProps> = () => {
     ContentModel.$userWallet,
   ]);
 
-  const isMobile = useMediaQuery("(max-width:650px)");
+  const ismobile = useMediaQuery("(max-width:650px)");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const width = window.innerWidth;
+    if (ismobile) {
+      open();
+      setIsMobile(true);
+    }
+  }, []);
+
   useEffect(() => {
     if (isOpen) {
       document.documentElement.style.overflow = "hidden";
@@ -119,28 +131,34 @@ export const WithdrawModal: FC<WithdrawModalProps> = () => {
         setAddress("");
         if (reponse.status === "OK") {
           setStartCall(false);
-          close();
-          setIsSuccess(true);
           setTimeout(() => {
             successOpen();
           }, 1000);
+          !isMobile && close();
+          setIsSuccess(true);
         } else {
           setStartCall(false);
-          close();
           setIsError(true);
           setTimeout(() => {
             errorOpen();
           }, 1000);
+          !isMobile && close();
         }
       }
     })();
   }, [startCall]);
 
+  // useEffect(() => {
+  //   if (isMobile) {
+  //     open();
+  //   }
+  // }, []);
+
   function validateAddress(wallet: string) {
     const pattern = /^(0x)?[0-9a-fA-F]{40}$/;
     return pattern.test(wallet);
   }
-
+  const mobile = useRef<HTMLDivElement>();
   return (
     <>
       {isError && (
@@ -163,9 +181,11 @@ export const WithdrawModal: FC<WithdrawModalProps> = () => {
           />
         </div>
       )}
-      <span className={clsx(s.blur, isOpen && s.blur_active)}></span>
-      <div ref={dropdownRef}>
-        <button className={s.btn} onClick={open}>
+      {!isMobile && (
+        <span className={clsx(s.blur, isOpen && s.blur_active)}></span>
+      )}
+      <div ref={!isMobile ? dropdownRef : null}>
+        <button className={clsx(s.btn_1)} onClick={open}>
           Withdraw
         </button>
         <article className={clsx(s.container, isOpen && s.container_open)}>
@@ -267,7 +287,7 @@ export const WithdrawModal: FC<WithdrawModalProps> = () => {
               <span className={s.bottom_usdt}>0 USDT</span>
               <span className={s.bottom_fee}>Fee: 1 USDT(≈$1.00)</span>
             </div>
-            <button onClick={handleWithdraw} className={s.btn}>
+            <button onClick={handleWithdraw} className={clsx(s.btn, s.mobile)}>
               Withdraw
             </button>
           </div>
