@@ -107,10 +107,12 @@ const LoginPage: FC<LoginPageProps> = () => {
     <div className={s.welcomePage_container}>
       <Header />
       <div className={s.welcomePage_body} data-preland={false}>
-        <FailedWindow
-          className={clsx(s.login_failed, failed && s.failed_open)}
-          closeClick={() => setFailed(false)}
-        />
+        <div className={s.failed_container}>
+          <FailedWindow
+            className={clsx(s.login_failed, failed && s.failed_open)}
+            closeClick={() => setFailed(false)}
+          />
+        </div>
         <div className={s.language_switcher}>
           <div
             className={`${s.active_language_body} ${
