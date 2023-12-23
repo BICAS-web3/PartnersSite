@@ -28,6 +28,12 @@
   }
 }
 
+@media screen and (max-width: 1280px) {
+  .failed_container {
+    display: none;
+  }
+}
+
 .welcomePage_content_wrap {
   // background-color: blue;
   display: flex;
