@@ -158,6 +158,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.5s;
+}
+
+.wrong_checkbox {
+  border: 1px solid red;
 }
 
 .privacyPolicy_container {

@@ -265,9 +265,11 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       }, 2000);
     }
   }, [isShortPassword]);
-
+  const [emptyCheckbox, setEmptyCheckbox] = useState(false);
   function handleRegistration() {
-    if (
+    if (!isPPchecked) {
+      setEmptyCheckbox(true);
+    } else if (
       !name ||
       !lastName ||
       !email ||
@@ -381,6 +383,14 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
       }
     })();
   }, [startRegistration]);
+
+  useEffect(() => {
+    if (emptyCheckbox) {
+      setTimeout(() => {
+        setEmptyCheckbox(false);
+      }, 2000);
+    }
+  }, [emptyCheckbox]);
 
   useEffect(() => {
     if (userExist) {
@@ -832,16 +842,23 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         <div className={s.privacyPolicy_container}>
           <span
             className={s.privacyPolicy_text}
-            onClick={() => setIsPPchecked(!isPPchecked)}
+            onClick={() => {
+              setIsPPchecked(!isPPchecked);
+              // setEmptyCheckbox(!emptyCheckbox);
+            }}
           >
-            <div className={s.checkbox}>{isPPchecked && <CheckBoxIco />}</div>I
-            have read, understand and accept the above terms and conditions and
-            policies
+            <div
+              className={clsx(emptyCheckbox && s.wrong_checkbox, s.checkbox)}
+            >
+              {isPPchecked && <CheckBoxIco />}
+            </div>
+            I have read, understand and accept the above terms and conditions
+            and policies
           </span>
         </div>
         <div className={s.btns_container}>
           <button
-            disabled={!isPPchecked}
+            // disabled={!isPPchecked}
             onClick={handleRegistration}
             className={s.register_submit_btn}
           >
