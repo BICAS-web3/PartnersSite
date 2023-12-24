@@ -17,34 +17,42 @@ const socialMList = [
   {
     img: tgIco,
     href: "https://t.me/greekkeepers",
+    hover: "tg_ico_wrap",
   },
   {
     img: instIco,
     href: "https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ==",
+    hover: "inst_wrap",
   },
   {
     img: twitterIco,
     href: "https://twitter.com/GreekKeepers",
+    hover: "twitter_wrap",
   },
   {
     img: discordIco,
     href: "https://discord.gg/ReJVd2xJSk",
+    hover: "discord_wrap",
   },
   {
     img: facebookIco,
     href: "https://www.facebook.com/profile.php?id=100092326343777",
+    hover: "facebook_wrap",
   },
   {
     img: redditIco,
     href: "https://www.reddit.com/user/GreekKeepers/?rdt=59831",
+    hover: "reddit_wrap",
   },
   {
     img: mediumIco,
     href: "https://medium.com/@greekkeepers",
+    hover: "medium_wrap",
   },
   {
     img: mainIco,
     href: "https://www.greekkeepers.io",
+    hover: "main_wrap",
   },
 ];
 
@@ -97,9 +105,13 @@ export const WelcomeFooter: FC<WelcomeFooterProps> = ({
                   {socialMList.map((item, ind) => (
                     <div className={s.social_media_list_item_wrap} key={ind}>
                       <Link
+                        target="_blank"
                         href={item.href}
                         key={ind}
-                        className={s.social_media_list_link}
+                        className={clsx(
+                          s.social_media_list_link,
+                          s[item.hover]
+                        )}
                         data-id={ind + 1}
                       >
                         <img

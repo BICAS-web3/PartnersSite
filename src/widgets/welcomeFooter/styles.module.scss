@@ -313,6 +313,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.5s;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    transition: all 0.5s;
+  }
 }
 
 .social_media_list_link[data-id="1"] {
@@ -329,4 +342,60 @@
 
 .social_media_list_link[data-id="8"] {
   background: #3a3026;
+}
+
+.tg_ico_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #37aee2;
+    opacity: 80%;
+  }
+}
+
+.inst_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #e03188;
+    opacity: 80%;
+  }
+}
+
+.twitter_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #ffff;
+    opacity: 80%;
+  }
+}
+
+.discord_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #7c81ff;
+    opacity: 80%;
+  }
+}
+
+.facebook_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #13a0f8;
+    opacity: 80%;
+  }
+}
+
+.reddit_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #ff4400;
+    opacity: 80%;
+  }
+}
+
+.medium_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #00ab6c;
+    opacity: 80%;
+  }
+}
+
+.main_wrap:hover {
+  &::after {
+    box-shadow: 1px 1px 20px 4px #d9b06e;
+    opacity: 80%;
+  }
 }
