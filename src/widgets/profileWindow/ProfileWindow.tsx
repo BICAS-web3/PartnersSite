@@ -18,9 +18,10 @@ interface ProfileWindowProps {}
 
 export const ProfileWindow: FC<ProfileWindowProps> = () => {
   const [setIsAuthed] = useUnit([AuthModel.setIsAuthed]);
-  const [userEmail, userName] = useUnit([
+  const [userEmail, userName, userLogin] = useUnit([
     ContactModel.$userEmail,
     ContactModel.$userName,
+    ContactModel.$userLogin,
   ]);
 
   const isTablet = useMediaQuery("(max-width: 1200px)");
@@ -59,7 +60,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
           className={clsx(s.profile_button, isOpen && s.profile_button_open)}
           onClick={toggle}
         >
-          {userName || localStorage.getItem("name")}
+          {userLogin || localStorage.getItem(`login`) || "login"}
           <span className={clsx(s.dropdown_ico_block, isOpen && s.activ_icon)}>
             <HeaderDropdownArrow />
           </span>
@@ -87,6 +88,7 @@ export const ProfileWindow: FC<ProfileWindowProps> = () => {
               disconnect();
               localStorage.removeItem("barer-token");
               localStorage.removeItem("mail");
+              localStorage.removeItem(`login`);
               window.open("/", "_self");
             }}
             className={s.profile_logout}

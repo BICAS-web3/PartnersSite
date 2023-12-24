@@ -317,6 +317,7 @@ export const WelcomePageSignup: FC<WelcomePageSignupProps> = () => {
         setUserLastName(lastName);
         localStorage.setItem(`last_name`, lastName);
         setUserName(name);
+        localStorage.setItem(`login`, loginAuth);
         localStorage.setItem(`name`, name);
         setUserMessanger(selectedMessanger);
         setUserPageCategory(categoryPage);

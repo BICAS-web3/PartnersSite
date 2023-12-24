@@ -129,9 +129,10 @@ interface IListProps {
 interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
-  const [isAuthed, barerToken] = useUnit([
+  const [isAuthed, barerToken, registrationTime] = useUnit([
     AuthModel.$isAuthed,
     ContactModel.$barerToken,
+    ContactModel.$registrationTime,
   ]);
 
   const [clicks, setClicks] = useState<
@@ -199,18 +200,36 @@ const ShortTotal: FC<ShortTotalProps> = () => {
     })();
   }, [isAuthed]);
 
-  console.log(shortTotalResponseBody);
-
   const [isMobile, setIsMobile] = useState<boolean>();
 
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
 
-  const firstTableBlock = tableItemsList.slice(0, tableItemsList.length / 2);
-  const secondTableBlock = tableItemsList.slice(
-    tableItemsList.length / 2,
-    tableItemsList.length
-  );
+  useEffect(() => {
+    if (registrationTime) {
+      setFirstDatePickerDate(new Date(registrationTime * 1000));
+    }
+  }, [registrationTime]);
+
+  // const firstTableBlock = tableItemsList.slice(0, tableItemsList.length / 2);
+  // const secondTableBlock = tableItemsList.slice(
+  //   tableItemsList.length / 2,
+  //   tableItemsList.length
+  // );
+
+  const [secondTableBlock, setSecondTableBlock] = useState<any>([]);
+
+  const [firstTableBlock, setFirstTableBlock] = useState<any>([]);
+
+  useEffect(() => {
+    if (tableItemsList) {
+      setFirstTableBlock(tableItemsList?.slice(0, tableItemsList?.length / 2));
+      setSecondTableBlock(
+        tableItemsList?.slice(tableItemsList.length / 2, tableItemsList?.length)
+      );
+    }
+  }, [tableItemsList]);
+
   const [isFilter, setIsFilter] = useState(false);
 
   const [currentFilterPage, setCurrentFilterPage] = useState("");
@@ -281,94 +300,101 @@ const ShortTotal: FC<ShortTotalProps> = () => {
 
   const [exportType, setExportType] = useState<any>("Excel");
 
-  const newData = firstTableBlock.concat(secondTableBlock).map((item, ind) => {
-    if (item?.title === "Income") {
-      return {
-        title: "Income",
-        data: shortTotalResponseBody
-          ? shortTotalResponseBody.net_profit * -1 * 0.55 || "0"
-          : "0",
-      };
-    } else if (item?.title === "Amount of bets") {
-      return {
-        title: "Amount of bets",
-        data: shortTotalResponseBody
-          ? shortTotalResponseBody.bets_amount || "0"
-          : "0",
-      };
-    } else if (item?.title === "Active players") {
-      return {
-        title: "Active players",
-        data: usersRegistration
-          ? usersRegistrationDeposited?.connected_wallets
-          : 0,
-      };
-    } else if (item?.title === "Average income from the player") {
-      return {
-        title: "Average income from the player",
-        data:
-          Number(usersRegistrationDeposited?.connected_wallets || 0) <= 0 &&
-          shortTotalResponseBody == undefined
-            ? 0
-            : (
-                (shortTotalResponseBody.net_profit * -1 * 0.55) /
-                Number(usersRegistrationDeposited?.connected_wallets)
-              )?.toFixed(2),
-      };
-    } else if (item?.title === "Clicks") {
-      return {
-        title: "Clicks",
-        data: clicks ? clicks?.clicks : 0,
-      };
-    } else if (item?.title === "Registrations") {
-      return {
-        title: "Registrations",
-        data: usersRegistration ? usersRegistration?.connected_wallets : 0,
-      };
-    } else if (item?.title === "Registrations/Clicks") {
-      return {
-        title: "Registrations/Clicks",
-        data:
-          Number((clicks as any)?.clicks || 0) <= 0
-            ? 0
-            : (
-                usersRegistration?.connected_wallets /
-                Number((clicks as any)?.clicks)
-              ).toFixed(2),
-      };
-    } else if (item?.title === "Registrations with bets") {
-      return {
-        title: "Registrations with bets",
-        data: usersRegistration
-          ? usersRegistrationDeposited?.connected_wallets
-          : 0,
-      };
-    } else if (item?.title === "Registrations with bets/Registrations") {
-      return {
-        title: "Registrations with bets/Registrations",
-        data:
-          Number(usersRegistration?.connected_wallets || 0) <= 0
-            ? 0 && usersRegistrationDeposited == undefined
-            : (
-                usersRegistrationDeposited?.connected_wallets /
-                Number(usersRegistration?.connected_wallets)
-              ).toFixed(2),
-      };
-    } else if (item?.title === "Sum of the bets") {
-      return {
-        title: "Sum of the bets",
-        data: shortTotalResponseBody
-          ? shortTotalResponseBody?.total_wagered_sum
-          : 0,
-      };
-    }
-  });
+  const [newData, setNewData] = useState<any>();
+
+  useEffect(() => {
+    const setData = firstTableBlock
+      ?.concat(secondTableBlock)
+      ?.map((item: any, ind: number) => {
+        if (item?.title === "Income") {
+          return {
+            title: "Income",
+            data: shortTotalResponseBody
+              ? shortTotalResponseBody?.net_profit * -1 * 0.55 || "0"
+              : "0",
+          };
+        } else if (item?.title === "Amount of bets") {
+          return {
+            title: "Amount of bets",
+            data: shortTotalResponseBody
+              ? shortTotalResponseBody?.bets_amount || "0"
+              : "0",
+          };
+        } else if (item?.title === "Active players") {
+          return {
+            title: "Active players",
+            data: usersRegistration
+              ? usersRegistrationDeposited?.connected_wallets
+              : 0,
+          };
+        } else if (item?.title === "Average income from the player") {
+          return {
+            title: "Average income from the player",
+            data:
+              Number(usersRegistrationDeposited?.connected_wallets || 0) <= 0 &&
+              shortTotalResponseBody == undefined
+                ? 0
+                : (
+                    (shortTotalResponseBody?.net_profit * -1 * 0.55) /
+                    Number(usersRegistrationDeposited?.connected_wallets)
+                  )?.toFixed(2),
+          };
+        } else if (item?.title === "Clicks") {
+          return {
+            title: "Clicks",
+            data: clicks ? clicks?.clicks : 0,
+          };
+        } else if (item?.title === "Registrations") {
+          return {
+            title: "Registrations",
+            data: usersRegistration ? usersRegistration?.connected_wallets : 0,
+          };
+        } else if (item?.title === "Registrations/Clicks") {
+          return {
+            title: "Registrations/Clicks",
+            data:
+              Number((clicks as any)?.clicks || 0) <= 0
+                ? 0
+                : (
+                    usersRegistration?.connected_wallets /
+                    Number((clicks as any)?.clicks)
+                  )?.toFixed(2),
+          };
+        } else if (item?.title === "Registrations with bets") {
+          return {
+            title: "Registrations with bets",
+            data: usersRegistration
+              ? usersRegistrationDeposited?.connected_wallets
+              : 0,
+          };
+        } else if (item?.title === "Registrations with bets/Registrations") {
+          return {
+            title: "Registrations with bets/Registrations",
+            data:
+              Number(usersRegistration?.connected_wallets || 0) <= 0
+                ? 0 && usersRegistrationDeposited == undefined
+                : (
+                    usersRegistrationDeposited?.connected_wallets /
+                    Number(usersRegistration?.connected_wallets)
+                  )?.toFixed(2),
+          };
+        } else if (item?.title === "Sum of the bets") {
+          return {
+            title: "Sum of the bets",
+            data: shortTotalResponseBody
+              ? shortTotalResponseBody?.total_wagered_sum
+              : 0,
+          };
+        }
+      });
+    setNewData(setData);
+  }, [firstTableBlock, secondTableBlock]);
 
   const handleExport = () => {
-    const data = newData.map((item: any) => [item?.title, item?.data]);
-    const ws = XLSX.utils.aoa_to_sheet([["Title", "Data"], ...data]);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Report");
+    const data = newData?.map((item: any) => [item?.title, item?.data]);
+    const ws = XLSX.utils?.aoa_to_sheet([["Title", "Data"], ...data]);
+    const wb = XLSX.utils?.book_new();
+    XLSX.utils?.book_append_sheet(wb, ws, "Report");
     const filename =
       exportType === "Excel" ? "short_report.xlsx" : "short_report.csv";
     XLSX.writeFile(wb, filename);
@@ -408,7 +434,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           />
           <AdaptivePicker
             currentFilterPage={currentFilterPage}
-            list={periodsList.concat([
+            list={periodsList?.concat([
               {
                 title: "Custom select",
                 id: "mobilePeriodManually",
@@ -537,7 +563,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
         <div className={s.table}>
           {!isMobile && (
             <div className={s.first_table_block}>
-              {firstTableBlock.map((item, ind) => (
+              {firstTableBlock?.map((item: any, ind: number) => (
                 <div
                   className={s.table_item}
                   key={ind}
@@ -559,18 +585,18 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                         : (
                             usersRegistration?.connected_wallets /
                             Number((clicks as any)?.clicks)
-                          ).toFixed(2)
-                      : item.title === "Registrations with bets"
+                          )?.toFixed(2)
+                      : item?.title === "Registrations with bets"
                       ? usersRegistration
                         ? usersRegistrationDeposited?.connected_wallets
                         : 0
-                      : item.title === "Registrations with bets/Registrations"
+                      : item?.title === "Registrations with bets/Registrations"
                       ? Number(usersRegistration?.connected_wallets || 0) <= 0
                         ? 0
                         : (
                             usersRegistrationDeposited?.connected_wallets /
                             Number(usersRegistration?.connected_wallets)
-                          ).toFixed(2)
+                          )?.toFixed(2)
                       : item.title === "Sum of the bets"
                       ? shortTotalResponseBody
                         ? shortTotalResponseBody?.total_wagered_sum
@@ -584,9 +610,9 @@ const ShortTotal: FC<ShortTotalProps> = () => {
           <div className={s.second_table_block}>
             <div className={s.second_table_block_inner}>
               {(isMobile
-                ? firstTableBlock.concat(secondTableBlock)
+                ? firstTableBlock?.concat(secondTableBlock)
                 : secondTableBlock
-              ).map((item, ind) => (
+              )?.map((item: any, ind: number) => (
                 <div
                   className={s.table_item}
                   key={ind}
@@ -596,11 +622,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                   <span className={s.table_item_value}>
                     {item.title === "Income"
                       ? shortTotalResponseBody
-                        ? shortTotalResponseBody.net_profit * -1 * 0.55 || "0"
+                        ? shortTotalResponseBody?.net_profit * -1 * 0.55 || "0"
                         : "0"
                       : item.title === "Amount of bets"
                       ? shortTotalResponseBody
-                        ? shortTotalResponseBody.bets_amount || "0"
+                        ? shortTotalResponseBody?.bets_amount || "0"
                         : "0"
                       : item.title === "Active players"
                       ? usersRegistration
@@ -612,11 +638,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                         ) <= 0 && shortTotalResponseBody == undefined
                         ? 0
                         : (
-                            (shortTotalResponseBody.net_profit * -1 * 0.55) /
+                            (shortTotalResponseBody?.net_profit * -1 * 0.55) /
                             Number(
                               usersRegistrationDeposited?.connected_wallets
                             )
-                          ).toFixed(2)
+                          )?.toFixed(2)
                       : item.data
                       ? item.title === "Clicks"
                         ? clicks
@@ -632,7 +658,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                           : (
                               usersRegistration?.connected_wallets /
                               Number((clicks as any)?.clicks)
-                            ).toFixed(2)
+                            )?.toFixed(2)
                         : item.title === "Registrations with bets"
                         ? usersRegistration
                           ? usersRegistrationDeposited?.connected_wallets
@@ -643,7 +669,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                           : (
                               usersRegistrationDeposited?.connected_wallets /
                               Number(usersRegistration?.connected_wallets)
-                            ).toFixed(2)
+                            )?.toFixed(2)
                         : item.title === "Sum of the bets"
                         ? shortTotalResponseBody
                           ? shortTotalResponseBody?.total_wagered_sum

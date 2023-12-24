@@ -184,10 +184,13 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const handleSidebarVisibility = () => {
     !isOpened ? setOpen() : setClosed();
   };
-  const [userEmail, userName, walletAddress] = useUnit([
+
+  const [userEmail, userName, userLogin,walletAddress] = useUnit([
     ContactModel.$userEmail,
     ContactModel.$userName,
+    ContactModel.$userLogin,
     ContactModel.$userWallet,
+
   ]);
   useEffect(() => {
     if (isMobSidebarOpened) {
@@ -307,6 +310,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
                   localStorage.removeItem("barer-token");
                   localStorage.removeItem("mail");
                   window.open("/", "_self");
+                  localStorage.removeItem(`login`);
                 }}
                 className={s.profile_options_list_item}
               >
@@ -324,7 +328,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
             onClick={() => setIsMobSidebarOpened(true)}
           >
             <span className={s.desk_hidden_profile_block_title}>
-              {userEmail ? userEmail : "examle@email.com"}
+              {userLogin ? userLogin : "examle@email.com"}
             </span>
             <Image src={nextArr} alt="right-arrow" />
           </div>
