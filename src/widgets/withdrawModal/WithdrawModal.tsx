@@ -235,9 +235,7 @@ export const WithdrawModal: FC<WithdrawModalProps> = ({ setOpenWithdraw }) => {
               )}
               type="text"
               placeholder={
-                userWallet
-                  ? userWallet
-                  : notValidAddress
+                notValidAddress
                   ? "Not a valid address"
                   : "Enter the withdrawal address"
               }

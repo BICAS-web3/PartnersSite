@@ -769,7 +769,9 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                                 )}
                                 key={index}
                               >
-                                {result || ""}
+                                {element?.status === "waiting"
+                                  ? "Pending"
+                                  : result || ""}
                               </span>
                             );
                           } else if (item === "Partner ID") {
