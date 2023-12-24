@@ -5,7 +5,7 @@
 .table_filter_block {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: 1fr 2.15fr;
+  grid-template-columns: minmax(200px, 470px) 1fr;
   gap: 10px;
 }
 
