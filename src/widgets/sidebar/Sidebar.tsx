@@ -142,6 +142,7 @@ interface SidebarProps {
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { useMediaQuery } from "@/shared/tools";
 import { WithdrawModal } from "../withdrawModal/WithdrawModal";
+import { useAccount } from "wagmi";
 
 export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const [activeLanguage, setActiveLanguage] = useState(
@@ -183,10 +184,13 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   const handleSidebarVisibility = () => {
     !isOpened ? setOpen() : setClosed();
   };
-  const [userEmail, userName, userLogin] = useUnit([
+
+  const [userEmail, userName, userLogin,walletAddress] = useUnit([
     ContactModel.$userEmail,
     ContactModel.$userName,
     ContactModel.$userLogin,
+    ContactModel.$userWallet,
+
   ]);
   useEffect(() => {
     if (isMobSidebarOpened) {
@@ -201,6 +205,7 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
   }, [accountSubBlock]);
 
   const [isWithdraw, setIsWithdraw] = useState(false);
+
   return (
     <>
       {isWithdraw ? (
@@ -240,18 +245,20 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
               <div className={s.profile_name_block}>
                 <div className={s.profile_name_block_ico}>{userName[0]}</div>
                 <div className={s.profile_mailId_block}>
-                  <span className={s.profile_id_title}>ID: 2132313123</span>
+                  <span className={s.profile_id_title}>
+                    ID:{" "}
+                    {`${walletAddress.slice(0, 7)}...${walletAddress.slice(
+                      36,
+                      42
+                    )}`}
+                  </span>
                   <span className={s.profile_mail_title}>{userEmail}</span>
                 </div>
               </div>
               <div className={s.profile_balance_block}>
-                <div className={s.profile_bnb_balance}>
-                  <span className={s.profile_bnb_title}>BNB</span>
-                  <span className={s.profile_balance_title}>82710.10</span>
-                </div>
                 <div className={s.profile_usd_balance}>
-                  <span className={s.profile_usd_title}>BNB</span>
-                  <span className={s.profile_balance_title}>82710.10</span>
+                  <span className={s.profile_usd_title}>USD</span>
+                  <span className={s.profile_balance_title}>0.00</span>
                 </div>
                 {/* <button className={s.withdrawal_money_btn}>Вывод средств</button> */}
                 {/* <WithdrawModal /> */}
