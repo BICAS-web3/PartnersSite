@@ -31,6 +31,7 @@ import linkIco from "@/public/media/sidebar/linkIco.png";
 import { ChangeAccountBlock } from "./ChangeAccountBlock";
 import { ManageAccountBlock } from "../ManageAccountMob/ManageAccountBlock";
 import Link from "next/link";
+import usaImg from "@/public/media/headerImages/usa.png";
 
 const sidebarItems = [
   {
@@ -423,11 +424,12 @@ export const Sidebar: FC<SidebarProps> = ({ activeSubBlock }) => {
               >
                 <Image
                   className={s.active_language_img}
-                  src={activeLanguage?.img}
+                  src={usaImg}
                   alt={`${activeLanguage?.title}-img`}
                 />
                 <span className={s.active_language_title}>
-                  {activeLanguage?.title}
+                  {/* {activeLanguage?.title} */}
+                  en
                 </span>
                 {/* <div className={s.header_dd_ico_wrap}>
               <HeaderDropdownArrow />
