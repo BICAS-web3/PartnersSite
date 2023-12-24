@@ -69,8 +69,18 @@ export const AdaptivePicker: FC<AdaptivePickerProps> = ({
         />
       </div>
       <div className="mobile_filter_item_page_footer">
-        <button className="mob_cancel_btn">Deny</button>
-        <button className="mob_save_btn">Save</button>
+        <button
+          className="mob_cancel_btn"
+          onClick={() => setCurrentFilterPage("")}
+        >
+          Deny
+        </button>
+        <button
+          className="mob_save_btn"
+          onClick={() => setCurrentFilterPage("")}
+        >
+          Save
+        </button>
       </div>
     </div>
   );

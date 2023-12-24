@@ -599,17 +599,6 @@ const Gamers: FC<GamersProps> = () => {
                 Selected {titleArr?.length ? titleArr?.length : 0} el.
               </span>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-              className={clsx("mobile_filter_item", s.inputWrapper)}
-              onClick={() => setCurrentFilterPage("input")}
-            >
-              <InputBlock placeholder="Marketing instrument ID" />
-              <InputBlock placeholder="Marketing instrument ID" />
-            </div>
             <ListButtons
               onClick={() => {
                 generateReport();
@@ -678,14 +667,6 @@ const Gamers: FC<GamersProps> = () => {
                   ? 100
                   : 130
               }
-            />
-          </div>
-          <div className={clsx(s.games_table_item, s.games_table_item_grow)}>
-            <span className={s.games_table_title}>Marketing instrument ID</span>
-            <input
-              className={s.games_table_input}
-              value={marktId && marktId}
-              onChange={(e) => setMarktId(e.target.value)}
             />
           </div>
           <div className={s.games_table_item}>
