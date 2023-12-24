@@ -182,7 +182,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
             //   setLogin(true);
             // }}
           >
-            LogIn
+            Login
           </a>
         </>
       )}
