@@ -17,6 +17,7 @@ import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { FailedWindow } from "@/shared/ui/FailedWindow";
 import clsx from "clsx";
+import { WelcomeFooter } from "@/widgets/welcomeFooter/WelcomeFooter";
 
 interface LoginPageProps {}
 
@@ -28,7 +29,7 @@ const LoginPage: FC<LoginPageProps> = () => {
   const [activePlanetImg, setActivePlanetImg] = useState(planetBg);
 
   const [activeLanguage, setActiveLanguage] = useState(
-    languagesList.filter((item) => item.title === "ru")[0]
+    languagesList.filter((item) => item.title === "en")[0]
   );
   const [languagesListVisibility, setLanugagesListVisibility] = useState(false);
   const [avaibleLanguages, setAvaibleLanguages] = useState(
@@ -172,7 +173,8 @@ const LoginPage: FC<LoginPageProps> = () => {
           <WelcomePageLogin failed={failed} setFailed={setFailed} />
         </div>
       </div>{" "}
-      <Footer isMainPage={false} />
+      {/* <Footer isMainPage={false} /> */}
+      <WelcomeFooter isPrelend={false} />
     </div>
   );
 };

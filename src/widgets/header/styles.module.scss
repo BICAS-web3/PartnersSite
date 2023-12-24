@@ -271,3 +271,23 @@
     background: #121212;
   }
 }
+
+.header_logo {
+  display: flex;
+  flex-direction: column;
+  color: #e5c787;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 90%; /* 16.48px */
+  letter-spacing: 2.08px;
+  text-transform: uppercase;
+  gap: 3px;
+  span {
+    @media (max-width: 650px) {
+      display: none;
+    }
+  }
+}
