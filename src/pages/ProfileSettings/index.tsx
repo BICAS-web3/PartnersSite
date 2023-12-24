@@ -8,7 +8,7 @@ import { ProfileTwoAuthnt } from "@/widgets/profileTwoAuthnt/ProfileTwoAuthnt";
 import { ProfileChangePassword } from "@/widgets/profileChangePassword/ProfileChangePassword";
 import { ProfileSubscribes } from "@/widgets/profileSubscribes/ProfileSubscribes";
 
-interface ProfileSettingsProps { }
+interface ProfileSettingsProps {}
 
 const ProfileSettings: FC<ProfileSettingsProps> = () => {
   return (
@@ -21,10 +21,10 @@ const ProfileSettings: FC<ProfileSettingsProps> = () => {
           ]}
         />
         <div className={s.profile_settings_block}>
-          <ContactInfoSettings />
-          <PaymentInfo />
+          {/* <ContactInfoSettings /> */}
           {/* <ProfileTwoAuthnt /> */}
           <ProfileChangePassword />
+          <PaymentInfo />
           {/* <ProfileSubscribes /> */}
         </div>
       </section>
