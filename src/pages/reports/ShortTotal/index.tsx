@@ -129,9 +129,10 @@ interface IListProps {
 interface ShortTotalProps {}
 
 const ShortTotal: FC<ShortTotalProps> = () => {
-  const [isAuthed, barerToken] = useUnit([
+  const [isAuthed, barerToken, registrationTime] = useUnit([
     AuthModel.$isAuthed,
     ContactModel.$barerToken,
+    ContactModel.$registrationTime,
   ]);
 
   const [clicks, setClicks] = useState<
@@ -203,6 +204,12 @@ const ShortTotal: FC<ShortTotalProps> = () => {
 
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
+
+  useEffect(() => {
+    if (registrationTime) {
+      setFirstDatePickerDate(new Date(registrationTime * 1000));
+    }
+  }, [registrationTime]);
 
   // const firstTableBlock = tableItemsList.slice(0, tableItemsList.length / 2);
   // const secondTableBlock = tableItemsList.slice(
@@ -615,11 +622,11 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                   <span className={s.table_item_value}>
                     {item.title === "Income"
                       ? shortTotalResponseBody
-                        ? shortTotalResponseBody.net_profit * -1 * 0.55 || "0"
+                        ? shortTotalResponseBody?.net_profit * -1 * 0.55 || "0"
                         : "0"
                       : item.title === "Amount of bets"
                       ? shortTotalResponseBody
-                        ? shortTotalResponseBody.bets_amount || "0"
+                        ? shortTotalResponseBody?.bets_amount || "0"
                         : "0"
                       : item.title === "Active players"
                       ? usersRegistration
@@ -631,7 +638,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
                         ) <= 0 && shortTotalResponseBody == undefined
                         ? 0
                         : (
-                            (shortTotalResponseBody.net_profit * -1 * 0.55) /
+                            (shortTotalResponseBody?.net_profit * -1 * 0.55) /
                             Number(
                               usersRegistrationDeposited?.connected_wallets
                             )

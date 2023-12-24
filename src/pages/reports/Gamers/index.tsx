@@ -231,7 +231,12 @@ const Gamers: FC<GamersProps> = () => {
   const [titleArr, setTitleArr] = useState(historyList.map((el) => el.title));
   const [firstDataPicker, setFirstDataPicker] = useState<Date>(new Date());
   const [secondDataPicker, setSecondDataPicker] = useState<Date>(new Date());
-
+  const [registrationTime] = useUnit([ContactModel.$registrationTime]);
+  useEffect(() => {
+    if (registrationTime) {
+      setFirstDataPicker(new Date(registrationTime * 1000));
+    }
+  }, [registrationTime]);
   const swiperRef = useRef<SwiperRef>(null);
 
   const [activeOpts, setActiveOpts] = useState([]);

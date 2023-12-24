@@ -35,6 +35,7 @@ import { SwiperWrap } from "@/widgets/swiperWrap/SwiperWrap";
 import * as ContentModel from "@/widgets/welcomePageSignup/model";
 import * as api from "@/shared/api";
 import { useUnit } from "effector-react";
+import clsx from "clsx";
 export const currenciesList = [
   {
     title: "USD",
@@ -201,7 +202,10 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
     "Amount",
   ];
 
-  const [barerToken] = useUnit([ContentModel.$barerToken]);
+  const [barerToken, registrationTime] = useUnit([
+    ContentModel.$barerToken,
+    ContentModel.$registrationTime,
+  ]);
   const [activePayoutBtn, setActivePayoutBtn] = useState("status");
   const [activeOps, setActiveOpts] = useState([]);
   const swiperRef = useRef<SwiperRef>(null);
@@ -209,6 +213,13 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   const [is650, setIs650] = useState(false);
   const [is1280, setIs1280] = useState(false);
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
+
+  useEffect(() => {
+    if (registrationTime) {
+      setFirstDatePickerDate(new Date(registrationTime * 1000));
+    }
+  }, [registrationTime]);
+
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
   const years = range(1990, 2025);
   const [isFilter, setIsFilter] = useState(false);
@@ -488,6 +499,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
               <div className={s.period_datepicker_block}>
                 <div className={s.first_datepicker_block}>
                   <DatePicker
+                    disabled={true}
                     className={`${s.custom_datepicker} lol`}
                     renderCustomHeader={({
                       date,
@@ -555,7 +567,9 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                       </div>
                     )}
                     selected={firstDatePickerDate}
-                    onChange={(date: any) => setFirstDatePickerDate(date)}
+                    onChange={(date: any) =>
+                      setFirstDatePickerDate(firstDatePickerDate)
+                    }
                   />
                 </div>
                 <div className={s.second_datepicker_block}>
@@ -739,7 +753,25 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                               <span key={index}>{element.wallet_address}</span>
                             );
                           } else if (item === "Status") {
-                            return <span key={index}>{element.status}</span>;
+                            const splitted = element?.status?.split("");
+                            const first = splitted[0]?.toUpperCase();
+                            const rest = [...splitted];
+                            rest?.splice(0, 1);
+                            const result = [first, ...rest]?.join("");
+                            return (
+                              <span
+                                className={clsx(
+                                  element?.status === "waiting" &&
+                                    s.status_orange,
+                                  element?.status === "accepted" &&
+                                    s.status_green,
+                                  element?.status === "rejected" && s.status_red
+                                )}
+                                key={index}
+                              >
+                                {result || ""}
+                              </span>
+                            );
                           } else if (item === "Partner ID") {
                             return (
                               <span key={index}>{element.partner_id}</span>

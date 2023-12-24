@@ -145,6 +145,7 @@ export const WelcomePageLogin: FC<WelcomePageLoginProps> = ({
           ""
       );
       localStorage.setItem(`name`, responseBody.basic?.name.split(" ")[0]);
+      localStorage.setItem(`login`, responseBody.basic?.login);
       localStorage.setItem(`last_name`, responseBody.basic?.name.split(" ")[1]);
       localStorage.setItem(
         `mail`,

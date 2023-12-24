@@ -94,7 +94,9 @@ interface IListProps {
 }
 
 const Total: FC<TotalProps> = () => {
+  // const [registrationTime] = useUnit([ContactModel.$registrationTime]);
   const [firstDatePickerDate, setFirstDatePickerDate] = useState(new Date());
+
   const [secondDatePickerDate, setSecondDatePickerDate] = useState(new Date());
   const [titleArr, setTitleArr] = useState(options.map((el) => el.title));
   const swiperRef = useRef<SwiperRef>(null);
@@ -114,6 +116,11 @@ const Total: FC<TotalProps> = () => {
   const [isMobile, setIsMobile] = useState<boolean>();
   const [barerToken] = useUnit([ContactModel.$barerToken]);
   const [registrationTime] = useUnit([ContactModel.$registrationTime]);
+  useEffect(() => {
+    if (registrationTime) {
+      setFirstDatePickerDate(new Date(registrationTime * 1000));
+    }
+  }, [registrationTime]);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 650);
