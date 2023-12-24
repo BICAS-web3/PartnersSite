@@ -17,6 +17,7 @@ import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
 import { WelcomePageSignup } from "@/widgets/welcomePageSignup/WelcomePageSignup";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
 import { WelcomeFooter } from "@/widgets/welcomeFooter/WelcomeFooter";
+import style from "./styles.module.scss";
 
 interface RegistrationPageProps {}
 
@@ -104,7 +105,7 @@ const RegistrationPage: FC<RegistrationPageProps> = () => {
   return (
     <div className={s.welcomePage_container}>
       <Header />
-      <div className={s.welcomePage_body} data-preland={false}>
+      <div className={style.welcomePage_body} data-preland={false}>
         {(isLogin || isSignup) && (
           <>
             <div className={s.language_switcher}>
