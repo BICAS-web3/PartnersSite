@@ -313,7 +313,7 @@ const ShortTotal: FC<ShortTotalProps> = () => {
             : (
                 (shortTotalResponseBody.net_profit * -1 * 0.55) /
                 Number(usersRegistrationDeposited?.connected_wallets)
-              ).toFixed(2),
+              )?.toFixed(2),
       };
     } else if (item?.title === "Clicks") {
       return {
