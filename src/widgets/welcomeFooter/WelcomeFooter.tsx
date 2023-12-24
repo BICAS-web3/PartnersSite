@@ -11,6 +11,7 @@ import redditIco from "@/public/media/initPageImages/reddit.svg";
 import mediumIco from "@/public/media/initPageImages/medium.svg";
 import mainIco from "@/public/media/initPageImages/main.svg";
 import Link from "next/link";
+import clsx from "clsx";
 
 const socialMList = [
   {
@@ -47,11 +48,17 @@ const socialMList = [
   },
 ];
 
-interface WelcomeFooterProps {}
+interface WelcomeFooterProps {
+  isPrelend?: boolean;
+  className?: string;
+}
 
-export const WelcomeFooter: FC<WelcomeFooterProps> = () => {
+export const WelcomeFooter: FC<WelcomeFooterProps> = ({
+  isPrelend = true,
+  className,
+}) => {
   return (
-    <div className={s.welcome_footer}>
+    <div className={clsx(s.welcome_footer, className)}>
       <span className={s.welcome_footer_eclipse}></span>
       <div className={s.welcome_footer_container}>
         <div className={s.welcome_footer_body}>
@@ -61,7 +68,7 @@ export const WelcomeFooter: FC<WelcomeFooterProps> = () => {
             <div className={s.welcome_footer_top_info}>
               <span className={s.welcome_footer_top_title}>
                 <img src={logo.src} alt="logo" />
-                Greek Keepers Affiliates
+                Greek Keepers {isPrelend && "Affiliates"}
               </span>
               <p className={s.footer_top_text}>
                 Partners-GreekKeepers uses cookies to ensure your experience

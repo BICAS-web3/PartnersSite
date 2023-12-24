@@ -6,6 +6,7 @@ import { Sidebar } from "../sidebar/Sidebar";
 import * as SidebarM from "@/widgets/sidebar/model";
 import { useUnit } from "effector-react";
 import clsx from "clsx";
+import { WelcomeFooter } from "../welcomeFooter/WelcomeFooter";
 interface LayoutProps {
   children?: any;
   activePage: string;
@@ -38,7 +39,8 @@ export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
         <Sidebar activeSubBlock={activePage} />
       </div>
       <main className={s.main_section}>
-        {children} <Footer isMainPage={true} />
+        {/* {children} <Footer isMainPage={true} /> */}
+        {children} <WelcomeFooter isPrelend={false} />
       </main>
     </div>
   );

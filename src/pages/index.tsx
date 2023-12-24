@@ -28,7 +28,7 @@ const WelcomePage: FC<WelcomePageProps> = () => {
   const [activePlanetImg, setActivePlanetImg] = useState(planetBg);
 
   const [activeLanguage, setActiveLanguage] = useState(
-    languagesList.filter((item) => item.title === "ru")[0]
+    languagesList.filter((item) => item.title === "en")[0]
   );
   const [languagesListVisibility, setLanugagesListVisibility] = useState(false);
   const [avaibleLanguages, setAvaibleLanguages] = useState(

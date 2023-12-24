@@ -16,6 +16,7 @@ import planet1280Img from "@/public/media/initPageImages/1280Tablet.png";
 import planet700Img from "@/public/media/initPageImages/700PlanetBg.png";
 import { WelcomePageSignup } from "@/widgets/welcomePageSignup/WelcomePageSignup";
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
+import { WelcomeFooter } from "@/widgets/welcomeFooter/WelcomeFooter";
 
 interface RegistrationPageProps {}
 
@@ -32,7 +33,7 @@ const RegistrationPage: FC<RegistrationPageProps> = () => {
     }
   }, [barerToken]);
   const [activeLanguage, setActiveLanguage] = useState(
-    languagesList.filter((item) => item.title === "ru")[0]
+    languagesList.filter((item) => item.title === "en")[0]
   );
   const [languagesListVisibility, setLanugagesListVisibility] = useState(false);
   const [avaibleLanguages, setAvaibleLanguages] = useState(
@@ -167,7 +168,8 @@ const RegistrationPage: FC<RegistrationPageProps> = () => {
           <WelcomePageSignup />
         </div>
       </div>
-      <Footer isMainPage={false} />
+      {/* <Footer isMainPage={false} /> */}
+      <WelcomeFooter className={s.footer} isPrelend={false} />
     </div>
   );
 };

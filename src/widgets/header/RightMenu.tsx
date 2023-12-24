@@ -45,7 +45,7 @@ export const RightMenu: FC<RightMenuProps> = () => {
   const isMobile = useMediaQuery("(max-width: 650px)");
 
   const [activeLanguage, setActiveLanguage] = useState(
-    languagesList.filter((item) => item.title === "ru")[0]
+    languagesList.filter((item) => item.title === "en")[0]
   );
   const [languagesListVisibility, setLanugagesListVisibility] = useState(false);
   const [avaibleLanguages, setAvaibleLanguages] = useState(
