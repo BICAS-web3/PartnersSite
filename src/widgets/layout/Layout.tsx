@@ -40,7 +40,7 @@ export const Layout: FC<LayoutProps> = ({ children, activePage }) => {
       </div>
       <main className={s.main_section}>
         {/* {children} <Footer isMainPage={true} /> */}
-        {children} <WelcomeFooter isPrelend={false} />
+        {children} <WelcomeFooter isPrelend={false} isPartner />
       </main>
     </div>
   );

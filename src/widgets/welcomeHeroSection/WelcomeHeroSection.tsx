@@ -3,6 +3,7 @@ import s from "./styles.module.scss";
 import bgImg from "@/public/media/initPageImages/heroBgImg.png";
 import { useUnit } from "effector-react";
 import * as RegistrM from "@/widgets/header/model";
+import Image from "next/image";
 
 interface WelcomeHeroSectionProps {}
 
@@ -16,7 +17,7 @@ export const WelcomeHeroSection: FC<WelcomeHeroSectionProps> = () => {
     <div className={s.welcome_hero_section}>
       <span className={s.welcome_hero_eclipse}></span>
       <span className={s.welcome_hero_eclipse_2}></span>
-      <img src={bgImg.src} alt="background-img" className={s.bg_img} />
+      <Image src={bgImg} alt="background-img" className={s.bg_img} />
       <div className={s.welcome_hero_container}>
         <div className={s.welcome_hero_body}>
           <div className={s.welcome_hero_header}>

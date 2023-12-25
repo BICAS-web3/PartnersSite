@@ -173,7 +173,7 @@ const WelcomePage: FC<WelcomePageProps> = () => {
           <Preland />
         </div>
       </div>
-      {(isLogin || isSignup) && <Footer />}
+      {/* {(isLogin || isSignup) && <Footer />} */}
     </div>
   );
 };
