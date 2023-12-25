@@ -6,7 +6,7 @@ import * as RegistrM from "@/widgets/header/model";
 
 import about from "@/public/media/initPageImages/about.png";
 import about_bomile from "@/public/media/initPageImages/about_bomile.png";
-import screensImg from "@/public/media/initPageImages/screens.png";
+import screensImg from "@/public/media/initPageImages/screens.webp";
 
 import clsx from "clsx";
 import s from "./styles.module.scss";
