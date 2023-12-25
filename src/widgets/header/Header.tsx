@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import logo from "@/public/media/common/headerLogo.png";
+import header_logo from "@/public/icons/header_logo.png";
 import mobLogo from "@/public/media/common/headerMobLogo.png";
 
 import * as ContactModel from "@/widgets/welcomePageSignup/model";
@@ -160,7 +161,7 @@ export const Header: FC<HeaderProps> = () => {
       <div className={s.header_body}>
         <Link className={s.header_logo} href="/">
           <div className={s.header_logo_wrap}>
-            <Image src={logo} alt="header-logo" className={s.logo} />
+            <Image src={header_logo} alt="header-logo" className={s.logo} />
             <Image src={mobLogo} alt="header-logo-mob" className={s.mob_logo} />
           </div>
           <span>Affiliates</span>

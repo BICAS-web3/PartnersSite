@@ -1,7 +1,7 @@
 import { FC } from "react";
 import s from "./styles.module.scss";
 import logo from "@/public/media/initPageImages/footerLogo.png";
-import footer_logo from "@/public/icons/footer_logo.svg";
+import footer_logo from "@/public/icons/footer_logo.png";
 
 import tgIco from "@/public/media/initPageImages/tg.svg";
 import instIco from "@/public/media/initPageImages/inst.svg";
