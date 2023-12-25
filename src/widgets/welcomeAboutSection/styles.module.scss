@@ -45,6 +45,12 @@
   align-items: center;
   height: 100%;
   justify-content: center;
+  max-width: 900px;
+  max-height: 500px;
+
+  @media screen and (max-width: 1200px) {
+    max-width: 100%;
+  }
 }
 
 .screens_img {
