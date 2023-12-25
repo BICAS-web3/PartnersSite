@@ -85,7 +85,12 @@ export const WelcomeFooter: FC<WelcomeFooterProps> = ({
             <div className={s.welcome_footer_border_shadow_bottom}></div>
             <div className={s.welcome_footer_top_info}>
               <span className={s.welcome_footer_top_title}>
-                <Image src={footer_logo} alt="logo" />
+                <Image
+                  width={73.115}
+                  height={57}
+                  src={footer_logo}
+                  alt="logo"
+                />
                 Greek Keepers {isPrelend && "Affiliates"}
               </span>
               <p className={s.footer_top_text}>
