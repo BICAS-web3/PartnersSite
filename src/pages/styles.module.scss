@@ -33,11 +33,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 100px;
+  padding-top: 80px;
 
   @media (max-width: 650px) {
     // grid-template-rows: 56px 1fr;
-    padding-top: 70px;
+    padding-top: 56px;
   }
 
   &[data-preland="true"] {

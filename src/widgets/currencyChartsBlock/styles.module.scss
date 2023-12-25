@@ -56,7 +56,7 @@
 .currency_charts_wrap_opened {
   grid-template-columns: calc(50% - 12.5px) calc(50% - 12.5px);
   @media (min-width: 1200px) {
-    width: calc(100vw - 310px);
+    width: calc(100vw - 309px);
   }
   @media (min-width: 1600px) {
     width: calc(100vw - 324px);
@@ -152,6 +152,10 @@
   padding: 5px 12px;
   border-radius: 8px;
   background: #181818;
+  transition: all 0.5s;
+  &:hover {
+    background: var(--gray-218, #212121);
+  }
   @media screen and (max-width: 1600px) {
     padding: 3px 11px;
     min-width: 47px;

@@ -1,6 +1,7 @@
 import { FC } from "react";
 import s from "./styles.module.scss";
 import logo from "@/public/media/initPageImages/footerLogo.png";
+import footer_logo from "@/public/icons/footer_logo.png";
 
 import tgIco from "@/public/media/initPageImages/tg.svg";
 import instIco from "@/public/media/initPageImages/inst.svg";
@@ -12,6 +13,7 @@ import mediumIco from "@/public/media/initPageImages/medium.svg";
 import mainIco from "@/public/media/initPageImages/main.svg";
 import Link from "next/link";
 import clsx from "clsx";
+import Image from "next/image";
 
 const socialMList = [
   {
@@ -59,15 +61,23 @@ const socialMList = [
 interface WelcomeFooterProps {
   isPrelend?: boolean;
   className?: string;
+  isPartner?: boolean;
 }
 
 export const WelcomeFooter: FC<WelcomeFooterProps> = ({
   isPrelend = true,
   className,
+  isPartner,
 }) => {
   return (
-    <div className={clsx(s.welcome_footer, className)}>
-      <span className={s.welcome_footer_eclipse}></span>
+    <div
+      className={clsx(
+        s.welcome_footer,
+        isPartner && s.partner_footer,
+        className
+      )}
+    >
+      {isPrelend && <span className={s.welcome_footer_eclipse}></span>}
       <div className={s.welcome_footer_container}>
         <div className={s.welcome_footer_body}>
           <div className={s.welcome_footer_top}>
@@ -75,7 +85,7 @@ export const WelcomeFooter: FC<WelcomeFooterProps> = ({
             <div className={s.welcome_footer_border_shadow_bottom}></div>
             <div className={s.welcome_footer_top_info}>
               <span className={s.welcome_footer_top_title}>
-                <img src={logo.src} alt="logo" />
+                <Image src={footer_logo} alt="logo" />
                 Greek Keepers {isPrelend && "Affiliates"}
               </span>
               <p className={s.footer_top_text}>
