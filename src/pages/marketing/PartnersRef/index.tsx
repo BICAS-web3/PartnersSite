@@ -137,6 +137,7 @@ interface IChangeResponse {
 }
 
 const PartnersRef: FC<PartnersRefProps> = () => {
+  const [startSort, setStartSort] = useState(false);
   const swiperRef = useRef<SwiperRef>(null);
   const [activePayoutBtn, setActivePayoutBtn] = useState("status");
   const [activeOpts, setActiveOpts] = useState([]);
@@ -609,63 +610,123 @@ const PartnersRef: FC<PartnersRefProps> = () => {
               <div className={s.swiper_slide_body}>
                 <div className={s.swiper_slide_header}>
                   <span className={s.swiper_slide_title}>{slide}</span>
-                  <Image src={upDownArrows} alt="sort-ico" />
+                  <Image
+                    onClick={() => setStartSort((prev) => !prev)}
+                    src={upDownArrows}
+                    alt="sort-ico"
+                  />
                 </div>
                 <div className={s.swiper_slide_content}>
-                  {pageResponseUpdated
-                    ?.slice(
-                      numberPage === 1
-                        ? 0
-                        : numberPage * Number(recordCount) - recordCount,
-                      numberPage === 1
-                        ? Number(recordCount)
-                        : numberPage * Number(recordCount)
-                    )
-                    ?.filter((el: IChangeResponse) =>
-                      el?.basic_url?.includes(siteCurrent)
-                    )
-                    ?.map((el: IChangeResponse, i: number) => {
-                      if (slide === "№") {
-                        return <span key={i}>№ {el?.basic_id + 1}</span>;
-                      } else if (slide === "Site") {
-                        return (
-                          <a target="_blank" href={el.basic_url} key={i}>
-                            {el.basic_url}
-                          </a>
-                        );
-                      } else if (slide === "Status") {
-                        return <span key={i}>Active</span>;
-                      } else if (slide === "Referred page") {
-                        return (
-                          <a
-                            href={el.sub_ids_url}
-                            target="_blank"
-                            style={{ cursor: "pointer" }}
-                            key={i}
-                          >
-                            {el.sub_ids_url}
-                          </a>
-                        );
-                      } else if (slide === "SubID") {
-                        return <span key={i}>{el.sub_ids_id}</span>;
-                      } else {
-                        return (
-                          <span
-                            className={s.swiper_text_copy}
-                            onClick={() =>
-                              navigator.clipboard.writeText(
-                                `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
-                                  el.basic_id
-                                }&sub_id=${el.sub_ids_id}`
-                              )
-                            }
-                            key={i}
-                          >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
-                            el.basic_id
-                          }&sub_id=${el.sub_ids_id}`}</span>
-                        );
-                      }
-                    })}
+                  {startSort
+                    ? pageResponseUpdated
+                        ?.slice(
+                          numberPage === 1
+                            ? 0
+                            : numberPage * Number(recordCount) - recordCount,
+                          numberPage === 1
+                            ? Number(recordCount)
+                            : numberPage * Number(recordCount)
+                        )
+                        ?.filter((el: IChangeResponse) =>
+                          el?.basic_url?.includes(siteCurrent)
+                        )
+                        ?.reverse()
+                        ?.map((el: IChangeResponse, i: number) => {
+                          if (slide === "№") {
+                            return <span key={i}>№ {el?.basic_id + 1}</span>;
+                          } else if (slide === "Site") {
+                            return (
+                              <a target="_blank" href={el.basic_url} key={i}>
+                                {el.basic_url}
+                              </a>
+                            );
+                          } else if (slide === "Status") {
+                            return <span key={i}>Active</span>;
+                          } else if (slide === "Referred page") {
+                            return (
+                              <a
+                                href={el.sub_ids_url}
+                                target="_blank"
+                                style={{ cursor: "pointer" }}
+                                key={i}
+                              >
+                                {el.sub_ids_url}
+                              </a>
+                            );
+                          } else if (slide === "SubID") {
+                            return <span key={i}>{el.sub_ids_id}</span>;
+                          } else {
+                            return (
+                              <span
+                                className={s.swiper_text_copy}
+                                onClick={() =>
+                                  navigator.clipboard.writeText(
+                                    `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+                                      el.basic_id
+                                    }&sub_id=${el.sub_ids_id}`
+                                  )
+                                }
+                                key={i}
+                              >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+                                el.basic_id
+                              }&sub_id=${el.sub_ids_id}`}</span>
+                            );
+                          }
+                        })
+                    : pageResponseUpdated
+                        ?.slice(
+                          numberPage === 1
+                            ? 0
+                            : numberPage * Number(recordCount) - recordCount,
+                          numberPage === 1
+                            ? Number(recordCount)
+                            : numberPage * Number(recordCount)
+                        )
+                        ?.filter((el: IChangeResponse) =>
+                          el?.basic_url?.includes(siteCurrent)
+                        )
+                        ?.map((el: IChangeResponse, i: number) => {
+                          if (slide === "№") {
+                            return <span key={i}>№ {el?.basic_id + 1}</span>;
+                          } else if (slide === "Site") {
+                            return (
+                              <a target="_blank" href={el.basic_url} key={i}>
+                                {el.basic_url}
+                              </a>
+                            );
+                          } else if (slide === "Status") {
+                            return <span key={i}>Active</span>;
+                          } else if (slide === "Referred page") {
+                            return (
+                              <a
+                                href={el.sub_ids_url}
+                                target="_blank"
+                                style={{ cursor: "pointer" }}
+                                key={i}
+                              >
+                                {el.sub_ids_url}
+                              </a>
+                            );
+                          } else if (slide === "SubID") {
+                            return <span key={i}>{el.sub_ids_id}</span>;
+                          } else {
+                            return (
+                              <span
+                                className={s.swiper_text_copy}
+                                onClick={() =>
+                                  navigator.clipboard.writeText(
+                                    `https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+                                      el.basic_id
+                                    }&sub_id=${el.sub_ids_id}`
+                                  )
+                                }
+                                key={i}
+                              >{`https://game.greekkeepers.io/partners/referal?partner_address=${userWallet?.toLowerCase()}&site_id=${
+                                el.basic_id
+                              }&sub_id=${el.sub_ids_id}`}</span>
+                            );
+                          }
+                        })}
                 </div>
               </div>
             </SwiperSlide>

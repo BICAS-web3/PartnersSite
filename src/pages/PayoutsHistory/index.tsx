@@ -350,6 +350,7 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
   useEffect(() => {
     setNumberPage(1);
   }, [recordCount]);
+  const [startSort, setStartSort] = useState(false);
   return (
     <Layout activePage="payoutsHistory">
       <section className={s.payouts_history_section}>
@@ -712,76 +713,165 @@ const PayoutsHistory: FC<PayoutsHistoryProps> = () => {
                   <div className={s.swiper_slide_body}>
                     <div className={s.swiper_slide_header}>
                       <span className={s.swiper_slide_title}>{item}</span>
-                      <Image src={upDownArrows} alt="sort-ico" />
+                      <Image
+                        onClick={() => setStartSort((prev) => !prev)}
+                        src={upDownArrows}
+                        alt="sort-ico"
+                      />
                     </div>
                     <div className={s.swiper_slide_content}>
-                      {responseBody
-                        ?.slice(
-                          numberPage === 1
-                            ? 0
-                            : numberPage * Number(recordCount) - recordCount,
-                          numberPage === 1
-                            ? Number(recordCount)
-                            : numberPage * Number(recordCount)
-                        )
-                        ?.map((element: IResponse, index) => {
-                          if (item === "Token") {
-                            return <span key={index}>{element.token}</span>;
-                          } else if (item === "Date") {
-                            const parsedTimestamp = new Date(
-                              element.start_time
-                            );
-                            return (
-                              <span key={index}>{`${(
-                                parsedTimestamp?.getUTCMonth() + 1
-                              )
-                                ?.toString()
-                                ?.padStart(2, "0")}-${parsedTimestamp
-                                ?.getUTCDate()
-                                ?.toString()
-                                ?.padStart(
-                                  2,
-                                  "0"
-                                )}-${parsedTimestamp?.getUTCFullYear()}`}</span>
-                            );
-                          } else if (item === "Amount") {
-                            return <span key={index}>{element.amount}</span>;
-                          } else if (item === "Network") {
-                            return <span key={index}>{element.network}</span>;
-                          } else if (item === "Wallet address") {
-                            return (
-                              <span key={index}>{element.wallet_address}</span>
-                            );
-                          } else if (item === "Status") {
-                            const splitted = element?.status?.split("");
-                            const first = splitted[0]?.toUpperCase();
-                            const rest = [...splitted];
-                            rest?.splice(0, 1);
-                            const result = [first, ...rest]?.join("");
-                            return (
-                              <span
-                                className={clsx(
-                                  element?.status === "waiting" &&
-                                    s.status_orange,
-                                  element?.status === "accepted" &&
-                                    s.status_green,
-                                  element?.status === "rejected" && s.status_red
-                                )}
-                                key={index}
-                              >
-                                {element?.status === "waiting"
-                                  ? "Pending"
-                                  : result || ""}
-                              </span>
-                            );
-                          } else if (item === "Partner ID") {
-                            return (
-                              <span key={index}>{element.partner_id}</span>
-                            );
-                          } else {
-                            return <span key={index}>-</span>;
-                          }
-                        })}
+                      {startSort
+                        ? responseBody
+                            ?.slice(
+                              numberPage === 1
+                                ? 0
+                                : numberPage * Number(recordCount) -
+                                    recordCount,
+                              numberPage === 1
+                                ? Number(recordCount)
+                                : numberPage * Number(recordCount)
+                            )
+                            ?.reverse()
+                            ?.map((element: IResponse, index) => {
+                              if (item === "Token") {
+                                return <span key={index}>{element.token}</span>;
+                              } else if (item === "Date") {
+                                const parsedTimestamp = new Date(
+                                  element.start_time
+                                );
+                                return (
+                                  <span key={index}>{`${(
+                                    parsedTimestamp?.getUTCMonth() + 1
+                                  )
+                                    ?.toString()
+                                    ?.padStart(2, "0")}-${parsedTimestamp
+                                    ?.getUTCDate()
+                                    ?.toString()
+                                    ?.padStart(
+                                      2,
+                                      "0"
+                                    )}-${parsedTimestamp?.getUTCFullYear()}`}</span>
+                                );
+                              } else if (item === "Amount") {
+                                return (
+                                  <span key={index}>{element.amount}</span>
+                                );
+                              } else if (item === "Network") {
+                                return (
+                                  <span key={index}>{element.network}</span>
+                                );
+                              } else if (item === "Wallet address") {
+                                return (
+                                  <span key={index}>
+                                    {element.wallet_address}
+                                  </span>
+                                );
+                              } else if (item === "Status") {
+                                const splitted = element?.status?.split("");
+                                const first = splitted[0]?.toUpperCase();
+                                const rest = [...splitted];
+                                rest?.splice(0, 1);
+                                const result = [first, ...rest]?.join("");
+                                return (
+                                  <span
+                                    className={clsx(
+                                      element?.status === "waiting" &&
+                                        s.status_orange,
+                                      element?.status === "accepted" &&
+                                        s.status_green,
+                                      element?.status === "rejected" &&
+                                        s.status_red
+                                    )}
+                                    key={index}
+                                  >
+                                    {element?.status === "waiting"
+                                      ? "Pending"
+                                      : result || ""}
+                                  </span>
+                                );
+                              } else if (item === "Partner ID") {
+                                return (
+                                  <span key={index}>{element.partner_id}</span>
+                                );
+                              } else {
+                                return <span key={index}>-</span>;
+                              }
+                            })
+                        : responseBody
+                            ?.slice(
+                              numberPage === 1
+                                ? 0
+                                : numberPage * Number(recordCount) -
+                                    recordCount,
+                              numberPage === 1
+                                ? Number(recordCount)
+                                : numberPage * Number(recordCount)
+                            )
+                            ?.map((element: IResponse, index) => {
+                              if (item === "Token") {
+                                return <span key={index}>{element.token}</span>;
+                              } else if (item === "Date") {
+                                const parsedTimestamp = new Date(
+                                  element.start_time
+                                );
+                                return (
+                                  <span key={index}>{`${(
+                                    parsedTimestamp?.getUTCMonth() + 1
+                                  )
+                                    ?.toString()
+                                    ?.padStart(2, "0")}-${parsedTimestamp
+                                    ?.getUTCDate()
+                                    ?.toString()
+                                    ?.padStart(
+                                      2,
+                                      "0"
+                                    )}-${parsedTimestamp?.getUTCFullYear()}`}</span>
+                                );
+                              } else if (item === "Amount") {
+                                return (
+                                  <span key={index}>{element.amount}</span>
+                                );
+                              } else if (item === "Network") {
+                                return (
+                                  <span key={index}>{element.network}</span>
+                                );
+                              } else if (item === "Wallet address") {
+                                return (
+                                  <span key={index}>
+                                    {element.wallet_address}
+                                  </span>
+                                );
+                              } else if (item === "Status") {
+                                const splitted = element?.status?.split("");
+                                const first = splitted[0]?.toUpperCase();
+                                const rest = [...splitted];
+                                rest?.splice(0, 1);
+                                const result = [first, ...rest]?.join("");
+                                return (
+                                  <span
+                                    className={clsx(
+                                      element?.status === "waiting" &&
+                                        s.status_orange,
+                                      element?.status === "accepted" &&
+                                        s.status_green,
+                                      element?.status === "rejected" &&
+                                        s.status_red
+                                    )}
+                                    key={index}
+                                  >
+                                    {element?.status === "waiting"
+                                      ? "Pending"
+                                      : result || ""}
+                                  </span>
+                                );
+                              } else if (item === "Partner ID") {
+                                return (
+                                  <span key={index}>{element.partner_id}</span>
+                                );
+                              } else {
+                                return <span key={index}>-</span>;
+                              }
+                            })}
                     </div>
                   </div>
                 </SwiperSlide>
