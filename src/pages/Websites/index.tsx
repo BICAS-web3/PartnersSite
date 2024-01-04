@@ -184,10 +184,7 @@ const Websites: FC<WebsitesProps> = () => {
   const [updateGetRequest, setUpdateGetRequest] = useState("yes");
 
   useEffect(() => {
-    if (
-      (pageResponse && !pageResponseUpdated) ||
-      (pageResponse && pageResponseUpdated && pageResponseUpdated.length >= 1)
-    ) {
+    if (pageResponse) {
       const change = pageResponse?.map((el, i) => {
         return {
           basic_internal_id: el.basic.internal_id,
@@ -300,7 +297,7 @@ const Websites: FC<WebsitesProps> = () => {
           name: pageUrl,
           url: pageUrl,
           bareer: barerToken,
-          language: selectedLanguage,
+          language: selectedLanguage || "English",
         });
         if (data.status === "OK") {
           setUpdateGetRequest("OK");
@@ -380,10 +377,12 @@ const Websites: FC<WebsitesProps> = () => {
         setSubidPage(null);
         setHandleSub(false);
         setAddSubid(false);
+
         if (response.status === "OK") {
-          if (pageResponseUpdated?.length <= 0) {
-            location.reload();
-          }
+          setUpdateGetRequest("Ok");
+          // if (pageResponseUpdated?.length <= 0) {
+          //   location.reload();
+          // }
         }
       }
     })();
@@ -404,7 +403,7 @@ const Websites: FC<WebsitesProps> = () => {
     setNumberPage(1);
   }, [recordCount]);
 
-  const [startSort, setStartSort] = useState("");
+  const [startSort, setStartSort] = useState(false);
 
   const [selectedLanguage, setSelectedLanguage] = useState("");
 
@@ -609,63 +608,135 @@ const Websites: FC<WebsitesProps> = () => {
                   <div className={s.swiper_slide_header}>
                     <span className={s.swiper_slide_title}>{el}</span>
                     <Image
-                      onClick={() => setStartSort(el)}
+                      onClick={() => setStartSort((prev) => !prev)}
                       src={upDownArrows}
                       alt="sort-ico"
                     />
                   </div>
                   <div className={s.swiper_slide_content}>
-                    {(isMobile ? activeOptions : activeOptions)
+                    {startSort
+                      ? pageResponseUpdated
 
-                      ?.filter((eld: IPagesResponse) => {
-                        if (categotyFilter?.length <= 0) {
-                          return eld;
-                        } else {
-                          if (
-                            eld.basic_name.toLowerCase() ===
-                            categotyFilter.toLowerCase()
+                          ?.filter((eld: IPagesResponse) => {
+                            if (categotyFilter?.length <= 0) {
+                              return eld;
+                            } else {
+                              if (
+                                eld.basic_name.toLowerCase() ===
+                                categotyFilter.toLowerCase()
+                              )
+                                return eld;
+                            }
+                          })
+                          ?.slice(
+                            numberPage === 1
+                              ? 0
+                              : numberPage * Number(recordCount) - recordCount,
+                            numberPage === 1
+                              ? Number(recordCount)
+                              : numberPage * Number(recordCount)
                           )
-                            return eld;
-                        }
-                      })
-                      ?.slice(
-                        numberPage === 1
-                          ? 0
-                          : numberPage * Number(recordCount) - recordCount,
-                        numberPage === 1
-                          ? Number(recordCount)
-                          : numberPage * Number(recordCount)
-                      )
+                          ?.reverse()
+                          ?.map((element: IPagesResponse, index: number) => {
+                            if (el === "internal_id") {
+                              return (
+                                <span key={index}>
+                                  {element.basic_internal_id}
+                                </span>
+                              );
+                            } else if (el === "id") {
+                              return (
+                                <span key={index}>{element.basic_id}</span>
+                              );
+                            } else if (el === "name") {
+                              return (
+                                <span key={index}>{element.basic_name}</span>
+                              );
+                            } else if (el === "url") {
+                              return (
+                                <a
+                                  href={element.basic_url}
+                                  target="_blank"
+                                  key={index}
+                                >
+                                  {element.basic_url}
+                                </a>
+                              );
+                            } else if (el === "partner_id") {
+                              return (
+                                <span key={index}>
+                                  {element?.basic_partner_id}
+                                </span>
+                              );
+                            } else if (el === "language") {
+                              return (
+                                <span key={index}>
+                                  {element?.basic_language}
+                                </span>
+                              );
+                            }
+                          })
+                      : pageResponseUpdated
 
-                      ?.map((element: IPagesResponse, index) => {
-                        if (el === "internal_id") {
-                          return (
-                            <span key={index}>{element.basic_internal_id}</span>
-                          );
-                        } else if (el === "id") {
-                          return <span key={index}>{element.basic_id}</span>;
-                        } else if (el === "name") {
-                          return <span key={index}>{element.basic_name}</span>;
-                        } else if (el === "url") {
-                          return (
-                            <a
-                              href={element.basic_url}
-                              target="_blank"
-                              key={index}
-                            >
-                              {element.basic_url}
-                            </a>
-                          );
-                        } else if (el === "partner_id") {
-                          return (
-                            <span key={index}>{element?.basic_partner_id}</span>
-                          );
-                        } else if (el === "language") {
-                          return (
-                            <span key={index}>{element?.basic_language}</span>
-                          );
-                        }
-                      })}
+                          ?.filter((eld: IPagesResponse) => {
+                            if (categotyFilter?.length <= 0) {
+                              return eld;
+                            } else {
+                              if (
+                                eld.basic_name.toLowerCase() ===
+                                categotyFilter.toLowerCase()
+                              )
+                                return eld;
+                            }
+                          })
+                          ?.slice(
+                            numberPage === 1
+                              ? 0
+                              : numberPage * Number(recordCount) - recordCount,
+                            numberPage === 1
+                              ? Number(recordCount)
+                              : numberPage * Number(recordCount)
+                          )
+
+                          ?.map((element: IPagesResponse, index: number) => {
+                            if (el === "internal_id") {
+                              return (
+                                <span key={index}>
+                                  {element.basic_internal_id}
+                                </span>
+                              );
+                            } else if (el === "id") {
+                              return (
+                                <span key={index}>{element.basic_id}</span>
+                              );
+                            } else if (el === "name") {
+                              return (
+                                <span key={index}>{element.basic_name}</span>
+                              );
+                            } else if (el === "url") {
+                              return (
+                                <a
+                                  href={element.basic_url}
+                                  target="_blank"
+                                  key={index}
+                                >
+                                  {element.basic_url}
+                                </a>
+                              );
+                            } else if (el === "partner_id") {
+                              return (
+                                <span key={index}>
+                                  {element?.basic_partner_id}
+                                </span>
+                              );
+                            } else if (el === "language") {
+                              return (
+                                <span key={index}>
+                                  {element?.basic_language}
+                                </span>
+                              );
+                            }
+                          })}
                   </div>
                 </div>
               </SwiperSlide>
